@@ -1,0 +1,91 @@
+{% import _self as tree %}
+
+<table class="table">
+    <tbody 
+        data-controller="move-item" 
+        data-type="menu" 
+        data-locale="{{ app.request.locale }}"
+    >
+    {% for node in menus %}
+        {{ tree.render_node(node, 0) }}
+    {% endfor %}
+    </tbody>
+</table>
+
+{% macro render_node(node, depth) %}
+
+<tr 
+    class="list-items align-middle"
+    data-move-item-target="item"
+    data-item-id="{{ node.menu.id }}"
+>
+    <td style="padding-left: {{ depth * 20 }}px">
+
+        {% if node.type == 'root' %}
+            <span class="badge bg-primary">MENU</span>
+        {% elseif node.type == 'page' %}
+            <span class="badge bg-success">PAGE</span>
+        {% else %}
+            <span class="badge bg-secondary">SOUS-MENU</span>
+        {% endif %}
+
+        {{ node.menu.name }}
+    </td>
+
+    {# ✅ ACTIVE SWITCH #}
+    <td>
+        <div class="form-check form-switch form-switch-sm my-0">
+            <input 
+                data-controller="active-item"
+                type="checkbox"
+                class="form-check-input bg-success"
+                data-action="click->active-item#switch"
+                {{ node.menu.active ? "checked" : "" }}
+            >
+        </div>
+    </td>
+
+    {# ✅ MOVE BUTTONS #}
+    <td>
+        <button class="btn btn-outline-success btn-sm" data-action="click->move-item#moveUp">↑</button>
+        <button class="btn btn-outline-success btn-sm" data-action="click->move-item#moveDown">↓</button>
+    </td>
+
+    {# ACTIONS EXISTANTES #}
+    <td class="text-nowrap">
+        <a 
+            class="text-decoration-none px-3 py-2 mx-2 border border-1 border-success rounded-3" 
+            href="{{ path('menu_edit', {id: node.menu.id}) }}"
+            data-bs-toggle="tooltip"
+            data-bs-title="Modifier le menu"
+        >
+            ✏️
+        </a>
+
+        <a 
+            class="text-decoration-none px-3 py-2 mx-2 border border-1 border-success rounded-3"  
+            href="{{ path('menu_new', {parent: node.menu.id}) }}"
+            data-bs-toggle="tooltip"
+            data-bs-title="Ajouter un Sous Menu"
+        >
+            ➕
+        </a>
+
+        {% if node.canAddPage %}
+            <a 
+                class="text-decoration-none px-3 py-2 mx-2 border border-1 border-success rounded-3" 
+                href="{{ path('post_new', {id: node.menu.id}) }}"
+                data-bs-toggle="tooltip"
+                data-bs-title="Ajouter un nouveau contenu"
+            >
+                📄+
+            </a>
+        {% endif %}
+    </td>
+</tr>
+
+{% for child in node.children %}
+    {{ _self.render_node(child, depth + 1) }}
+{% endfor %}
+
+{% endmacro %}

@@ -1,0 +1,44 @@
+{% extends 'security/base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block content %}
+
+<section id="container " class="my-5 py-5" >
+       <div class="container-fluid col-lg-4 my-5 py-5 shadow-sm shadow-lg border border-secondary rounded-3 ">
+
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+        <h1 id='signin' class="h3 mb-3 font-weight-normal">{{ 'form.label.sign_in'|trans }}</h1>
+        <label id="email" class="h5 mt-5 font-weight-normal" for="username">{{ 'form.label.email'|trans }}</label>
+        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control border border-1 border-dark text-warning-emphasis" autocomplete="email" required autofocus>
+        <label id="password" class="h5 mt-5 font-weight-normal" for="password">{{ 'form.label.password'|trans }}</label>
+        <input type="password" name="_password" id="password" class="form-control border border-1 border-dark text-warning-emphasis" autocomplete="current-password" required>
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+        {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
+
+            <div class="checkbox mb-3">
+                <input type="checkbox" name="_remember_me" id="_remember_me">
+                <label for="_remember_me">Remember me</label>
+            </div>
+        #}
+
+        <button class=" mx-auto mt-5 text-center btn btn-outline-success" id="login_submit" name="login_submit" type="submit">
+            {{ 'form.label.connect'|trans }}
+        </button>
+    </form>
+    </div>
+    </section>
+{% endblock %}

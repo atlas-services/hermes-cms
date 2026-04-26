@@ -2,3 +2,16 @@ when@dev:
     _errors:
         resource: '@FrameworkBundle/Resources/config/routing/errors.php'
         prefix: /_error
+app_login_redirect:
+    path: /login
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        route: app_login
+        _locale: fr
+
+app_admin_redirect:
+    path: /admin
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        route: admin_index
+        _locale: fr

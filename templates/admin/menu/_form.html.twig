@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+
+<div class="form-check form-switch mb-3">
+    {{ form_widget(form.active, { attr: { class: 'form-check-input' } }) }}
+    {{ form_label(form.active, null, { label_attr: { class: 'form-check-label' } }) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name, { attr: { class: 'form-control' } }) }}
+    {{ form_errors(form.name) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.parent) }}
+    {{ form_widget(form.parent, { attr: { class: 'form-select' } }) }}
+    {{ form_errors(form.parent) }}
+</div>
+
+{{ form_rest(form) }}
+
+<button id="{{ button_label|default('form.label.save'|trans()) }}" name="{{ button_label|default('form.label.save'|trans()) }}" class="btn btn-success">
+    {{ button_label|default('form.label.save'|trans()) }}
+</button>
+
+{{ form_end(form, { render_rest: false }) }}

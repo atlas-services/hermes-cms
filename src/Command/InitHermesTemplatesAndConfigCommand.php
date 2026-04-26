@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Command;
+
+use App\Entity\Config;
+use App\Entity\Template;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
+#[AsCommand(name: 'app:init-hermes')]
+class InitHermesTemplatesAndConfigCommand extends Command
+{
+    public function __construct(private EntityManagerInterface $entityManager, private ParameterBagInterface $params,)
+    {
+        parent::__construct();
+    }
+
+    protected function configure(): void
+    {
+        $this
+            ->setDescription('Initiate Hermes Templates and Configs.');
+      }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+
+        $nb = $this->initTemplates();
+        $output->writeln(sprintf(" %s Templates created successfully ", $nb));
+
+        $nb = $this->initConfig();
+        $output->writeln(sprintf(" %s Configs created successfully ", $nb));
+
+        return Command::SUCCESS;
+    }
+
+    public function initTemplates() : int
+    {
+        $nb = 0;
+        $templates = $this->params->get('templates');
+
+        if (!$templates) {
+            throw new InvalidArgumentException('No templates configured.');
+        }
+
+        foreach($templates as $template){
+            $db_template = $this->entityManager->getRepository(Template::class)->findOneBy(['code' => $template['code']]);
+            if(is_null($db_template)){
+                // Créer  template
+                $newTemplate = new Template();
+                $newTemplate->setType($template['type']);
+                $newTemplate->setCode($template['code']);
+                $newTemplate->setName($template['name']);
+                $newTemplate->setSummary($template['summary']);
+
+                $this->entityManager->persist($newTemplate);
+                $nb++;
+            }
+        }
+
+        $this->entityManager->flush();
+        return $nb;
+    }
+
+    public function initConfig() : int
+    {
+        $nb = 0;
+        $configs = $this->params->get('configs');
+
+        if (!$configs) {
+            throw new InvalidArgumentException('No config configured.');
+        }
+
+        foreach($configs as $type => $config){
+
+            foreach($config as $code => $conf){
+                $db_config = $this->entityManager->getRepository(Config::class)->findOneBy(['type' => $type, 'code' => $code]);
+                if(is_null($db_config)){
+                    // Créer  config
+                    $newConfig = new Config();
+                    $newConfig->setActive(true);
+                    $newConfig->setType($type);
+                    $newConfig->setCode($code);
+                    $newConfig->setSummary($conf['summary']);
+                    $newConfig->setValue($conf['value']);
+                    if(!isset($conf['position'])){
+                        $conf['position'] = 99;
+                    }
+                    $newConfig->setPosition($conf['position']);
+
+                    $this->entityManager->persist($newConfig);
+                    $nb++;
+                }
+            }
+
+        }
+
+        $this->entityManager->flush();
+        return $nb;
+    }
+
+}

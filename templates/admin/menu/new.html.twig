@@ -1,0 +1,11 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}New Menu{% endblock %}
+
+{% block content %}
+    <h1>{{ 'form.label.create'|trans() }}</h1>
+
+    {{ include('admin/menu/_form.html.twig', {'button_label': 'form.label.create'|trans()}) }}
+
+    <a class="btn btn-info my-3" href="{{ path('menu_index') }}">{{ 'form.label.back_to_list'|trans() }}</a>
+{% endblock %}

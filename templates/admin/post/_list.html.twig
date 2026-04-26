@@ -1,0 +1,61 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-4">{{ 'form.label.active'|trans }}</th>
+            <th class="col-3">{{ 'form.label.position'|trans }}</th>
+            <th>{{ 'form.label.actions'|trans }}</th>
+        </tr>
+    </thead>
+
+    <tbody 
+        data-controller="move-item"
+        data-type="post"
+        data-locale="{{ app.request.locale }}"
+    >
+    {% for post in posts %}
+        <tr class="list-items align-middle"
+            data-move-item-target="item"
+            data-item-id="{{ post.id }}"
+        >
+            <td>
+                <div class="form-check form-switch my-0">
+                    <input
+                        data-controller="active-item"
+                        type="checkbox"
+                        class="form-check-input bg-success"
+                        data-action="click->active-item#switch"
+                        data-id="{{ post.id }}"
+                        data-type="post"
+                        {{ post.active ? 'checked' : '' }}
+                    >
+                    <label>{{ post.name }}</label>
+                </div>
+            </td>
+
+            <td>
+                <button class="btn btn-outline-success"
+                        data-action="click->move-item#moveUp">↑</button>
+
+                <button class="btn btn-outline-success"
+                        data-action="click->move-item#moveDown">↓</button>
+            </td>
+
+            <td>
+                <a class="btn btn-outline-success"
+                   href="{{ path('post_edit', {id: post.id}) }}">
+                    {{ ux_icon('fa:edit', {height: '16px'}) }}
+                </a>
+
+                <a class="btn btn-outline-danger"
+                   href="{{ path('post_delete', {id: post.id}) }}">
+                    {{ ux_icon('fa:trash', {height: '16px'}) }}
+                </a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">{{ 'form.label.no_record'|trans }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

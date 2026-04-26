@@ -1,0 +1,59 @@
+{{ form_start(form) }}
+
+{# ------------------------- #}
+{# ACTIVE #}
+{# ------------------------- #}
+{# <div class="form-check form-switch mb-3">
+    {{ form_widget(form.active, { attr: { class: 'form-check-input' } }) }}
+    {{ form_label(form.active, null, { label_attr: { class: 'form-check-label' } }) }}
+</div> #}
+
+{# ------------------------- #}
+{# NAME #}
+{# ------------------------- #}
+<div class="mb-3">
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name, { attr: { class: 'form-control' } }) }}
+    {{ form_errors(form.name) }}
+</div>
+
+{# ------------------------- #}
+{# TEMPLATE #}
+{# ------------------------- #}
+<div class="mb-3">
+    {{ form_label(form.template) }}
+    {{ form_widget(form.template, { attr: { class: 'form-select' } }) }}
+    {{ form_errors(form.template) }}
+    <small class="text-muted">
+        {{ 'Utilise celui de la section si vide' }}
+    </small>
+</div>
+
+{# ------------------------- #}
+{# TEMPLATE WIDTH #}
+{# ------------------------- #}
+<div class="mb-3">
+    {{ form_label(form.templateWidth) }}
+    {{ form_widget(form.templateWidth, { attr: { class: 'form-select' } }) }}
+    {{ form_errors(form.templateWidth) }}
+</div>
+
+{# ------------------------- #}
+{# CONTENT (CKEditor) #}
+{# ------------------------- #}
+<div class="mb-3">
+    {{ form_label(form.content) }}
+    {{ form_widget(form.content) }}
+    {{ form_errors(form.content) }}
+</div>
+
+{# ------------------------- #}
+{# REST (sécurité) #}
+{# ------------------------- #}
+{{ form_rest(form) }}
+
+<button class="btn btn-success">
+    {{ button_label|default('form.label.save'|trans()) }}
+</button>
+
+{{ form_end(form, { render_rest: false }) }}

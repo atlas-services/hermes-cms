@@ -1,0 +1,22 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}{{ 'form.label.menus'|trans }}{% endblock %}
+
+{% block content %}
+    {{ component('Alert', {class: 'mt-5'}) }}
+
+    <div>
+        <h1>Menus</h1>
+
+        <a class="btn btn-success mb-3" href="{{ path('menu_new') }}">
+            {{ 'form.label.create'|trans() }}
+        </a>
+
+        {# 🌳 ARBRE COMPLET #}
+        {{ component('Menu', { menus: menus }) }}
+
+        <a class="btn btn-success mt-3" href="{{ path('menu_new') }}">
+            {{ 'form.label.create'|trans() }}
+        </a>
+    </div>
+{% endblock %}

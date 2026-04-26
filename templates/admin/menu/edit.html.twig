@@ -1,0 +1,13 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}{{ 'form.label.menu_edit'|trans }}{% endblock %}
+
+{% block content %}
+    <h1>{{ 'form.label.menu_edit'|trans }}</h1>
+
+    {{ include('admin/menu/_form.html.twig', {'button_label': 'form.label.update'|trans()}) }}
+
+    <a class="btn btn-info my-3" href="{{ path('menu_index') }}">{{ 'form.label.back_to_list'|trans() }}</a>
+
+    {{ include('admin/menu/_delete_form.html.twig') }}
+{% endblock %}

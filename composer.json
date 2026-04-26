@@ -7,14 +7,39 @@
         "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/doctrine-bundle": "^3.2",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "doctrine/orm": "^3.6",
+        "helios-ag/fm-elfinder-bundle": "^13.0",
+        "liip/imagine-bundle": "^2.17",
+        "stof/doctrine-extensions-bundle": "^1.15",
+        "symfony/asset": "8.0.*",
+        "symfony/asset-mapper": "8.0.*",
         "symfony/console": "8.0.*",
         "symfony/dotenv": "8.0.*",
         "symfony/flex": "^2",
+        "symfony/form": "8.0.*",
         "symfony/framework-bundle": "8.0.*",
+        "symfony/http-client": "8.0.*",
+        "symfony/mailer": "8.0.*",
+        "symfony/monolog-bundle": "^4.0",
+        "symfony/routing": "8.0.*",
         "symfony/runtime": "8.0.*",
-        "symfony/yaml": "8.0.*"
-    },
-    "require-dev": {
+        "symfony/security-bundle": "8.0.*",
+        "symfony/stimulus-bundle": "^2.34",
+        "symfony/translation": "8.0.*",
+        "symfony/twig-bundle": "8.0.*",
+        "symfony/ux-autocomplete": "^2.34",
+        "symfony/ux-icons": "^2.34",
+        "symfony/ux-twig-component": "^2.34",
+        "symfony/validator": "8.0.*",
+        "symfony/yaml": "8.0.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/inky-extra": "^3.24",
+        "twig/intl-extra": "^3.24",
+        "twig/string-extra": "^3.24",
+        "twig/twig": "^2.12|^3.0",
+        "vich/uploader-bundle": "^2.9"
     },
     "config": {
         "allow-plugins": {
@@ -50,12 +75,22 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd",
+            "elfinder:install": "symfony-cmd",
+            "d:s:u --force": "symfony-cmd",
+            "app:create-user": "symfony-cmd",
+            "app:init-hermes": "symfony-cmd"
         },
+        "create-db-file": [
+            "@php -r \"if (!is_dir('var')) mkdir('var', 0777, true); if (!file_exists('var/data_dev.db')) touch('var/data_dev.db');\""
+        ],
         "post-install-cmd": [
+            "@create-db-file",
             "@auto-scripts"
         ],
         "post-update-cmd": [
+            "@create-db-file",
             "@auto-scripts"
         ]
     },
@@ -65,7 +100,21 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "8.0.*"
+            "require": "8.0.*",
+            "docker": true
         }
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^13.0",
+        "squizlabs/php_codesniffer": "^4.0",
+        "symfony/browser-kit": "8.0.*",
+        "symfony/css-selector": "8.0.*",
+        "symfony/debug-bundle": "8.0.*",
+        "symfony/maker-bundle": "^1.67",
+        "symfony/stopwatch": "8.0.*",
+        "symfony/web-profiler-bundle": "8.0.*"
     }
 }

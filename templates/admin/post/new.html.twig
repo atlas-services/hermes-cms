@@ -1,0 +1,24 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}New Post{% endblock %}
+
+{% block content %}
+    <h1>{{ 'form.label.create'|trans() }}</h1>
+
+    {% if menu is defined %}
+        <div class="alert alert-info">
+            {{ 'Ajout d’un post dans le menu :' }} <strong>{{ menu.name }}</strong>
+        </div>
+    {% endif %}
+
+    {{ include('admin/post/_form.html.twig', {
+        'button_label': 'form.label.create'|trans()
+    }) }}
+
+    {% if menu is defined %}
+        <a class="btn btn-info my-3"
+           href="{{ path('menu_edit', {'id': menu.id}) }}">
+            {{ 'form.label.back_to_list'|trans() }}
+        </a>
+    {% endif %}
+{% endblock %}

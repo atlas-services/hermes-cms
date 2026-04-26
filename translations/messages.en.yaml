@@ -1,0 +1,158 @@
+form:
+  label:
+    sign_in: Please sign in
+    email: Email
+    password: Password
+    connect: Connect
+    back_to_list: Back to list
+    no_record: No record
+    active: Active/Inactive
+    position: Position
+    actions: Actions
+    create: Create
+    update: Update
+    delete: Delete
+    save: Save
+    name: Name
+    menus: Menus
+    menu: Menu
+    menu_edit : Edit Menu
+    menu_show : Show Menu
+    sub_menus: Sub Menus
+    sub_menu: Sub Menu
+    parent: Parent
+    parent_menu: -- parent Menu --
+    post_template: Presentation Type
+    template_width: Template width (from 1 to 12)
+    list_posts: Liste des Posts
+    edit_post: Mise à jour du Post
+    new_post: Création d'un Post
+    content: Content
+    show_post: Affichage d'un Post
+admin:
+  title: admin
+
+config:
+  label: Configuration
+  type: Type
+  value: Valeur
+  list: Configuration
+  affiche_list_image: Configuration des images
+  affiche_list_admin: Configuration du Tableau de bord admin
+  affiche_list_head: Configuration balises title et meta
+  affiche_list: Configuration générale du site
+  affiche_list_contact: Configuration du contact
+  affiche_list_newsletter: Configuration de la newsletter
+  affiche_list_livredor: Configuration du livre d'or
+  affiche_list_menu: Configuration du menu
+  affiche_list_content: Configuration du contenu
+  affiche_list_folio: Configuration des folios
+  affiche_list_carousel: Configuration des carousels
+  affiche_list_modale: Configuration des modales
+  affiche_list_card: Configuration des cards
+  affiche_list_footer: Configuration du pied de page
+  affiche_list_network: Configuration des réseaux sociaux
+  affiche_list_formulaire: Configuration des formulaires
+  affiche_list_undefined: Configuration non définie
+  affiche_list_isotope: Configuration isotope
+
+
+global:
+  login: Login
+  logout: Logout
+  user: User
+  dashboard: My Dashboard
+  menus_and_posts: Menus and Pages
+  list_menus: Menu List
+  list_posts: Post List
+  list_pages: Pages List
+  uploads_and_locales: Uploads and locales
+  upload_hermes_dir: Uploads Pictures
+  copyright: &copy;2025 Tous droits réservés par
+  created_by: This site has been powered by the CMS<a href="http://hermes-cms.org" target="_blanks">HERMES</a>
+  about: A propos
+  hello: Hello
+  admin: Admin
+  breadcrumb: 'You are here : '
+  no_record: Pas d'enregistrement
+  list: List
+  new_content: New Content
+  new_menu: New menu
+  active: Active
+  inactive: Inactive
+  autres_options: Autres options
+  autres_options_liste: Autres options (Liste)
+
+  copyleft: 2021 Tous droits réservés par 
+  blocks: Mes blocks de contenus
+  speed_dashboard: Création rapide
+  newsletter_and_testimony: Newsletter et livre d''or
+  newsletter_users: Mail list Newsletter
+  active_newsletter: Newsletter active
+  new_page: Menu
+  new_post: Nouveau contenu dans le menu
+  menu_one_page: Menu One page
+  new_post_libre_hms: Template(s) Libre(s) Hermes
+  new_post_libre: Template Libre
+  new_post_liste: Template Liste
+  new_menu_post: Ajout d'un menu avec un contenu
+  add_menu_post: Ajouter un contenu
+  remove_menu_post: Supprimer ce contenu
+  menu_entete: Menus
+  actions: Actions
+  show: Voir
+  preview: <i class="hms-color1 btn btn-outline-success fa fa-eye" aria-hidden="true"></i>
+  edit: <i class="fa fa-edit"></i>
+  new: Créer
+  delete: <i class="fa fa-trash"></i>
+  back_to_list: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+  </svg> Retour à la liste'
+  confirm_delete_question: Êtes vous certain de vouloir supprimer
+  confirm_delete: Supprimer
+  unconfirm_delete: Annuler
+  delete_content: le contenu
+  delete_section: le(s) contenu(s) de
+  delete_menu: le sous-menu (et ses contenus)
+  delete_sheet: le menu
+  update: Sauvegarder
+  update_next: Sauvegarder et Continuer
+  update_libelle: Mettez à jour votre site (vos contenus, vos menus et sous menus)
+  config_site: Configurez votre site (email de contact, logo, image de fond, couleur en arrière plan...)
+  more: "Aller plus loin : Modifier l''agencement des menus, des pages, désactiver (ou activer) certaines pages..."
+  sheet: Menu
+  section: Section
+  post: Contenu
+  url: Url de la vidéo
+  menu: Sous Menu
+  template: Affichage
+  position: Position
+  locale: Langue
+  add_locale: Ajouter une langue
+  name_menu_reference: Menu Référence (commun à toutes les langues)
+  name_sous_menu_reference: Sous Menu Référence ( commun à toutes les langues )  
+  label: Label
+  code: Code
+  name: Nom
+  image: Image (Taille maximale < 2 Mo)
+  image_fond: Image de fond (Taille maximale < 2 Mo)
+  value: Valeur
+  summary: Description sommaire
+  content: Contenu
+  updatedAt: Mis à jour le
+  startPublishedAt: Date de début de publication
+  endPublishedAt: Date de fin de publication
+
+
+
+
+
+
+info:
+  admin_type_site_1: 'Hermes a été conçu pour vous permettre de créer facilement vos pages Web.'
+  admin_type_site_2: 'Les fonctionnalité présentées dans cette page vous permettront de créer, modifier, copier, déplacer, activer, désactiver vos pages...'
+  admin_templates_1: 'Ci dessous, quelques templates Hermes à copier et adapter pour enrichir votre site'
+  admin_presentation1: 'Hermes vous permet de créer toutes sortes de pages responsives, uniquement à partir de ses 2 types de templates et de sa configuration: '
+  admin_sous_presentation11: 'Les templates de type "Libre" vous permettent de créer des contenus comme vous le souhaitez.'
+  admin_sous_presentation12: 'Les templates de type "Liste" sont particulièrement adaptés pour afficher vos listes d''images, d''articles, de livres, de concerts... : les affichages correspondants seront au choix, des portfolios, des carousels ou des cartes.'
+  admin_sous_presentation13: 'La configuration vous permet de modifier l''aspect de vos pages, la largeur du contenu, les couleurs ou image de fond...'
