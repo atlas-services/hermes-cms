@@ -30,7 +30,8 @@ class PostRepository extends ServiceEntityRepository
             ->select('COALESCE(MAX(p.position), 0)');
 
         if ($menu !== null) {
-            $qb->where('p.menu = :menu')
+            $qb->join('p.section', 's')
+                ->andWhere('s.menu = :menu')
                 ->setParameter('menu', $menu);
         }
 
@@ -70,7 +71,9 @@ class PostRepository extends ServiceEntityRepository
         $posts = [];
 
         $allPosts = $this->createQueryBuilder('p')
-            ->orderBy('p.menu', 'ASC')
+            ->join('p.section', 'section')
+            ->join('section.menu', 'menu')
+            ->orderBy('menu.name', 'ASC')
             ->addOrderBy('p.position', 'ASC')
             ->addOrderBy('p.active', 'DESC')
             ->getQuery()
@@ -119,6 +122,16 @@ class PostRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.position', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllOrdered(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.locale', 'ASC')
+            ->addOrderBy('p.section', 'ASC')
+            ->addOrderBy('p.position', 'ASC')
             ->getQuery()
             ->getResult();
     }

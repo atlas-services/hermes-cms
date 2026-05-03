@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th class="col-4">{{ 'form.label.active'|trans }}</th>
+            <th class="col-4">{{ 'form.label.menu'|trans }} / {{ 'form.label.section'|trans }}</th>
             <th class="col-3">{{ 'form.label.position'|trans }}</th>
             <th>{{ 'form.label.actions'|trans }}</th>
         </tr>
@@ -33,6 +34,20 @@
             </td>
 
             <td>
+                {% if post.section is defined and post.section is not null and post.section.menu is not null %}
+                    {% set menu = post.section.menu %}
+                    <div>
+                        <label class="custom-control-label">
+                            {{ menu.parent ? menu.parent.name ~ '/' : '' }}{{ menu.name }}
+                        </label>
+                        <div><small class="text-muted">Section {{ post.section.position }} - {{ post.section.template ? post.section.template.name : '—' }}</small></div>
+                    </div>
+                {% else %}
+                    <span>N/A</span>
+                {% endif %}
+            </td>
+
+            <td>
                 <button class="btn btn-outline-success"
                         data-action="click->move-item#moveUp">↑</button>
 
@@ -46,10 +61,10 @@
                     {{ ux_icon('fa:edit', {height: '16px'}) }}
                 </a>
 
-                <a class="btn btn-outline-danger"
-                   href="{{ path('post_delete', {id: post.id}) }}">
-                    {{ ux_icon('fa:trash', {height: '16px'}) }}
-                </a>
+                <form method="post" action="{{ path('post_delete', {id: post.id}) }}" class="d-inline-block ms-2" onsubmit="return confirm('{{ 'global.confirm_delete'|trans() }}');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ post.id) }}">
+                    <button type="submit" class="btn btn-outline-danger">{{ ux_icon('fa:trash', {height: '16px'}) }}</button>
+                </form>
             </td>
         </tr>
     {% else %}

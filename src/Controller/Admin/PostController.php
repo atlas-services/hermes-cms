@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use App\Entity\Section;
 use App\Form\PostType;
 use App\Repository\MenuRepository;
 use App\Service\PostService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -35,22 +37,39 @@ class PostController extends AbstractController
 
         $post = new Post();
 
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(PostType::class, $post, ['menu' => $menu]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $template = $form->get('template')->getData();
+            $section = $form->has('section') ? $form->get('section')->getData() : null;
 
-            $this->postService->createFromMenu($post, $menu, $template);
+            try {
+                if ($section instanceof Section) {
+                    $this->postService->create($post, $section);
+                } else {
+                    $this->postService->createFromMenu($post, $menu, $template);
+                }
 
-            return $this->redirectToRoute('menu_edit', [
-                'id' => $menu->getId()
-            ]);
+                return $this->redirectToRoute('menu_edit', [
+                    'id' => $menu->getId()
+                ]);
+            } catch (\DomainException $exception) {
+                $form->addError(new FormError($exception->getMessage()));
+            }
         }
 
         return $this->render('admin/post/new.html.twig', [
             'form' => $form->createView(),
             'menu' => $menu
+        ]);
+    }
+
+    #[Route(name: 'post_index', methods: ['GET'])]
+    public function index(): Response
+    {
+        return $this->render('admin/post/index.html.twig', [
+            'posts' => $this->postService->findAllOrdered(),
         ]);
     }
 
@@ -60,12 +79,16 @@ class PostController extends AbstractController
     #[Route('/{id}/edit', name: 'post_edit')]
     public function edit(Request $request, Post $post): Response
     {
-        $form = $this->createForm(\App\Form\PostType::class, $post);
+        $form = $this->createForm(PostType::class, $post, [
+            // 'menu' => $post->getSection()?->getMenu(),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $section = $form->has('section') ? $form->get('section')->getData() : $post?->getSection();
+            $template = $form->get('template')->getData();
 
-            $this->postService->update($post);
+            $this->postService->update($post, $section instanceof Section ? $section : null, $template);
 
             return $this->redirectToRoute('menu_edit', [
                 'id' => $post->getSection()->getMenu()->getId()
@@ -82,8 +105,12 @@ class PostController extends AbstractController
     // DELETE
     // -------------------------
     #[Route('/{id}/delete', name: 'post_delete', methods: ['POST'])]
-    public function delete(Post $post): Response
+    public function delete(Request $request, Post $post): Response
     {
+        if (!$this->isCsrfTokenValid('delete_' . (string) $post->getId(), $request->request->get('_token'))) {
+            return $this->redirectToRoute('post_index');
+        }
+
         $menuId = $post->getSection()->getMenu()->getId();
 
         $this->postService->delete($post);

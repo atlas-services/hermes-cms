@@ -18,7 +18,14 @@
             </td>
             <td class="col-3">
                 <div >
-                      <label class="custom-control-label">{{ post.menu.parent.name ~ "/" ~ post.menu.name }}</label>
+                    {% if post.section is defined and post.section is not null and post.section.menu is not null %}
+                        {% set menu = post.section.menu %}
+                        <label class="custom-control-label">
+                            {{ menu.parent ? menu.parent.name ~ '/' : '' }}{{ menu.name }}
+                        </label>
+                    {% else %}
+                        <label class="custom-control-label">N/A</label>
+                    {% endif %}
                 </div>
             </td>
             <td  class="col-3">

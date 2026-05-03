@@ -47,10 +47,7 @@
     {{ form_errors(form.content) }}
 </div>
 
-{# ------------------------- #}
-{# REST (sécurité) #}
-{# ------------------------- #}
-{{ form_rest(form) }}
+{{ form_widget(form._token) }}
 
 <button class="btn btn-success">
     {{ button_label|default('form.label.save'|trans()) }}

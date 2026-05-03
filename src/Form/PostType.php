@@ -29,6 +29,24 @@ class PostType extends AbstractNameBaseType
         $options['active'] = false;
         $options['name'] = false;
         parent::buildForm($builder, $options);
+        if ($options['menu'] instanceof Menu && !$options['menu']->getSections()->isEmpty()) {
+            $builder->add('section', EntityType::class, [
+                'class' => Section::class,
+                'choices' => $options['menu']->getSections()->toArray(),
+                'choice_label' => function (Section $section) {
+                    $template = $section->getTemplate();
+                    return sprintf(
+                        '%s - %s',
+                        $template ? $template->getName() : 'Section ' . $section->getPosition(),
+                        $section->getPosition()
+                    );
+                },
+                'required' => false,
+                'placeholder' => 'Sélectionner une section existante',
+                'label' => 'form.label.section',
+            ]);
+        }
+
         $builder
             ->add('name', null, [
                 'label' => 'form.label.name'
@@ -64,6 +82,7 @@ class PostType extends AbstractNameBaseType
             'label_attr' => [
                 'class' => 'text-warning-emphasis ',
             ],
+            'menu' => null,
             'template_width'=>  [
                 '1/12' => '1',
                 '2/12' => '2',

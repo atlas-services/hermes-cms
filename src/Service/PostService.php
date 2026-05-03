@@ -76,6 +76,11 @@ class PostService
         return $this->postRepository->findAll();
     }
 
+    public function findAllOrdered(): array
+    {
+        return $this->postRepository->findAllOrdered();
+    }
+
     public function findBySection(Section $section): array
     {
         return $this->postRepository->findBy(
@@ -87,11 +92,15 @@ class PostService
     // -------------------------
     // UPDATE
     // -------------------------
-    public function update(Post $post, ?Section $newSection = null): Post
+    public function update(Post $post, ?Section $newSection = null, ?Template $template = null): Post
     {
         if ($newSection !== null) {
             $this->assertSectionIsValid($newSection);
             $post->setSection($newSection);
+        }
+
+        if ($template !== null && $post->getSection() !== null) {
+            $post->getSection()->setTemplate($template);
         }
 
         $this->em->flush();

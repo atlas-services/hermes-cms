@@ -15,8 +15,10 @@
         {# 🌳 ARBRE COMPLET #}
         {{ component('Menu', { menus: menus }) }}
 
-        <a class="btn btn-success mt-3" href="{{ path('menu_new') }}">
-            {{ 'form.label.create'|trans() }}
-        </a>
-    </div>
+    {% if(menus|length) > 0 %}
+            <a class="btn btn-success mt-3" href="{{ path('menu_new') }}">
+                {{ 'form.label.create'|trans() }}
+            </a>
+        </div>
+    {% endif %}
 {% endblock %}
