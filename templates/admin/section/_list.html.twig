@@ -1,0 +1,53 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>{{ 'Section' }}</th>
+            <th>{{ 'Template' }}</th>
+            <th>{{ 'Posts' }}</th>
+            <th>{{ 'form.label.actions'|trans() }}</th>
+        </tr>
+    </thead>
+    <tbody
+        data-controller="move-item"
+        data-type="section"
+        data-locale="{{ app.request.locale }}"
+    >
+        {% for section in sections %}
+            <tr class="list-items align-middle" data-move-item-target="item" data-item-id="{{ section.id }}">
+                <td>
+                    <div>{{ 'Section' }} {{ section.position }}</div>
+                    <div class="text-muted">
+                        {{ section.active ? 'Actif' : 'Inactif' }}
+                    </div>
+                </td>
+                <td>
+                    {{ section.template ? section.template.name : 'Aucun template' }}
+                </td>
+                <td>
+                    {% if section.posts|length > 0 %}
+                        <ul class="list-unstyled mb-0">
+                            {% for post in section.posts %}
+                                <li>
+                                    <a href="{{ path('post_edit', {id: post.id}) }}">{{ post.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <span class="text-muted">Aucun post</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <button class="btn btn-outline-success btn-sm me-1" data-action="click->move-item#moveUp">↑</button>
+                    <button class="btn btn-outline-success btn-sm me-3" data-action="click->move-item#moveDown">↓</button>
+                    <a class="btn btn-success btn-sm" href="{{ path('post_new_section', {id: section.id}) }}">
+                        {{ 'Ajouter un post' }}
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">{{ 'Aucune section trouvée pour cette page.' }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

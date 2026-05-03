@@ -20,14 +20,16 @@
 {# ------------------------- #}
 {# TEMPLATE #}
 {# ------------------------- #}
-<div class="mb-3">
-    {{ form_label(form.template) }}
-    {{ form_widget(form.template, { attr: { class: 'form-select' } }) }}
-    {{ form_errors(form.template) }}
-    <small class="text-muted">
-        {{ 'Utilise celui de la section si vide' }}
-    </small>
-</div>
+{% if form.template is defined %}
+    <div class="mb-3">
+        {{ form_label(form.template) }}
+        {{ form_widget(form.template, { attr: { class: 'form-select' } }) }}
+        {{ form_errors(form.template) }}
+        <small class="text-muted">
+            {{ 'Utilise celui de la section si vide' }}
+        </small>
+    </div>
+{% endif %}
 
 {# ------------------------- #}
 {# TEMPLATE WIDTH #}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Interface\PositionableInterface;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\IdTrait;
 use App\Entity\Traits\PositionTrait;
@@ -12,7 +13,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-class Section
+class Section implements PositionableInterface
 {
     use IdTrait;
     use PositionTrait;

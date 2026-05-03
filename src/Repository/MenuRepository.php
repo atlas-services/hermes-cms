@@ -58,4 +58,22 @@ class MenuRepository extends ServiceEntityRepository
 
         return ((int) $qb->getQuery()->getSingleScalarResult()) + 1;
     }
+
+    /**
+     * @return Menu[]
+     */
+    public function findPages(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->distinct()
+            ->innerJoin('m.sections', 's')
+            ->addSelect('s')
+            ->innerJoin('s.posts', 'p')
+            ->addSelect('p')
+            ->orderBy('m.name', 'ASC')
+            ->addOrderBy('s.position', 'ASC')
+            ->addOrderBy('p.position', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

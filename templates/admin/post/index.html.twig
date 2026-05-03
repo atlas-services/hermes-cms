@@ -3,11 +3,48 @@
 {% block title %}{{ 'global.list_pages'|trans() }}{% endblock %}
 
 {% block content %}
-    <h1>{{ 'global.list_pages'|trans() }}</h1>
-
-    <div class="mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>{{ 'global.list_pages'|trans() }}</h1>
+            <p class="text-muted">{{ 'Affichage des sections et des posts de la page sélectionnée.' }}</p>
+        </div>
         <a class="btn btn-success" href="{{ path('menu_index') }}">{{ 'global.list_menus'|trans() }}</a>
     </div>
 
-    {{ include('admin/post/_list.html.twig', { posts: posts }) }}
+    {% if pages is empty %}
+        <div class="alert alert-warning">
+            {{ 'Aucune page disponible.' }}
+        </div>
+    {% else %}
+        <form method="get" class="row g-3 mb-4">
+            <div class="col-auto">
+                <label for="page-select" class="form-label">{{ 'global.page'|trans() }}</label>
+                <select id="page-select" name="page" class="form-select" onchange="this.form.submit()">
+                    {% for page in pages %}
+                        <option value="{{ page.id }}" {{ selectedPage is defined and page.id == selectedPage.id ? 'selected' : '' }}>
+                            {{ page.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-auto align-self-end">
+                <button type="submit" class="btn btn-primary">{{ 'form.label.filter'|trans() }}</button>
+            </div>
+        </form>
+
+        {% if selectedPage is not null %}
+            <div class="mb-3">
+                <h2>{{ selectedPage.name }}</h2>
+                <p class="text-muted">
+                    {{ selectedPage.sections|length }} {{ selectedPage.sections|length > 1 ? 'sections' : 'section' }}
+                </p>
+            </div>
+
+            <div class="mb-3">
+                <a class="btn btn-success" href="{{ path('post_new', {id: selectedPage.id}) }}">{{ 'Ajouter un post' }}</a>
+            </div>
+
+            {{ include('admin/section/_list.html.twig', { sections: selectedPage.sections }) }}
+        {% endif %}
+    {% endif %}
 {% endblock %}

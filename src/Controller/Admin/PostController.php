@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
 use App\Form\PostType;
 use App\Repository\MenuRepository;
 use App\Service\PostService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +23,7 @@ class PostController extends AbstractController
     public function __construct(
         private PostService $postService,
         private MenuRepository $menuRepository,
+        private EntityManagerInterface $entityManager,
     ) {}
 
     // -------------------------
@@ -65,11 +68,67 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route(name: 'post_index', methods: ['GET'])]
-    public function index(): Response
+    #[Route('/section/{id}/new', name: 'post_new_section')]
+    public function createForSection(Request $request, int $id): Response
     {
+        $section = $this->entityManager->getRepository(Section::class)->find($id);
+
+        if (!$section) {
+            throw $this->createNotFoundException('Section introuvable');
+        }
+
+        $menu = $section->getMenu();
+
+        if (!$menu) {
+            throw $this->createNotFoundException('Menu introuvable pour cette section');
+        }
+
+        $post = new Post();
+        $post->setSection($section);
+
+        $form = $this->createForm(PostType::class, $post, [
+            'menu' => $menu,
+            'selected_section' => $section,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->postService->create($post, $section);
+
+                return $this->redirectToRoute('post_index', [
+                    'page' => $menu->getId(),
+                ]);
+            } catch (\DomainException $exception) {
+                $form->addError(new FormError($exception->getMessage()));
+            }
+        }
+
+        return $this->render('admin/post/new.html.twig', [
+            'form' => $form->createView(),
+            'menu' => $menu,
+            'section' => $section,
+        ]);
+    }
+
+    #[Route(name: 'post_index', methods: ['GET'])]
+    public function index(Request $request): Response
+    {
+        $pages = $this->menuRepository->findPages();
+        $pageId = $request->query->getInt('page');
+        $selectedPage = null;
+
+        if ($pageId > 0) {
+            $selectedPage = $this->menuRepository->find($pageId);
+        }
+
+        if ($selectedPage === null && count($pages) > 0) {
+            $selectedPage = $pages[0];
+        }
+
         return $this->render('admin/post/index.html.twig', [
-            'posts' => $this->postService->findAllOrdered(),
+            'pages' => $pages,
+            'selectedPage' => $selectedPage,
         ]);
     }
 

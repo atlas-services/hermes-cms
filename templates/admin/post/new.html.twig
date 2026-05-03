@@ -8,6 +8,16 @@
     {% if menu is defined %}
         <div class="alert alert-info">
             {{ 'Ajout d’un post dans le menu :' }} <strong>{{ menu.name }}</strong>
+            {% if section is defined %}
+                <br>
+                {{ 'Section :' }} <strong>{{ section.position }}</strong>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if section is defined %}
+        <div class="alert alert-secondary">
+            {{ 'Le template du post est celui de la section sélectionnée.' }}
         </div>
     {% endif %}
 

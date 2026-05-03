@@ -29,7 +29,8 @@ class PostType extends AbstractNameBaseType
         $options['active'] = false;
         $options['name'] = false;
         parent::buildForm($builder, $options);
-        if ($options['menu'] instanceof Menu && !$options['menu']->getSections()->isEmpty()) {
+
+        if (!($options['selected_section'] instanceof Section) && $options['menu'] instanceof Menu && !$options['menu']->getSections()->isEmpty()) {
             $builder->add('section', EntityType::class, [
                 'class' => Section::class,
                 'choices' => $options['menu']->getSections()->toArray(),
@@ -50,8 +51,10 @@ class PostType extends AbstractNameBaseType
         $builder
             ->add('name', null, [
                 'label' => 'form.label.name'
-            ])
-            ->add('template', EntityType::class, [
+            ]);
+
+        if (!($options['selected_section'] instanceof Section)) {
+            $builder->add('template', EntityType::class, [
                 'class'=> Template::class,
                 'mapped' => false,
                 'required' => false, // important (héritage possible)
@@ -60,6 +63,15 @@ class PostType extends AbstractNameBaseType
                 'choices' => $this->templateRepository->getInitTemplates(),
                 'attr'=> ['class' => 'custom-select custom-select-lg mb-3'],
                 'placeholder' => 'Utiliser le template de la section'
+            ]);
+        }
+
+        $builder
+            ->add('templateWidth', ChoiceType::class, [
+                'choices' => $options['template_width'],
+                'required' => true,
+                'attr' => ['class' => 'custom-select custom-select-lg mb-3'],
+                'label' => 'form.label.template_width',
             ])
             ->add('templateWidth', ChoiceType::class, [
                 'choices' => $options['template_width'],
@@ -83,6 +95,7 @@ class PostType extends AbstractNameBaseType
                 'class' => 'text-warning-emphasis ',
             ],
             'menu' => null,
+            'selected_section' => null,
             'template_width'=>  [
                 '1/12' => '1',
                 '2/12' => '2',

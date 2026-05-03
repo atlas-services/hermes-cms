@@ -24,7 +24,7 @@
         {% if node.type == 'root' %}
             <span class="badge bg-primary">MENU</span>
         {% elseif node.type == 'page' %}
-            <span class="badge bg-success">PAGE</span>
+            <span class="badge bg-success">MENU - PAGE</span>
         {% else %}
             <span class="badge bg-secondary">SOUS-MENU</span>
         {% endif %}
@@ -63,10 +63,12 @@
         </a>
 
         <a 
-            class="text-decoration-none px-3 py-2 mx-2 border border-1 border-success rounded-3"  
-            href="{{ path('menu_new', {parent: node.menu.id}) }}"
+            class="text-decoration-none px-3 py-2 mx-2 border border-1 rounded-3 {{ node.type == 'page' ? 'border-secondary text-secondary disabled' : 'border-success' }}"
+            href="{{ node.type == 'page' ? '#' : path('menu_new', {parent: node.menu.id}) }}"
             data-bs-toggle="tooltip"
-            data-bs-title="Ajouter un Sous Menu"
+            data-bs-title="{{ node.type == 'page' ? 'Impossible d\'ajouter un sous-menu à une page' : 'Ajouter un Sous Menu' }}"
+            {{ node.type == 'page' ? 'aria-disabled="true" tabindex="-1"' : '' }}
+            {{ node.type == 'page' ? 'onclick="return false;"' : '' }}
         >
             ➕
         </a>

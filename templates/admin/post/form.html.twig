@@ -11,5 +11,12 @@
         <a class="btn btn-info" href="{{ path('post_index') }}">
             {{ 'form.label.back_to_list'|trans() }}
         </a>
+
+        <form method="post" action="{{ path('post_delete', {id: post.id}) }}" class="d-inline-block ms-2" onsubmit="return confirm('{{ 'global.confirm_delete'|trans() }}');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ post.id) }}">
+            <button type="submit" class="btn btn-danger">
+                {{ 'form.label.delete'|trans() }}
+            </button>
+        </form>
     </div>
 {% endblock %}

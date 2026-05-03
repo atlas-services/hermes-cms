@@ -42,8 +42,8 @@ class MenuTreeBuilder
     private function resolveType(Menu $menu): string
     {
         return match (true) {
-            $menu->isRoot() => 'root',
             !$menu->getSections()->isEmpty() => 'page',
+            $menu->isRoot() => 'root',
             default => 'navigation',
         };
     }

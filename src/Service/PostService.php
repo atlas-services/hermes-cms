@@ -37,28 +37,23 @@ class PostService
     }
 
 
-    public function createFromMenu(Post $post, Menu $menu, Template $template): Post
+    public function createFromMenu(Post $post, Menu $menu, ?Template $template): Post
     {
-
         if (!$menu->isLeaf()) {
             throw new \DomainException('Le menu doit être une feuille.');
         }
 
-        // récupérer ou créer la section
-        $section = $menu->getSections()->first() ?: null;
+        $template = $template ?? $menu->getSections()->first()?->getTemplate();
 
-        if (!$section) {
-            $section = new Section();
-            $section->setMenu($menu);
-
-            if (!$template) {
-                throw new \DomainException('Template par défaut introuvable.');
-            }
-
-            $section->setTemplate($template);
-
-            $this->em->persist($section);
+        if (!$template) {
+            throw new \DomainException('Template par défaut introuvable.');
         }
+
+        $section = new Section();
+        $section->setMenu($menu);
+        $section->setTemplate($template);
+
+        $this->em->persist($section);
 
         return $this->create($post, $section);
     }
@@ -112,10 +107,20 @@ class PostService
     {
         $this->assertSectionIsValid($targetSection);
 
+        $oldSection = $post->getSection();
+        if ($oldSection !== null && $oldSection !== $targetSection) {
+            $oldSection->removePost($post);
+        }
+
         $post->setSection($targetSection);
         $post->setPosition($targetSection->getPosts()->count() + 1);
 
         $this->em->flush();
+
+        if ($oldSection !== null && $oldSection->getPosts()->isEmpty()) {
+            $this->em->remove($oldSection);
+            $this->em->flush();
+        }
 
         return $post;
     }
@@ -125,8 +130,19 @@ class PostService
     // -------------------------
     public function delete(Post $post): void
     {
+        $section = $post->getSection();
+
+        if ($section !== null) {
+            $section->removePost($post);
+        }
+
         $this->em->remove($post);
         $this->em->flush();
+
+        if ($section !== null && $section->getPosts()->isEmpty()) {
+            $this->em->remove($section);
+            $this->em->flush();
+        }
     }
 
     // -------------------------

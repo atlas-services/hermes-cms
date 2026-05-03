@@ -6,6 +6,7 @@ use App\Entity\Interface\ActivableInterface;
 use App\Entity\Interface\PositionableInterface;
 use App\Entity\Menu;
 use App\Entity\Post;
+use App\Entity\Section;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,6 +32,7 @@ class BaseController extends AbstractController
         $entityClass = match ($data['type']) {
             'menu' => Menu::class,
             'post' => Post::class,
+            'section' => Section::class,
             default => throw $this->createNotFoundException('Invalid type'),
         };
 
@@ -67,6 +69,7 @@ class BaseController extends AbstractController
         $entityClass = match ($data['type']) {
             'menu' => Menu::class,
             'post' => Post::class,
+            'section' => Section::class,
             default => throw $this->createNotFoundException('Invalid type'),
         };
         /** @var ActivableInterface|null $item */
