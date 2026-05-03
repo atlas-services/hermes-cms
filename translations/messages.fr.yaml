@@ -12,8 +12,10 @@ form:
     actions: Actions
     create: Créer
     update: Mettre à jour
+    edit: Mettre à jour
     delete: Supprimer
     save: Enregistrer
+    filter: Filtre
     name: Nom
     menus: Menus
     menu: Menu
@@ -53,6 +55,7 @@ global:
   breadcrumb: 'Vous êtes ici : '
   new_content: Nouveau contenu
   new_menu: Nouveau Menu
+  page: Pages
   active: Actif
   inactive: Inactif
   no_record: Pas d'enregistrement

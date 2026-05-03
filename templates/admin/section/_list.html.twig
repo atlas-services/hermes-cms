@@ -1,7 +1,7 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th>{{ 'Section' }}</th>
+            <th>{{ 'form.label.active'|trans }}</th>
             <th>{{ 'Template' }}</th>
             <th>{{ 'Posts' }}</th>
             <th>{{ 'form.label.actions'|trans() }}</th>
@@ -15,9 +15,14 @@
         {% for section in sections %}
             <tr class="list-items align-middle" data-move-item-target="item" data-item-id="{{ section.id }}">
                 <td>
-                    <div>{{ 'Section' }} {{ section.position }}</div>
-                    <div class="text-muted">
-                        {{ section.active ? 'Actif' : 'Inactif' }}
+                    <div class="form-check form-switch form-switch-sm my-0">
+                        <input
+                            data-controller="active-item"
+                            type="checkbox"
+                            class="form-check-input bg-success"
+                            data-action="click->active-item#switch"
+                            {{ section.active ? 'checked' : '' }}
+                        >
                     </div>
                 </td>
                 <td>

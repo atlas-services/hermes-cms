@@ -53,6 +53,12 @@ class PostService
         $section->setMenu($menu);
         $section->setTemplate($template);
 
+        $maxPosition = 0;
+        foreach ($menu->getSections() as $existingSection) {
+            $maxPosition = max($maxPosition, $existingSection->getPosition());
+        }
+        $section->setPosition($maxPosition + 1);
+
         $this->em->persist($section);
 
         return $this->create($post, $section);
