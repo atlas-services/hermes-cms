@@ -59,6 +59,15 @@ abstract class BaseKernelTestCase extends KernelTestCase
         $em->clear();
     }
 
+    protected function tearDown(): void
+    {
+        if ($this->em !== null) {
+            $this->em->clear();
+        }
+
+        parent::tearDown();
+    }
+
     /**
      * @return array<int, FixtureInterface>
      */

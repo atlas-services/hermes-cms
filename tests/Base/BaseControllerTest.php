@@ -42,6 +42,13 @@ abstract class BaseControllerTest extends WebTestCase
         $executor = new ORMExecutor($this->em, $purger);
 
         $executor->execute($loader->getFixtures());
+        $this->em->clear();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->em->clear();
+        parent::tearDown();
     }
 
     protected function login(): void

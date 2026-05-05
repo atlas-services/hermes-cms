@@ -43,10 +43,13 @@ class PostService
             throw new \DomainException('Le menu doit être une feuille.');
         }
 
-        $template = $template ?? $menu->getSections()->first()?->getTemplate();
+        $template = $template ?? ($menu->getSections()->isEmpty() ? null : $menu->getSections()->first()->getTemplate());
 
         if (!$template) {
-            throw new \DomainException('Template par défaut introuvable.');
+            $template = $this->em->getRepository(Template::class)->findOneBy(['code' => 'libre']);
+            if (!$template) {
+                throw new \DomainException('Template par défaut introuvable.');
+            }
         }
 
         $section = new Section();

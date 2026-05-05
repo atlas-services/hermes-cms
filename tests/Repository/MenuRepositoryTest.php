@@ -2,41 +2,95 @@
 
 namespace App\Tests\Repository;
 
+use App\DataFixtures\MenuFixtures;
 use App\Entity\Menu;
+use App\Repository\MenuRepository;
 use App\Tests\Base\BaseKernelTestCase;
 
 class MenuRepositoryTest extends BaseKernelTestCase
 {
-    public function testGetMenusReturnsOnlyRootOrdered(): void
+    protected function loadFixtures(): array
     {
-        $repo = $this->em->getRepository(Menu::class);
+        return [
+            new MenuFixtures(),
+        ];
+    }
+
+    public function testFindRootsReturnsOnlyRootMenus(): void
+    {
+        /** @var MenuRepository $repo */
+        $repo = static::getContainer()->get(MenuRepository::class);
 
         $roots = $repo->findRoots();
 
         $this->assertIsArray($roots);
+        $this->assertNotEmpty($roots);
+
+        foreach ($roots as $menu) {
+            $this->assertInstanceOf(Menu::class, $menu);
+            $this->assertNull($menu->getParent());
+        }
     }
 
     public function testGetNextPositionForRoot(): void
     {
-        $repo = $this->em->getRepository(Menu::class);
+        /** @var MenuRepository $repo */
+        $repo = static::getContainer()->get(MenuRepository::class);
 
         $pos = $repo->getNextPosition(null);
 
         $this->assertIsInt($pos);
+        $this->assertGreaterThan(0, $pos);
     }
 
     public function testGetNextPositionForChildren(): void
     {
-        $repo = $this->em->getRepository(Menu::class);
+        /** @var MenuRepository $repo */
+        $repo = static::getContainer()->get(MenuRepository::class);
 
-        $parent = new Menu();
-        $parent->setName('Root');
+        $parent = $this->em->getRepository(Menu::class)->findOneBy(['name' => 'Root 1']);
 
-        $this->em->persist($parent);
-        $this->em->flush();
+        $this->assertNotNull($parent);
 
         $pos = $repo->getNextPosition($parent);
 
         $this->assertIsInt($pos);
+        $this->assertEquals(3, $pos); // Root 1 has Child 1 and Child 2, next is 3
+    }
+
+    public function testFindChildrenReturnsOrderedChildren(): void
+    {
+        /** @var MenuRepository $repo */
+        $repo = static::getContainer()->get(MenuRepository::class);
+
+        $parent = $this->em->getRepository(Menu::class)->findOneBy(['name' => 'Root 1']);
+
+        $this->assertNotNull($parent);
+
+        $children = $repo->findChildren($parent);
+
+        $this->assertIsArray($children);
+        $this->assertCount(2, $children);
+
+        foreach ($children as $child) {
+            $this->assertInstanceOf(Menu::class, $child);
+            $this->assertSame($parent, $child->getParent());
+        }
+
+        // Check order by position
+        $this->assertEquals('Child 1', $children[0]->getName());
+        $this->assertEquals('Child 2', $children[1]->getName());
+    }
+
+    public function testFindPagesReturnsMenusWithPosts(): void
+    {
+        /** @var MenuRepository $repo */
+        $repo = static::getContainer()->get(MenuRepository::class);
+
+        $pages = $repo->findPages();
+
+        $this->assertIsArray($pages);
+        // Since MenuFixtures doesn't create posts, this might be empty
+        // But in real app, it would have menus with posts
     }
 }

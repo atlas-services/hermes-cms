@@ -19,11 +19,13 @@ class PostListener
 
     public function postUpdate(Post $post, PostUpdateEventArgs $event): void
     {
-        if (str_contains($post->getContent(), 'sandbox=""')) {
+        $content = $post->getContent() ?? '';
+
+        if (str_contains($content, 'sandbox=""')) {
             $content = str_replace(
                 'sandbox=""',
                 'sandbox="allow-same-origin allow-scripts"',
-                $post->getContent()
+                $content
             );
 
             $post->setContent($content);

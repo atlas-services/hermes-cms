@@ -151,6 +151,7 @@ class MenuControllerTest extends BaseControllerTest
 
         $em->persist($root);
         $em->flush();
+        $em->clear();
 
         // 🔄 reload DB (IMPORTANT pour test réel)
         $repo = $em->getRepository(Menu::class);
