@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ menu.name }}{% endblock %}
+
+{% block body %}
+<div class="d-flex flex-column min-vh-100">
+    <header class="mb-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#frontNavbarNav" aria-controls="frontNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="frontNavbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        {{ _self.renderMenu(menuTree) }}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow-1">
+        <div class="container">
+            <h1>{{ menu.name }}</h1>
+            {% for section in sections %}
+                <section>
+                    {% for post in section.posts %}
+                        <article>
+                            <h3>{{ post.name }}</h3>
+                            <p>{{ post.content|raw }}</p>
+                        </article>
+                    {% endfor %}
+                </section>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer class="mt-auto">
+        <div class="container">
+            <p>&copy; {{ "now"|date('Y') }} Mon Site</p>
+        </div>
+    </footer>
+</div>
+
+{% endblock %}
+
+{% macro renderMenu(nodes) %}
+    {% for node in nodes %}
+        {% if node.type == 'page' %}
+            {% if node.children|length > 0 %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}" id="navbarDropdown{{ loop.index }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ node.menu.name }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ loop.index }}">
+                        {{ _self.renderMenu(node.children) }}
+                    </ul>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}">{{ node.menu.name }}</a>
+                </li>
+            {% endif %}
+        {% elseif node.children|length > 0 %}
+            <li class="nav-item dropdown">
+                <span class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ node.menu.name }}</span>
+                <ul class="dropdown-menu">
+                    {{ _self.renderMenu(node.children) }}
+                </ul>
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

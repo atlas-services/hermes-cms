@@ -10,6 +10,8 @@ class MenuNode
 
     public string $type;
 
+    public string $slugPath;
+
     public bool $canAddPage = false;
 
     /** @var MenuNode[] */

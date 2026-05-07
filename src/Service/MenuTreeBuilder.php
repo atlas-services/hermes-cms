@@ -24,16 +24,19 @@ class MenuTreeBuilder
         );
     }
 
-    private function buildNode(Menu $menu): MenuNode
+    private function buildNode(Menu $menu, array $path = []): MenuNode
     {
         $node = new MenuNode();
         $node->menu = $menu;
+
+        $slugParts = array_merge($path, [$menu->getSlug()]);
+        $node->slugPath = implode('/', $slugParts);
 
         $node->type = $this->resolveType($menu);
         $node->canAddPage = $this->canAddPage($menu);
 
         foreach ($menu->getChildren() as $child) {
-            $node->children[] = $this->buildNode($child);
+            $node->children[] = $this->buildNode($child, $slugParts);
         }
 
         return $node;
