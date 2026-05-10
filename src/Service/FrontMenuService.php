@@ -32,4 +32,68 @@ final class FrontMenuService
 
         return $currentMenu;
     }
+
+    public function findFirstAccessiblePage(string $locale): ?Menu
+    {
+        foreach ($this->menuRepository->findRoots() as $root) {
+            $page = $this->findFirstAccessiblePageInTree($root, $locale);
+            if ($page !== null) {
+                return $page;
+            }
+        }
+
+        return null;
+    }
+
+    public function findFirstAccessiblePageAnyLocale(): ?Menu
+    {
+        foreach ($this->menuRepository->findRoots() as $root) {
+            $page = $this->findFirstAccessiblePageInTreeWithoutLocale($root);
+            if ($page !== null) {
+                return $page;
+            }
+        }
+
+        return null;
+    }
+
+    private function findFirstAccessiblePageInTree(Menu $menu, string $locale): ?Menu
+    {
+        if (!$menu->isActive() || $menu->getLocale() !== $locale) {
+            return null;
+        }
+
+        if ($menu->isPage()) {
+            return $menu;
+        }
+
+        foreach ($menu->getChildren() as $child) {
+            $page = $this->findFirstAccessiblePageInTree($child, $locale);
+            if ($page !== null) {
+                return $page;
+            }
+        }
+
+        return null;
+    }
+
+    private function findFirstAccessiblePageInTreeWithoutLocale(Menu $menu): ?Menu
+    {
+        if (!$menu->isActive()) {
+            return null;
+        }
+
+        if ($menu->isPage()) {
+            return $menu;
+        }
+
+        foreach ($menu->getChildren() as $child) {
+            $page = $this->findFirstAccessiblePageInTreeWithoutLocale($child);
+            if ($page !== null) {
+                return $page;
+            }
+        }
+
+        return null;
+    }
 }

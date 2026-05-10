@@ -14,6 +14,42 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class FrontController extends AbstractController
 {
+    #[Route('/', name: 'front_root')]
+    #[Route('/{_locale}/', name: 'front_home', requirements: ['_locale' => 'fr|en'], defaults: ['_locale' => 'fr'])]
+    public function home(Request $request, FrontMenuService $frontMenuService, MenuTreeBuilder $menuTreeBuilder): Response
+    {
+        $preferredLocales = [];
+        $routeLocale = $request->attributes->get('_locale');
+        if (is_string($routeLocale) && $routeLocale !== '') {
+            $preferredLocales[] = $routeLocale;
+        }
+        $preferredLocales[] = $request->getLocale();
+        $preferredLocales[] = 'fr';
+        $preferredLocales[] = 'en';
+        $preferredLocales = array_values(array_unique(array_filter($preferredLocales)));
+
+        $firstPage = null;
+        foreach ($preferredLocales as $locale) {
+            $firstPage = $frontMenuService->findFirstAccessiblePage($locale);
+            if ($firstPage !== null) {
+                break;
+            }
+        }
+        $firstPage ??= $frontMenuService->findFirstAccessiblePageAnyLocale();
+        if ($firstPage === null) {
+            throw $this->createNotFoundException('No accessible page found for locale');
+        }
+
+        $request->setLocale($firstPage->getLocale());
+        $request->attributes->set('_locale', $firstPage->getLocale());
+
+        return $this->render('front/index.html.twig', [
+            'menu' => $firstPage,
+            'sections' => $firstPage->getSections(),
+            'menuTree' => $menuTreeBuilder->buildTree(),
+        ]);
+    }
+
     #[Route('/{_locale}/contact', name: 'front_contact', requirements: ['_locale' => 'fr|en'], defaults: ['_locale' => 'fr'])]
     public function contact(): Response
     {
