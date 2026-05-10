@@ -22,7 +22,15 @@
         <tbody>
         {% for config in configs  %}
                 <tr class="align-middle">
-                    <td>{{ config.active ? 'global.active'|trans()|raw : 'global.inactive'|trans()|raw }}</td>
+                    <td>
+                        <form method="post" action="{{ path('config_toggle_active', {'id': config.id}) }}" class="d-inline toggle-active-form" data-config-id="{{ config.id }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('toggle-active' ~ config.id) }}">
+                            <button type="submit" class="btn btn-sm {{ config.active ? 'btn-success' : 'btn-secondary' }} toggle-active-btn" data-loading-text="{{ 'global.loading'|trans() }}">
+                                <i class="fas {{ config.active ? 'fa-check' : 'fa-times' }}"></i>
+                                {{ config.active ? 'global.active'|trans() : 'global.inactive'|trans() }}
+                            </button>
+                        </form>
+                    </td>
                     <td>{{ config.type }}</td>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <td>{{ config.code }}</td>
@@ -58,4 +66,78 @@
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         <a  class="btn btn-outline-secondary text-white" href="{{ path('config_new') }}">{{ 'global.new'|trans() }}</a>
     {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.toggle-active-form').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(this);
+                    const button = this.querySelector('.toggle-active-btn');
+                    const originalText = button.innerHTML;
+                    const configId = this.dataset.configId;
+
+                    // Disable button and show loading
+                    button.disabled = true;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + button.dataset.loadingText;
+
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update button appearance
+                            button.className = 'btn btn-sm ' + (data.active ? 'btn-success' : 'btn-secondary');
+                            button.innerHTML = '<i class="fas ' + (data.active ? 'fa-check' : 'fa-times') + '"></i> ' + (data.active ? '{{ 'global.active'|trans()|escape('js') }}' : '{{ 'global.inactive'|trans()|escape('js') }}');
+
+                            // Show success message
+                            const alertDiv = document.createElement('div');
+                            alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed';
+                            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                            alertDiv.innerHTML = `
+                                <strong>{{ 'global.success'|trans()|escape('js') }}!</strong> {{ 'config.toggle_success'|trans()|escape('js') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            `;
+                            document.body.appendChild(alertDiv);
+
+                            // Auto-remove alert after 3 seconds
+                            setTimeout(() => {
+                                if (alertDiv.parentNode) {
+                                    alertDiv.remove();
+                                }
+                            }, 3000);
+                        } else {
+                            throw new Error(data.error || 'Unknown error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Show error message
+                        const alertDiv = document.createElement('div');
+                        alertDiv.className = 'alert alert-danger alert-dismissible fade show position-fixed';
+                        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                        alertDiv.innerHTML = `
+                            <strong>{{ 'global.error'|trans()|escape('js') }}!</strong> {{ 'config.toggle_error'|trans()|escape('js') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        `;
+                        document.body.appendChild(alertDiv);
+
+                        // Auto-remove alert after 5 seconds
+                        setTimeout(() => {
+                            if (alertDiv.parentNode) {
+                                alertDiv.remove();
+                            }
+                        }, 5000);
+                    })
+                    .finally(() => {
+                        // Re-enable button
+                        button.disabled = false;
+                    });
+                });
+            });
+        });
+    </script>
 {% endblock %}

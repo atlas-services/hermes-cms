@@ -36,6 +36,26 @@ class ConfigController extends AbstractController
         return $this->redirect($request->headers->get('referer') ?? '/');
     }
 
+    #[Route(path: '/{id}/toggle-active', name: 'config_toggle_active', methods: ['POST'])]
+    public function toggleActive(
+        Request $request,
+        ManagerRegistry $doctrine,
+        Config $config
+    ): Response {
+        if (!$this->isCsrfTokenValid('toggle-active' . $config->getId(), $request->request->get('_token'))) {
+            return $this->json(['error' => 'Invalid CSRF token'], 400);
+        }
+
+        $config->setActive(!$config->isActive());
+        $doctrine->getManager()->flush();
+
+        return $this->json([
+            'success' => true,
+            'active' => $config->isActive(),
+            'statusText' => $config->isActive() ? 'global.active' : 'global.inactive'
+        ]);
+    }
+
     #[Route(path: '/new', name: 'config_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ManagerRegistry $doctrine): Response
     {

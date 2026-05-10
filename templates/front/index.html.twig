@@ -11,7 +11,9 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="frontNavbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0" 
+                    style="height:{{configs.nav_height}};
+                    {{ menu.parent|length == 0 ? 'background-color: ' ~ configs.nav_bgcolor  }}">
                         {{ _self.renderMenu(menuTree) }}
                     </ul>
                 </div>
@@ -48,7 +50,7 @@
     {% for node in nodes %}
         {% if node.type == 'page' %}
             {% if node.children|length > 0 %}
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" >
                     <a class="nav-link dropdown-toggle" href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}" id="navbarDropdown{{ loop.index }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ node.menu.name }}
                     </a>
@@ -57,7 +59,7 @@
                     </ul>
                 </li>
             {% else %}
-                <li class="nav-item">
+                <li class="nav-item" style="{{ node.menu.parent|length > 0 ? 'background-color: ' ~ configs.nav_li_bgcolor : 'background-color: ' ~ configs.nav_bgcolor  }}" >
                     <a class="nav-link" href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}">{{ node.menu.name }}</a>
                 </li>
             {% endif %}
