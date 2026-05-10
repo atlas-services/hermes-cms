@@ -36,7 +36,7 @@ config:
   label: Configuration
   type: Type
   value: Valeur
-  list: Configuration
+  list: Configurations
   affiche_list_image: Configuration des images
   affiche_list_admin: Configuration du Tableau de bord admin
   affiche_list_head: Configuration balises title et meta

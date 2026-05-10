@@ -64,7 +64,7 @@
         </tbody>
     </table>
     {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <a  class="btn btn-outline-secondary text-white" href="{{ path('config_new') }}">{{ 'global.new'|trans() }}</a>
+        <a class="btn btn-success mb-3" href="{{ path('config_new') }}">{{ 'form.label.create'|trans() }}</a>
     {% endif %}
 
     <script>

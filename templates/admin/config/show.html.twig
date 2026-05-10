@@ -1,9 +1,9 @@
 {% extends '/admin/base.html.twig' %}
 
-{% block title %}{{ 'global.show'|trans() }}{% endblock %}
+{% block title %}{{ 'config.label'|trans() }} — {{ 'global.show'|trans() }}{% endblock %}
 
 {% block content %}
-    <a class="btn h-btn-outline-success mb-sm-3"  href="{{ path('config_index', {'type': config.type}) }}">{{ 'global.back_to_list'|trans()|raw }}</a>
+    <a class="btn btn-info my-3" href="{{ path('config_index', {'type': config.type}) }}">{{ 'form.label.back_to_list'|trans() }}</a>
     <h1 class="text-secondary">{{ 'global.show'|trans() }} {{ config.value }}</h1>
 
     <table class="table">
@@ -21,9 +21,9 @@
         </tbody>
     </table>
 
-    <a class="btn h-btn-outline-success mb-sm-3"  href="{{ path('config_index', {'type': config.type}) }}">{{ 'global.back_to_list'|trans()|raw }}</a>
+    <a class="btn btn-info my-3" href="{{ path('config_index', {'type': config.type}) }}">{{ 'form.label.back_to_list'|trans() }}</a>
 
-    <a class="hms-color1" href="{{ path('config_edit', {'id': config.id}) }}">edit</a>
+    <a class="btn btn-outline-success my-3" href="{{ path('config_edit', {'id': config.id}) }}">{{ 'form.label.edit'|trans() }}</a>
 
     {{ include('admin/config/_delete_form.html.twig') }}
 {% endblock %}

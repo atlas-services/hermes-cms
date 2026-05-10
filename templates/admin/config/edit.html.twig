@@ -1,16 +1,16 @@
 {% extends '/admin/base.html.twig' %}
 
-{% block title %} {{ 'global.edit'|trans()|raw }}{% endblock %}
+{% block title %}{{ 'config.label'|trans() }} — {{ 'form.label.edit'|trans() }}{% endblock %}
 
 {% block content %}
-    <a class="btn btn-outline-success my-sm-3"  href="{{ path('config_index', {'type': config.type ?? 'undefined'}) }}">{{ 'global.back_to_list'|trans()|raw }}</a>
+    <a class="btn btn-outline-success my-sm-3" href="{{ path('config_index', {'type': config.type ?? 'undefined'}) }}">{{ 'form.label.back_to_list'|trans() }}</a>
     <h1 class="text-secondary">{{ 'config.label'|trans() }}</h1>
 
-    {{ include('admin/config/_form.html.twig', {'button_label': 'global.update'|trans()}) }}
+    {{ include('admin/config/_form.html.twig', {'button_label': 'form.label.update'|trans()}) }}
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         {{ include('admin/config/_delete_form.html.twig') }}
     {% endif %}
 
-    <a class="btn btn-outline-success my-sm-3"  href="{{ path('config_index', {'type': config.type ?? 'undefined'}) }}">{{ 'global.back_to_list'|trans()|raw }}</a>
+    <a class="btn btn-outline-success my-sm-3" href="{{ path('config_index', {'type': config.type ?? 'undefined'}) }}">{{ 'form.label.back_to_list'|trans() }}</a>
 
 {% endblock %}
