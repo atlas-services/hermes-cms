@@ -1,0 +1,93 @@
+{% set navContainerWidth = (configs.nav_container_width|default(12) + 0)|round(0, 'floor') %}
+{% set navContainerWidth = navContainerWidth < 1 ? 12 : (navContainerWidth > 12 ? 12 : navContainerWidth) %}
+{% set navOffset = (configs.nav_offset|default(0) + 0)|round(0, 'floor') %}
+{% set navOffset = navOffset < 0 ? 0 : (navOffset > 11 ? 11 : navOffset) %}
+{% set navEspacement = (configs.nav_espacement|default(0) + 0)|round(0, 'floor') %}
+{% set navEspacement = navEspacement < 0 ? 0 : (navEspacement > 5 ? 5 : navEspacement) %}
+{% set navLinkPx = (configs.nav_link_px|default(2) + 0)|round(0, 'floor') %}
+{% set navLinkPx = navLinkPx < 0 ? 0 : (navLinkPx > 5 ? 5 : navLinkPx) %}
+{% set navLinkPy = (configs.nav_link_py|default(2) + 0)|round(0, 'floor') %}
+{% set navLinkPy = navLinkPy < 0 ? 0 : (navLinkPy > 5 ? 5 : navLinkPy) %}
+{% set navLinkRounded = (configs.nav_link_rounded|default(0) + 0)|round(0, 'floor') %}
+{% set navLinkRounded = navLinkRounded < 0 ? 0 : (navLinkRounded > 5 ? 5 : navLinkRounded) %}
+{% set navSubMenuMx = (configs.nav_sub_menu_mx|default(0) + 0)|round(0, 'floor') %}
+{% set navSubMenuMx = navSubMenuMx < 0 ? 0 : (navSubMenuMx > 5 ? 5 : navSubMenuMx) %}
+{% set navMenuTextSize = configs.nav_menu_text_size|default('h6') %}
+{% set navSubMenuTextSize = configs.nav_sub_menu_text_size|default('h6') %}
+
+<nav class="navbar navbar-expand-lg rounded"
+     style="
+        background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
+        font-family: {{ configs.nav_font_family|default('inherit') }};
+     ">
+    <div class="container">
+        <div class="row w-100">
+            <div class="col-12 col-lg-{{ navContainerWidth }} offset-lg-{{ navOffset }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#frontNavbarNav" aria-controls="frontNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="frontNavbarNav">
+                    <ul class="navbar-nav mb-2 mb-lg-0"
+                        style="
+                            min-height: {{ configs.nav_height|default('auto') }};
+                            background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
+                        ">
+                        {{ _self.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+{% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) %}
+    {% for node in nodes %}
+        {% set isActive = currentMenu.id is defined and node.menu.id == currentMenu.id %}
+        {% set linkBg = isActive ? configs.nav_bgcolor_active|default('transparent') : configs.nav_bgcolor_link|default('transparent') %}
+        {% set linkColor = isActive ? configs.nav_color_active|default(configs.nav_link_color|default('#000000')) : configs.nav_link_color|default('#000000') %}
+        {% set linkBorder = configs.nav_link_border_bottom|default('') %}
+        {% if node.type == 'page' %}
+            {% if node.children|length > 0 %}
+                <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }}">
+                    <a class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                       href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                       id="navbarDropdown{{ loop.index }}"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false"
+                       style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                        {{ node.menu.name }}
+                    </a>
+                    <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
+                        aria-labelledby="navbarDropdown{{ loop.index }}"
+                        style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
+                        {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+                    </ul>
+                </li>
+            {% else %}
+                <li class="nav-item me-{{ navEspacement }} {{ navMenuTextSize }}"
+                    style="{{ node.menu.parent|length > 0 ? 'background-color: ' ~ configs.nav_li_bgcolor|default('#ffffff') : 'background-color: ' ~ configs.nav_bgcolor|default('#ffffff') }}">
+                    <a class="nav-link px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                       href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                       style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                        {{ node.menu.name }}
+                    </a>
+                </li>
+            {% endif %}
+        {% elseif node.children|length > 0 %}
+            <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }}">
+                <span class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      style="background-color: {{ configs.nav_bgcolor_link|default('transparent') }}; color: {{ configs.nav_link_color|default('#000000') }}; {{ linkBorder }}">
+                    {{ node.menu.name }}
+                </span>
+                <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
+                    style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
+                    {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+                </ul>
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

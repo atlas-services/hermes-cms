@@ -183,14 +183,6 @@ class ConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('active', CheckboxType::class, [
-                'required' => false,
-                'label' => 'form.label.active',
-                'attr' => [
-                    'class' => 'form-check-input ',
-                ],
-                'label_attr' => $options['label_attr']
-                ])
             ->add('code', TextType::class, ['disabled' => $options['code_disabled']])
             ->add('position', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', [
                 'required' => false,
@@ -206,6 +198,17 @@ class ConfigType extends AbstractType
                 'choices' => $options['type_choices'],
                 'attr' => ['class' => 'select2 custom-select select2 custom-select-lg mb-3']
             ]);
+
+        if ($options['show_active']) {
+            $builder->add('active', CheckboxType::class, [
+                'required' => false,
+                'label' => 'form.label.active',
+                'attr' => [
+                    'class' => 'form-check-input ',
+                ],
+                'label_attr' => $options['label_attr']
+            ]);
+        }
         if (null != $options['value_choices']) {
             $builder
                 ->add('value', ChoiceType::class, [
@@ -462,6 +465,7 @@ class ConfigType extends AbstractType
             'code_disabled' => true,
             'value_choices' => null,
             'type_image' => false,
+            'show_active' => false,
             'type_choices' => [
                 'admin' => 'admin',
                 'head' => 'head',

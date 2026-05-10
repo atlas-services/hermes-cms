@@ -61,6 +61,7 @@ class ConfigController extends AbstractController
     {
         $options = [
             'code_disabled' => !$this->isGranted('ROLE_SUPER_ADMIN'),
+            'show_active' => $this->isGranted('ROLE_SUPER_ADMIN'),
         ];
 
         $config = new Config();
@@ -131,6 +132,7 @@ class ConfigController extends AbstractController
 
         $options = [
             'code_disabled' => !$this->isGranted('ROLE_SUPER_ADMIN'),
+            'show_active' => $this->isGranted('ROLE_SUPER_ADMIN'),
         ];
 
         if (in_array($config->getCode(), $typeImage, true)) {

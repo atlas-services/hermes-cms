@@ -2,8 +2,10 @@
 {#{% import "admin/section/macro_form.html.twig" as forms %}#}
 {{ form_start(form) }} 
         {{ form_row(form.type) }}
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
+    {% if form.active is defined %}
         {{ form_row(form.active) }}
+    {% endif %}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
         {{ form_row(form.code) }}
     {% endif %}
     {{ form_row(form.summary) }}
