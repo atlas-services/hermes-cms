@@ -70,7 +70,7 @@
                                     min-height: {{ configs.nav_height|default('auto') }};
                                     background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
                                 ">
-                                {{ _self.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration) }}
+                                {{ _self.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, true) }}
                             </ul>
                         </div>
                     </div>
@@ -80,7 +80,19 @@
     </div>
 </nav>
 
-{% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration) %}
+{# Séparateur sous le nav-link : même largeur (parent w-100) et mêmes couleurs que le lien (linkBg / linkColor). #}
+{% macro menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) %}
+    <hr class="border-0 p-0 aos-nav-hr w-100 mx-0 my-{{ navEspacement }}"
+        style="height: 2px; min-height: 2px; background-color: {{ linkColor }};"
+        {% if hrAos %}
+            data-aos="{{ navAosEffect|e('html_attr') }}"
+            data-aos-duration="{{ navAosDuration }}"
+            data-aos-once="true"
+        {% endif %}
+        aria-hidden="true">
+{% endmacro %}
+
+{% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, hrMainNavOnly) %}
     {# Page courante + tous les ancêtres : même style « actif » sur toute la chaîne #}
     {% set activeTrailIds = [currentMenu.id] %}
     {% for p in currentMenu.parents %}
@@ -88,65 +100,60 @@
     {% endfor %}
     {% for node in nodes %}
         {% set isActive = node.menu.id in activeTrailIds %}
+        {% set hrAos = navAosActive and node.menu.id in activeTrailIds %}
         {% set linkBg = isActive ? configs.nav_bgcolor_active|default('transparent') : configs.nav_bgcolor_link|default('transparent') %}
         {% set linkColor = isActive ? configs.nav_color_active|default(configs.nav_link_color|default('#000000')) : configs.nav_link_color|default('#000000') %}
         {% set linkBorder = configs.nav_link_border_bottom|default('') %}
-        {% if node.type == 'page' %}
-            {% if node.children|length > 0 %}
-                <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }}"
-                    {% if navAosActive %}
-                        data-aos="{{ navAosEffect|e('html_attr') }}"
-                        data-aos-duration="{{ navAosDuration }}"
-                        data-aos-once="true"
-                    {% endif %}>
-                    <a class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
-                       href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
-                       id="navbarDropdown{{ loop.index }}"
-                       role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false"
-                       style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
-                        {{ node.menu.name }}
-                    </a>
-                    <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
-                        aria-labelledby="navbarDropdown{{ loop.index }}"
-                        style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
-                        {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration) }}
-                    </ul>
-                </li>
-            {% else %}
-                <li class="nav-item me-{{ navEspacement }} {{ navMenuTextSize }}"
-                    {% if navAosActive %}
-                        data-aos="{{ navAosEffect|e('html_attr') }}"
-                        data-aos-duration="{{ navAosDuration }}"
-                        data-aos-once="true"
+        {# Avec enfants : toujours ce bloc (MenuTreeBuilder ne met jamais type "page" sur un parent : page = feuille avec sections uniquement). #}
+        {% if node.children|length > 0 %}
+            <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch">
+                <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
+                     style="background-color: {{ linkBg }};">
+                    {% if node.type == 'page' %}
+                        <a class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                           href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                           id="navbarDropdown{{ node.menu.id }}"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false"
+                           style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                            {{ node.menu.name }}
+                        </a>
+                    {% else %}
+                        <span class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                              id="navbarDropdown{{ node.menu.id }}"
+                              role="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                              style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                            {{ node.menu.name }}
+                        </span>
                     {% endif %}
-                    style="{{ node.menu.parent|length > 0 ? 'background-color: ' ~ configs.nav_li_bgcolor|default('#ffffff') : 'background-color: ' ~ configs.nav_bgcolor|default('#ffffff') }}">
+                    {# Le .dropdown-menu doit suivre immédiatement le toggle (Bootstrap 5 : pas de <hr> entre les deux). #}
+                    <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
+                        aria-labelledby="navbarDropdown{{ node.menu.id }}"
+                        style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
+                        {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, false) }}
+                    </ul>
+                    {% if hrMainNavOnly %}
+                        {{ _self.menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) }}
+                    {% endif %}
+                </div>
+            </li>
+        {% elseif node.type == 'page' %}
+            <li class="nav-item me-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch"
+                style="{{ node.menu.parent is not null ? 'background-color: ' ~ configs.nav_li_bgcolor|default('#ffffff') : 'background-color: ' ~ configs.nav_bgcolor|default('#ffffff') }}">
+                <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
+                     style="background-color: {{ linkBg }};">
                     <a class="nav-link px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
                        href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
                        style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
                         {{ node.menu.name }}
                     </a>
-                </li>
-            {% endif %}
-        {% elseif node.children|length > 0 %}
-            <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }}"
-                {% if navAosActive %}
-                    data-aos="{{ navAosEffect|e('html_attr') }}"
-                    data-aos-duration="{{ navAosDuration }}"
-                    data-aos-once="true"
-                {% endif %}>
-                <span class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
-                    {{ node.menu.name }}
-                </span>
-                <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
-                    style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
-                    {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration) }}
-                </ul>
+                    {% if hrMainNavOnly %}
+                        {{ _self.menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) }}
+                    {% endif %}
+                </div>
             </li>
         {% endif %}
     {% endfor %}
