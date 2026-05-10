@@ -18,6 +18,10 @@
 {% set logoUrl = logoConfig ? vich_uploader_asset(logoConfig, 'imageFile') : null %}
 {% set logoTop = configs.affiche_logo_top|default(false) %}
 {% set logoLeftOffset = (logoConfig and attribute(logoConfig, 'value') is not null) ? attribute(logoConfig, 'value') : '0px' %}
+{% set navAosCfg = configs.nav_data_aos_active|default(false) %}
+{% set navAosActive = navAosCfg is same as(true) or navAosCfg == 1 or navAosCfg == '1' %}
+{% set navAosEffect = configs.nav_data_aos|default('fade-up') %}
+{% set navAosDuration = (configs.nav_data_aos_duration|default(1000) + 0)|round(0, 'floor') %}
 
 <nav class="navbar navbar-expand-lg rounded"
      style="
@@ -62,7 +66,7 @@
                             min-height: {{ configs.nav_height|default('auto') }};
                             background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
                         ">
-                        {{ _self.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+                        {{ _self.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration) }}
                     </ul>
                 </div>
             </div>
@@ -70,7 +74,7 @@
     </div>
 </nav>
 
-{% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) %}
+{% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration) %}
     {% for node in nodes %}
         {% set isActive = currentMenu.id is defined and node.menu.id == currentMenu.id %}
         {% set linkBg = isActive ? configs.nav_bgcolor_active|default('transparent') : configs.nav_bgcolor_link|default('transparent') %}
@@ -78,7 +82,12 @@
         {% set linkBorder = configs.nav_link_border_bottom|default('') %}
         {% if node.type == 'page' %}
             {% if node.children|length > 0 %}
-                <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }}">
+                <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }}"
+                    {% if navAosActive %}
+                        data-aos="{{ navAosEffect|e('html_attr') }}"
+                        data-aos-duration="{{ navAosDuration }}"
+                        data-aos-once="true"
+                    {% endif %}>
                     <a class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
                        href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
                        id="navbarDropdown{{ loop.index }}"
@@ -91,11 +100,16 @@
                     <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
                         aria-labelledby="navbarDropdown{{ loop.index }}"
                         style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
-                        {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+                        {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration) }}
                     </ul>
                 </li>
             {% else %}
                 <li class="nav-item me-{{ navEspacement }} {{ navMenuTextSize }}"
+                    {% if navAosActive %}
+                        data-aos="{{ navAosEffect|e('html_attr') }}"
+                        data-aos-duration="{{ navAosDuration }}"
+                        data-aos-once="true"
+                    {% endif %}
                     style="{{ node.menu.parent|length > 0 ? 'background-color: ' ~ configs.nav_li_bgcolor|default('#ffffff') : 'background-color: ' ~ configs.nav_bgcolor|default('#ffffff') }}">
                     <a class="nav-link px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
                        href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
@@ -105,7 +119,12 @@
                 </li>
             {% endif %}
         {% elseif node.children|length > 0 %}
-            <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }}">
+            <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }}"
+                {% if navAosActive %}
+                    data-aos="{{ navAosEffect|e('html_attr') }}"
+                    data-aos-duration="{{ navAosDuration }}"
+                    data-aos-once="true"
+                {% endif %}>
                 <span class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
                       role="button"
                       data-bs-toggle="dropdown"
@@ -115,7 +134,7 @@
                 </span>
                 <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
                     style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
-                    {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+                    {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration) }}
                 </ul>
             </li>
         {% endif %}

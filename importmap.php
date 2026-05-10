@@ -563,4 +563,11 @@ return [
         'version' => '7.2.0',
         'type' => 'css',
     ],
+    'aos' => [
+        'version' => '2.3.4',
+    ],
+    'aos/dist/aos.css' => [
+        'version' => '2.3.4',
+        'type' => 'css',
+    ],
 ];

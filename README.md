@@ -65,10 +65,17 @@ php bin/console importmap:require bootstrap
 php bin/console importmap:require bootstrap/dist/css/bootstrap.min.css
 php bin/console importmap:require @fortawesome/fontawesome-free/css/all.css
 
+Install AOS
+php bin/console importmap:require aos
+php bin/console importmap:require aos/dist/aos.css
+
 Install Ckeditor
 php bin/console importmap:require ckeditor5
 php bin/console importmap:require ckeditor5/dist/ckeditor5.min.css
 php bin/console importmap:require ckeditor5/translations/fr.js
+
+Télécharger les assets dans `assets/vendor/` (dossier non versionné ; à lancer après un `git clone` ou si un paquet manque) :
+php bin/console importmap:install
 
 In progress.
     - require PHP8.4
@@ -138,8 +145,18 @@ Get php extensions and the vendors and post-install the project
 
     composer install
 
-Install bootstrap
+Install assets (Importmap : Bootstrap, Font Awesome, AOS, CKEditor, etc.)
+php bin/console importmap:install
+
+Si un paquet n’est pas encore déclaré dans `importmap.php` :
 php bin/console importmap:require bootstrap
+php bin/console importmap:require bootstrap/dist/css/bootstrap.min.css
+php bin/console importmap:require @fortawesome/fontawesome-free/css/all.css
+php bin/console importmap:require aos
+php bin/console importmap:require aos/dist/aos.css
+php bin/console importmap:require ckeditor5
+php bin/console importmap:require ckeditor5/dist/ckeditor5.min.css
+php bin/console importmap:require ckeditor5/translations/fr.js
 
 Start Server on a terminal
 
