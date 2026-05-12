@@ -29,15 +29,6 @@
 {% endif %}
 
 {# ------------------------- #}
-{# TEMPLATE WIDTH #}
-{# ------------------------- #}
-<div class="mb-3">
-    {{ form_label(form.templateWidth) }}
-    {{ form_widget(form.templateWidth, { attr: { class: 'form-select' } }) }}
-    {{ form_errors(form.templateWidth) }}
-</div>
-
-{# ------------------------- #}
 {# IMAGE (templates type « liste » ; masqué en JS en création menu si type libre) #}
 {# ------------------------- #}
 {% if form.imageFile is defined %}

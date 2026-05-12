@@ -11,6 +11,7 @@ use App\Entity\Traits\PositionTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 class Section implements PositionableInterface
@@ -26,6 +27,11 @@ class Section implements PositionableInterface
     #[ORM\ManyToOne(targetEntity: Template::class)]
     #[ORM\JoinColumn(nullable: true)]
     private ?Template $template = null;
+
+    /** Largeur grille Bootstrap (1–12) pour les posts de la section. */
+    #[ORM\Column(name: 'template_width', type: 'integer', nullable: true)]
+    #[Assert\Range(min: 1, max: 12)]
+    private ?int $templateWidth = null;
 
     /** @var Collection<int, Post> */
     #[ORM\OneToMany(mappedBy: 'section', targetEntity: Post::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -65,6 +71,18 @@ class Section implements PositionableInterface
     public function setTemplate(?Template $template): self
     {
         $this->template = $template;
+
+        return $this;
+    }
+
+    public function getTemplateWidth(): ?int
+    {
+        return $this->templateWidth;
+    }
+
+    public function setTemplateWidth(?int $templateWidth): self
+    {
+        $this->templateWidth = $templateWidth;
 
         return $this;
     }

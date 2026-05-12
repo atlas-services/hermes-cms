@@ -87,4 +87,50 @@ class BaseController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
+    #[Route('/update-template-width', name: 'app_update_template_width', methods: ['POST'])]
+    public function updateTemplateWidth(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        try {
+            /** @var array{type?: string, id?: mixed, template_width?: mixed} $data */
+            $data = json_decode(
+                $request->getContent(),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        if (($data['type'] ?? '') !== 'section') {
+            return new JsonResponse(['status' => 'invalid type'], 400);
+        }
+
+        $id = filter_var($data['id'] ?? null, FILTER_VALIDATE_INT);
+        if (false === $id || $id < 1) {
+            return new JsonResponse(['status' => 'invalid id'], 400);
+        }
+
+        $section = $entityManager->find(Section::class, $id);
+        if (!$section instanceof Section) {
+            return new JsonResponse(['status' => 'not found'], 404);
+        }
+
+        $tw = $data['template_width'] ?? 10;
+        if ($tw === '' || $tw === null) {
+            $section->setTemplateWidth(10);
+        } else {
+            $v = filter_var($tw, FILTER_VALIDATE_INT);
+            if (false === $v || $v < 1 || $v > 12) {
+                return new JsonResponse(['status' => 'invalid template_width'], 400);
+            }
+
+            $section->setTemplateWidth($v);
+        }
+
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
 }

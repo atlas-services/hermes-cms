@@ -7,6 +7,7 @@ form:
     back_to_list: Retour à la liste
     no_record: Pas d'enregistrement
     active: Actif/Inactif
+    section_width_1_to_12: 'Largeur (1 à 12)'
     position: Position
     slug: Slug
     actions: Actions
@@ -34,7 +35,7 @@ form:
     new_post: Création d'un Post
     show_post: Affichage d'un Post
     content: Contenu
-    template_width: Largeur du template (de 1 to 12)
+    template_width: Largeur du template (de 1 à 12)
 
 admin:
   title: admin
@@ -77,6 +78,7 @@ global:
   edit: Modifier
   delete_content: le contenu
   back_to_list: Retour à la liste
+  continue: Continuer
 
 info:
   admin_type_site_1: 'Hermes a été conçu pour vous permettre de créer facilement vos pages Web.'

@@ -9,11 +9,10 @@ use PHPUnit\Framework\TestCase;
 
 class PostTest extends TestCase
 {
-    public function testDefaultTemplateWidthAndTransparency(): void
+    public function testDefaultTransparency(): void
     {
         $post = new Post();
 
-        $this->assertEquals(10, $post->getTemplateWidth());
         $this->assertFalse($post->isTransparent());
         $this->assertEquals('transparent', $post->getTemplateBgcolor());
     }

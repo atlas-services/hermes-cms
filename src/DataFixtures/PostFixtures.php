@@ -37,13 +37,15 @@ class PostFixtures extends Fixture
         $section1 = (new Section())
             ->setMenu($menu)
             ->setTemplate($template)
-            ->setPosition(1);
+            ->setPosition(1)
+            ->setTemplateWidth(10);
 
         // Section 2
         $section2 = (new Section())
             ->setMenu($menu)
             ->setTemplate($template)
-            ->setPosition(2);
+            ->setPosition(2)
+            ->setTemplateWidth(10);
 
         $manager->persist($section1);
         $manager->persist($section2);

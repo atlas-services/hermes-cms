@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>{{ 'form.label.active'|trans }}</th>
+            <th>{{ 'form.label.section_width_1_to_12'|trans }}</th>
             <th>{{ 'Template' }}</th>
             <th>{{ 'Posts' }}</th>
             <th>{{ 'form.label.actions'|trans() }}</th>
@@ -24,6 +25,19 @@
                             {{ section.active ? 'checked' : '' }}
                         >
                     </div>
+                </td>
+                <td>
+                    {% set sectionWidth = section.templateWidth ?? 10 %}
+                    <select
+                        class="form-select form-select-sm w-auto"
+                        aria-label="{{ 'form.label.section_width_1_to_12'|trans }}"
+                        data-controller="active-item"
+                        data-action="change->active-item#persistTemplateWidth"
+                    >
+                        {% for w in 1..12 %}
+                            <option value="{{ w }}" {{ sectionWidth == w ? 'selected' : '' }}>{{ w }}</option>
+                        {% endfor %}
+                    </select>
                 </td>
                 <td>
                     {{ section.template ? section.template.name : 'Aucun template' }}
@@ -51,7 +65,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">{{ 'Aucune section trouvée pour cette page.' }}</td>
+                <td colspan="5">{{ 'Aucune section trouvée pour cette page.' }}</td>
             </tr>
         {% endfor %}
     </tbody>

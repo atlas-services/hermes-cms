@@ -43,4 +43,15 @@ class SectionTest extends TestCase
         $this->assertSame($menu, $section->getMenu());
         $this->assertSame($template, $section->getTemplate());
     }
+
+    public function testTemplateWidth(): void
+    {
+        $section = new Section();
+
+        $this->assertNull($section->getTemplateWidth());
+
+        $section->setTemplateWidth(8);
+
+        $this->assertSame(8, $section->getTemplateWidth());
+    }
 }

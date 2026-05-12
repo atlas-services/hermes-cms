@@ -13,7 +13,6 @@ use App\Form\CKEditor5Type;
 use App\Repository\TemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -58,13 +57,6 @@ class PostType extends AbstractNameBaseType
                 'placeholder' => 'Utiliser le template de la section',
             ]);
         }
-
-        $builder->add('templateWidth', ChoiceType::class, [
-            'choices' => $options['template_width'],
-            'required' => true,
-            'attr' => ['class' => 'custom-select custom-select-lg mb-3'],
-            'label' => 'form.label.template_width',
-        ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
             $post = $event->getData();
@@ -145,20 +137,6 @@ class PostType extends AbstractNameBaseType
             /** Type logique du template de section (ex. hermes_templates.yaml : liste, libre). Null = déduit ou formulaire menu ambigu. */
             'template_type' => null,
             'post_edit_mode' => false,
-            'template_width' => [
-                '1/12' => '1',
-                '2/12' => '2',
-                '3/12' => '3',
-                '4/12' => '4',
-                '5/12' => '5',
-                '6/12' => '6',
-                '7/12' => '7',
-                '8/12' => '8',
-                '9/12' => '9',
-                '10/12' => '10',
-                '11/12' => '11',
-                '12/12' => '12',
-            ],
             'validation_groups' => static function (FormInterface $form) {
                 $post = $form->getData();
                 if (!$post instanceof Post) {

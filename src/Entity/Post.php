@@ -34,9 +34,6 @@ class Post extends AbstractContent implements PositionableInterface, ActivableIn
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Section $section = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    protected ?int $template_width = null;
-
     #[ORM\Column(type: 'boolean', nullable: true)]
     protected ?bool $transparent = null;
 
@@ -80,16 +77,6 @@ class Post extends AbstractContent implements PositionableInterface, ActivableIn
     // -------------------------
     // TEMPLATE CONFIG (héritage possible)
     // -------------------------
-
-    public function getTemplateWidth(): int
-    {
-        return $this->template_width ?? 10;
-    }
-
-    public function setTemplateWidth(?int $template_width): void
-    {
-        $this->template_width = $template_width;
-    }
 
     public function isTransparent(): bool
     {

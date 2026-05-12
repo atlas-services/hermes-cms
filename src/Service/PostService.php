@@ -55,6 +55,7 @@ class PostService
         $section = new Section();
         $section->setMenu($menu);
         $section->setTemplate($template);
+        $section->setTemplateWidth(10);
 
         $maxPosition = 0;
         foreach ($menu->getSections() as $existingSection) {

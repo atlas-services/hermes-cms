@@ -33,4 +33,47 @@ export default class extends Controller {
             console.error('Network error:', e);
         }
     }
+
+    /**
+     * Mise à jour de template_width (sections), même schéma que switchActive : POST JSON vers l’admin.
+     */
+    async persistTemplateWidth(event) {
+        const select = event.currentTarget;
+        const item = select.closest('.list-items');
+        const root = select.closest('tbody');
+
+        const type = root?.dataset?.type;
+        const locale = root?.dataset?.locale;
+        const id = item?.dataset?.itemId;
+
+        if (!type || !locale || !id) {
+            console.error('persistTemplateWidth: contexte tbody / ligne manquant');
+            return;
+        }
+
+        const template_width = parseInt(select.value, 10);
+
+        if (Number.isNaN(template_width) || template_width < 1 || template_width > 12) {
+            console.error('persistTemplateWidth: valeur invalide');
+            return;
+        }
+
+        const url = `/${locale}/admin/update-template-width`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, type, template_width }),
+            });
+
+            if (!response.ok) {
+                console.error('Erreur mise à jour template_width', await response.text());
+            }
+        } catch (e) {
+            console.error('Network error:', e);
+        }
+    }
 }
