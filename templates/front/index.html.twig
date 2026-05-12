@@ -8,17 +8,27 @@
         {% set navbarTemplate = 'front/navbar/' ~ (configs.nav_bar|default('base')) ~ '.html.twig' %}
         {% include [navbarTemplate, 'front/navbar/base.html.twig'] with { menu: menu, menuTree: menuTree, configs: configs } %}
     </header>
+    {% dump(configs) %}
 
     <main class="flex-grow-1">
-        <div class="container">
+        {% set mainW = (configs.container_width|default(12) + 0)|round(0, 'floor') %}
+        {% set mainW = mainW < 1 ? 1 : (mainW > 12 ? 12 : mainW) %}
+        {% set secW = (configs.content_container_width|default(12) + 0)|round(0, 'floor') %}
+        {% set secW = secW < 1 ? 1 : (secW > 12 ? 12 : secW) %}
+        <div class="container-fluid px-0">
             {% for section in sections %}
-                <section>
-                    {% for post in section.posts %}
-                        <article>
-                            <div class="post-content">{{ post.content|raw }}</div>
-                        </article>
-                    {% endfor %}
-                </section>
+                {% set effW = mainW < secW ? mainW : secW %}
+                <div class="row justify-content-center mx-0">
+                    <div class="col-12 col-lg-{{ effW }} mx-auto px-0 ">
+                        <section class="mx-auto px-0">
+                            {% for post in section.posts %}
+                                <article class="mb-4">
+                                    <div class="post-content col-sm-{{(post.templateWidth|default(12) + 0)|round(0, 'floor') }} mx-auto ">{{ post.content|raw }}</div>
+                                </article>
+                            {% endfor %}
+                        </section>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </main>
