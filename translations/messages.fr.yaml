@@ -26,6 +26,7 @@ form:
     sub_menu: Sous Menu
     parent: Parent
     parent_menu: -- Menu Parent --
+    post_section_type_summary: 'Ce Post est de type %summary%.'
     post_template: Type de présentation
     post_template_help: Ce template définit la section créée pour ce post.
     post_current_image: Image actuelle
