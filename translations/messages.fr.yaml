@@ -26,6 +26,9 @@ form:
     parent: Parent
     parent_menu: -- Menu Parent --
     post_template: Type de présentation
+    post_template_help: Ce template définit la section créée pour ce post.
+    post_current_image: Image actuelle
+    post_saved: Post enregistré avec succès.
     list_posts: Liste des Posts
     edit_post: Mise à jour du Post
     new_post: Création d'un Post

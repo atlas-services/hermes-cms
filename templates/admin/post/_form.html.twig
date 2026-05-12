@@ -1,12 +1,9 @@
-{{ form_start(form) }}
-
-{# ------------------------- #}
-{# ACTIVE #}
-{# ------------------------- #}
-{# <div class="form-check form-switch mb-3">
-    {{ form_widget(form.active, { attr: { class: 'form-check-input' } }) }}
-    {{ form_label(form.active, null, { label_attr: { class: 'form-check-label' } }) }}
-</div> #}
+{% form_theme form with ['form/vich_image_widget.html.twig'] %}
+{% set form_attr = {} %}
+{% if form.imageFile is defined %}
+    {% set form_attr = form_attr|merge({ enctype: 'multipart/form-data' }) %}
+{% endif %}
+{{ form_start(form, { attr: form_attr }) }}
 
 {# ------------------------- #}
 {# NAME #}
@@ -18,7 +15,7 @@
 </div>
 
 {# ------------------------- #}
-{# TEMPLATE #}
+{# TEMPLATE (création menu uniquement) #}
 {# ------------------------- #}
 {% if form.template is defined %}
     <div class="mb-3">
@@ -26,7 +23,7 @@
         {{ form_widget(form.template, { attr: { class: 'form-select' } }) }}
         {{ form_errors(form.template) }}
         <small class="text-muted">
-            {{ 'Utilise celui de la section si vide' }}
+            {{ 'form.label.post_template_help'|trans }}
         </small>
     </div>
 {% endif %}
@@ -41,18 +38,29 @@
 </div>
 
 {# ------------------------- #}
-{# CONTENT (CKEditor) #}
+{# IMAGE (templates type « liste » ; masqué en JS en création menu si type libre) #}
 {# ------------------------- #}
-<div class="mb-3">
-    {{ form_label(form.content) }}
-    {{ form_widget(form.content) }}
-    {{ form_errors(form.content) }}
-</div>
+{% if form.imageFile is defined %}
+    <div class="mb-3 js-post-field-image">
+        {{ form_label(form.imageFile) }}
+        {{ form_widget(form.imageFile) }}
+        {{ form_errors(form.imageFile) }}
+    </div>
+{% endif %}
+
+{# ------------------------- #}
+{# CONTENT (CKEditor — templates type « libre ») #}
+{# ------------------------- #}
+{% if form.content is defined %}
+    <div class="mb-3 js-post-field-content">
+        {{ form_label(form.content) }}
+        {{ form_widget(form.content) }}
+        {{ form_errors(form.content) }}
+    </div>
+{% endif %}
 
 {{ form_widget(form._token) }}
 
-<button class="btn btn-success">
-    {{ button_label|default('form.label.save'|trans()) }}
-</button>
+{{ form_widget(form.save, { attr: { class: 'btn btn-success' } }) }}
 
 {{ form_end(form, { render_rest: false }) }}

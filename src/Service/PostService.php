@@ -96,15 +96,11 @@ class PostService
     // -------------------------
     // UPDATE
     // -------------------------
-    public function update(Post $post, ?Section $newSection = null, ?Template $template = null): Post
+    public function update(Post $post, ?Section $newSection = null): Post
     {
         if ($newSection !== null) {
             $this->assertSectionIsValid($newSection);
             $post->setSection($newSection);
-        }
-
-        if ($template !== null && $post->getSection() !== null) {
-            $post->getSection()->setTemplate($template);
         }
 
         $this->em->flush();

@@ -9,6 +9,7 @@ use App\Entity\Post;
 use App\Entity\Section;
 use App\Form\PostType;
 use App\Repository\MenuRepository;
+use App\Repository\TemplateRepository;
 use App\Service\PostService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +17,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/{_locale}/admin/post')]
 class PostController extends AbstractController
@@ -24,6 +26,8 @@ class PostController extends AbstractController
         private PostService $postService,
         private MenuRepository $menuRepository,
         private EntityManagerInterface $entityManager,
+        private TemplateRepository $templateRepository,
+        private TranslatorInterface $translator,
     ) {}
 
     // -------------------------
@@ -44,18 +48,14 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $template = $form->get('template')->getData();
-            $section = $form->has('section') ? $form->get('section')->getData() : null;
+            $template = $form->has('template') ? $form->get('template')->getData() : null;
 
             try {
-                if ($section instanceof Section) {
-                    $this->postService->create($post, $section);
-                } else {
-                    $this->postService->createFromMenu($post, $menu, $template);
-                }
+                $this->postService->createFromMenu($post, $menu, $template);
+                $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));
 
-                return $this->redirectToRoute('menu_edit', [
-                    'id' => $menu->getId()
+                return $this->redirectToRoute('post_edit', [
+                    'id' => $post->getId(),
                 ]);
             } catch (\DomainException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
@@ -64,7 +64,9 @@ class PostController extends AbstractController
 
         return $this->render('admin/post/new.html.twig', [
             'form' => $form->createView(),
-            'menu' => $menu
+            'menu' => $menu,
+            'post_template_field_toggle' => true,
+            'post_template_types' => $this->buildPostTemplateTypeMeta(),
         ]);
     }
 
@@ -89,15 +91,17 @@ class PostController extends AbstractController
         $form = $this->createForm(PostType::class, $post, [
             'menu' => $menu,
             'selected_section' => $section,
+            'template_type' => $section->getTemplate()?->getType(),
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->postService->create($post, $section);
+                $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));
 
-                return $this->redirectToRoute('post_index', [
-                    'page' => $menu->getId(),
+                return $this->redirectToRoute('post_edit', [
+                    'id' => $post->getId(),
                 ]);
             } catch (\DomainException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
@@ -139,18 +143,19 @@ class PostController extends AbstractController
     public function edit(Request $request, Post $post): Response
     {
         $form = $this->createForm(PostType::class, $post, [
-            // 'menu' => $post->getSection()?->getMenu(),
+            'template_type' => $post->getSection()?->getTemplate()?->getType(),
+            'post_edit_mode' => true,
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $section = $form->has('section') ? $form->get('section')->getData() : $post?->getSection();
-            $template = $form->get('template')->getData();
 
-            $this->postService->update($post, $section instanceof Section ? $section : null, $template);
+            $this->postService->update($post, $section instanceof Section ? $section : null);
+            $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));
 
-            return $this->redirectToRoute('menu_edit', [
-                'id' => $post->getSection()->getMenu()->getId()
+            return $this->redirectToRoute('post_edit', [
+                'id' => $post->getId(),
             ]);
         }
 
@@ -177,5 +182,22 @@ class PostController extends AbstractController
         return $this->redirectToRoute('menu_edit', [
             'id' => $menuId
         ]);
+    }
+
+    /**
+     * Métadonnées pour le JS (création post depuis menu) : type logique par id de template.
+     *
+     * @return array{templates: array<string, string|null>}
+     */
+    private function buildPostTemplateTypeMeta(): array
+    {
+        $templates = [];
+        foreach ($this->templateRepository->getInitTemplates() as $template) {
+            $templates[(string) $template->getId()] = $template->getType();
+        }
+
+        return [
+            'templates' => $templates,
+        ];
     }
 }

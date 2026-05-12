@@ -23,7 +23,7 @@ trait ImageTrait
      * @var File|null
      **@*Vich\UploadableField(mapping="content_images", fileNameProperty="filename")
      */
-    #[Vich\UploadableField(mapping: 'content_images', fileNameProperty: 'filename')]
+    #[Vich\UploadableField(mapping: 'content_images', fileNameProperty: 'fileName')]
     #[Assert\File(maxSize: '10M')]
     #[Assert\Image(mimeTypes: ['image/jpeg', 'image/jpg', 'image/gif', 'image/png', 'image/svg', 'image/svg+xml', 'image/pdf', 'image/webp', 'application/pdf', 'video/mp4'])]
     #[Assert\NotBlank(groups: ['image'], message: 'error_message.post.image')]

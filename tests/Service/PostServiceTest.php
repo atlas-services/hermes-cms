@@ -6,7 +6,6 @@ use App\DataFixtures\PostFixtures;
 use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
-use App\Entity\Template;
 use App\Service\PostService;
 use App\Tests\Base\BaseKernelTestCase;
 
@@ -56,21 +55,17 @@ class PostServiceTest extends BaseKernelTestCase
         $this->assertNotNull($created->getSection()->getTemplate());
     }
 
-    public function testUpdatePostChangesTemplate(): void
+    public function testUpdatePostLeavesSectionTemplateUnchanged(): void
     {
         $post = $this->em->getRepository(Post::class)->findOneBy(['name' => 'Post 1']);
         $this->assertNotNull($post);
 
-        $template = new Template();
-        $template->setName('Updated Template');
-        $template->setCode('updated_template');
-        $template->setType('liste');
-        $template->setSummary('Updated template');
-        $this->em->persist($template);
-        $this->em->flush();
+        $section = $post->getSection();
+        $this->assertNotNull($section);
+        $templateBefore = $section->getTemplate();
 
-        $updated = $this->postService->update($post, null, $template);
+        $updated = $this->postService->update($post, null);
 
-        $this->assertSame($template, $updated->getSection()->getTemplate());
+        $this->assertSame($templateBefore, $updated->getSection()->getTemplate());
     }
 }

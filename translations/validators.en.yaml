@@ -1,0 +1,4 @@
+error_message:
+  post:
+    image: Please upload an image.
+    content: Please enter some content.

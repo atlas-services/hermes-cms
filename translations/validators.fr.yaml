@@ -1,0 +1,4 @@
+error_message:
+  post:
+    image: Veuillez téléverser une image.
+    content: Veuillez saisir un contenu.

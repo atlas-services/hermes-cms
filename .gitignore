@@ -39,3 +39,4 @@ phpstan.neon
 
 /public/uploads/
 /data/
+/.vscode

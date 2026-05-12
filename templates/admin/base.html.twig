@@ -18,6 +18,9 @@
             <section id="section_top" class="container"></section>
             {% include '/admin/nav/nav.html.twig' %}
         {% endblock nav %}
+        <div class="px-1">
+            {{ component('Alert', {class: 'mt-2'}) }}
+        </div>
         {% block content %}
         {% endblock content %}
 

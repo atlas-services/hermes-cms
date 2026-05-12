@@ -1,0 +1,30 @@
+{# Surcharge Vich pour le formulaire Post : aperçu sans lien ; suppression à côté de l’image ; champs restants conservés. #}
+{%- block vich_image_widget -%}
+    <div class="vich-image">
+        {%- if errors is defined and errors|length > 0 -%}
+            {%- set attr = attr|merge({class: (attr.class|default('') ~ ' is-invalid')|trim}) -%}
+        {%- endif -%}
+        <div class="mb-2">
+            {{- form_widget(form.file, { attr: attr }) -}}
+        </div>
+        {%- if image_uri -%}
+            <div class="d-flex flex-wrap align-items-center gap-3 mt-1">
+                <img src="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}"
+                     alt=""
+                     class="img-thumbnail border"
+                     style="max-height: 120px; max-width: 220px; width: auto; height: auto; object-fit: contain;">
+                {%- if form.delete is defined -%}
+                    <div class="form-check m-0 d-flex align-items-center gap-2">
+                        {{- form_widget(form.delete, { attr: { class: 'form-check-input' } }) -}}
+                        {{- form_label(form.delete, null, { label_attr: { class: 'form-check-label' } }) -}}
+                    </div>
+                    {{- form_errors(form.delete) -}}
+                {%- endif -%}
+            </div>
+        {%- elseif form.delete is defined -%}
+            {{- form_row(form.delete) -}}
+        {%- endif -%}
+        {{- form_errors(form) -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock -%}

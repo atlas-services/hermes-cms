@@ -22,8 +22,69 @@
     {% endif %}
 
     {{ include('admin/post/_form.html.twig', {
-        'button_label': 'form.label.create'|trans()
+        'button_label': 'form.label.create'|trans(),
+        'post_template_field_toggle': post_template_field_toggle|default(false),
+        'post_template_types': post_template_types|default({}),
     }) }}
+
+    {% if post_template_field_toggle is defined and post_template_field_toggle %}
+        <script type="application/json" id="post-template-meta-json">{{ post_template_types|default({})|json_encode(7)|raw }}</script>
+        <script>
+        (function () {
+            var metaEl = document.getElementById('post-template-meta-json');
+            if (!metaEl) return;
+            var meta;
+            try {
+                meta = JSON.parse(metaEl.textContent || '{}');
+            } catch (e) {
+                return;
+            }
+            var form = document.querySelector('form[name="post"]');
+            if (!form) return;
+
+            var templateSelect = form.querySelector('select[name="post[template]"]');
+            var wrapImage = form.querySelector('.js-post-field-image');
+            var wrapContent = form.querySelector('.js-post-field-content');
+            if (!wrapImage || !wrapContent) return;
+
+            var templates = (meta.templates || {});
+
+            function resolveType() {
+                var tid = templateSelect && templateSelect.value;
+                if (tid && Object.prototype.hasOwnProperty.call(templates, tid)) {
+                    return templates[tid] || '';
+                }
+                return '';
+            }
+
+            function apply() {
+                var t = resolveType();
+                var isListe = t === 'liste';
+                var isLibre = t === 'libre';
+
+                if (isListe) {
+                    wrapImage.classList.remove('d-none');
+                    wrapContent.classList.add('d-none');
+                } else if (isLibre) {
+                    wrapContent.classList.remove('d-none');
+                    wrapImage.classList.add('d-none');
+                } else {
+                    wrapImage.classList.remove('d-none');
+                    wrapContent.classList.remove('d-none');
+                }
+            }
+
+            form.addEventListener('change', function (e) {
+                var n = e.target && e.target.name;
+                if (n === 'post[template]') {
+                    apply();
+                }
+            });
+
+            apply();
+        })();
+        </script>
+    {% endif %}
 
     {% if menu is defined %}
         <a class="btn btn-info my-3"
