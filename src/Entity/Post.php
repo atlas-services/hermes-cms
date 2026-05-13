@@ -46,13 +46,6 @@ class Post extends AbstractContent implements PositionableInterface, ActivableIn
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $template_image_filter = null;
 
-    #[ORM\ManyToOne(targetEntity: Template::class)]
-    #[ORM\JoinColumn(nullable: true)]
-    protected ?Template $template2 = null;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    protected ?int $template2_width = null;
-
     public function __toString(): string
     {
         return $this->name;
@@ -124,15 +117,5 @@ class Post extends AbstractContent implements PositionableInterface, ActivableIn
     public function setTemplateImageFilter(?string $template_image_filter): void
     {
         $this->template_image_filter = $template_image_filter;
-    }
-
-    public function getTemplate2Width(): int
-    {
-        return $this->template2_width ?? 4;
-    }
-
-    public function setTemplate2Width(?int $template2_width): void
-    {
-        $this->template2_width = $template2_width;
     }
 }

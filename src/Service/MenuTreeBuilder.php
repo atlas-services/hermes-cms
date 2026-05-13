@@ -14,17 +14,22 @@ class MenuTreeBuilder
     /**
      * @return MenuNode[]
      */
-    public function buildTree(): array
+    public function buildTree(bool $onlyActiveMenus = false): array
     {
         $roots = $this->repository->findRoots();
 
-        return array_map(
-            fn(Menu $menu) => $this->buildNode($menu),
-            $roots
-        );
+        $nodes = [];
+        foreach ($roots as $menu) {
+            if ($onlyActiveMenus && !$menu->isActive()) {
+                continue;
+            }
+            $nodes[] = $this->buildNode($menu, [], $onlyActiveMenus);
+        }
+
+        return $nodes;
     }
 
-    private function buildNode(Menu $menu, array $path = []): MenuNode
+    private function buildNode(Menu $menu, array $path = [], bool $onlyActiveMenus = false): MenuNode
     {
         $node = new MenuNode();
         $node->menu = $menu;
@@ -36,7 +41,10 @@ class MenuTreeBuilder
         $node->canAddPage = $this->canAddPage($menu);
 
         foreach ($menu->getChildren() as $child) {
-            $node->children[] = $this->buildNode($child, $slugParts);
+            if ($onlyActiveMenus && !$child->isActive()) {
+                continue;
+            }
+            $node->children[] = $this->buildNode($child, $slugParts, $onlyActiveMenus);
         }
 
         return $node;

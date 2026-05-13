@@ -1,0 +1,40 @@
+{# Structure portée de Hermes release/2.2.7 : templates/front/base/hermes/template/folio1.html.twig #}
+{% set padding_x = configs.folio1_padding_x|default(2) %}
+{% set padding_y = configs.folio1_padding_y|default(2) %}
+{% set picture_groups = section|col_imgs %}
+{% set n_groups = picture_groups|length %}
+{% set col_md = n_groups > 0 ? (12 / n_groups)|round(0, 'floor') : 12 %}
+{% if col_md < 1 %}{% set col_md = 1 %}{% endif %}
+
+<div class="folio1 py-2">
+    <div class="row g-0 justify-content-center">
+        {% for pictures in picture_groups %}
+            {% set px = 'px-' ~ padding_x ~ ' px-sm-' ~ padding_x %}
+            {% if loop.first %}
+                {% set px = 'ps-' ~ padding_x ~ ' pe-' ~ padding_x ~ ' ps-sm-' ~ padding_x ~ ' pe-sm-' ~ padding_x %}
+            {% endif %}
+            {% if loop.last %}
+                {% set px = 'ps-' ~ padding_x ~ ' pe-' ~ padding_x ~ ' ps-sm-' ~ padding_x ~ ' pe-sm-' ~ padding_x %}
+            {% endif %}
+            <div class="col-12 col-md-{{ col_md }} {{ px }} pb-{{ padding_y }}">
+                {% for post in pictures %}
+                    {% if post.name is defined %}
+                        <figure class="folio1__item text-center mb-3 mb-md-{{ padding_y }}">
+                            {% set img = vich_uploader_asset(post, 'imageFile') %}
+                            {% if img %}
+                                <a href="{{ asset(img) }}" class="folio1__link d-inline-block" target="_blank" rel="noopener noreferrer">
+                                    <img src="{{ asset(img) }}" alt="{{ post.name }}" class="img-fluid rounded shadow-sm">
+                                </a>
+                            {% endif %}
+                            {% if post.name %}
+                                <figcaption class="small mt-2 text-muted">{{ post.name }}</figcaption>
+                            {% endif %}
+                        </figure>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include 'front/hermes/modale.html.twig' %}

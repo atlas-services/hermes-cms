@@ -9,6 +9,7 @@ use App\Entity\Post;
 use App\Entity\Section;
 use App\Entity\Template;
 use App\Repository\PostRepository;
+use App\Repository\TemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PostService
@@ -16,6 +17,7 @@ class PostService
     public function __construct(
         private EntityManagerInterface $em,
         private PostRepository $postRepository,
+        private TemplateRepository $templateRepository,
     ) {}
 
     // -------------------------
@@ -56,6 +58,10 @@ class PostService
         $section->setMenu($menu);
         $section->setTemplate($template);
         $section->setTemplateWidth(10);
+        $defaultModale = $this->templateRepository->findDefaultModaleTemplate();
+        if ($defaultModale !== null) {
+            $section->setTemplate2($defaultModale);
+        }
 
         $maxPosition = 0;
         foreach ($menu->getSections() as $existingSection) {

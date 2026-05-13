@@ -95,6 +95,15 @@ class TemplateRepository extends ServiceEntityRepository
             ->orderBy('s.id', 'ASC');
     }
 
+    /**
+     * Modale affichée par défaut sur une section (Hermes 2.x : template2 de section).
+     */
+    public function findDefaultModaleTemplate(): ?Template
+    {
+        return $this->findOneBy(['code' => 'modale1'])
+            ?? $this->findOneBy(['code' => 'modale2']);
+    }
+
     public function getQbTemplateLibre(): QueryBuilder
     {
         return $this->createQueryBuilder('s')

@@ -18,7 +18,7 @@ final class FrontMenuService
         $currentMenu = null;
 
         foreach ($slugs as $slug) {
-            $criteria = ['slug' => $slug, 'locale' => $locale, 'parent' => $currentMenu];
+            $criteria = ['slug' => $slug, 'locale' => $locale, 'active' => true, 'parent' => $currentMenu];
             if ($currentMenu === null) {
                 $criteria['parent'] = null;
             }
@@ -36,6 +36,9 @@ final class FrontMenuService
     public function findFirstAccessiblePage(string $locale): ?Menu
     {
         foreach ($this->menuRepository->findRoots() as $root) {
+            if (!$root->isActive()) {
+                continue;
+            }
             $page = $this->findFirstAccessiblePageInTree($root, $locale);
             if ($page !== null) {
                 return $page;
@@ -48,6 +51,9 @@ final class FrontMenuService
     public function findFirstAccessiblePageAnyLocale(): ?Menu
     {
         foreach ($this->menuRepository->findRoots() as $root) {
+            if (!$root->isActive()) {
+                continue;
+            }
             $page = $this->findFirstAccessiblePageInTreeWithoutLocale($root);
             if ($page !== null) {
                 return $page;
@@ -68,6 +74,9 @@ final class FrontMenuService
         }
 
         foreach ($menu->getChildren() as $child) {
+            if (!$child->isActive()) {
+                continue;
+            }
             $page = $this->findFirstAccessiblePageInTree($child, $locale);
             if ($page !== null) {
                 return $page;
@@ -88,6 +97,9 @@ final class FrontMenuService
         }
 
         foreach ($menu->getChildren() as $child) {
+            if (!$child->isActive()) {
+                continue;
+            }
             $page = $this->findFirstAccessiblePageInTreeWithoutLocale($child);
             if ($page !== null) {
                 return $page;
@@ -95,5 +107,43 @@ final class FrontMenuService
         }
 
         return null;
+    }
+
+    /**
+     * Menu page + sections + posts visibles sur le site (tous actifs).
+     *
+     * @return list<array{section: Section, posts: list<Post>}>
+     */
+    public function getVisibleFrontSections(Menu $menu): array
+    {
+        $blocks = [];
+        foreach ($menu->getSections() as $section) {
+            if (!$section->isActive()) {
+                continue;
+            }
+            $posts = [];
+            foreach ($section->getPosts() as $post) {
+                if ($post->isActive()) {
+                    $posts[] = $post;
+                }
+            }
+            $blocks[] = ['section' => $section, 'posts' => $posts];
+        }
+
+        return $blocks;
+    }
+
+    /** Tous les ancêtres du menu sont actifs (cohérence avec la résolution par slug). */
+    public function isMenuHierarchyFullyActive(Menu $menu): bool
+    {
+        $m = $menu;
+        while ($m !== null) {
+            if (!$m->isActive()) {
+                return false;
+            }
+            $m = $m->getParent();
+        }
+
+        return true;
     }
 }

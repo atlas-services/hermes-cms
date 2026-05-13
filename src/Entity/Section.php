@@ -24,7 +24,7 @@ class Section implements PositionableInterface
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Menu $menu = null;
 
-    #[ORM\ManyToOne(targetEntity: Template::class)]
+    #[ORM\ManyToOne(targetEntity: Template::class, inversedBy: 'sections')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Template $template = null;
 
@@ -32,6 +32,14 @@ class Section implements PositionableInterface
     #[ORM\Column(name: 'template_width', type: 'integer', nullable: true)]
     #[Assert\Range(min: 1, max: 12)]
     private ?int $templateWidth = null;
+
+    /** Template de présentation secondaire (ex. modale1 / modale2), comme Hermes 2.x sur la section. */
+    #[ORM\ManyToOne(targetEntity: Template::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Template $template2 = null;
+
+    #[ORM\Column(name: 'template2_width', type: 'integer', nullable: true)]
+    private ?int $template2Width = null;
 
     /** @var Collection<int, Post> */
     #[ORM\OneToMany(mappedBy: 'section', targetEntity: Post::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -83,6 +91,30 @@ class Section implements PositionableInterface
     public function setTemplateWidth(?int $templateWidth): self
     {
         $this->templateWidth = $templateWidth;
+
+        return $this;
+    }
+
+    public function getTemplate2(): ?Template
+    {
+        return $this->template2;
+    }
+
+    public function setTemplate2(?Template $template2): self
+    {
+        $this->template2 = $template2;
+
+        return $this;
+    }
+
+    public function getTemplate2Width(): int
+    {
+        return $this->template2Width ?? 4;
+    }
+
+    public function setTemplate2Width(?int $template2Width): self
+    {
+        $this->template2Width = $template2Width;
 
         return $this;
     }

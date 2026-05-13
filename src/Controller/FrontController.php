@@ -45,8 +45,8 @@ final class FrontController extends AbstractController
 
         return $this->render('front/index.html.twig', [
             'menu' => $firstPage,
-            'sections' => $firstPage->getSections(),
-            'menuTree' => $menuTreeBuilder->buildTree(),
+            'sectionsForFront' => $frontMenuService->getVisibleFrontSections($firstPage),
+            'menuTree' => $menuTreeBuilder->buildTree(true),
         ]);
     }
 
@@ -68,16 +68,16 @@ final class FrontController extends AbstractController
         $locale = $request->getLocale();
         $menu = $frontMenuService->findMenuBySlugs($slugParts, $locale);
 
-        if (!$menu || !$menu->isPage()) {
+        if (!$menu || !$menu->isPage() || !$frontMenuService->isMenuHierarchyFullyActive($menu)) {
             throw $this->createNotFoundException('Menu not found');
         }
 
-        $sections = $menu->getSections();
-        $menuTree = $menuTreeBuilder->buildTree();
+        $sectionsForFront = $frontMenuService->getVisibleFrontSections($menu);
+        $menuTree = $menuTreeBuilder->buildTree(true);
 
         return $this->render('front/index.html.twig', [
             'menu' => $menu,
-            'sections' => $sections,
+            'sectionsForFront' => $sectionsForFront,
             'menuTree' => $menuTree,
         ]);
     }

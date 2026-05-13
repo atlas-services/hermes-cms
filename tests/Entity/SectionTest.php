@@ -54,4 +54,20 @@ class SectionTest extends TestCase
 
         $this->assertSame(8, $section->getTemplateWidth());
     }
+
+    public function testTemplate2(): void
+    {
+        $section = new Section();
+        $t2 = new Template();
+        $t2->setName('Modale');
+        $t2->setCode('modale1');
+        $t2->setType('modale');
+        $t2->setSummary('Modale slide');
+
+        $section->setTemplate2($t2);
+        $section->setTemplate2Width(6);
+
+        $this->assertSame($t2, $section->getTemplate2());
+        $this->assertSame(6, $section->getTemplate2Width());
+    }
 }

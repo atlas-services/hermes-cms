@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use App\Entity\Config;
+use App\Entity\Template;
 
 abstract class BaseKernelTestCase extends KernelTestCase
 {
@@ -44,10 +46,14 @@ abstract class BaseKernelTestCase extends KernelTestCase
         $tester = new CommandTester($command);
         $tester->execute([]);
 
-        // 3. fixtures
+        // 3. fixtures (ne pas purger template/config : init Hermes les remplit et les fixtures ne les recréent pas tous)
+        $excludedTables = [
+            $em->getClassMetadata(Template::class)->getTableName(),
+            $em->getClassMetadata(Config::class)->getTableName(),
+        ];
         $executor = new ORMExecutor(
             $em,
-            new ORMPurger($em)
+            new ORMPurger($em, $excludedTables)
         );
 
         $fixtures = $this->loadFixtures();

@@ -33,12 +33,18 @@ class PostFixtures extends Fixture
 
         $manager->persist($menu);
 
+        $modale = $manager->getRepository(Template::class)->findOneBy(['code' => 'modale1'])
+            ?? $manager->getRepository(Template::class)->findOneBy(['code' => 'modale2']);
+
         // Section 1
         $section1 = (new Section())
             ->setMenu($menu)
             ->setTemplate($template)
             ->setPosition(1)
             ->setTemplateWidth(10);
+        if ($modale !== null) {
+            $section1->setTemplate2($modale);
+        }
 
         // Section 2
         $section2 = (new Section())
@@ -46,6 +52,9 @@ class PostFixtures extends Fixture
             ->setTemplate($template)
             ->setPosition(2)
             ->setTemplateWidth(10);
+        if ($modale !== null) {
+            $section2->setTemplate2($modale);
+        }
 
         $manager->persist($section1);
         $manager->persist($section2);
