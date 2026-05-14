@@ -1,12 +1,62 @@
-{# Port Hermes release/2.2.7 : une modale Bootstrap par post — largeur ≈ (template2Width/12) × viewport. #}
+{# Port Hermes release/2.2.7 : modale2 — responsive : modale + image pleine largeur ; ≥ lg : dialog selon template2Width/12 ; 12 = plein écran. #}
 {% set _tw2 = (section.rawTemplate2Width ?? (configs.modale_container_width|default(6)))|col_lg %}
 {% set _modalVw = 'min(calc(100vw - 1.5rem), calc((100vw - 1.5rem) * ' ~ _tw2 ~ ' / 12))' %}
 {% set _modalVh = 'min(calc(100vh - 2rem), calc((100vh - 2rem) * ' ~ _tw2 ~ ' / 12))' %}
+{% if posts is not empty %}
+<style>
+{% for post in posts %}
+@media (max-width: 991.98px) {
+  #portfolioModal{{ post.id }}.modal {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  {% if _tw2 != 12 %}
+  #portfolioModal{{ post.id }} > .modal-dialog {
+    width: 100vw !important;
+    max-width: none !important;
+    height: 100% !important;
+    margin: 0 !important;
+    max-height: none !important;
+  }
+  {% endif %}
+  #portfolioModal{{ post.id }} .modal-content {
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+  #portfolioModal{{ post.id }} .modal-body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  #portfolioModal{{ post.id }} .modal-body > .w-100 {
+    max-width: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  #portfolioModal{{ post.id }} .modal-body img.img-fluid {
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 0 !important;
+    height: auto;
+  }
+}
+{% if _tw2 != 12 %}
+@media (min-width: 992px) {
+  #portfolioModal{{ post.id }} > .modal-dialog {
+    width: {{ _modalVw }} !important;
+    max-width: {{ _modalVw }} !important;
+    max-height: {{ _modalVh }} !important;
+  }
+}
+{% endif %}
+{% endfor %}
+</style>
+{% endif %}
 {% for post in posts %}
     <div class="modal fade portfolio-modal" id="portfolioModal{{ post.id }}" tabindex="-1" aria-hidden="true" aria-labelledby="portfolioModalLabel{{ post.id }}">
         <div
             class="modal-dialog modal-dialog-scrollable{% if _tw2 == 12 %} modal-fullscreen{% else %} modal-dialog-centered mx-auto{% endif %}"
-            {% if _tw2 != 12 %}style="width: {{ _modalVw }}; max-width: {{ _modalVw }}; max-height: {{ _modalVh }};"{% endif %}
         >
             <div class="modal-content w-100">
                 <div class="modal-header">
@@ -17,7 +67,7 @@
                     <div class="w-100 mx-auto px-0 text-center">
                     {% set img = vich_uploader_asset(post, 'imageFile') %}
                     {% if img %}
-                        <img class="img-fluid mb-3" src="{{ asset(img) }}" alt="{{ post.name }}">
+                        <img class="img-fluid mb-3 w-100" src="{{ asset(img) }}" alt="{{ post.name }}">
                     {% endif %}
                     <div class="post-content text-start">{{ post.content|raw }}</div>
                     </div>
