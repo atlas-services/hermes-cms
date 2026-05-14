@@ -336,7 +336,7 @@ function init() {
         .use(Dashboard, {
             inline: true,
             target: mount,
-            height: 360,
+            height: 120,
             showProgressDetails: true,
             // Vignettes légères avant envoi (largeur réduite vs défaut 280) pour limiter la charge CPU sur gros lots.
             disableThumbnailGenerator: false,
