@@ -1,0 +1,145 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.media_upload.title'|trans }}{% endblock %}
+
+{% block importmap %}
+    {{ importmap(['app', 'admin_media_upload']) }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="h4 mb-2">{{ 'admin.media_upload.title'|trans }}</h1>
+    <p class="text-muted small mb-2">{{ 'admin.media_upload.help'|trans }}</p>
+    <div class="alert alert-secondary small py-2 mb-3" role="status">
+        {{ 'admin.media_upload.limits_explain'|trans({
+            '%per_file%': (max_upload_bytes / 1048576)|number_format(1, '.', ' '),
+            '%upload_ini%': php_ini_upload_max_filesize,
+            '%post_ini%': php_ini_post_max_size,
+            '%app_env%': app_upload_max_size
+        })|raw }}
+    </div>
+
+    {% if not upload_dir_exists %}
+        <div class="alert alert-warning">{{ 'admin.media_upload.dir_warning'|trans }}</div>
+    {% endif %}
+
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small mb-0">
+            <li class="breadcrumb-item">
+                <a href="{{ path('admin_media_upload_index', {_locale: app.request.locale}) }}">{{ 'admin.media_upload.root'|trans }}</a>
+            </li>
+            {% if current_path %}
+                {% set acc = '' %}
+                {% for part in current_path|split('/') %}
+                    {% set acc = acc ? acc ~ '/' ~ part : part %}
+                    <li class="breadcrumb-item{% if loop.last %} active{% endif %}"{% if loop.last %} aria-current="page"{% endif %}>
+                        {% if not loop.last %}
+                            <a href="{{ path('admin_media_upload_index', {_locale: app.request.locale, path: acc}) }}">{{ part }}</a>
+                        {% else %}
+                            {{ part }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ol>
+    </nav>
+
+    {% if upload_dir_exists %}
+        <form method="post" action="{{ path('admin_media_upload_mkdir', {_locale: app.request.locale}) }}" class="row g-2 align-items-end mb-4">
+            <input type="hidden" name="_token" value="{{ csrf_token('media_upload') }}">
+            <input type="hidden" name="parent" value="{{ current_path }}">
+            <div class="col-md-4">
+                <label for="new-folder-name" class="form-label small mb-0">{{ 'admin.media_upload.new_folder'|trans }}</label>
+                <input class="form-control form-control-sm" id="new-folder-name" name="name" required maxlength="120" placeholder="{{ 'admin.media_upload.new_folder_placeholder'|trans }}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-sm btn-primary">{{ 'admin.media_upload.mkdir_submit'|trans }}</button>
+            </div>
+        </form>
+
+        <div class="table-responsive mb-4">
+            <table class="table table-sm table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center" style="width: 4.5rem">{{ 'admin.media_upload.col_preview'|trans }}</th>
+                        <th scope="col">{{ 'admin.media_upload.col_name'|trans }}</th>
+                        <th scope="col">{{ 'admin.media_upload.col_type'|trans }}</th>
+                        <th scope="col">{{ 'admin.media_upload.col_size'|trans }}</th>
+                        <th scope="col">{{ 'admin.media_upload.col_link'|trans }}</th>
+                        <th scope="col" style="min-width: 14rem">{{ 'admin.media_upload.col_actions'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in directories %}
+                        <tr>
+                            <td class="text-center text-warning align-middle"><i class="fa-solid fa-folder fa-lg" title="{{ 'admin.media_upload.type_folder'|trans }}"></i></td>
+                            <td class="align-middle">
+                                <a href="{{ path('admin_media_upload_index', {_locale: app.request.locale, path: d.path}) }}" class="fw-medium">{{ d.name }}</a>
+                            </td>
+                            <td class="align-middle">{{ 'admin.media_upload.type_folder'|trans }}</td>
+                            <td class="align-middle">—</td>
+                            <td class="align-middle">—</td>
+                            <td class="align-middle">
+                                <div class="d-flex flex-column flex-xl-row gap-2 align-items-stretch">
+                                    <form method="post" action="{{ path('admin_media_upload_rename_folder', {_locale: app.request.locale}) }}" class="d-flex flex-grow-1 gap-1 align-items-center">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('media_upload') }}">
+                                        <input type="hidden" name="old_path" value="{{ d.path }}">
+                                        <input type="hidden" name="browse_path" value="{{ current_path }}">
+                                        <input type="text" name="new_name" value="{{ d.name }}" required maxlength="120" class="form-control form-control-sm flex-grow-1" aria-label="{{ 'admin.media_upload.rename_folder'|trans }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary text-nowrap">{{ 'admin.media_upload.rename_submit'|trans }}</button>
+                                    </form>
+                                    <form method="post" action="{{ path('admin_media_upload_delete_folder', {_locale: app.request.locale}) }}" class="flex-shrink-0" data-confirm="{{ 'admin.media_upload.confirm_delete_folder'|trans({'%name%': d.name})|e('html_attr') }}" onsubmit="return confirm(this.getAttribute('data-confirm'));">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('media_upload') }}">
+                                        <input type="hidden" name="path" value="{{ d.path }}">
+                                        <input type="hidden" name="browse_path" value="{{ current_path }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger text-nowrap">{{ 'admin.media_upload.delete_folder'|trans }}</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% for f in files %}
+                        <tr>
+                            <td class="text-center align-middle p-1">
+                                {% if f.has_thumb %}
+                                    <a href="{{ app.request.basePath ~ '/' ~ web_base ~ '/' ~ f.path }}" target="_blank" rel="noopener" class="d-inline-block border rounded overflow-hidden bg-light" style="width: 3rem; height: 3rem;">
+                                        <img src="{{ app.request.basePath ~ '/' ~ web_base ~ '/' ~ f.path }}" alt="" width="48" height="48" loading="lazy" decoding="async" class="w-100 h-100" style="object-fit: cover;">
+                                    </a>
+                                {% else %}
+                                    <span class="text-secondary"><i class="fa-regular fa-file fa-lg"></i></span>
+                                {% endif %}
+                            </td>
+                            <td class="align-middle">{{ f.name }}</td>
+                            <td class="align-middle">{{ 'admin.media_upload.type_file'|trans }}</td>
+                            <td class="align-middle">{% if f.size < 1024 %}{{ f.size }} o{% else %}{{ (f.size / 1024)|round(1) }} Ko{% endif %}</td>
+                            <td class="align-middle">
+                                <a href="{{ app.request.basePath ~ '/' ~ web_base ~ '/' ~ f.path }}" target="_blank" rel="noopener">{{ 'admin.media_upload.open_file'|trans }}</a>
+                            </td>
+                            <td class="align-middle">—</td>
+                        </tr>
+                    {% endfor %}
+                    {% if directories is empty and files is empty %}
+                        <tr>
+                            <td colspan="6" class="text-muted">{{ 'admin.media_upload.empty_dir'|trans }}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    <h2 class="h6 mb-2">{{ 'admin.media_upload.uppy_section'|trans }}</h2>
+    {% set path_label = current_path ? current_path : ('admin.media_upload.root'|trans) %}
+    <p class="text-muted small mb-1">{{ 'admin.media_upload.uppy_hint'|trans({'%path%': path_label}) }}</p>
+    <p class="text-muted small mb-2">{{ 'admin.media_upload.uppy_perf_hint'|trans }}</p>
+
+    <div
+        id="admin-media-upload"
+        data-upload-url="{{ path('admin_media_upload_api', {_locale: app.request.locale}) }}"
+        data-csrf-token="{{ csrf_token('media_upload') }}"
+        data-max-file-size="{{ max_upload_bytes }}"
+        data-allowed-file-types="{{ allowed_mime_types|json_encode|e('html_attr') }}"
+        data-current-path="{{ current_path|e('html_attr') }}"
+    >
+        <div data-uppy-dashboard-mount class="w-100"></div>
+    </div>
+{% endblock %}

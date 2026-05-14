@@ -25,6 +25,8 @@ parameters:
     hermes_database_config_dir: '%env(DATABASE_CONFIG_URL)%'
     hermes_path_content_image: '%env(APP_PATH_CONTENT_IMAGES)%'
     hermes_path_content_image_post: '%env(APP_PATH_CONTENT_IMAGES_POSTS)%'
+    # Absolute directory for admin Uppy uploads (same tree as Vich content images).
+    hermes_admin_media_upload_dir: '%kernel.project_dir%/public/%env(APP_PATH_CONTENT_IMAGES_POSTS)%'
     hermes_path_content_images: '%env(APP_PATH_CONTENT_IMAGES)%'
     hermes_path_cache_image: '%env(APP_PATH_CACHE_IMAGES)%'
     hermes_path_hermes_images: '%kernel.project_dir%/public/%env(APP_PATH_HERMES_IMAGES)%'

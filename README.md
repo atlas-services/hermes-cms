@@ -28,7 +28,8 @@ composer require symfony/asset-mapper symfony/asset symfony/twig-packs
 composer require symfony/routing
 composer require symfony/orm-pack
 composer require --dev symfony/maker-bundle
-composer require helios-ag/fm-elfinder-bundle
+# Upload médias admin : Uppy via Asset Mapper (importmap), paquet npm `uppy` — ex. :
+# php bin/console importmap:require uppy@4.3.0
 composer require liip/imagine-bundle
 composer require stof/doctrine-extensions-bundle
 composer require stof/doctrine-extensions-bundle

@@ -975,261 +975,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     generate_final_classes?: bool|Param, // Default: true
  *     generate_final_entities?: bool|Param, // Default: false
  * }
- * @psalm-type FmElfinderConfig = array{
- *     configuration_provider?: scalar|Param|null, // Default: "fm_elfinder.configurator.default"
- *     assets_path?: scalar|Param|null, // Default: "assets"
- *     loader?: scalar|Param|null, // Default: "fm_elfinder.loader.default"
- *     instances?: array<string, array{ // Default: []
- *         locale?: scalar|Param|null, // Default: null
- *         cors_support?: bool|Param, // Default: false
- *         editor?: scalar|Param|null, // Default: "simple"
- *         editor_template?: scalar|Param|null, // Default: null
- *         fullscreen?: bool|Param, // Default: true
- *         multi_home_folder?: bool|Param, // Default: false
- *         folder_separator?: scalar|Param|null, // Default: ""
- *         theme?: scalar|Param|null, // Default: "smoothness"
- *         tinymce_popup_path?: scalar|Param|null, // Default: ""
- *         relative_path?: bool|Param, // Default: true
- *         path_prefix?: scalar|Param|null, // Default: "/"
- *         where_is_multi?: list<scalar|Param|null>,
- *         visible_mime_types?: list<scalar|Param|null>,
- *         connector?: array{
- *             debug?: bool|Param, // Default: false
- *             binds?: array<string, array<string, mixed>>,
- *             plugins?: array<string, array<string, mixed>>,
- *             roots?: array<string, array{ // Default: []
- *                 driver?: scalar|Param|null,
- *                 volume_id?: int|Param, // Default: 0
- *                 path?: scalar|Param|null, // Default: ""
- *                 autoload?: bool|Param, // Default: false
- *                 phash?: scalar|Param|null, // Default: ""
- *                 trash_hash?: scalar|Param|null, // Default: ""
- *                 locale?: scalar|Param|null, // Default: ""
- *                 i18n_folder_name?: bool|Param, // Default: false
- *                 mime_detect?: scalar|Param|null, // Default: "auto"
- *                 mimefile?: scalar|Param|null, // Default: ""
- *                 security_voter?: scalar|Param|null, // Default: ""
- *                 start_path?: scalar|Param|null, // Default: ""
- *                 encoding?: scalar|Param|null, // Default: "UTF-8"
- *                 url?: scalar|Param|null, // Default: ""
- *                 alias?: scalar|Param|null, // Default: ""
- *                 img_lib?: scalar|Param|null, // Default: "auto"
- *                 tmb_path?: scalar|Param|null, // Default: ".tmb"
- *                 tmb_path_mode?: scalar|Param|null, // Default: 511
- *                 tmb_url?: scalar|Param|null, // Default: ""
- *                 tmb_size?: int|Param, // Default: 48
- *                 tmb_crop?: bool|Param, // Default: true
- *                 tmb_bg_color?: scalar|Param|null, // Default: "#ffffff"
- *                 quarantine?: scalar|Param|null, // Default: null
- *                 copy_overwrite?: bool|Param, // Default: true
- *                 copy_join?: bool|Param, // Default: true
- *                 copy_from?: bool|Param, // Default: true
- *                 copy_to?: bool|Param, // Default: true
- *                 upload_overwrite?: bool|Param, // Default: true
- *                 fileMode?: scalar|Param|null, // Default: 420
- *                 upload_allow?: list<scalar|Param|null>,
- *                 upload_deny?: list<scalar|Param|null>,
- *                 upload_order?: list<scalar|Param|null>,
- *                 upload_max_size?: scalar|Param|null, // Default: 0
- *                 upload_max_conn?: int|Param, // Default: 3
- *                 defaults?: array<string, bool|Param>,
- *                 attributes?: list<array{ // Default: []
- *                     pattern?: scalar|Param|null,
- *                     read?: scalar|Param|null, // Default: true
- *                     write?: scalar|Param|null, // Default: true
- *                     locked?: scalar|Param|null, // Default: false
- *                     hidden?: scalar|Param|null, // Default: false
- *                 }>,
- *                 accepted_name?: scalar|Param|null, // Default: "/^\\w[\\w\\s\\.\\%\\-]*$/u"
- *                 show_hidden?: bool|Param, // Default: false
- *                 disabled_commands?: list<scalar|Param|null>,
- *                 tree_deep?: int|Param, // Default: 0
- *                 check_subfolders?: int|Param, // Default: 1
- *                 separator?: scalar|Param|null, // Default: "/"
- *                 date_format?: scalar|Param|null, // Default: "j M Y H:i"
- *                 time_format?: scalar|Param|null, // Default: "H:i"
- *                 archive_mimes?: list<scalar|Param|null>,
- *                 archivers?: bool|array{
- *                     enabled?: bool|Param, // Default: false
- *                     create?: list<array{ // Default: []
- *                         cmd?: scalar|Param|null,
- *                         argc?: scalar|Param|null,
- *                         ext?: scalar|Param|null,
- *                     }>,
- *                     extract?: list<array{ // Default: []
- *                         cmd?: scalar|Param|null,
- *                         argc?: scalar|Param|null,
- *                         ext?: scalar|Param|null,
- *                     }>,
- *                 },
- *                 flysystem?: bool|array{
- *                     enabled?: bool|Param, // Default: false
- *                     filesystem?: scalar|Param|null, // Default: ""
- *                     type?: scalar|Param|null, // Default: ""
- *                     adapter_service?: scalar|Param|null, // Default: ""
- *                     options?: array{
- *                         local?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             path?: scalar|Param|null, // Default: ""
- *                         },
- *                         ftp?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             host?: scalar|Param|null, // Default: ""
- *                             username?: scalar|Param|null, // Default: ""
- *                             password?: scalar|Param|null, // Default: ""
- *                             port?: int|Param, // Default: 21
- *                             passive?: bool|Param, // Default: true
- *                             ssl?: bool|Param, // Default: true
- *                             timeout?: int|Param, // Default: 30
- *                             root?: scalar|Param|null, // Default: "/"
- *                             directoryPerm?: int|Param, // Default: 484
- *                         },
- *                         sftp?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             host?: scalar|Param|null, // Default: ""
- *                             username?: scalar|Param|null, // Default: ""
- *                             password?: scalar|Param|null, // Default: ""
- *                             port?: int|Param, // Default: 21
- *                             privateKey?: scalar|Param|null, // Default: ""
- *                             timeout?: int|Param, // Default: 10
- *                             root?: scalar|Param|null, // Default: "/"
- *                         },
- *                         azure?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             account_name?: scalar|Param|null, // Default: ""
- *                             account_key?: scalar|Param|null, // Default: ""
- *                             container_name?: scalar|Param|null, // Default: ""
- *                         },
- *                         aws_s3_v2?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             key?: scalar|Param|null, // Default: ""
- *                             secret?: scalar|Param|null, // Default: ""
- *                             region?: scalar|Param|null, // Default: ""
- *                             bucket_name?: scalar|Param|null, // Default: ""
- *                             optional_prefix?: scalar|Param|null, // Default: ""
- *                             base_url?: scalar|Param|null, // Default: ""
- *                         },
- *                         aws_s3_v3?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             key?: scalar|Param|null, // Default: ""
- *                             secret?: scalar|Param|null, // Default: ""
- *                             region?: scalar|Param|null, // Default: ""
- *                             version?: scalar|Param|null, // Default: ""
- *                             bucket_name?: scalar|Param|null, // Default: ""
- *                             optional_prefix?: scalar|Param|null, // Default: ""
- *                             endpoint?: scalar|Param|null, // Default: null
- *                             use_path_style_endpoint?: bool|Param, // Default: false
- *                             use_aws_shared_config_files?: bool|Param, // Default: true
- *                             options?: bool|array{
- *                                 enabled?: bool|Param, // Default: false
- *                                 ACL?: scalar|Param|null, // Default: ""
- *                             },
- *                         },
- *                         copy_com?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             consumer_key?: scalar|Param|null, // Default: ""
- *                             consumer_secret?: scalar|Param|null, // Default: ""
- *                             access_token?: scalar|Param|null, // Default: ""
- *                             token_secret?: scalar|Param|null, // Default: ""
- *                             optional_prefix?: scalar|Param|null, // Default: ""
- *                         },
- *                         gridfs?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             db_name?: scalar|Param|null, // Default: ""
- *                         },
- *                         zip?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             path?: scalar|Param|null, // Default: ""
- *                         },
- *                         dropbox?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             app?: scalar|Param|null, // Default: ""
- *                             token?: scalar|Param|null, // Default: ""
- *                         },
- *                         rackspace?: bool|array{
- *                             enabled?: bool|Param, // Default: false
- *                             username?: scalar|Param|null, // Default: ""
- *                             apikey?: scalar|Param|null, // Default: ""
- *                             endpoint?: scalar|Param|null, // Default: ""
- *                             container?: scalar|Param|null, // Default: ""
- *                             region?: scalar|Param|null, // Default: ""
- *                         },
- *                     },
- *                 },
- *                 glide_url?: scalar|Param|null, // Default: ""
- *                 glide_key?: scalar|Param|null, // Default: ""
- *                 plugins?: array<string, array<string, mixed>>,
- *                 driver_options?: array<string, array<string, mixed>>,
- *                 dropbox2_settings?: bool|array{
- *                     enabled?: bool|Param, // Default: false
- *                     app_key?: scalar|Param|null,
- *                     app_secret?: scalar|Param|null,
- *                     access_token?: scalar|Param|null,
- *                     aliasFormat?: scalar|Param|null, // Default: "%s@Dropbox"
- *                     path?: scalar|Param|null, // Default: "/"
- *                     separator?: scalar|Param|null, // Default: "/"
- *                     acceptedName?: scalar|Param|null, // Default: "%s@Dropbox"
- *                     rootCssClass?: scalar|Param|null, // Default: "elfinder-navbar-root-dropbox"
- *                     publishPermission?: array{
- *                         requested_visibility?: scalar|Param|null, // Default: "public"
- *                     },
- *                     getThumbSize?: scalar|Param|null, // Default: "medium"
- *                 },
- *                 box_settings?: bool|array{
- *                     enabled?: bool|Param, // Default: false
- *                     client_id?: scalar|Param|null,
- *                     client_secret?: scalar|Param|null,
- *                     accessToken?: scalar|Param|null,
- *                     root?: scalar|Param|null, // Default: "Box.com"
- *                     path?: scalar|Param|null, // Default: "/"
- *                     separator?: scalar|Param|null, // Default: "/"
- *                     tmbPath?: scalar|Param|null, // Default: ""
- *                     tmbURL?: scalar|Param|null, // Default: ""
- *                     tmpPath?: scalar|Param|null, // Default: ""
- *                     acceptedName?: scalar|Param|null, // Default: "#^[^/\\?*:|\"<>]*[^./\\?*:|\"<>]$#"
- *                     rootCssClass?: scalar|Param|null, // Default: "elfinder-navbar-root-box"
- *                 },
- *                 onedrive_settings?: bool|array{
- *                     enabled?: bool|Param, // Default: false
- *                     client_id?: scalar|Param|null,
- *                     client_secret?: scalar|Param|null,
- *                     accessToken?: scalar|Param|null,
- *                     root?: scalar|Param|null, // Default: "OneDrive.com"
- *                     OneDriveApiClient?: scalar|Param|null, // Default: ""
- *                     path?: scalar|Param|null, // Default: "/"
- *                     separator?: scalar|Param|null, // Default: "/"
- *                     tmbPath?: scalar|Param|null, // Default: ""
- *                     tmbURL?: scalar|Param|null, // Default: ""
- *                     tmpPath?: scalar|Param|null, // Default: ""
- *                     acceptedName?: scalar|Param|null, // Default: "#^[^/\\?*:|\"<>]*[^./\\?*:|\"<>]$#"
- *                     rootCssClass?: scalar|Param|null, // Default: "elfinder-navbar-root-onedrive"
- *                     useApiThumbnail?: bool|Param, // Default: true
- *                 },
- *                 ftp_settings?: bool|array{
- *                     enabled?: bool|Param, // Default: false
- *                     host?: scalar|Param|null,
- *                     user?: scalar|Param|null,
- *                     password?: scalar|Param|null,
- *                     path?: scalar|Param|null,
- *                 },
- *                 mysql_settings?: bool|array{
- *                     enabled?: bool|Param, // Default: false
- *                     host?: scalar|Param|null,
- *                     user?: scalar|Param|null,
- *                     pass?: scalar|Param|null,
- *                     db?: scalar|Param|null,
- *                     port?: scalar|Param|null, // Default: null
- *                     socket?: scalar|Param|null, // Default: null
- *                     files_table?: scalar|Param|null, // Default: "elfinder_file"
- *                     tmbPath?: scalar|Param|null, // Default: ""
- *                     tmpPath?: scalar|Param|null, // Default: ""
- *                     rootCssClass?: scalar|Param|null, // Default: "elfinder-navbar-root-sql"
- *                     noSessionCache?: scalar|Param|null, // Default: "hasdirs"
- *                 },
- *             }>,
- *         },
- *     }>,
- * }
  * @psalm-type LiipImagineConfig = array{
  *     resolvers?: array<string, array{ // Default: []
  *         web_path?: array{
@@ -1933,7 +1678,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     twig_extra?: TwigExtraConfig,
  *     doctrine?: DoctrineConfig,
  *     doctrine_migrations?: DoctrineMigrationsConfig,
- *     fm_elfinder?: FmElfinderConfig,
  *     liip_imagine?: LiipImagineConfig,
  *     stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
  *     monolog?: MonologConfig,
@@ -1952,7 +1696,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         maker?: MakerConfig,
- *         fm_elfinder?: FmElfinderConfig,
  *         liip_imagine?: LiipImagineConfig,
  *         stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
  *         monolog?: MonologConfig,
@@ -1973,7 +1716,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig_extra?: TwigExtraConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
- *         fm_elfinder?: FmElfinderConfig,
  *         liip_imagine?: LiipImagineConfig,
  *         stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
  *         monolog?: MonologConfig,
@@ -1992,7 +1734,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig_extra?: TwigExtraConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
- *         fm_elfinder?: FmElfinderConfig,
  *         liip_imagine?: LiipImagineConfig,
  *         stof_doctrine_extensions?: StofDoctrineExtensionsConfig,
  *         monolog?: MonologConfig,

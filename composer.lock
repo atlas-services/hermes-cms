@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4062d2393895a33b641ebb319b77c4a3",
+    "content-hash": "27f0897b985ae2a7b0f06afada70ef4c",
     "packages": [
         {
             "name": "composer/semver",
@@ -1396,83 +1396,6 @@
             "time": "2025-12-13T19:37:35+00:00"
         },
         {
-            "name": "helios-ag/fm-elfinder-bundle",
-            "version": "13.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/helios-ag/FMElfinderBundle.git",
-                "reference": "fa0247c4e43d748b1d8a626f94f8e4c423687fdb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/helios-ag/FMElfinderBundle/zipball/fa0247c4e43d748b1d8a626f94f8e4c423687fdb",
-                "reference": "fa0247c4e43d748b1d8a626f94f8e4c423687fdb",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^8.1",
-                "studio-42/elfinder": "~2.1.62",
-                "symfony/asset": "^6.4 || ^7.0 || ^8.0",
-                "symfony/console": "^6.4 || ^7.0 || ^8.0",
-                "symfony/form": "^6.4 || ^7.0 || ^8.0",
-                "symfony/framework-bundle": "^6.4 || ^7.0 || ^8.0",
-                "symfony/twig-bundle": "^6.4 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "dev-master",
-                "matthiasnoback/symfony-config-test": "^6.0",
-                "matthiasnoback/symfony-dependency-injection-test": "^6.0",
-                "php-coveralls/php-coveralls": "^2.0",
-                "symfony/finder": "^6.4 || ^7.0 || ^8.0",
-                "symfony/phpunit-bridge": "^6.4 || ^7.0.1 || ^8.0"
-            },
-            "suggest": {
-                "barryvdh/elfinder-flysystem-driver": "Flysystem driver for elfinder",
-                "friendsofsymfony/ckeditor-bundle": "FOSCKEditorBundle WYSIWYG Editor Bundle",
-                "helios-ag/fm-summernote-bundle": "FMSummernoteBundle WYSIWYG Editor Bundle",
-                "helios-ag/fm-tinymce-bundle": "FMTinyMCEBundle WYSIWYG Editor Bundle",
-                "spatie/flysystem-dropbox": "Dropbox 2 Driver for Flysystem"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "13.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "FM\\ElfinderBundle\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Al Ganiev",
-                    "email": "helios.ag@gmail.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://github.com/helios-ag/FMElfinderBundle/contributors"
-                }
-            ],
-            "description": "ElFinder bundle, adds ElFinder file manager to your Symfony project",
-            "homepage": "https://github.com/helios-ag/FMElfinderBundle",
-            "keywords": [
-                "elfinder",
-                "file manager",
-                "wysiwyg"
-            ],
-            "support": {
-                "issues": "https://github.com/helios-ag/FMElfinderBundle/issues",
-                "source": "https://github.com/helios-ag/FMElfinderBundle/tree/13.0.2"
-            },
-            "time": "2026-03-26T07:06:56+00:00"
-        },
-        {
             "name": "imagine/imagine",
             "version": "1.5.2",
             "source": {
@@ -2193,74 +2116,6 @@
                 "source": "https://github.com/stof/StofDoctrineExtensionsBundle/tree/v1.15.3"
             },
             "time": "2026-01-23T08:45:07+00:00"
-        },
-        {
-            "name": "studio-42/elfinder",
-            "version": "2.1.66",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Studio-42/elFinder.git",
-                "reference": "78488951e44d69e8b9e4e849f8268df408632a6c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/78488951e44d69e8b9e4e849f8268df408632a6c",
-                "reference": "78488951e44d69e8b9e4e849f8268df408632a6c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2"
-            },
-            "suggest": {
-                "barryvdh/elfinder-flysystem-driver": "VolumeDriver for elFinder to use Flysystem as a root.",
-                "google/apiclient": "VolumeDriver GoogleDrive require `google/apiclient:^2.0.",
-                "kunalvarma05/dropbox-php-sdk": "VolumeDriver `Dropbox`2 require `kunalvarma05/dropbox-php-sdk.",
-                "nao-pon/flysystem-google-drive": "require in GoogleDrive network volume mounting with Flysystem."
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Dmitry Levashov",
-                    "email": "dio@std42.ru",
-                    "homepage": "http://std42.ru"
-                },
-                {
-                    "name": "Troex Nevelin",
-                    "email": "troex@fury.scancode.ru",
-                    "homepage": "http://std42.ru"
-                },
-                {
-                    "name": "Naoki Sawada",
-                    "email": "hypweb+elfinder@gmail.com",
-                    "homepage": "http://xoops.hypweb.net"
-                },
-                {
-                    "name": "Community contributions",
-                    "homepage": "https://github.com/Studio-42/elFinder/contributors"
-                }
-            ],
-            "description": "File manager for web",
-            "homepage": "http://elfinder.org",
-            "support": {
-                "issues": "https://github.com/Studio-42/elFinder/issues",
-                "source": "https://github.com/Studio-42/elFinder/tree/2.1.66"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/nao-pon",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-08-28T11:51:22+00:00"
         },
         {
             "name": "symfony/asset",

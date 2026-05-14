@@ -16,6 +16,10 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'admin_media_upload' => [
+        'path' => './assets/admin_media_upload.js',
+        'entrypoint' => true,
+    ],
     'bootstrap' => [
         'version' => '5.3.8',
     ],
@@ -569,5 +573,380 @@ return [
     'aos/dist/aos.css' => [
         'version' => '2.3.4',
         'type' => 'css',
+    ],
+    'uppy' => [
+        'version' => '4.3.0',
+    ],
+    '@uppy/core' => [
+        'version' => '4.2.0',
+    ],
+    '@uppy/core/lib/UIPlugin.js' => [
+        'version' => '4.2.0',
+    ],
+    '@uppy/core/lib/BasePlugin.js' => [
+        'version' => '4.2.0',
+    ],
+    '@uppy/companion-client' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/provider-views' => [
+        'version' => '4.0.1',
+    ],
+    '@uppy/store-default' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/store-redux' => [
+        'version' => '4.0.0',
+    ],
+    '@uppy/dashboard' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/drag-drop' => [
+        'version' => '4.0.2',
+    ],
+    '@uppy/drop-target' => [
+        'version' => '3.0.1',
+    ],
+    '@uppy/file-input' => [
+        'version' => '4.0.1',
+    ],
+    '@uppy/image-editor' => [
+        'version' => '3.1.0',
+    ],
+    '@uppy/informer' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/progress-bar' => [
+        'version' => '4.0.0',
+    ],
+    '@uppy/status-bar' => [
+        'version' => '4.0.3',
+    ],
+    '@uppy/audio' => [
+        'version' => '2.0.1',
+    ],
+    '@uppy/box' => [
+        'version' => '3.1.0',
+    ],
+    '@uppy/dropbox' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/facebook' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/google-drive' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/google-photos' => [
+        'version' => '0.3.0',
+    ],
+    '@uppy/instagram' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/onedrive' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/remote-sources' => [
+        'version' => '2.2.0',
+    ],
+    '@uppy/screen-capture' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/unsplash' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/url' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/webcam' => [
+        'version' => '4.0.1',
+    ],
+    '@uppy/zoom' => [
+        'version' => '3.1.0',
+    ],
+    '@uppy/aws-s3' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/transloadit' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/tus' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/xhr-upload' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/compressor' => [
+        'version' => '2.1.0',
+    ],
+    '@uppy/form' => [
+        'version' => '4.0.0',
+    ],
+    '@uppy/golden-retriever' => [
+        'version' => '4.0.0',
+    ],
+    '@uppy/redux-dev-tools' => [
+        'version' => '4.0.0',
+    ],
+    '@uppy/thumbnail-generator' => [
+        'version' => '4.0.0',
+    ],
+    'uppy/dist/uppy.min.css' => [
+        'version' => '4.3.0',
+        'type' => 'css',
+    ],
+    '@uppy/utils/lib/Translator' => [
+        'version' => '6.0.2',
+    ],
+    'namespace-emitter' => [
+        'version' => '2.0.1',
+    ],
+    'nanoid/non-secure' => [
+        'version' => '5.0.7',
+    ],
+    'lodash/throttle.js' => [
+        'version' => '4.17.21',
+    ],
+    '@uppy/utils/lib/getFileType' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/getFileNameAndExtension' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/generateFileID' => [
+        'version' => '6.1.3',
+    ],
+    '@uppy/utils/lib/getTimeStamp' => [
+        'version' => '6.0.2',
+    ],
+    '@transloadit/prettier-bytes' => [
+        'version' => '0.3.4',
+    ],
+    'mime-match' => [
+        'version' => '1.0.2',
+    ],
+    'preact' => [
+        'version' => '10.23.2',
+    ],
+    '@uppy/utils/lib/findDOMElement' => [
+        'version' => '6.1.3',
+    ],
+    '@uppy/utils/lib/getTextDirection' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/UserFacingApiError' => [
+        'version' => '6.0.2',
+    ],
+    'p-retry' => [
+        'version' => '6.2.0',
+    ],
+    '@uppy/utils/lib/fetchWithNetworkError' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/ErrorWithCause' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/emitSocketProgress' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/getSocketHost' => [
+        'version' => '6.0.2',
+    ],
+    'classnames' => [
+        'version' => '2.5.1',
+    ],
+    '@uppy/utils/lib/remoteFileObjToLocal' => [
+        'version' => '6.1.3',
+    ],
+    'preact/hooks' => [
+        'version' => '10.23.1',
+    ],
+    '@uppy/utils/lib/VirtualList' => [
+        'version' => '6.0.2',
+    ],
+    'p-queue' => [
+        'version' => '8.0.1',
+    ],
+    '@uppy/utils/lib/findAllDOMElements' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/toArray' => [
+        'version' => '6.1.3',
+    ],
+    '@uppy/utils/lib/getDroppedFiles' => [
+        'version' => '6.0.0',
+    ],
+    'memoize-one' => [
+        'version' => '6.0.0',
+    ],
+    '@uppy/utils/lib/FOCUSABLE_ELEMENTS' => [
+        'version' => '6.0.2',
+    ],
+    'lodash/debounce.js' => [
+        'version' => '4.17.21',
+    ],
+    '@uppy/utils/lib/isDragDropSupported' => [
+        'version' => '6.1.3',
+    ],
+    'shallow-equal' => [
+        'version' => '3.1.0',
+    ],
+    '@uppy/utils/lib/truncateString' => [
+        'version' => '6.0.2',
+    ],
+    'cropperjs' => [
+        'version' => '1.5.7',
+    ],
+    '@uppy/utils/lib/emaFilter' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/prettyETA' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/getFileTypeExtension' => [
+        'version' => '6.0.1',
+    ],
+    '@uppy/utils/lib/mimeTypes' => [
+        'version' => '6.0.1',
+    ],
+    'is-mobile' => [
+        'version' => '4.0.0',
+    ],
+    '@uppy/utils/lib/canvasToBlob' => [
+        'version' => '6.0.1',
+    ],
+    '@uppy/core/lib/EventManager.js' => [
+        'version' => '4.2.0',
+    ],
+    '@uppy/utils/lib/RateLimitedQueue' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/fileFilters' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/AbortController' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/getAllowedMetaFields' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/hasProperty' => [
+        'version' => '6.0.2',
+    ],
+    'component-emitter' => [
+        'version' => '2.0.0',
+    ],
+    '@uppy/utils/lib/NetworkError' => [
+        'version' => '6.0.2',
+    ],
+    'tus-js-client' => [
+        'version' => '4.1.0',
+    ],
+    '@uppy/utils/lib/isNetworkError' => [
+        'version' => '6.0.2',
+    ],
+    '@uppy/utils/lib/fetcher' => [
+        'version' => '6.0.2',
+    ],
+    'compressorjs' => [
+        'version' => '1.2.1',
+    ],
+    'get-form-data' => [
+        'version' => '3.0.0',
+    ],
+    '@uppy/utils/lib/dataURItoBlob' => [
+        'version' => '6.2.2',
+    ],
+    '@uppy/utils/lib/isObjectURL' => [
+        'version' => '6.2.2',
+    ],
+    '@uppy/utils/lib/isPreviewSupported' => [
+        'version' => '6.2.2',
+    ],
+    'exifr/dist/mini.esm.mjs' => [
+        'version' => '7.1.3',
+    ],
+    '@uppy/core/dist/style.min.css' => [
+        'version' => '4.2.0',
+        'type' => 'css',
+    ],
+    '@uppy/provider-views/dist/style.min.css' => [
+        'version' => '4.0.1',
+        'type' => 'css',
+    ],
+    '@uppy/dashboard/dist/style.min.css' => [
+        'version' => '4.1.0',
+        'type' => 'css',
+    ],
+    '@uppy/drag-drop/dist/style.min.css' => [
+        'version' => '4.0.2',
+        'type' => 'css',
+    ],
+    '@uppy/file-input/dist/style.min.css' => [
+        'version' => '4.0.1',
+        'type' => 'css',
+    ],
+    '@uppy/image-editor/dist/style.min.css' => [
+        'version' => '3.1.0',
+        'type' => 'css',
+    ],
+    '@uppy/informer/dist/style.min.css' => [
+        'version' => '4.1.0',
+        'type' => 'css',
+    ],
+    '@uppy/progress-bar/dist/style.min.css' => [
+        'version' => '4.0.0',
+        'type' => 'css',
+    ],
+    '@uppy/status-bar/dist/style.min.css' => [
+        'version' => '4.0.3',
+        'type' => 'css',
+    ],
+    '@uppy/audio/dist/style.min.css' => [
+        'version' => '2.0.1',
+        'type' => 'css',
+    ],
+    '@uppy/screen-capture/dist/style.min.css' => [
+        'version' => '4.1.0',
+        'type' => 'css',
+    ],
+    '@uppy/url/dist/style.min.css' => [
+        'version' => '4.1.0',
+        'type' => 'css',
+    ],
+    '@uppy/webcam/dist/style.min.css' => [
+        'version' => '4.0.1',
+        'type' => 'css',
+    ],
+    'wildcard' => [
+        'version' => '1.1.2',
+    ],
+    'retry' => [
+        'version' => '0.13.1',
+    ],
+    'is-network-error' => [
+        'version' => '1.0.0',
+    ],
+    'eventemitter3' => [
+        'version' => '5.0.1',
+    ],
+    'p-timeout' => [
+        'version' => '6.1.2',
+    ],
+    'js-base64' => [
+        'version' => '3.7.7',
+    ],
+    'url-parse' => [
+        'version' => '1.5.10',
+    ],
+    'cropperjs/dist/cropper.min.css' => [
+        'version' => '1.5.7',
+        'type' => 'css',
+    ],
+    'requires-port' => [
+        'version' => '1.0.0',
+    ],
+    'querystringify' => [
+        'version' => '2.2.0',
     ],
 ];

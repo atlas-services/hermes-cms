@@ -38,6 +38,45 @@ form:
     show_post: Affichage d'un Post
 admin:
   title: admin
+  media_upload:
+    title: Media file upload
+    help: "Browse folders below, create subfolders, then upload files or full directory trees (Chrome, Edge, Firefox). Allowed types: images (JPEG, PNG, GIF, WebP, SVG), PDF, MP4."
+    dir_warning: The destination folder is missing or not writable. Check permissions on the public content directory.
+    root: Root
+    new_folder: New subfolder
+    new_folder_placeholder: Folder name (no slashes)
+    mkdir_submit: Create folder
+    col_name: Name
+    col_preview: Preview
+    col_type: Type
+    col_size: Size
+    col_link: Link
+    col_actions: Actions
+    type_folder: Folder
+    type_file: File
+    open_file: Open
+    empty_dir: This folder is empty.
+    rename_folder: Rename folder
+    rename_submit: Rename
+    delete_folder: Delete
+    confirm_delete_folder: "Delete folder \"%name%\" and everything inside (files and subfolders)? This cannot be undone."
+    uppy_section: Upload into current folder
+    uppy_hint: "Files are stored under: %path%. If you pick a folder from your computer, subfolders and files are recreated with the same relative layout."
+    uppy_perf_hint: "Tip: for large batches, thumbnails inside the upload panel are turned off so the browser stays responsive; image previews remain in the table above after files are saved."
+    limits_explain: "<strong>Per-file</strong> limit enforced in the browser and on the server: about %per_file% MB (the minimum of APP_UPLOAD_MAX_SIZE=%app_env%, upload_max_filesize=%upload_ini%, post_max_size=%post_ini%). There is no cap on the <em>sum</em> of all file sizes. If parallel uploads stall, raise <code>upload_max_filesize</code> and <code>post_max_size</code> in PHP."
+    flash:
+      invalid_csrf: Session expired, please try again.
+      folder_created: 'Folder "%name%" created.'
+      invalid_folder_name: Invalid folder name.
+      folder_exists: A file or folder with that name already exists.
+      invalid_path: Invalid path.
+      list_failed: Could not read this folder.
+      folder_renamed: 'Folder renamed to "%name%".'
+      folder_deleted: 'Folder "%name%" deleted.'
+      rename_not_dir: This path is not a folder.
+      rename_failed: Rename failed.
+      delete_root_forbidden: Deleting the media root is not allowed.
+      delete_failed: Could not delete the folder.
 
 config:
   label: Configuration

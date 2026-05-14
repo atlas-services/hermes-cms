@@ -42,6 +42,45 @@ form:
 
 admin:
   title: admin
+  media_upload:
+    title: Envoi de fichiers média
+    help: "Parcourez les dossiers ci-dessous, créez des sous-dossiers, puis envoyez des fichiers ou des arborescences complètes (Chrome, Edge, Firefox). Types autorisés : images (JPEG, PNG, GIF, WebP, SVG), PDF, MP4."
+    dir_warning: Le répertoire de destination n'existe pas ou n'est pas accessible en écriture. Vérifiez les droits sur le dossier public des contenus.
+    root: Racine
+    new_folder: Nouveau sous-dossier
+    new_folder_placeholder: Nom du dossier (sans slash)
+    mkdir_submit: Créer le dossier
+    col_name: Nom
+    col_preview: Aperçu
+    col_type: Type
+    col_size: Taille
+    col_link: Lien
+    col_actions: Actions
+    type_folder: Dossier
+    type_file: Fichier
+    open_file: Ouvrir
+    empty_dir: Ce dossier est vide.
+    rename_folder: Renommer le dossier
+    rename_submit: Renommer
+    delete_folder: Supprimer
+    confirm_delete_folder: "Supprimer le dossier « %name% » et tout son contenu (fichiers et sous-dossiers) ? Cette action est irréversible."
+    uppy_section: Envoi vers le dossier courant
+    uppy_hint: "Les fichiers sont enregistrés sous : %path%. Si vous sélectionnez un dossier depuis votre ordinateur, les sous-dossiers et images sont recréés au même emplacement relatif."
+    uppy_perf_hint: "Astuce : pour de nombreux fichiers, les miniatures dans le panneau d’envoi sont désactivées pour éviter de ralentir le navigateur ; les aperçus des images restent disponibles dans le tableau ci-dessus après enregistrement."
+    limits_explain: "Limite <strong>par fichier</strong> appliquée côté navigateur et serveur : environ %per_file% Mo (le plus petit parmi APP_UPLOAD_MAX_SIZE=%app_env%, upload_max_filesize=%upload_ini%, post_max_size=%post_ini%). Il n’y a pas de quota sur la somme des tailles de tous les fichiers. Si plusieurs envois restent bloqués, augmentez surtout <code>upload_max_filesize</code> et <code>post_max_size</code> en PHP."
+    flash:
+      invalid_csrf: Session expirée, veuillez réessayer.
+      folder_created: 'Dossier « %name% » créé.'
+      invalid_folder_name: Nom de dossier invalide.
+      folder_exists: Un dossier ou fichier porte déjà ce nom.
+      invalid_path: Chemin invalide.
+      list_failed: Impossible de lire ce dossier.
+      folder_renamed: 'Dossier renommé en « %name% ».'
+      folder_deleted: 'Dossier « %name% » supprimé.'
+      rename_not_dir: Ce chemin n’est pas un dossier.
+      rename_failed: Le renommage a échoué.
+      delete_root_forbidden: La suppression de la racine des médias n’est pas autorisée.
+      delete_failed: La suppression du dossier a échoué.
 
 global:
   login: Login
