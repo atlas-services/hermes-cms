@@ -260,8 +260,16 @@ final class MediaUploadController extends AbstractController
         }
 
         $rootReal = realpath($rootFs);
-        $parentReal = realpath(dirname($targetAbs));
-        if ($rootReal === false || $parentReal === false || !str_starts_with($parentReal, $rootReal)) {
+        if ($rootReal === false) {
+            return new JsonResponse(['message' => 'Upload directory not found'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        $rootNorm = rtrim(str_replace('\\', '/', $rootReal), '/');
+        $targetNorm = str_replace('\\', '/', $targetAbs);
+        $parentNorm = str_replace('\\', '/', dirname($targetAbs));
+
+        $underRoot = static fn (string $path): bool => $path === $rootNorm || str_starts_with($path, $rootNorm . '/');
+        if (!$underRoot($targetNorm) || !$underRoot($parentNorm)) {
             return new JsonResponse(['message' => 'Invalid target path'], Response::HTTP_BAD_REQUEST);
         }
 

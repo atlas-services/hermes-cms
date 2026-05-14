@@ -68,7 +68,7 @@
                         <th scope="col" style="min-width: 14rem">{{ 'admin.media_upload.col_actions'|trans }}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="admin-media-files-tbody">
                     {% for d in directories %}
                         <tr>
                             <td class="text-center text-warning align-middle"><i class="fa-solid fa-folder fa-lg" title="{{ 'admin.media_upload.type_folder'|trans }}"></i></td>
@@ -118,7 +118,7 @@
                         </tr>
                     {% endfor %}
                     {% if directories is empty and files is empty %}
-                        <tr>
+                        <tr id="admin-media-empty-row">
                             <td colspan="6" class="text-muted">{{ 'admin.media_upload.empty_dir'|trans }}</td>
                         </tr>
                     {% endif %}
@@ -138,7 +138,14 @@
         data-csrf-token="{{ csrf_token('media_upload') }}"
         data-max-file-size="{{ max_upload_bytes }}"
         data-allowed-file-types="{{ allowed_mime_types|json_encode|e('html_attr') }}"
+        data-reject-file-msg="{{ 'admin.media_upload.file_type_rejected'|trans|e('html_attr') }}"
         data-current-path="{{ current_path|e('html_attr') }}"
+        {% if upload_dir_exists %}
+        data-request-base-path="{{ app.request.basePath|e('html_attr') }}"
+        data-label-open-file="{{ 'admin.media_upload.open_file'|trans|e('html_attr') }}"
+        data-label-type-file="{{ 'admin.media_upload.type_file'|trans|e('html_attr') }}"
+        data-add-more-hint="{{ 'admin.media_upload.uppy_add_more_hint'|trans|e('html_attr') }}"
+        {% endif %}
     >
         <div data-uppy-dashboard-mount class="w-100"></div>
     </div>

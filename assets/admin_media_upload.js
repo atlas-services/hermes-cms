@@ -34,6 +34,180 @@ function folderRelativePath(file) {
     return '';
 }
 
+/** Extensions → MIME (aligné serveur quand le navigateur envoie un type vide, fréquent avec webkitdirectory). */
+const EXT_TO_MIME = {
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    jpe: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    webp: 'image/webp',
+    svg: 'image/svg+xml',
+    pdf: 'application/pdf',
+    mp4: 'video/mp4',
+};
+
+function normalizeMime(raw) {
+    if (typeof raw !== 'string' || raw === '') {
+        return '';
+    }
+    return raw.split(';')[0].trim().toLowerCase();
+}
+
+/**
+ * MIME « effectif » pour la validation (évite application/octet-stream sans extension connue).
+ */
+function effectiveMimeForPolicy(file) {
+    let mime = normalizeMime(file.type);
+    if (mime && mime !== 'application/octet-stream') {
+        return mime;
+    }
+    const ext = typeof file.extension === 'string' ? file.extension.toLowerCase() : '';
+    if (ext && Object.prototype.hasOwnProperty.call(EXT_TO_MIME, ext)) {
+        return EXT_TO_MIME[ext];
+    }
+
+    return mime;
+}
+
+function isFileAllowedByMimeList(file, allowedMimeSet) {
+    const mime = effectiveMimeForPolicy(file);
+    return mime !== '' && allowedMimeSet.has(mime);
+}
+
+const THUMB_EXT = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp']);
+
+function fileExtLower(name) {
+    if (typeof name !== 'string' || !name.includes('.')) {
+        return '';
+    }
+    return name.split('.').pop().toLowerCase();
+}
+
+function hasListingThumbByName(name) {
+    return THUMB_EXT.has(fileExtLower(name));
+}
+
+function formatSizeFr(bytes) {
+    if (bytes == null || !Number.isFinite(bytes)) {
+        return '—';
+    }
+    if (bytes < 1024) {
+        return `${Math.round(bytes)} o`;
+    }
+    return `${(bytes / 1024).toFixed(1)} Ko`;
+}
+
+function buildPublicHref(basePath, path) {
+    if (!path) {
+        return '';
+    }
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+        return path;
+    }
+    const bp = basePath || '';
+    if (path.startsWith('/')) {
+        return `${bp}${path}`;
+    }
+
+    return `${bp}/${path}`;
+}
+
+/** Le fichier est-il listé dans le dossier courant (enfant direct), ou dans un sous-dossier ? */
+function isDirectChildOfBrowsePath(relativePath, browsePath) {
+    if (typeof relativePath !== 'string' || relativePath === '') {
+        return false;
+    }
+    const browse = (browsePath || '').replace(/^\/+|\/+$/g, '');
+    const i = relativePath.lastIndexOf('/');
+    const parent = i === -1 ? '' : relativePath.slice(0, i);
+
+    return parent === browse;
+}
+
+/**
+ * Ajoute une ligne fichier au tableau (réponse JSON upload) sans recharger la page.
+ */
+function appendMediaTableRow(root, { filename, url, sizeBytes }) {
+    const tbody = document.getElementById('admin-media-files-tbody');
+    if (!tbody || !filename || !url) {
+        return;
+    }
+
+    document.getElementById('admin-media-empty-row')?.remove();
+
+    const basePath = root.dataset.requestBasePath || '';
+    const href = buildPublicHref(basePath, url);
+
+    const openLabel = root.dataset.labelOpenFile || 'Open';
+    const typeLabel = root.dataset.labelTypeFile || 'File';
+
+    const tr = document.createElement('tr');
+
+    const tdPrev = document.createElement('td');
+    tdPrev.className = 'text-center align-middle p-1';
+    if (hasListingThumbByName(filename)) {
+        const wrap = document.createElement('a');
+        wrap.href = href;
+        wrap.target = '_blank';
+        wrap.rel = 'noopener';
+        wrap.className = 'd-inline-block border rounded overflow-hidden bg-light';
+        wrap.style.width = '3rem';
+        wrap.style.height = '3rem';
+        const img = document.createElement('img');
+        img.src = href;
+        img.alt = '';
+        img.width = 48;
+        img.height = 48;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.className = 'w-100 h-100';
+        img.style.objectFit = 'cover';
+        wrap.appendChild(img);
+        tdPrev.appendChild(wrap);
+    } else {
+        const span = document.createElement('span');
+        span.className = 'text-secondary';
+        const i = document.createElement('i');
+        i.className = 'fa-regular fa-file fa-lg';
+        span.appendChild(i);
+        tdPrev.appendChild(span);
+    }
+    tr.appendChild(tdPrev);
+
+    const tdName = document.createElement('td');
+    tdName.className = 'align-middle';
+    tdName.textContent = filename;
+    tr.appendChild(tdName);
+
+    const tdType = document.createElement('td');
+    tdType.className = 'align-middle';
+    tdType.textContent = typeLabel;
+    tr.appendChild(tdType);
+
+    const tdSize = document.createElement('td');
+    tdSize.className = 'align-middle';
+    tdSize.textContent = formatSizeFr(sizeBytes);
+    tr.appendChild(tdSize);
+
+    const tdLink = document.createElement('td');
+    tdLink.className = 'align-middle';
+    const a = document.createElement('a');
+    a.href = href;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = openLabel;
+    tdLink.appendChild(a);
+    tr.appendChild(tdLink);
+
+    const tdAct = document.createElement('td');
+    tdAct.className = 'align-middle';
+    tdAct.textContent = '—';
+    tr.appendChild(tdAct);
+
+    tbody.appendChild(tr);
+}
+
 function init() {
     const root = document.getElementById('admin-media-upload');
     if (!root) {
@@ -43,7 +217,8 @@ function init() {
     const endpoint = root.dataset.uploadUrl;
     const csrf = root.dataset.csrfToken || '';
     const maxFileSize = root.dataset.maxFileSize ? Number(root.dataset.maxFileSize) : null;
-    const allowedFileTypes = readJsonArray(root.dataset.allowedFileTypes);
+    const allowedMimeList = readJsonArray(root.dataset.allowedFileTypes);
+    const rejectMessageTemplate = root.dataset.rejectFileMsg || 'File not allowed: __NAME__';
 
     if (!endpoint) {
         return;
@@ -53,13 +228,17 @@ function init() {
         maxNumberOfFiles: 500,
         // Pas de plafond sur la taille totale de la file : seule maxFileSize (par fichier) s’applique.
         maxTotalFileSize: null,
+        // Ne pas mettre allowedFileTypes ici : le Dashboard les passe à <input accept="…"> y compris pour
+        // webkitdirectory. Avec des MIME précis, Chrome filtre souvent tout le dossier (types vides en parcours).
+        // La liste autorisée est appliquée dans onBeforeFileAdded (comme le contrôleur PHP).
     };
     if (Number.isFinite(maxFileSize) && maxFileSize > 0) {
         restrictions.maxFileSize = maxFileSize;
     }
-    if (allowedFileTypes?.length) {
-        restrictions.allowedFileTypes = allowedFileTypes;
-    }
+
+    const allowedMimeSet = new Set(
+        (allowedMimeList || []).map((m) => (typeof m === 'string' ? normalizeMime(m) : '')).filter(Boolean),
+    );
 
     const mount = root.querySelector('[data-uppy-dashboard-mount]');
     if (!mount) {
@@ -68,9 +247,25 @@ function init() {
 
     const currentPath = root.dataset.currentPath || '';
 
+    const addMoreHint = root.dataset.addMoreHint || '';
+
     const uppy = new Uppy({
         id: 'admin-media',
         restrictions,
+        onBeforeFileAdded: (file, files) => {
+            if (Object.prototype.hasOwnProperty.call(files, file.id)) {
+                return false;
+            }
+            if (allowedMimeSet.size > 0 && !isFileAllowedByMimeList(file, allowedMimeSet)) {
+                const text = rejectMessageTemplate.includes('__NAME__')
+                    ? rejectMessageTemplate.split('__NAME__').join(file.name || '')
+                    : `${rejectMessageTemplate} ${file.name || ''}`;
+                uppy.info({ message: text }, 'error', 8000);
+                return false;
+            }
+
+            return true;
+        },
     });
 
     uppy.on('file-added', (file) => {
@@ -101,10 +296,13 @@ function init() {
             target: mount,
             height: 460,
             showProgressDetails: true,
-            // Beaucoup d’images : la génération de miniatures dans le Dashboard monopolise le CPU
-            // et ralentit fortement les XHR après ~30 % de progression. Désactivé pour garder l’envoi fluide.
-            disableThumbnailGenerator: true,
+            // Vignettes légères avant envoi (largeur réduite vs défaut 280) pour limiter la charge CPU sur gros lots.
+            disableThumbnailGenerator: false,
+            thumbnailWidth: 88,
+            thumbnailHeight: 88,
+            waitForThumbnailsBeforeUpload: false,
             proudlyDisplayPoweredByUppy: false,
+            note: addMoreHint || undefined,
             // Fichiers et dossiers (webkitdirectory) : Chrome, Edge, Firefox récents — pas Safari.
             fileManagerSelectionType: 'both',
         })
@@ -117,6 +315,27 @@ function init() {
             allowedMetaFields: ['upload_base_path', 'file_relative_path'],
             headers: csrf ? { 'X-CSRF-TOKEN': csrf } : {},
         });
+
+    uppy.on('upload-success', (file, response) => {
+        const body = response?.body;
+        if (!body || body.success !== true || typeof body.url !== 'string') {
+            return;
+        }
+        const relPath = typeof body.relativePath === 'string' ? body.relativePath : '';
+        if (!isDirectChildOfBrowsePath(relPath, currentPath)) {
+            return;
+        }
+        appendMediaTableRow(root, {
+            filename: typeof body.filename === 'string' ? body.filename : file?.name,
+            url: body.url,
+            sizeBytes: file?.size,
+        });
+    });
+
+    // Revenir à l’écran « browse files / browse folders » une fois le lot terminé (comportement Uppy par défaut : liste des fichiers à la place).
+    uppy.on('complete', () => {
+        uppy.clear();
+    });
 }
 
 if (document.readyState === 'loading') {

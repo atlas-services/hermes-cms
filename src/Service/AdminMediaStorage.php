@@ -384,7 +384,8 @@ final class AdminMediaStorage
         if ($segment === '' || $segment === '_' || $segment === '.') {
             $segment = preg_replace('/[^A-Za-z0-9._-]+/', '_', $segment) ?? '';
         }
-        $segment = trim($segment, '._');
+        // Ne pas trim les « _ » en tête : noms type _MG_3100.jpg (appareils photo).
+        $segment = trim($segment, '.');
         if (strlen($segment) > self::MAX_SEGMENT_LEN) {
             $segment = substr($segment, 0, self::MAX_SEGMENT_LEN);
         }
