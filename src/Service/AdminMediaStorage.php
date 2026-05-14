@@ -232,6 +232,41 @@ final class AdminMediaStorage
         (new Filesystem())->remove($full);
     }
 
+    /**
+     * Supprime un fichier (pas un répertoire) sous la racine média.
+     *
+     * @throws \InvalidArgumentException|\RuntimeException
+     */
+    public function deleteFile(string $relativeFilePath): void
+    {
+        $relativeFilePath = $this->normalizeRelativePath($relativeFilePath);
+        if ($relativeFilePath === '') {
+            throw new \InvalidArgumentException('Invalid file path');
+        }
+        $full = $this->filesystemPath($relativeFilePath);
+        $rootReal = realpath($this->rootFs);
+        if ($rootReal === false) {
+            throw new \RuntimeException('Media root not found');
+        }
+        if (!file_exists($full)) {
+            throw new \RuntimeException('File not found');
+        }
+        $targetReal = realpath($full);
+        if ($targetReal === false) {
+            throw new \RuntimeException('File not found');
+        }
+        if (!is_file($targetReal)) {
+            throw new \RuntimeException('Not a file');
+        }
+        $rootNorm = rtrim(str_replace('\\', '/', $rootReal), '/');
+        $targetNorm = str_replace('\\', '/', $targetReal);
+        if (!str_starts_with($targetNorm, $rootNorm . '/') && $targetNorm !== $rootNorm) {
+            throw new \InvalidArgumentException('Outside media root');
+        }
+
+        (new Filesystem())->remove($full);
+    }
+
     /** Dossier parent relatif, ou chaîne vide pour la racine. */
     public function parentRelativePath(string $relativePath): string
     {

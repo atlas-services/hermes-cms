@@ -6,6 +6,55 @@
     {{ importmap(['app', 'admin_media_upload']) }}
 {% endblock %}
 
+{% block stylesheets %}
+<style>
+/* Zone d’ajout : peu de marge interne pour coller au texte au-dessus / en dessous */
+.admin-media-uppy-wrap .uppy-Dashboard-inner {
+    padding-top: 0.35rem;
+    padding-bottom: 0.2rem;
+}
+.admin-media-uppy-wrap .uppy-Dashboard-innerWrap {
+    padding-top: 0.25rem;
+}
+.admin-media-uppy-wrap .uppy-Dashboard-AddFiles {
+    margin-top: 0;
+    padding-top: 0.15rem;
+    padding-bottom: 0.25rem;
+}
+/* Une ligne, pas de scroll horizontal ; padding/gap pour ne pas rogner les liens parcourir */
+.admin-media-uppy-wrap .uppy-Dashboard-AddFiles-title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.22rem;
+    white-space: nowrap;
+    overflow-x: hidden;
+    max-width: 100%;
+    font-size: clamp(0.62rem, 0.45rem + 0.9vw, 0.78rem);
+    line-height: 1.25;
+    margin-bottom: 0.15rem;
+    padding: 0 0.15rem 0 0.2rem;
+}
+.admin-media-uppy-wrap .uppy-Dashboard-browse {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding-inline: 0.22em;
+    overflow: visible;
+}
+/* Uppy applique des marges généreuses sur la note : on les resserre pour coller au panneau et au formulaire dessous */
+.admin-media-uppy-wrap .uppy-Dashboard-note {
+    margin: 0.1rem 0 0.05rem !important;
+    padding: 0 !important;
+    font-size: 0.75rem;
+    line-height: 1.35;
+}
+.admin-media-uppy-wrap .uppy-Dashboard-files {
+    margin-bottom: 0.15rem !important;
+}
+</style>
+{% endblock %}
+
 {% block content %}
     <h1 class="h4 mb-2">{{ 'admin.media_upload.title'|trans }}</h1>
     <p class="text-muted small mb-2">{{ 'admin.media_upload.help'|trans }}</p>
@@ -43,8 +92,39 @@
         </ol>
     </nav>
 
+    <div class="admin-media-uppy-wrap mb-1">
+        <h2 class="h6 mb-1">{{ 'admin.media_upload.uppy_section'|trans }}</h2>
+        {% set path_label = current_path ? current_path : ('admin.media_upload.root'|trans) %}
+        <div class="vstack gap-1 small text-muted lh-sm mb-1">
+            <p class="mb-0">{{ 'admin.media_upload.uppy_hint'|trans({'%path%': path_label}) }}</p>
+            <p class="mb-0">{{ 'admin.media_upload.uppy_perf_hint'|trans }}</p>
+        </div>
+
+        <div
+            id="admin-media-upload"
+            class="mt-0 pt-0"
+            data-upload-url="{{ path('admin_media_upload_api', {_locale: app.request.locale}) }}"
+            data-csrf-token="{{ csrf_token('media_upload') }}"
+            data-max-file-size="{{ max_upload_bytes }}"
+            data-allowed-file-types="{{ allowed_mime_types|json_encode|e('html_attr') }}"
+            data-reject-file-msg="{{ 'admin.media_upload.file_type_rejected'|trans|e('html_attr') }}"
+            data-current-path="{{ current_path|e('html_attr') }}"
+            {% if upload_dir_exists %}
+            data-request-base-path="{{ app.request.basePath|e('html_attr') }}"
+            data-label-open-file="{{ 'admin.media_upload.open_file'|trans|e('html_attr') }}"
+            data-label-type-file="{{ 'admin.media_upload.type_file'|trans|e('html_attr') }}"
+            data-add-more-hint="{{ 'admin.media_upload.uppy_add_more_hint'|trans|e('html_attr') }}"
+            data-delete-file-url="{{ path('admin_media_upload_delete_file', {_locale: app.request.locale})|e('html_attr') }}"
+            data-label-delete-file="{{ 'admin.media_upload.delete_file'|trans|e('html_attr') }}"
+            data-confirm-delete-file="{{ 'admin.media_upload.confirm_delete_file'|trans|e('html_attr') }}"
+            {% endif %}
+        >
+            <div data-uppy-dashboard-mount class="w-100"></div>
+        </div>
+    </div>
+
     {% if upload_dir_exists %}
-        <form method="post" action="{{ path('admin_media_upload_mkdir', {_locale: app.request.locale}) }}" class="row g-2 align-items-end mb-4">
+        <form method="post" action="{{ path('admin_media_upload_mkdir', {_locale: app.request.locale}) }}" class="row g-2 align-items-end mb-2">
             <input type="hidden" name="_token" value="{{ csrf_token('media_upload') }}">
             <input type="hidden" name="parent" value="{{ current_path }}">
             <div class="col-md-4">
@@ -65,7 +145,7 @@
                         <th scope="col">{{ 'admin.media_upload.col_type'|trans }}</th>
                         <th scope="col">{{ 'admin.media_upload.col_size'|trans }}</th>
                         <th scope="col">{{ 'admin.media_upload.col_link'|trans }}</th>
-                        <th scope="col" style="min-width: 14rem">{{ 'admin.media_upload.col_actions'|trans }}</th>
+                        <th scope="col" style="min-width: 10rem">{{ 'admin.media_upload.col_actions'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody id="admin-media-files-tbody">
@@ -114,7 +194,14 @@
                             <td class="align-middle">
                                 <a href="{{ app.request.basePath ~ '/' ~ web_base ~ '/' ~ f.path }}" target="_blank" rel="noopener">{{ 'admin.media_upload.open_file'|trans }}</a>
                             </td>
-                            <td class="align-middle">—</td>
+                            <td class="align-middle">
+                                <form method="post" action="{{ path('admin_media_upload_delete_file', {_locale: app.request.locale}) }}" class="d-inline" data-confirm="{{ ('admin.media_upload.confirm_delete_file'|trans)|replace({'__NAME__': f.name})|e('html_attr') }}" onsubmit="return confirm(this.getAttribute('data-confirm'));">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('media_upload') }}">
+                                    <input type="hidden" name="path" value="{{ f.path }}">
+                                    <input type="hidden" name="browse_path" value="{{ current_path }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger text-nowrap">{{ 'admin.media_upload.delete_file'|trans }}</button>
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
                     {% if directories is empty and files is empty %}
@@ -126,27 +213,4 @@
             </table>
         </div>
     {% endif %}
-
-    <h2 class="h6 mb-2">{{ 'admin.media_upload.uppy_section'|trans }}</h2>
-    {% set path_label = current_path ? current_path : ('admin.media_upload.root'|trans) %}
-    <p class="text-muted small mb-1">{{ 'admin.media_upload.uppy_hint'|trans({'%path%': path_label}) }}</p>
-    <p class="text-muted small mb-2">{{ 'admin.media_upload.uppy_perf_hint'|trans }}</p>
-
-    <div
-        id="admin-media-upload"
-        data-upload-url="{{ path('admin_media_upload_api', {_locale: app.request.locale}) }}"
-        data-csrf-token="{{ csrf_token('media_upload') }}"
-        data-max-file-size="{{ max_upload_bytes }}"
-        data-allowed-file-types="{{ allowed_mime_types|json_encode|e('html_attr') }}"
-        data-reject-file-msg="{{ 'admin.media_upload.file_type_rejected'|trans|e('html_attr') }}"
-        data-current-path="{{ current_path|e('html_attr') }}"
-        {% if upload_dir_exists %}
-        data-request-base-path="{{ app.request.basePath|e('html_attr') }}"
-        data-label-open-file="{{ 'admin.media_upload.open_file'|trans|e('html_attr') }}"
-        data-label-type-file="{{ 'admin.media_upload.type_file'|trans|e('html_attr') }}"
-        data-add-more-hint="{{ 'admin.media_upload.uppy_add_more_hint'|trans|e('html_attr') }}"
-        {% endif %}
-    >
-        <div data-uppy-dashboard-mount class="w-100"></div>
-    </div>
 {% endblock %}

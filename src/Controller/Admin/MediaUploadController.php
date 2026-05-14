@@ -146,6 +146,48 @@ final class MediaUploadController extends AbstractController
         return $this->redirectToRoute('admin_media_upload_index', ['_locale' => $request->getLocale(), 'path' => $currentBrowse]);
     }
 
+    #[Route('/delete-file', name: 'admin_media_upload_delete_file', methods: ['POST'])]
+    public function deleteFile(Request $request, AdminMediaStorage $storage): Response
+    {
+        if (!$this->isCsrfTokenValid('media_upload', (string) $request->request->get('_token'))) {
+            $this->addFlash('danger', $this->translator->trans('admin.media_upload.flash.invalid_csrf'));
+
+            return $this->redirectToRoute('admin_media_upload_index', ['_locale' => $request->getLocale()]);
+        }
+
+        $path = (string) $request->request->get('path', '');
+        $currentBrowse = (string) $request->request->get('browse_path', '');
+
+        try {
+            $path = $storage->normalizeRelativePath($path);
+            $currentBrowse = $storage->normalizeRelativePath($currentBrowse);
+        } catch (\InvalidArgumentException) {
+            $this->addFlash('danger', $this->translator->trans('admin.media_upload.flash.invalid_path'));
+
+            return $this->redirectToRoute('admin_media_upload_index', ['_locale' => $request->getLocale()]);
+        }
+
+        try {
+            $storage->deleteFile($path);
+            $this->addFlash('success', $this->translator->trans('admin.media_upload.flash.file_deleted', ['%name%' => basename($path)]));
+
+            return $this->redirectToRoute('admin_media_upload_index', ['_locale' => $request->getLocale(), 'path' => $currentBrowse]);
+        } catch (\InvalidArgumentException) {
+            $this->addFlash('danger', $this->translator->trans('admin.media_upload.flash.delete_file_outside'));
+        } catch (\RuntimeException $e) {
+            $msg = $e->getMessage();
+            if ($msg === 'Not a file') {
+                $this->addFlash('danger', $this->translator->trans('admin.media_upload.flash.delete_file_not_file'));
+            } elseif ($msg === 'File not found') {
+                $this->addFlash('danger', $this->translator->trans('admin.media_upload.flash.delete_file_missing'));
+            } else {
+                $this->addFlash('danger', $this->translator->trans('admin.media_upload.flash.delete_file_failed'));
+            }
+        }
+
+        return $this->redirectToRoute('admin_media_upload_index', ['_locale' => $request->getLocale(), 'path' => $currentBrowse]);
+    }
+
     #[Route('', name: 'admin_media_upload_index', methods: ['GET'])]
     public function index(
         Request $request,

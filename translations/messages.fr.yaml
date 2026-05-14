@@ -62,7 +62,9 @@ admin:
     empty_dir: Ce dossier est vide.
     rename_folder: Renommer le dossier
     rename_submit: Renommer
-    delete_folder: Supprimer
+    delete_folder: Supprimer le dossier
+    delete_file: Supprimer le fichier
+    confirm_delete_file: "Supprimer le fichier « __NAME__ » ? Cette action est irréversible."
     confirm_delete_folder: "Supprimer le dossier « %name% » et tout son contenu (fichiers et sous-dossiers) ? Cette action est irréversible."
     uppy_section: Envoi vers le dossier courant
     uppy_hint: "Les fichiers sont enregistrés sous : %path%. Si vous sélectionnez un dossier depuis votre ordinateur, les sous-dossiers et images sont recréés au même emplacement relatif."
@@ -83,6 +85,11 @@ admin:
       rename_failed: Le renommage a échoué.
       delete_root_forbidden: La suppression de la racine des médias n’est pas autorisée.
       delete_failed: La suppression du dossier a échoué.
+      delete_file_failed: Impossible de supprimer ce fichier.
+      delete_file_not_file: Ce chemin n’est pas un fichier.
+      delete_file_missing: Fichier introuvable.
+      delete_file_outside: Chemin invalide (hors zone média).
+      file_deleted: 'Fichier « %name% » supprimé.'
 
 global:
   login: Login

@@ -58,7 +58,9 @@ admin:
     empty_dir: This folder is empty.
     rename_folder: Rename folder
     rename_submit: Rename
-    delete_folder: Delete
+    delete_folder: Delete folder
+    delete_file: Delete file
+    confirm_delete_file: "Delete file \"__NAME__\"? This cannot be undone."
     confirm_delete_folder: "Delete folder \"%name%\" and everything inside (files and subfolders)? This cannot be undone."
     uppy_section: Upload into current folder
     uppy_hint: "Files are stored under: %path%. If you pick a folder from your computer, subfolders and files are recreated with the same relative layout."
@@ -79,6 +81,11 @@ admin:
       rename_failed: Rename failed.
       delete_root_forbidden: Deleting the media root is not allowed.
       delete_failed: Could not delete the folder.
+      delete_file_failed: Could not delete this file.
+      delete_file_not_file: This path is not a file.
+      delete_file_missing: File not found.
+      delete_file_outside: Invalid path (outside media area).
+      file_deleted: 'File "%name%" deleted.'
 
 config:
   label: Configuration

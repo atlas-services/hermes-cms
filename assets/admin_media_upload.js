@@ -128,7 +128,7 @@ function isDirectChildOfBrowsePath(relativePath, browsePath) {
 /**
  * Ajoute une ligne fichier au tableau (réponse JSON upload) sans recharger la page.
  */
-function appendMediaTableRow(root, { filename, url, sizeBytes }) {
+function appendMediaTableRow(root, { filename, url, sizeBytes, relativePath }) {
     const tbody = document.getElementById('admin-media-files-tbody');
     if (!tbody || !filename || !url) {
         return;
@@ -141,6 +141,11 @@ function appendMediaTableRow(root, { filename, url, sizeBytes }) {
 
     const openLabel = root.dataset.labelOpenFile || 'Open';
     const typeLabel = root.dataset.labelTypeFile || 'File';
+    const deleteUrl = root.dataset.deleteFileUrl || '';
+    const csrf = root.dataset.csrfToken || '';
+    const browsePath = root.dataset.currentPath || '';
+    const deleteLabel = root.dataset.labelDeleteFile || 'Delete';
+    const confirmTpl = root.dataset.confirmDeleteFile || '';
 
     const tr = document.createElement('tr');
 
@@ -202,7 +207,44 @@ function appendMediaTableRow(root, { filename, url, sizeBytes }) {
 
     const tdAct = document.createElement('td');
     tdAct.className = 'align-middle';
-    tdAct.textContent = '—';
+    if (deleteUrl && csrf && typeof relativePath === 'string' && relativePath !== '') {
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = deleteUrl;
+        form.className = 'd-inline';
+        const msg = confirmTpl.includes('__NAME__')
+            ? confirmTpl.split('__NAME__').join(filename)
+            : `${confirmTpl} ${filename}`;
+        form.dataset.confirm = msg;
+        form.addEventListener('submit', (ev) => {
+            if (!window.confirm(form.dataset.confirm)) {
+                ev.preventDefault();
+            }
+        });
+        const t1 = document.createElement('input');
+        t1.type = 'hidden';
+        t1.name = '_token';
+        t1.value = csrf;
+        form.appendChild(t1);
+        const t2 = document.createElement('input');
+        t2.type = 'hidden';
+        t2.name = 'path';
+        t2.value = relativePath;
+        form.appendChild(t2);
+        const t3 = document.createElement('input');
+        t3.type = 'hidden';
+        t3.name = 'browse_path';
+        t3.value = browsePath;
+        form.appendChild(t3);
+        const btn = document.createElement('button');
+        btn.type = 'submit';
+        btn.className = 'btn btn-sm btn-outline-danger text-nowrap';
+        btn.textContent = deleteLabel;
+        form.appendChild(btn);
+        tdAct.appendChild(form);
+    } else {
+        tdAct.textContent = '—';
+    }
     tr.appendChild(tdAct);
 
     tbody.appendChild(tr);
@@ -294,7 +336,7 @@ function init() {
         .use(Dashboard, {
             inline: true,
             target: mount,
-            height: 460,
+            height: 360,
             showProgressDetails: true,
             // Vignettes légères avant envoi (largeur réduite vs défaut 280) pour limiter la charge CPU sur gros lots.
             disableThumbnailGenerator: false,
@@ -329,6 +371,7 @@ function init() {
             filename: typeof body.filename === 'string' ? body.filename : file?.name,
             url: body.url,
             sizeBytes: file?.size,
+            relativePath: relPath,
         });
     });
 
