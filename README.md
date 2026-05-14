@@ -1,24 +1,20 @@
-Hermes - CMS
-==================
+# Hermes - CMS
 
-Introduction -FR
-----------------
+## Introduction -FR
 
 Hermes (V3) est un CMS basé sur Symfony8, Bootstrap5 et les standards du Web.
 Il fournit une interface d'administration afin de créer des contenus riche pour votre site Web.
 Il fournit une interface d'administration pour configurer les couleurs, largeur...des différentes partie de votre site Web.
-Il fournit quelques templates de type folios, carousels, cards ainsi qu'une saisie "libre" qui utilise CKEditor5 afin de créer de belles pages responsive.
+Il fournit quelques templates de type folios, carousels, cards ainsi qu'une saisie « libre » avec **CKEditor 5** (Asset Mapper / importmap, sans FOSCKEditorBundle). **elFinder a été retiré** : la gestion des médias en administration (arborescence, dossiers, suppression) est gérée par Symfony ; **l’upload** repose sur **Uppy** déclaré dans l’importmap (`assets/admin_media_upload.js`, envoi XHR vers l’API Symfony).
 
-Introduction -EN
-----------------
+## Introduction -EN
+
 Hermes (V3) is a CMS  based on Symfony8 and Bootstrap5 and the standards of Web.
 It provides an admin to create a complete web site.
 It provides configuration to select the color, background-color, width...for the different parts of your Web site (Menu, Content, Footer)
-It provides some templates like folios, carousels, cards or "free presentation" using the [FOSCKEditorBundle](https://symfony.com/doc/master/bundles/FOSCKEditorBundle/index.html) to create nice and responsive pages.
+It provides some templates like folios, carousels, cards or « free presentation » with **CKEditor 5** (Asset Mapper / importmap, not FOSCKEditorBundle). **elFinder has been removed**: media management in the admin (tree, folders, delete) is handled by Symfony; **uploads** use **Uppy** from the importmap (`assets/admin_media_upload.js`, XHR to the Symfony upload API).
 
-
-Documentation
--------------
+## Documentation
 
 Création :
 symfony new hermes3
@@ -28,10 +24,7 @@ composer require symfony/asset-mapper symfony/asset symfony/twig-packs
 composer require symfony/routing
 composer require symfony/orm-pack
 composer require --dev symfony/maker-bundle
-# Upload médias admin : Uppy via Asset Mapper (importmap), paquet npm `uppy` — ex. :
-# php bin/console importmap:require uppy@4.3.0
 composer require liip/imagine-bundle
-composer require stof/doctrine-extensions-bundle
 composer require stof/doctrine-extensions-bundle
 composer require symfony/form
 composer require symfony/http-client
@@ -40,14 +33,13 @@ composer require symfony/monolog-bundle
 composer require symfony/security-bundle
 composer require symfony/stimulus-bundle
 composer require symfony/translation
-composer require symfony/ux-icon
+composer require symfony/ux-icons
 composer require symfony/ux-twig-component
 composer require symfony/validator
 composer require twig/inky-extra
 composer require twig/intl-extra
 composer require twig/string-extra
 composer require vich/uploader-bundle
-composer require twig/string-extra
 composer require symfony/ux-autocomplete
 composer require --dev phpstan/phpstan
 composer require --dev squizlabs/php_codesniffer
@@ -58,124 +50,159 @@ composer require --dev symfony/browser-kit
 composer require --dev symfony/css-selector
 composer require --dev symfony/debug-bundle
 composer require --dev symfony/stopwatch
-composer require --dev web-profiler-bundle
-<!-- composer require --dev symfony/panther -->
-<!-- composer require symfonycasts/verify-email-bundle -->
+composer require --dev symfony/web-profiler-bundle
 
+### Asset Mapper (importmap) — sans elFinder : Uppy pour l’upload, puis le reste du front
+
+**elFinder** n’est plus dans le projet. Les envois de fichiers (et dossiers) côté administration passent par **Uppy** (`importmap.php`, entrée `admin_media_upload`, script `assets/admin_media_upload.js`). Les autres dépendances front (Bootstrap, Font Awesome, AOS, **CKEditor 5**, Tom Select, etc.) suivent le même mécanisme.
+
+Après un `git clone` ou si les paquets ne sont pas encore présents localement, télécharger les fichiers dans `assets/vendor/` (non versionné) :
+
+```
+php bin/console importmap:install
+```
+
+Pour recréer les entrées à la main (équivalent du dépôt), commandes utiles :
+
+**Uppy** (remplace l’upload elFinder ; code dans `assets/admin_media_upload.js`) — soit les modules importés dans le projet :
+
+```
+php bin/console importmap:require @uppy/core
+php bin/console importmap:require @uppy/dashboard
+php bin/console importmap:require @uppy/xhr-upload
+php bin/console importmap:require @uppy/core/dist/style.min.css
+php bin/console importmap:require @uppy/dashboard/dist/style.min.css
+```
+
+soit le méta-paquet `uppy`, qui tire une arborescence large de `@uppy/*` (état actuel du dépôt) :
+
+```
+php bin/console importmap:require uppy
+```
+
+**Bootstrap, Font Awesome, AOS** (`assets/app.js`) :
+
+```
 php bin/console importmap:require bootstrap
 php bin/console importmap:require bootstrap/dist/css/bootstrap.min.css
 php bin/console importmap:require @fortawesome/fontawesome-free/css/all.css
-
-Install AOS
 php bin/console importmap:require aos
 php bin/console importmap:require aos/dist/aos.css
+```
 
-Install Ckeditor
+**CKEditor 5** (contenu libre, `assets/ckeditor5.js` + contrôleur Stimulus `ckeditor5`) :
+
+```
 php bin/console importmap:require ckeditor5
 php bin/console importmap:require ckeditor5/dist/ckeditor5.min.css
 php bin/console importmap:require ckeditor5/translations/fr.js
+```
 
-Télécharger les assets dans `assets/vendor/` (dossier non versionné ; à lancer après un `git clone` ou si un paquet manque) :
-php bin/console importmap:install
+**Tom Select** (UX Autocomplete, `assets/controllers.json`) :
 
-In progress.
-    - require PHP8.4
+```
+php bin/console importmap:require tom-select
+php bin/console importmap:require tom-select/dist/css/tom-select.bootstrap5.css
+```
 
-Show Room et modeles - FR
-------------------------
+## Prérequis techniques
 
-   - Vous pouvez acceder au show-room de nos principaux templates : [modeles](http://modeles.atlas-services.fr)
-   - Vous pouvez aussi voir quelques modèles de sites : 
-       - [modele1](http://modele1.atlas-services.fr)
-       - [modele2](http://modele2.atlas-services.fr)
-       - [modele3](http://modele3.atlas-services.fr)
-       - [modele4](http://modele4.atlas-services.fr)
-  
- Show Room and modeles -EN
- -------------------------      
-   - You can see a show-room of our templates : [modeles](http://modeles.atlas-services.fr)
-   - You can see some modeles : 
-       - [modele1](http://modele1.atlas-services.fr)
-       - [modele2](http://modele2.atlas-services.fr)
-       - [modele3](http://modele3.atlas-services.fr)
-       - [modele4](http://modele4.atlas-services.fr)
+- PHP **8.4** minimum (voir `composer.json`).
 
-License
--------
+## Show Room et modeles - FR
+
+- Vous pouvez acceder au show-room de nos principaux templates : [modeles](http://modeles.atlas-services.fr)
+- Vous pouvez aussi voir quelques modèles de sites : 
+  - [modele1](http://modele1.atlas-services.fr)
+  - [modele2](http://modele2.atlas-services.fr)
+  - [modele3](http://modele3.atlas-services.fr)
+  - [modele4](http://modele4.atlas-services.fr)
+
+##  Show Room and modeles -EN
+
+- You can see a show-room of our templates : [modeles](http://modeles.atlas-services.fr)
+- You can see some modeles : 
+  - [modele1](http://modele1.atlas-services.fr)
+  - [modele2](http://modele2.atlas-services.fr)
+  - [modele3](http://modele3.atlas-services.fr)
+  - [modele4](http://modele4.atlas-services.fr)
+
+## License
 
 This CMS is released under the MIT license. See the included
 [LICENSE](LICENSE) file for more information.
 
-Contribuer - FR
----------------
+## Contribuer - FR
 
 Contributeurs bienvenus! Hermes est un logiciel libre. Si vous souhaitez contribuer, n'hésitez pas à proposer une PR! Vous pouvez lire le fichier [CONTRIBUTING](/CONTRIBUTING.md) qui vous indiquera quelques directions de contributions .
 
-Contribute - EN
----------------
+## Contribute - EN
+
 We love contributors! Hermes is an free software. If you'd like to contribute, feel free to propose a PR! You
 can follow the [CONTRIBUTING](/CONTRIBUTING.md) file which will explain you some needs about contributing.
 
-
-Install : Plateform Linux
-====================================
+# Install : Plateform Linux
 
 Get the Repository
 
-    cd /var/www/html
-    git clone git@github.com:atlas-services/hermes.git
-    or
-    git clone https://github.com/atlas-services/hermes.git    
+```
+cd /var/www/html
+git clone git@github.com:atlas-services/hermes.git
+or
+git clone https://github.com/atlas-services/hermes.git    
 
-    cd hermes
-    git checkout master
+cd hermes
+git checkout master
 
-    git pull
+git pull
+```
 
 Get php extensions and the vendors and post-install the project
 
-    sudo apt install phpversion-curl
-    sudo apt install phpversion-gd
-    sudo apt install phpversion-dom
-    sudo apt install phpversion-zip
-    sudo apt install phpversion-sqlite3
-    sudo apt install phpversion-mbstring
-    sudo apt install phpversion-intl
+```
+sudo apt install phpversion-curl
+sudo apt install phpversion-gd
+sudo apt install phpversion-dom
+sudo apt install phpversion-zip
+sudo apt install phpversion-sqlite3
+sudo apt install phpversion-mbstring
+sudo apt install phpversion-intl
 
-    where phpversion = php8.4
+where phpversion = php8.4
 
-    composer install
+composer install
+```
 
-Install assets (Importmap : Bootstrap, Font Awesome, AOS, CKEditor, etc.)
+Install assets (Importmap : Uppy à la place d’elFinder, Bootstrap, CKEditor 5, Tom Select, etc.)
+
+```
 php bin/console importmap:install
+```
 
-Si un paquet n’est pas encore déclaré dans `importmap.php` :
-php bin/console importmap:require bootstrap
-php bin/console importmap:require bootstrap/dist/css/bootstrap.min.css
-php bin/console importmap:require @fortawesome/fontawesome-free/css/all.css
-php bin/console importmap:require aos
-php bin/console importmap:require aos/dist/aos.css
-php bin/console importmap:require ckeditor5
-php bin/console importmap:require ckeditor5/dist/ckeditor5.min.css
-php bin/console importmap:require ckeditor5/translations/fr.js
+Pour la liste complète des `importmap:require` (Uppy à la place d’elFinder, CKEditor 5, Tom Select, etc.), voir la section **Asset Mapper (importmap) — sans elFinder** plus haut.
+
+For the full `importmap:require` list (Uppy instead of elFinder, CKEditor 5, Tom Select, etc.), see the **Asset Mapper (importmap)** section above.
 
 Start Server on a terminal
 
-    symfony server:start
-    or
-    cd ~/public_html
-    php -S 127.0.0.1:8000
+```
+symfony server:start
+or
+cd ~/public_html
+php -S 127.0.0.1:8000
+```
 
 Admin interface
 
-    http://127.0.0.1:8000/fr/admin/
-    Admin User :
-    Login : set up value in in .env (APP_HERMES_EMAIL_ADMIN="contact@hermes-cms.org")
-    Password : mycmsishermes
+```
+http://127.0.0.1:8000/fr/admin/
+Admin User :
+Login : set up value in in .env (APP_HERMES_EMAIL_ADMIN="contact@hermes-cms.org")
+Password : mycmsishermes
+```
 
-    Install : Plateform != Linux
-====================================
+# Install : Plateform != Linux
 
 Hermes est un CMS qui devrait fonctionner sur toutes les plateformes.
 Néanmois, il n'existe pas de documentation pour les autres plateformes que linux.
-Contributeurs bienvenus : contact@hermes-cms.org
+Contributeurs bienvenus : [contact@hermes-cms.org](mailto:contact@hermes-cms.org)

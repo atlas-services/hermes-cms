@@ -4,6 +4,70 @@ import XHRUpload from '@uppy/xhr-upload';
 import '@uppy/core/dist/style.min.css';
 import '@uppy/dashboard/dist/style.min.css';
 
+/** Libellés Dashboard (fileManagerSelectionType: both) — alignés sur @uppy/dashboard locale par défaut */
+const DASHBOARD_LOCALE_FR = {
+    strings: {
+        dropHint: 'Déposez vos fichiers ici',
+        dropPasteBoth: 'Déposez les fichiers ici, %{browseFiles} ou %{browseFolders}',
+        dropPasteFiles: 'Déposez les fichiers ici ou %{browseFiles}',
+        dropPasteFolders: 'Déposez les fichiers ici ou %{browseFolders}',
+        browseFiles: 'parcourir les fichiers',
+        browseFolders: 'parcourir les dossiers',
+        addMore: 'Ajouter',
+        addMoreFiles: 'Ajouter des fichiers',
+        cancel: 'Annuler',
+        upload: 'Téléverser',
+        uploading: 'Téléversement en cours',
+        complete: 'Terminé',
+        uploadFailed: 'Échec du téléversement',
+        paused: 'En pause',
+        retry: 'Réessayer',
+        pause: 'Pause',
+        resume: 'Reprendre',
+        done: 'Terminé',
+        cancelUpload: 'Annuler le téléversement',
+        uploadComplete: 'Téléversement terminé',
+        filesUploadedOfTotal: {
+            0: '%{complete} sur %{smart_count} fichier téléversé',
+            1: '%{complete} sur %{smart_count} fichiers téléversés',
+        },
+        dataUploadedOfTotal: '%{complete} sur %{total}',
+        xTimeLeft: '%{time} restantes',
+        uploadXFiles: {
+            0: 'Téléverser %{smart_count} fichier',
+            1: 'Téléverser %{smart_count} fichiers',
+        },
+        uploadXNewFiles: {
+            0: 'Téléverser +%{smart_count} fichier',
+            1: 'Téléverser +%{smart_count} fichiers',
+        },
+        xMoreFilesAdded: {
+            0: '%{smart_count} autre fichier ajouté',
+            1: '%{smart_count} autres fichiers ajoutés',
+        },
+    },
+};
+
+/** Boutons « parcourir » du Dashboard : classes Bootstrap (éléments déjà en <button> côté Uppy). */
+function wireDashboardBrowseAsBootstrapButtons(mount) {
+    let debounceId;
+    const apply = () => {
+        window.clearTimeout(debounceId);
+        debounceId = window.setTimeout(() => {
+            const buttons = mount.querySelectorAll('button.uppy-Dashboard-browse');
+            buttons.forEach((btn, idx) => {
+                btn.classList.add('btn', 'btn-sm');
+                btn.classList.toggle('btn-outline-primary', idx === 0);
+                btn.classList.toggle('btn-outline-secondary', idx !== 0);
+                btn.classList.toggle('me-1', idx === 0);
+            });
+        }, 0);
+    };
+    apply();
+    const mo = new MutationObserver(apply);
+    mo.observe(mount, { childList: true, subtree: true });
+}
+
 function readJsonArray(raw) {
     if (!raw) {
         return null;
@@ -290,6 +354,8 @@ function init() {
     const currentPath = root.dataset.currentPath || '';
 
     const addMoreHint = root.dataset.addMoreHint || '';
+    const adminLocale = (root.dataset.adminLocale || 'fr').toLowerCase();
+    const dashboardLocale = adminLocale === 'fr' ? DASHBOARD_LOCALE_FR : undefined;
 
     const uppy = new Uppy({
         id: 'admin-media',
@@ -336,7 +402,7 @@ function init() {
         .use(Dashboard, {
             inline: true,
             target: mount,
-            height: 120,
+            height: 600,
             showProgressDetails: true,
             // Vignettes légères avant envoi (largeur réduite vs défaut 280) pour limiter la charge CPU sur gros lots.
             disableThumbnailGenerator: false,
@@ -345,6 +411,7 @@ function init() {
             waitForThumbnailsBeforeUpload: false,
             proudlyDisplayPoweredByUppy: false,
             note: addMoreHint || undefined,
+            locale: dashboardLocale,
             // Fichiers et dossiers (webkitdirectory) : Chrome, Edge, Firefox récents — pas Safari.
             fileManagerSelectionType: 'both',
         })
@@ -357,6 +424,8 @@ function init() {
             allowedMetaFields: ['upload_base_path', 'file_relative_path'],
             headers: csrf ? { 'X-CSRF-TOKEN': csrf } : {},
         });
+
+    wireDashboardBrowseAsBootstrapButtons(mount);
 
     uppy.on('upload-success', (file, response) => {
         const body = response?.body;

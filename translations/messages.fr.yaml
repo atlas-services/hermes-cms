@@ -55,7 +55,7 @@ admin:
     col_type: Type
     col_size: Taille
     col_link: Lien
-    col_actions: Actions
+    col_actions: Modifier le nom
     type_folder: Dossier
     type_file: Fichier
     open_file: Ouvrir
@@ -68,7 +68,7 @@ admin:
     confirm_delete_folder: "Supprimer le dossier « %name% » et tout son contenu (fichiers et sous-dossiers) ? Cette action est irréversible."
     uppy_section: Envoi vers le dossier courant
     uppy_hint: "Les fichiers sont enregistrés sous : %path%. Si vous sélectionnez un dossier depuis votre ordinateur, les sous-dossiers et images sont recréés au même emplacement relatif."
-    uppy_perf_hint: "Les vignettes dans le panneau d’envoi sont volontairement petites pour limiter la charge du navigateur sur de gros lots ; le tableau ci-dessus se met à jour après chaque fichier envoyé (sans recharger la page)."
+    uppy_perf_hint: "Les vignettes dans le panneau d’envoi sont volontairement petites pour limiter la charge du navigateur sur de gros lots ; le tableau des fichiers se met à jour après chaque fichier envoyé (sans recharger la page)."
     uppy_add_more_hint: "Dès qu’il y a des fichiers dans la file, Uppy affiche la liste : utilisez le bouton « + » / « Ajouter » en haut à droite pour parcourir à nouveau (fichiers ou dossier). Après un envoi terminé, la file se vide pour retrouver les liens parcourir."
     file_type_rejected: "Fichier non autorisé : __NAME__ (JPEG, PNG, GIF, WebP, SVG, PDF, MP4 uniquement)."
     limits_explain: "Limite <strong>par fichier</strong> appliquée côté navigateur et serveur : environ %per_file% Mo (le plus petit parmi APP_UPLOAD_MAX_SIZE=%app_env%, upload_max_filesize=%upload_ini%, post_max_size=%post_ini%). Il n’y a pas de quota sur la somme des tailles de tous les fichiers. Si plusieurs envois restent bloqués, augmentez surtout <code>upload_max_filesize</code> et <code>post_max_size</code> en PHP."
