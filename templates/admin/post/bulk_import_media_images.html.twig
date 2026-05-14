@@ -1,0 +1,87 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.post_bulk.title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h1 class="h3 mb-0">{{ 'admin.post_bulk.title'|trans }}</h1>
+        <a class="btn btn-outline-secondary btn-sm" href="{{ path('post_index', { _locale: app.request.locale, page: page_menu_id }) }}">
+            {{ 'admin.post_bulk.back_pages'|trans }}
+        </a>
+    </div>
+
+    <p class="text-muted">{{ 'admin.post_bulk.help'|trans }}</p>
+
+    <div class="alert alert-light border mb-3 small">
+        <strong>{{ 'global.page'|trans }}</strong> : {{ menu.name }}
+        — <strong>{{ 'form.label.section'|trans }}</strong> #{{ section.position }}
+        {% if section.template %}({{ section.template.name }}){% endif %}
+    </div>
+
+    <p class="small text-muted mb-1">{{ 'admin.post_bulk.current_folder'|trans }} : <code>{{ current_path ? current_path : ('admin.media_upload.root'|trans) }}</code></p>
+
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small mb-0">
+            <li class="breadcrumb-item">
+                <a href="{{ path('post_bulk_import_media_images', { _locale: app.request.locale, id: section.id }) }}">{{ 'admin.media_upload.root'|trans }}</a>
+            </li>
+            {% if current_path %}
+                {% set acc = '' %}
+                {% for part in current_path|split('/') %}
+                    {% set acc = acc ? acc ~ '/' ~ part : part %}
+                    <li class="breadcrumb-item{% if loop.last %} active{% endif %}"{% if loop.last %} aria-current="page"{% endif %}>
+                        {% if not loop.last %}
+                            <a href="{{ path('post_bulk_import_media_images', { _locale: app.request.locale, id: section.id, path: acc }) }}">{{ part }}</a>
+                        {% else %}
+                            {{ part }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ol>
+    </nav>
+
+    {% if current_path %}
+        <p class="mb-2">
+            <a class="btn btn-sm btn-outline-secondary" href="{{ path('post_bulk_import_media_images', { _locale: app.request.locale, id: section.id, path: parent_path }) }}">
+                {{ 'admin.post_bulk.back_parent'|trans }}
+            </a>
+        </p>
+    {% endif %}
+
+    <h2 class="h6">{{ 'admin.post_bulk.subfolders'|trans }}</h2>
+    {% if directories is empty %}
+        <p class="text-muted small">{{ 'admin.post_bulk.empty_children'|trans }}</p>
+    {% else %}
+        <ul class="list-unstyled mb-4">
+            {% for d in directories %}
+                <li class="mb-1">
+                    <a href="{{ path('post_bulk_import_media_images', { _locale: app.request.locale, id: section.id, path: d.path }) }}" class="fw-medium">
+                        <i class="fa-solid fa-folder text-warning me-1"></i>{{ d.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2 class="h6">{{ 'admin.post_bulk.images_here'|trans }}</h2>
+    {% if image_files is empty %}
+        <p class="text-muted">{{ 'admin.post_bulk.no_images_here'|trans }}</p>
+    {% else %}
+        <ul class="list-group mb-3">
+            {% for rel in image_files %}
+                <li class="list-group-item d-flex align-items-center gap-2">
+                    <img src="{{ app.request.basePath ~ '/' ~ web_base ~ '/' ~ rel }}" alt="" width="40" height="40" class="rounded border" style="object-fit: cover;" loading="lazy">
+                    <span>{{ rel|split('/')|last }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <form method="post" action="{{ path('post_bulk_import_media_images', { _locale: app.request.locale, id: section.id }) }}" class="border rounded p-3 bg-light" onsubmit="return confirm({{ 'admin.post_bulk.confirm_import'|trans({'%count%': image_files|length})|json_encode|raw }});">
+            <input type="hidden" name="_token" value="{{ csrf_token('post_bulk_import_images_' ~ section.id) }}">
+            <input type="hidden" name="media_path" value="{{ current_path }}">
+            <button type="submit" class="btn btn-primary">{{ 'admin.post_bulk.import_button'|trans }}</button>
+            <span class="text-muted small ms-2">{{ image_files|length }} image(s)</span>
+        </form>
+    {% endif %}
+{% endblock %}

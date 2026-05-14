@@ -110,7 +110,8 @@ final class FrontMenuService
     }
 
     /**
-     * Menu page + sections + posts visibles sur le site (tous actifs).
+     * Menu page + sections + posts visibles sur le site (section et posts actifs).
+     * Les sections sans aucun post actif sont omises (le back-office peut les garder vides pour y ajouter des posts).
      *
      * @return list<array{section: Section, posts: list<Post>}>
      */
@@ -126,6 +127,9 @@ final class FrontMenuService
                 if ($post->isActive()) {
                     $posts[] = $post;
                 }
+            }
+            if ($posts === []) {
+                continue;
             }
             $blocks[] = ['section' => $section, 'posts' => $posts];
         }

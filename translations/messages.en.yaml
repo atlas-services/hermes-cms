@@ -38,6 +38,34 @@ form:
     show_post: Affichage d'un Post
 admin:
   title: admin
+  post_bulk:
+    add_images: Add images
+    title: Import images (media library)
+    help: "Browse folders under the media upload area, open the folder that contains your images, then import: one list-type post will be created per file (JPEG, PNG, GIF, WebP), named from the folder and numbered 1, 2, 3…"
+    current_folder: Current folder
+    subfolders: Subfolders
+    images_here: Images in this folder (import)
+    import_button: Import this folder into the section
+    back_pages: Back to page list
+    back_parent: Parent folder
+    empty_children: No subfolders.
+    no_images_here: No importable images in this folder (add JPEG, PNG, GIF or WebP here, or pick another folder).
+    flash_imported: '%count% post(s) created from the folder images.'
+    confirm_import: 'Create %count% post(s) in this section from the images listed above?'
+    after_create_redirect_hint: "You can bulk-import images into this section; the post you just created remains the first one (edit it from the page list if needed)."
+    invalid_path: Invalid media path.
+    list_failed: Could not read this directory.
+    section_not_liste: This section does not use a « list » template; image import is not available.
+    duplicate_name: Import failed because a post name already exists in this section.
+    import_error: An error occurred during import.
+  section:
+    clear_all_images: Remove images
+    confirm_delete_section: "Delete this section and all its posts? This cannot be undone."
+    confirm_clear_images: "Delete every post in this section (and their images)? The section itself will be kept. This cannot be undone."
+    flash_section_deleted: Section deleted.
+    flash_liste_posts_deleted: '%count% post(s) deleted; the section was kept.'
+    flash_liste_posts_none: This section has no posts.
+    flash_not_liste: This section is not a « list » type section.
   media_upload:
     title: Media file upload
     help: "Browse folders below, create subfolders, then upload files or full directory trees (Chrome, Edge, Firefox). Allowed types: images (JPEG, PNG, GIF, WebP, SVG), PDF, MP4."

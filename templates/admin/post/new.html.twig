@@ -21,6 +21,13 @@
                 '%summary%': section.template ? (section.template.summary|default('')) : ''
             }) }}
         </div>
+        {% if section.template and section.template.type == 'liste' %}
+            <div class="mb-3">
+                <a class="btn btn-outline-primary btn-sm" href="{{ path('post_bulk_import_media_images', { id: section.id }) }}">
+                    {{ 'admin.post_bulk.add_images'|trans }}
+                </a>
+            </div>
+        {% endif %}
     {% endif %}
 
     {{ include('admin/post/_form.html.twig', {
@@ -47,6 +54,7 @@
             var templateSelect = form.querySelector('select[name="post[template]"]');
             var wrapImage = form.querySelector('.js-post-field-image');
             var wrapContent = form.querySelector('.js-post-field-content');
+            var wrapSaveImport = form.querySelector('.js-post-wrap-save-import');
             if (!wrapImage || !wrapContent) return;
 
             var templates = (meta.templates || {});
@@ -73,6 +81,13 @@
                 } else {
                     wrapImage.classList.remove('d-none');
                     wrapContent.classList.remove('d-none');
+                }
+                if (wrapSaveImport) {
+                    if (isListe) {
+                        wrapSaveImport.classList.remove('d-none');
+                    } else {
+                        wrapSaveImport.classList.add('d-none');
+                    }
                 }
             }
 

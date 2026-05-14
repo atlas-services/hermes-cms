@@ -68,7 +68,7 @@ class MenuRepository extends ServiceEntityRepository
             ->distinct()
             ->innerJoin('m.sections', 's')
             ->addSelect('s')
-            ->innerJoin('s.posts', 'p')
+            ->leftJoin('s.posts', 'p')
             ->addSelect('p')
             ->orderBy('m.position', 'ASC')
             ->addOrderBy('m.name', 'ASC')

@@ -52,6 +52,11 @@
 
 {{ form_widget(form._token) }}
 
-{{ form_widget(form.save, { attr: { class: 'btn btn-success' } }) }}
+<div class="mb-3 d-flex flex-wrap align-items-center gap-2">
+    {{ form_widget(form.save, { attr: { class: 'btn btn-success' } }) }}
+    {% if form.saveAndImportImages is defined %}
+        <span class="js-post-wrap-save-import d-none">{{ form_widget(form.saveAndImportImages) }}</span>
+    {% endif %}
+</div>
 
 {{ form_end(form, { render_rest: false }) }}

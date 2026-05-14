@@ -13,6 +13,7 @@ use App\Form\CKEditor5Type;
 use App\Repository\TemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -123,6 +124,14 @@ class PostType extends AbstractNameBaseType
 
             $event->setData($data);
         });
+
+        if ($options['liste_bulk_import_save']) {
+            $builder->add('saveAndImportImages', SubmitType::class, [
+                'label' => 'admin.post_bulk.add_images',
+                'translation_domain' => 'messages',
+                'attr' => ['class' => 'btn btn-outline-primary'],
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -137,29 +146,41 @@ class PostType extends AbstractNameBaseType
             /** Type logique du template de section (ex. hermes_templates.yaml : liste, libre). Null = déduit ou formulaire menu ambigu. */
             'template_type' => null,
             'post_edit_mode' => false,
-            'validation_groups' => static function (FormInterface $form) {
-                $post = $form->getData();
-                if (!$post instanceof Post) {
-                    return ['Default'];
-                }
-
-                $type = self::staticResolveTemplateTypeFromForm($form, $post);
-                if ($type === self::TEMPLATE_TYPE_LIBRE) {
-                    return ['Default', 'content'];
-                }
-
-                if ($type === self::TEMPLATE_TYPE_LISTE) {
-                    $groups = ['Default'];
-                    if (!$post->getFileName()) {
-                        $groups[] = 'image';
-                    }
-
-                    return $groups;
-                }
-
-                return ['Default'];
-            },
+            /** Deuxième bouton « import médias » (création depuis menu) : image non obligatoire si ce bouton est utilisé. */
+            'liste_bulk_import_save' => false,
+            'validation_groups' => fn (FormInterface $form): array => $this->resolveValidationGroups($form),
         ]);
+        $resolver->setAllowedTypes('liste_bulk_import_save', 'bool');
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function resolveValidationGroups(FormInterface $form): array
+    {
+        $post = $form->getData();
+        if (!$post instanceof Post) {
+            return ['Default'];
+        }
+
+        $type = self::staticResolveTemplateTypeFromForm($form, $post);
+        if ($type === self::TEMPLATE_TYPE_LIBRE) {
+            return ['Default', 'content'];
+        }
+
+        if ($type === self::TEMPLATE_TYPE_LISTE) {
+            if ($form->has('saveAndImportImages') && $form->get('saveAndImportImages')->isClicked()) {
+                return ['Default'];
+            }
+            $groups = ['Default'];
+            if (!$post->getFileName()) {
+                $groups[] = 'image';
+            }
+
+            return $groups;
+        }
+
+        return ['Default'];
     }
 
     private function addAmbiguousMenuNewFields(FormInterface $form): void

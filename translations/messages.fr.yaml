@@ -42,6 +42,34 @@ form:
 
 admin:
   title: admin
+  post_bulk:
+    add_images: Ajouter des images
+    title: Importer des images (médias)
+    help: "Parcourez les répertoires sous la zone d’envoi de fichiers médias, ouvrez le dossier qui contient vos images, puis importez : un post « liste » sera créé par fichier (JPEG, PNG, GIF, WebP), nommé d’après le dossier et numéroté 1, 2, 3…"
+    current_folder: Dossier courant
+    subfolders: Sous-dossiers
+    images_here: Images dans ce dossier (import)
+    import_button: Importer ce dossier dans la section
+    back_pages: Retour à la liste des pages
+    back_parent: Dossier parent
+    empty_children: Aucun sous-dossier.
+    no_images_here: Aucune image importable dans ce dossier (placez des JPEG, PNG, GIF ou WebP ici ou choisissez un autre dossier).
+    flash_imported: '%count% post(s) créé(s) à partir des images du dossier.'
+    confirm_import: 'Créer %count% post(s) dans cette section à partir des images visibles ci-dessus ?'
+    after_create_redirect_hint: "Vous pouvez importer un lot d’images pour remplir la section ; le post que vous venez de créer reste le premier (vous pouvez l’éditer depuis la liste des pages)."
+    invalid_path: Chemin média invalide.
+    list_failed: Impossible de lire ce répertoire.
+    section_not_liste: Cette section n’utilise pas un template de type « liste » ; l’import d’images n’est pas disponible.
+    duplicate_name: Un conflit de nom a empêché l’import (nom de post déjà utilisé).
+    import_error: Une erreur est survenue pendant l’import.
+  section:
+    clear_all_images: Supprimer les images
+    confirm_delete_section: "Supprimer cette section et tous ses posts ? Cette action est irréversible."
+    confirm_clear_images: "Supprimer tous les posts de cette section (et leurs images) ? La section sera conservée. Cette action est irréversible."
+    flash_section_deleted: Section supprimée.
+    flash_liste_posts_deleted: '%count% post(s) supprimé(s) ; la section a été conservée.'
+    flash_liste_posts_none: Aucun post dans cette section.
+    flash_not_liste: Cette section n’est pas de type « liste ».
   media_upload:
     title: Envoi de fichiers média
     help: "Parcourez les dossiers ci-dessous, créez des sous-dossiers, puis envoyez des fichiers ou des arborescences complètes (Chrome, Edge, Firefox). Types autorisés : images (JPEG, PNG, GIF, WebP, SVG), PDF, MP4."

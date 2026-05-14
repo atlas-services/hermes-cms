@@ -8,6 +8,7 @@ use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
 use App\Entity\Template;
+use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Repository\TemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -155,6 +156,34 @@ class PostService
             $this->em->remove($section);
             $this->em->flush();
         }
+    }
+
+    public function deleteSection(Section $section): void
+    {
+        $this->em->remove($section);
+        $this->em->flush();
+    }
+
+    /**
+     * Supprime tous les posts d’une section « liste » ; la section est conservée (contrairement à {@see delete} sur le dernier post).
+     *
+     * @return int nombre de posts supprimés
+     */
+    public function deleteAllPostsInListeSection(Section $section): int
+    {
+        $tpl = $section->getTemplate();
+        if ($tpl === null || $tpl->getType() !== PostType::TEMPLATE_TYPE_LISTE) {
+            throw new \DomainException('Section template must be "liste".');
+        }
+
+        $posts = $section->getPosts()->toArray();
+        foreach ($posts as $post) {
+            $section->removePost($post);
+            $this->em->remove($post);
+        }
+        $this->em->flush();
+
+        return count($posts);
     }
 
     // -------------------------
