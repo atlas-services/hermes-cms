@@ -332,8 +332,23 @@ function init() {
         });
     });
 
-    // Revenir à l’écran « browse files / browse folders » une fois le lot terminé (comportement Uppy par défaut : liste des fichiers à la place).
-    uppy.on('complete', () => {
+    // Après un envoi : dossier (webkitdirectory) → rechargement pour voir toute l’arborescence créée ;
+    // fichiers seuls → on vide la file Uppy pour retrouver browse files / browse folders.
+    uppy.on('complete', (result) => {
+        const successful = result?.successful ?? [];
+        const failed = result?.failed ?? [];
+        const touched = [...successful, ...failed];
+        const usedFolderPick = touched.some((file) => {
+            if (!file) {
+                return false;
+            }
+            const wr = folderRelativePath(file);
+            return typeof wr === 'string' && wr.length > 0;
+        });
+        if (usedFolderPick) {
+            window.location.reload();
+            return;
+        }
         uppy.clear();
     });
 }
