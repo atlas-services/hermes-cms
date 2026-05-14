@@ -68,6 +68,9 @@ admin:
     uppy_add_more_hint: "Once files are queued, Uppy shows the list: use the “+” / “Add more” button (top right) to browse again (files or folder). After a finished upload, the queue is cleared so the browse links return."
     file_type_rejected: "File not allowed: __NAME__ (JPEG, PNG, GIF, WebP, SVG, PDF, MP4 only)."
     limits_explain: "<strong>Per-file</strong> limit enforced in the browser and on the server: about %per_file% MB (the minimum of APP_UPLOAD_MAX_SIZE=%app_env%, upload_max_filesize=%upload_ini%, post_max_size=%post_ini%). There is no cap on the <em>sum</em> of all file sizes. If parallel uploads stall, raise <code>upload_max_filesize</code> and <code>post_max_size</code> in PHP."
+    alert_upload_after_refresh: "Upload finished: files or folder were added successfully. The list has been refreshed."
+    alert_upload_files_done: "Files were added to the list successfully."
+    close_alert: Close
     flash:
       invalid_csrf: Session expired, please try again.
       folder_created: 'Folder "%name%" created.'

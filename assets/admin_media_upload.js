@@ -68,6 +68,33 @@ function wireDashboardBrowseAsBootstrapButtons(mount) {
     mo.observe(mount, { childList: true, subtree: true });
 }
 
+/** Alerte succès après envoi de fichiers seuls (sans rechargement de page). */
+function showFilesUploadSuccessBanner(root) {
+    const host = document.getElementById('admin-media-upload-banner');
+    const msg = root.dataset.msgUploadFilesSuccess;
+    const closeLabel = root.dataset.msgCloseAlert || '';
+    if (!host || !msg) {
+        return;
+    }
+    host.replaceChildren();
+    const wrap = document.createElement('div');
+    wrap.className = 'alert alert-success alert-dismissible fade show mb-3';
+    wrap.setAttribute('role', 'status');
+    const text = document.createElement('span');
+    text.textContent = msg;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn-close';
+    btn.setAttribute('data-bs-dismiss', 'alert');
+    if (closeLabel) {
+        btn.setAttribute('aria-label', closeLabel);
+    }
+    wrap.appendChild(text);
+    wrap.appendChild(btn);
+    host.appendChild(wrap);
+    host.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
 function readJsonArray(raw) {
     if (!raw) {
         return null;
@@ -458,8 +485,14 @@ function init() {
             return typeof wr === 'string' && wr.length > 0;
         });
         if (usedFolderPick) {
-            window.location.reload();
+            const url = new URL(window.location.href);
+            url.searchParams.set('media_upload_success', '1');
+            window.location.href = url.toString();
             return;
+        }
+        const hadSuccess = successful.length > 0 && failed.length === 0;
+        if (hadSuccess) {
+            showFilesUploadSuccessBanner(root);
         }
         uppy.clear();
     });

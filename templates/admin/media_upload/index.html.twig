@@ -80,6 +80,25 @@
         })|raw }}
     </div>
 
+    {% if app.request.query.get('media_upload_success') %}
+        <div class="alert alert-success alert-dismissible fade show mb-3" role="status">
+            {{ 'admin.media_upload.alert_upload_after_refresh'|trans }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ 'admin.media_upload.close_alert'|trans }}"></button>
+        </div>
+        <script>
+            (function () {
+                const u = new URL(window.location.href);
+                if (u.searchParams.has('media_upload_success')) {
+                    u.searchParams.delete('media_upload_success');
+                    const q = u.searchParams.toString();
+                    window.history.replaceState(null, '', u.pathname + (q ? '?' + q : '') + u.hash);
+                }
+            })();
+        </script>
+    {% endif %}
+
+    <div id="admin-media-upload-banner" class="mb-0"></div>
+
     {% if not upload_dir_exists %}
         <div class="alert alert-warning">{{ 'admin.media_upload.dir_warning'|trans }}</div>
     {% endif %}
@@ -222,6 +241,8 @@
             data-delete-file-url="{{ path('admin_media_upload_delete_file', {_locale: app.request.locale})|e('html_attr') }}"
             data-label-delete-file="{{ 'admin.media_upload.delete_file'|trans|e('html_attr') }}"
             data-confirm-delete-file="{{ 'admin.media_upload.confirm_delete_file'|trans|e('html_attr') }}"
+            data-msg-upload-files-success="{{ 'admin.media_upload.alert_upload_files_done'|trans|e('html_attr') }}"
+            data-msg-close-alert="{{ 'admin.media_upload.close_alert'|trans|e('html_attr') }}"
             {% endif %}
         >
             <div data-uppy-dashboard-mount class="w-100"></div>

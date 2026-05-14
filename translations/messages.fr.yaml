@@ -72,6 +72,9 @@ admin:
     uppy_add_more_hint: "Dès qu’il y a des fichiers dans la file, Uppy affiche la liste : utilisez le bouton « + » / « Ajouter » en haut à droite pour parcourir à nouveau (fichiers ou dossier). Après un envoi terminé, la file se vide pour retrouver les liens parcourir."
     file_type_rejected: "Fichier non autorisé : __NAME__ (JPEG, PNG, GIF, WebP, SVG, PDF, MP4 uniquement)."
     limits_explain: "Limite <strong>par fichier</strong> appliquée côté navigateur et serveur : environ %per_file% Mo (le plus petit parmi APP_UPLOAD_MAX_SIZE=%app_env%, upload_max_filesize=%upload_ini%, post_max_size=%post_ini%). Il n’y a pas de quota sur la somme des tailles de tous les fichiers. Si plusieurs envois restent bloqués, augmentez surtout <code>upload_max_filesize</code> et <code>post_max_size</code> en PHP."
+    alert_upload_after_refresh: "Téléversement terminé : fichiers ou dossier ajouté(s) avec succès. La liste a été actualisée."
+    alert_upload_files_done: "Les fichiers ont bien été ajoutés à la liste."
+    close_alert: Fermer
     flash:
       invalid_csrf: Session expirée, veuillez réessayer.
       folder_created: 'Dossier « %name% » créé.'
