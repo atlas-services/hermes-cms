@@ -41,7 +41,10 @@
                 <a class="btn btn-success" href="{{ path('post_new', {id: selectedPage.id}) }}">{{ 'Ajouter un post' }}</a>
             </div>
 
-            {{ include('admin/section/_list.html.twig', { sections: selectedPage.sections }) }}
+            {{ include('admin/section/_list.html.twig', {
+                sections: selectedPage.sections,
+                sectionModaleChoices: sectionModaleChoices|default([]),
+            }) }}
         {% endif %}
     {% endif %}
 {% endblock %}

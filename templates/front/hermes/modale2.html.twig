@@ -1,1 +1,20 @@
-{# Hermes 2.2.7 modale2 — squelette ; compléter avec includes modale seule si besoin. #}
+{# Port Hermes release/2.2.7 : une modale Bootstrap par post (liens #portfolioModal{{ id }} depuis le folio). #}
+{% for post in posts %}
+    <div class="modal fade portfolio-modal" id="portfolioModal{{ post.id }}" tabindex="-1" aria-hidden="true" aria-labelledby="portfolioModalLabel{{ post.id }}">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="portfolioModalLabel{{ post.id }}">{{ post.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    {% set img = vich_uploader_asset(post, 'imageFile') %}
+                    {% if img %}
+                        <img class="img-fluid mb-3" src="{{ asset(img) }}" alt="{{ post.name }}">
+                    {% endif %}
+                    <div class="post-content text-start">{{ post.content|raw }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

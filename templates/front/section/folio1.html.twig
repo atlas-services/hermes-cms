@@ -1,40 +1,59 @@
-{# Structure portée de Hermes release/2.2.7 : templates/front/base/hermes/template/folio1.html.twig #}
+{# Port Hermes release/2.2.7 : templates/front/base/hermes/template/folio1.html.twig — chemins hermes3 + posts actifs (contexte parent). #}
 {% set padding_x = configs.folio1_padding_x|default(2) %}
 {% set padding_y = configs.folio1_padding_y|default(2) %}
+{% set folioNbCol = posts is not empty ? posts|first.templateNbCol : 4 %}
 {% set picture_groups = section|col_imgs %}
-{% set n_groups = picture_groups|length %}
-{% set col_md = n_groups > 0 ? (12 / n_groups)|round(0, 'floor') : 12 %}
-{% if col_md < 1 %}{% set col_md = 1 %}{% endif %}
 
-<div class="folio1 py-2">
-    <div class="row g-0 justify-content-center">
-        {% for pictures in picture_groups %}
-            {% set px = 'px-' ~ padding_x ~ ' px-sm-' ~ padding_x %}
-            {% if loop.first %}
-                {% set px = 'ps-' ~ padding_x ~ ' pe-' ~ padding_x ~ ' ps-sm-' ~ padding_x ~ ' pe-sm-' ~ padding_x %}
-            {% endif %}
-            {% if loop.last %}
-                {% set px = 'ps-' ~ padding_x ~ ' pe-' ~ padding_x ~ ' ps-sm-' ~ padding_x ~ ' pe-sm-' ~ padding_x %}
-            {% endif %}
-            <div class="col-12 col-md-{{ col_md }} {{ px }} pb-{{ padding_y }}">
-                {% for post in pictures %}
-                    {% if post.name is defined %}
-                        <figure class="folio1__item text-center mb-3 mb-md-{{ padding_y }}">
-                            {% set img = vich_uploader_asset(post, 'imageFile') %}
-                            {% if img %}
-                                <a href="{{ asset(img) }}" class="folio1__link d-inline-block" target="_blank" rel="noopener noreferrer">
-                                    <img src="{{ asset(img) }}" alt="{{ post.name }}" class="img-fluid rounded shadow-sm">
+<section id="portfolio" class="py-0 pb-lg-4 mx-auto px-0" style="background-color: {{ configs.content_bgcolor|default('transparent') }}">
+    <div class="container-fluid col-12 col-lg-{{ (section.templateWidth ?? (configs.folio_container_width|default(8)))|col_lg }} mx-auto px-0">
+        <div id="folio" class="row mx-auto g-3 g-lg-4">
+            {% for pictures in picture_groups %}
+                {% set px = 'px-' ~ padding_x ~ ' px-sm-' ~ padding_x %}
+                {% if loop.first %}
+                    {% set px = 'px-' ~ padding_x ~ ' ps-sm-' ~ padding_x ~ ' pe-sm-' ~ padding_x %}
+                {% endif %}
+                {% if loop.last %}
+                    {% set px = 'px-' ~ padding_x ~ ' ps-sm-' ~ padding_x ~ ' pe-sm-' ~ padding_x %}
+                {% endif %}
+                <div class="col-lg-{{ folioNbCol|nb_col }} col-md-{{ folioNbCol|nb_col }} col-12 text-center mx-auto {{ px }}">
+                    {% for picture in pictures %}
+                        {% if picture.name is defined %}
+                            {% set imgPath = vich_uploader_asset(picture, 'imageFile') %}
+                            {% if imgPath %}
+                            {% if not section.template2 %}
+                                <img class="folio-thumb-img img-fluid w-100 col-12 py-{{ padding_y }} mx-0 {{ px }}" src="{{ asset(imgPath) }}" alt="{{ picture.name|e('html_attr') }}">
+                            {% elseif section.template2.code == 'modale1' %}
+                                <a style="color: {{ configs.content_link_color|default('#000000') }}"
+                                   onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'"
+                                   onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'"
+                                   class="thumbnail text-decoration-none d-block"
+                                   href="#"
+                                   data-name="{{ picture.name|e('html_attr') }}"
+                                   data-content="{{ picture.content|default('')|e('html_attr') }}"
+                                   data-bs-toggle="modal"
+                                   data-image="{{ asset(imgPath) }}"
+                                   data-bs-target="#image-gallery">
+                                    <img class="folio-thumb-img img-fluid w-100 rounded py-{{ padding_y }} {{ px }}" src="{{ asset(imgPath) }}" alt="{{ picture.name|e('html_attr') }}">
                                 </a>
+                            {% elseif section.template2.code == 'modale2' %}
+                                <a style="color: {{ configs.content_link_color|default('#000000') }}"
+                                   onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'"
+                                   onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'"
+                                   class="portfolio-link text-decoration-none d-block"
+                                   data-bs-toggle="modal"
+                                   href="#portfolioModal{{ picture.id }}">
+                                    <img class="folio-thumb-img img-fluid w-100 rounded py-{{ padding_y }} {{ px }}" src="{{ asset(imgPath) }}" alt="{{ picture.name|e('html_attr') }}">
+                                </a>
+                            {% else %}
+                                <img class="folio-thumb-img img-fluid w-100 col-12 py-{{ padding_y }} mx-0 {{ px }}" src="{{ asset(imgPath) }}" alt="{{ picture.name|e('html_attr') }}">
                             {% endif %}
-                            {% if post.name %}
-                                <figcaption class="small mt-2 text-muted">{{ post.name }}</figcaption>
                             {% endif %}
-                        </figure>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
+</section>
 
 {% include 'front/hermes/modale.html.twig' %}

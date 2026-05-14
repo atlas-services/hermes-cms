@@ -1,1 +1,15 @@
-{# Hermes 2.2.7 modale1 — squelette ; compléter avec includes carousel (_modale1) si besoin. #}
+{# Port Hermes release/2.2.7 : modale1 + Bootstrap 5 + Stimulus image-gallery #}
+<div
+    class="modal fade"
+    id="image-gallery"
+    tabindex="-1"
+    aria-labelledby="image-gallery-title"
+    aria-hidden="true"
+    data-controller="image-gallery"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            {% include 'front/hermes/includes/_modale1.html.twig' %}
+        </div>
+    </div>
+</div>

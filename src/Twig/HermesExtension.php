@@ -18,6 +18,8 @@ final class HermesExtension extends AbstractExtension
     {
         return [
             new TwigFilter('col_imgs', $this->colImgs(...)),
+            new TwigFilter('col_lg', $this->colLg(...)),
+            new TwigFilter('nb_col', $this->nbCol(...)),
         ];
     }
 
@@ -86,5 +88,52 @@ final class HermesExtension extends AbstractExtension
         }
 
         return 3;
+    }
+
+    /**
+     * Port de Hermes 2.2.7 {@see AppExtension::colLg} : largeur de colonne Bootstrap (1–12).
+     * Si une section est passée, utilise le {@see Post::getTemplateNbCol()} du premier post actif.
+     */
+    public function colLg(mixed $prct, mixed $section = null): int
+    {
+        $v = (int) round((float) $prct);
+        $v = max(1, min(12, $v));
+
+        if ($section instanceof Section) {
+            $nb = null;
+            foreach ($section->getPosts() as $p) {
+                if ($p instanceof Post && $p->isActive()) {
+                    $nb = $p->getTemplateNbCol();
+                    break;
+                }
+            }
+            if ($nb === null || $nb < 1) {
+                return $v;
+            }
+            try {
+                return max(1, min(12, (int) (12 / $nb)));
+            } catch (\Throwable) {
+                return 12;
+            }
+        }
+
+        return $v;
+    }
+
+    /**
+     * Port de Hermes 2.2.7 {@see AppExtension::nbCol} : nombre de colonnes BS pour N images par ligne.
+     */
+    public function nbCol(mixed $nbCol): int
+    {
+        $n = (int) $nbCol;
+
+        return match (true) {
+            $n === 1 => 12,
+            $n === 2 => 6,
+            $n === 3 => 4,
+            $n === 4 => 3,
+            $n >= 5 && $n <= 8 => 2,
+            default => 1,
+        };
     }
 }

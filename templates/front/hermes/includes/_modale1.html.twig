@@ -1,0 +1,29 @@
+{# Corps modale galerie — structure Bootstrap 5 (modal-header / modal-body). #}
+<div class="modal-header border-0">
+    <h4 class="modal-title image-gallery-title" id="image-gallery-title" data-image-gallery-target="title"></h4>
+    <button type="button" class="btn-close" style="background-color: {{ configs.modale_color|default('#ffffff') }}" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="col-lg-{{ (section.template2Width ?? (configs.modale_container_width|default(6)))|col_lg }} col-12 mx-auto px-0">
+        <h4 class="post-name-gallery-image text-center mt-2 mb-3" id="post-name-gallery-image" data-image-gallery-target="postName"></h4>
+        <div class="d-flex justify-content-center gap-2 mb-3">
+            <button type="button" class="btn btn-secondary" data-action="click->image-gallery#previous" aria-label="Previous">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <button type="button" class="btn btn-secondary" data-action="click->image-gallery#next" aria-label="Next">
+                <i class="fa fa-arrow-right"></i>
+            </button>
+        </div>
+        <div class="text-center mb-3">
+            <img
+                id="image-gallery-image"
+                class="image-gallery-image img-fluid w-100 rounded"
+                data-image-gallery-target="image"
+                src=""
+                alt=""
+                style="max-height: min(85vh, 900px); object-fit: contain;"
+            >
+        </div>
+        <div id="post-content-gallery-image" class="post-content-gallery-image text-center" data-image-gallery-target="postContent"></div>
+    </div>
+</div>

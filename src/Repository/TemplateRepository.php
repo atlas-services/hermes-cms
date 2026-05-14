@@ -104,6 +104,31 @@ class TemplateRepository extends ServiceEntityRepository
             ?? $this->findOneBy(['code' => 'modale2']);
     }
 
+    /**
+     * Modales proposées dans l’admin (liste des pages) : modale1, modale2.
+     *
+     * @return list<array{code: string, id: int, name: string}>
+     */
+    public function getModaleChoicesForSectionAdmin(): array
+    {
+        $out = [];
+        foreach (['modale1', 'modale2'] as $code) {
+            $t = $this->findOneBy(['code' => $code]);
+            if ($t instanceof Template) {
+                $id = $t->getId();
+                if ($id !== null) {
+                    $out[] = [
+                        'code' => $code,
+                        'id' => $id,
+                        'name' => (string) $t->getName(),
+                    ];
+                }
+            }
+        }
+
+        return $out;
+    }
+
     public function getQbTemplateLibre(): QueryBuilder
     {
         return $this->createQueryBuilder('s')

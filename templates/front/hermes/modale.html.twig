@@ -1,6 +1,4 @@
-{# Hermes 2.2.7 modale.html.twig : template2 sur la section. Défaut affichage modale1 si absent ou non-modale. #}
+{# Hermes release/2.2.7 : modale secondaire sur la section (template2). #}
 {% if section.template2 and section.template2.code and ('modale' in section.template2.code) %}
-    {% include 'front/hermes/' ~ section.template2.code ~ '.html.twig' ignore missing %}
-{% else %}
-    {% include 'front/hermes/modale1.html.twig' ignore missing %}
+    {% include 'front/hermes/' ~ section.template2.code ~ '.html.twig' %}
 {% endif %}

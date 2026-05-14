@@ -7,6 +7,7 @@ use App\Entity\Interface\PositionableInterface;
 use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
+use App\Entity\Template;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -128,6 +129,66 @@ class BaseController extends AbstractController
             $section->setTemplateWidth($v);
         }
 
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
+    #[Route('/update-section-template2', name: 'app_update_section_template2', methods: ['POST'])]
+    public function updateSectionTemplate2(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        try {
+            /** @var array{type?: string, id?: mixed, template2_code?: mixed} $data */
+            $data = json_decode(
+                $request->getContent(),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        if (($data['type'] ?? '') !== 'section') {
+            return new JsonResponse(['status' => 'invalid type'], 400);
+        }
+
+        $id = filter_var($data['id'] ?? null, FILTER_VALIDATE_INT);
+        if (false === $id || $id < 1) {
+            return new JsonResponse(['status' => 'invalid id'], 400);
+        }
+
+        $section = $entityManager->find(Section::class, $id);
+        if (!$section instanceof Section) {
+            return new JsonResponse(['status' => 'not found'], 404);
+        }
+
+        $main = $section->getTemplate();
+        if ($main === null || $main->getType() !== 'liste') {
+            return new JsonResponse(['status' => 'section template must be liste'], 400);
+        }
+
+        $raw = $data['template2_code'] ?? '';
+        $code = trim((string) $raw);
+
+        if ($code === '') {
+            $section->setTemplate2(null);
+
+            $entityManager->flush();
+
+            return new JsonResponse(['status' => 'success']);
+        }
+
+        if ($code !== 'modale1' && $code !== 'modale2') {
+            return new JsonResponse(['status' => 'invalid template2_code'], 400);
+        }
+
+        $template2 = $entityManager->getRepository(Template::class)->findOneBy(['code' => $code]);
+        if (!$template2 instanceof Template) {
+            return new JsonResponse(['status' => 'template2 not found'], 404);
+        }
+
+        $section->setTemplate2($template2);
         $entityManager->flush();
 
         return new JsonResponse(['status' => 'success']);

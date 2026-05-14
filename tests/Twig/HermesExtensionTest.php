@@ -47,4 +47,33 @@ final class HermesExtensionTest extends TestCase
         $flat = array_merge(...$groups);
         $this->assertCount(5, $flat);
     }
+
+    public function testNbCol(): void
+    {
+        $ext = new HermesExtension();
+        $this->assertSame(4, $ext->nbCol(3));
+        $this->assertSame(12, $ext->nbCol(1));
+        $this->assertSame(1, $ext->nbCol(12));
+    }
+
+    public function testColLgWithoutSection(): void
+    {
+        $ext = new HermesExtension();
+        $this->assertSame(8, $ext->colLg(8));
+    }
+
+    public function testColLgWithSectionUsesFirstPostNbCol(): void
+    {
+        $ext = new HermesExtension();
+        $menu = new Menu();
+        $menu->setName('M');
+        $section = new Section();
+        $section->setMenu($menu);
+        $p = new Post();
+        $p->setName('P');
+        $p->setTemplateNbCol(4);
+        $section->addPost($p);
+
+        $this->assertSame(3, $ext->colLg(10, $section));
+    }
 }

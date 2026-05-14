@@ -133,6 +133,7 @@ class PostController extends AbstractController
         return $this->render('admin/post/index.html.twig', [
             'pages' => $pages,
             'selectedPage' => $selectedPage,
+            'sectionModaleChoices' => $this->templateRepository->getModaleChoicesForSectionAdmin(),
         ]);
     }
 
