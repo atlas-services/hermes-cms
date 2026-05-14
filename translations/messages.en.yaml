@@ -26,6 +26,7 @@ form:
     post_section_type_summary: 'This post is of type %summary%.'
     section_modal: Modal
     section_modal_none: None
+    section_modal_width_1_to_12: 'Modal width (1 to 12)'
     post_template: Presentation Type
     post_template_help: This template defines the section created for this post.
     post_current_image: Current image

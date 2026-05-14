@@ -32,7 +32,7 @@
                                    data-content="{{ picture.content|default('')|e('html_attr') }}"
                                    data-bs-toggle="modal"
                                    data-image="{{ asset(imgPath) }}"
-                                   data-bs-target="#image-gallery">
+                                   data-bs-target="#image-gallery-{{ section.id }}">
                                     <img class="folio-thumb-img img-fluid w-100 rounded py-{{ padding_y }} {{ px }}" src="{{ asset(imgPath) }}" alt="{{ picture.name|e('html_attr') }}">
                                 </a>
                             {% elseif section.template2.code == 'modale2' %}

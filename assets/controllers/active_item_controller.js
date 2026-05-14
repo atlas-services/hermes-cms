@@ -114,4 +114,47 @@ export default class extends Controller {
             console.error('Network error:', e);
         }
     }
+
+    /**
+     * Largeur grille (1–12) pour la modale (template2), sections type liste uniquement.
+     */
+    async persistTemplate2Width(event) {
+        const select = event.currentTarget;
+        const item = select.closest('.list-items');
+        const root = select.closest('tbody');
+
+        const type = root?.dataset?.type;
+        const locale = root?.dataset?.locale;
+        const id = item?.dataset?.itemId;
+
+        if (!type || !locale || !id) {
+            console.error('persistTemplate2Width: contexte tbody / ligne manquant');
+            return;
+        }
+
+        const template2_width = parseInt(select.value, 10);
+
+        if (Number.isNaN(template2_width) || template2_width < 1 || template2_width > 12) {
+            console.error('persistTemplate2Width: valeur invalide');
+            return;
+        }
+
+        const url = `/${locale}/admin/update-template2-width`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, type, template2_width }),
+            });
+
+            if (!response.ok) {
+                console.error('Erreur mise à jour template2_width', await response.text());
+            }
+        } catch (e) {
+            console.error('Network error:', e);
+        }
+    }
 }

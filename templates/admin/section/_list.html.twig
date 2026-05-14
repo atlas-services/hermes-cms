@@ -5,6 +5,7 @@
             <th>{{ 'form.label.section_width_1_to_12'|trans }}</th>
             <th>{{ 'Template' }}</th>
             <th>{{ 'form.label.section_modal'|trans }}</th>
+            <th>{{ 'form.label.section_modal_width_1_to_12'|trans }}</th>
             <th>{{ 'Posts' }}</th>
             <th>{{ 'form.label.actions'|trans() }}</th>
         </tr>
@@ -15,6 +16,7 @@
         data-locale="{{ app.request.locale }}"
     >
         {% for section in sections %}
+            {% set isListe = section.template and section.template.type == 'liste' %}
             <tr class="list-items align-middle" data-move-item-target="item" data-item-id="{{ section.id }}">
                 <td>
                     <div class="form-check form-switch form-switch-sm my-0">
@@ -44,7 +46,6 @@
                     {{ section.template ? section.template.name : 'Aucun template' }}
                 </td>
                 <td>
-                    {% set isListe = section.template and section.template.type == 'liste' %}
                     {% if isListe %}
                         {% set currentModalCode = section.template2 ? section.template2.code : '' %}
                         <select
@@ -56,6 +57,23 @@
                             <option value="" {{ currentModalCode == '' ? 'selected' : '' }}>{{ 'form.label.section_modal_none'|trans }}</option>
                             {% for m in sectionModaleChoices|default([]) %}
                                 <option value="{{ m.code }}" {{ currentModalCode == m.code ? 'selected' : '' }}>{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <span class="text-muted">—</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if isListe %}
+                        {% set modal2W = section.rawTemplate2Width ?? 4 %}
+                        <select
+                            class="form-select form-select-sm w-auto"
+                            aria-label="{{ 'form.label.section_modal_width_1_to_12'|trans }}"
+                            data-controller="active-item"
+                            data-action="change->active-item#persistTemplate2Width"
+                        >
+                            {% for w in 1..12 %}
+                                <option value="{{ w }}" {{ modal2W == w ? 'selected' : '' }}>{{ w }}</option>
                             {% endfor %}
                         </select>
                     {% else %}
@@ -98,7 +116,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">{{ 'Aucune section trouvée pour cette page.' }}</td>
+                <td colspan="7">{{ 'Aucune section trouvée pour cette page.' }}</td>
             </tr>
         {% endfor %}
     </tbody>

@@ -1,14 +1,20 @@
-{# Port Hermes release/2.2.7 : modale1 + Bootstrap 5 + Stimulus image-gallery #}
+{# Port Hermes release/2.2.7 : modale1 + Bootstrap 5 + Stimulus image-gallery — largeur ≈ (template2Width/12) × viewport. #}
+{% set _tw2 = (section.rawTemplate2Width ?? (configs.modale_container_width|default(6)))|col_lg %}
+{% set _modalVw = 'min(calc(100vw - 1.5rem), calc((100vw - 1.5rem) * ' ~ _tw2 ~ ' / 12))' %}
+{% set _modalVh = 'min(calc(100vh - 2rem), calc((100vh - 2rem) * ' ~ _tw2 ~ ' / 12))' %}
 <div
     class="modal fade"
-    id="image-gallery"
+    id="image-gallery-{{ section.id }}"
     tabindex="-1"
-    aria-labelledby="image-gallery-title"
+    aria-labelledby="image-gallery-title-{{ section.id }}"
     aria-hidden="true"
     data-controller="image-gallery"
 >
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
+    <div
+        class="modal-dialog modal-dialog-scrollable{% if _tw2 == 12 %} modal-fullscreen{% else %} modal-dialog-centered mx-auto{% endif %}"
+        {% if _tw2 != 12 %}style="width: {{ _modalVw }}; max-width: {{ _modalVw }}; max-height: {{ _modalVh }};"{% endif %}
+    >
+        <div class="modal-content w-100">
             {% include 'front/hermes/includes/_modale1.html.twig' %}
         </div>
     </div>

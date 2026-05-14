@@ -39,6 +39,7 @@ class Section implements PositionableInterface
     private ?Template $template2 = null;
 
     #[ORM\Column(name: 'template2_width', type: 'integer', nullable: true)]
+    #[Assert\Range(min: 1, max: 12)]
     private ?int $template2Width = null;
 
     /** @var Collection<int, Post> */
@@ -110,6 +111,12 @@ class Section implements PositionableInterface
     public function getTemplate2Width(): int
     {
         return $this->template2Width ?? 4;
+    }
+
+    /** Valeur persistée (1–12) ou null = défaut côté {@see getTemplate2Width()} / config front. */
+    public function getRawTemplate2Width(): ?int
+    {
+        return $this->template2Width;
     }
 
     public function setTemplate2Width(?int $template2Width): self

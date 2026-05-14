@@ -1,8 +1,8 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * Galerie modale « slide » Hermes (modale1) : remplit #image-gallery au show.bs.modal,
- * navigation précédent / suivant sur les vignettes `a[data-bs-target="#image-gallery"][data-image]`.
+ * Galerie modale « slide » Hermes (modale1) : une instance par section (`id="image-gallery-{sectionId}"`).
+ * Au show.bs.modal, collecte uniquement les vignettes `a[data-bs-target="#" + même id][data-image]`.
  */
 export default class extends Controller {
     static targets = ['image', 'title', 'postName', 'postContent'];
@@ -20,7 +20,12 @@ export default class extends Controller {
 
     gather() {
         this.items = [];
-        document.querySelectorAll('a[data-bs-target="#image-gallery"][data-image]').forEach((a) => {
+        const modalId = this.element.id;
+        if (!modalId) {
+            return;
+        }
+        const sel = 'a[data-bs-target="#' + modalId + '"][data-image]';
+        document.querySelectorAll(sel).forEach((a) => {
             this.items.push({
                 image: a.getAttribute('data-image') || '',
                 name: a.getAttribute('data-name') || '',
