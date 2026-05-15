@@ -1,10 +1,11 @@
 {# Port Hermes release/2.2.7 : templates/front/base/hermes/template/folio1.html.twig — chemins hermes3 + posts actifs (contexte parent). #}
 {% set padding_x = configs.folio1_padding_x|default(2) %}
 {% set padding_y = configs.folio1_padding_y|default(2) %}
-{% set folioNbCol = posts is not empty ? posts|first.templateNbCol : 4 %}
+{% set folioNbCol = section.templateNbCol %}
 {% set picture_groups = section|col_imgs %}
+{% set folioBg = section.isTransparent ? 'transparent' : (section.templateBgcolor|default(configs.content_bgcolor|default('transparent'))) %}
 
-<section id="portfolio" class="py-0 pb-lg-4 mx-auto px-0" style="background-color: {{ configs.content_bgcolor|default('transparent') }}">
+<section id="portfolio" class="py-0 pb-lg-4 mx-auto px-0" style="background-color: {{ folioBg }}">
     <div class="container-fluid col-12 col-lg-{{ (section.templateWidth ?? (configs.folio_container_width|default(8)))|col_lg }} mx-auto px-0">
         <div id="folio" class="row mx-auto g-3 g-lg-4">
             {% for pictures in picture_groups %}

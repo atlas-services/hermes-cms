@@ -34,11 +34,11 @@ final class HermesExtensionTest extends TestCase
         $section = new Section();
         $section->setMenu($menu);
         $section->setTemplate($template);
+        $section->setTemplateNbCol(3);
 
         for ($i = 1; $i <= 5; ++$i) {
             $p = new Post();
             $p->setName('P'.$i);
-            $p->setTemplateNbCol(3);
             $section->addPost($p);
         }
 
@@ -62,17 +62,14 @@ final class HermesExtensionTest extends TestCase
         $this->assertSame(8, $ext->colLg(8));
     }
 
-    public function testColLgWithSectionUsesFirstPostNbCol(): void
+    public function testColLgWithSectionUsesSectionNbCol(): void
     {
         $ext = new HermesExtension();
         $menu = new Menu();
         $menu->setName('M');
         $section = new Section();
         $section->setMenu($menu);
-        $p = new Post();
-        $p->setName('P');
-        $p->setTemplateNbCol(4);
-        $section->addPost($p);
+        $section->setTemplateNbCol(4);
 
         $this->assertSame(3, $ext->colLg(10, $section));
     }

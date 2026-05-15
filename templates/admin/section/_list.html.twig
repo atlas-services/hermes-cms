@@ -6,6 +6,7 @@
             <th>{{ 'Template' }}</th>
             <th>{{ 'form.label.section_modal'|trans }}</th>
             <th>{{ 'form.label.section_modal_width_1_to_12'|trans }}</th>
+            <th>{{ 'form.label.section_list_options'|trans }}</th>
             <th>{{ 'Posts' }}</th>
             <th>{{ 'form.label.actions'|trans() }}</th>
         </tr>
@@ -81,6 +82,56 @@
                     {% endif %}
                 </td>
                 <td>
+                    {% if isListe %}
+                        <div class="d-flex flex-column gap-1 align-items-start">
+                            <label class="small text-muted mb-0">{{ 'form.label.section_nb_col'|trans }}</label>
+                            <select
+                                class="form-select form-select-sm w-auto"
+                                aria-label="{{ 'form.label.section_nb_col'|trans }}"
+                                data-controller="active-item"
+                                data-action="change->active-item#persistSectionTemplateNbCol"
+                            >
+                                {% set nbCol = section.templateNbCol %}
+                                {% for n in 1..8 %}
+                                    <option value="{{ n }}" {{ nbCol == n ? 'selected' : '' }}>{{ n }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-check form-switch form-switch-sm my-0">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    data-controller="active-item"
+                                    data-action="change->active-item#persistSectionTransparent"
+                                    {{ section.isTransparent ? 'checked' : '' }}
+                                    id="section-transparent-{{ section.id }}"
+                                >
+                                <label class="form-check-label small" for="section-transparent-{{ section.id }}">{{ 'form.label.section_transparent'|trans }}</label>
+                            </div>
+                            <label class="small text-muted mb-0">{{ 'form.label.section_bgcolor'|trans }}</label>
+                            {% set sectionBgHex = section.rawTemplateBgcolor %}
+                            <input
+                                type="color"
+                                class="form-control form-control-color form-control-sm js-section-bgcolor"
+                                value="{{ sectionBgHex is not null and sectionBgHex starts with '#' ? sectionBgHex : '#ffffff' }}"
+                                data-controller="active-item"
+                                data-action="change->active-item#persistSectionTemplateBgcolor"
+                                {{ section.isTransparent ? 'disabled' : '' }}
+                            >
+                            <label class="small text-muted mb-0">{{ 'form.label.section_image_filter'|trans }}</label>
+                            <input
+                                type="text"
+                                class="form-control form-control-sm w-auto"
+                                value="{{ section.templateImageFilter }}"
+                                placeholder="bd_154"
+                                data-controller="active-item"
+                                data-action="change->active-item#persistSectionTemplateImageFilter"
+                            >
+                        </div>
+                    {% else %}
+                        <span class="text-muted">—</span>
+                    {% endif %}
+                </td>
+                <td>
                     {% if section.posts|length > 0 %}
                         <ul class="list-unstyled mb-0">
                             {% for post in section.posts %}
@@ -116,7 +167,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">{{ 'Aucune section trouvée pour cette page.' }}</td>
+                <td colspan="8">{{ 'Aucune section trouvée pour cette page.' }}</td>
             </tr>
         {% endfor %}
     </tbody>

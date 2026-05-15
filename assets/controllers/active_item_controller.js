@@ -157,4 +157,61 @@ export default class extends Controller {
             console.error('Network error:', e);
         }
     }
+
+    async _postSectionField(url, event, bodyExtra) {
+        const item = event.currentTarget.closest('.list-items');
+        const root = event.currentTarget.closest('tbody');
+        const type = root?.dataset?.type;
+        const locale = root?.dataset?.locale;
+        const id = item?.dataset?.itemId;
+        if (!type || !locale || !id) {
+            return false;
+        }
+        try {
+            const response = await fetch(`/${locale}/admin/${url}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, type, ...bodyExtra }),
+            });
+            if (!response.ok) {
+                console.error(`Erreur ${url}`, await response.text());
+                return false;
+            }
+            return true;
+        } catch (e) {
+            console.error('Network error:', e);
+            return false;
+        }
+    }
+
+    async persistSectionTemplateNbCol(event) {
+        const v = parseInt(event.currentTarget.value, 10);
+        if (Number.isNaN(v) || v < 1 || v > 12) {
+            return;
+        }
+        await this._postSectionField('update-section-template-nb-col', event, { template_nb_col: v });
+    }
+
+    async persistSectionTransparent(event) {
+        await this._postSectionField('update-section-transparent', event, {
+            transparent: event.currentTarget.checked,
+        });
+        const row = event.currentTarget.closest('.list-items');
+        const colorInput = row?.querySelector('.js-section-bgcolor');
+        if (colorInput) {
+            colorInput.disabled = event.currentTarget.checked;
+        }
+    }
+
+    async persistSectionTemplateBgcolor(event) {
+        await this._postSectionField('update-section-template-bgcolor', event, {
+            template_bgcolor: event.currentTarget.value,
+        });
+    }
+
+    async persistSectionTemplateImageFilter(event) {
+        await this._postSectionField('update-section-template-image-filter', event, {
+            template_image_filter: event.currentTarget.value,
+        });
+    }
 }

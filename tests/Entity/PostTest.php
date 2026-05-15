@@ -9,23 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class PostTest extends TestCase
 {
-    public function testDefaultTransparency(): void
-    {
-        $post = new Post();
-
-        $this->assertFalse($post->isTransparent());
-        $this->assertEquals('transparent', $post->getTemplateBgcolor());
-    }
-
-    public function testTemplateBgcolorWhenTransparent(): void
-    {
-        $post = new Post();
-        $post->setTransparent(true);
-
-        $this->assertTrue($post->isTransparent());
-        $this->assertEquals('transparent', $post->getTemplateBgcolor());
-    }
-
     public function testSectionAssociationIsBidirectional(): void
     {
         $post = new Post();

@@ -47,7 +47,7 @@ final class HermesExtension extends AbstractExtension
             return [];
         }
 
-        $nbCol = $this->resolveNbCol($posts);
+        $nbCol = $this->resolveNbCol($section);
         $total = \count($posts);
         $round = (int) round($total / $nbCol);
         if ($round < 1) {
@@ -74,25 +74,14 @@ final class HermesExtension extends AbstractExtension
         return $pictures;
     }
 
-    /**
-     * @param list<Post> $activePosts
-     */
-    private function resolveNbCol(array $activePosts): int
+    private function resolveNbCol(Section $section): int
     {
-        foreach ($activePosts as $post) {
-            if ($post instanceof Post) {
-                $n = $post->getTemplateNbCol();
-
-                return max(1, min(12, $n));
-            }
-        }
-
-        return 3;
+        return max(1, min(12, $section->getTemplateNbCol()));
     }
 
     /**
      * Port de Hermes 2.2.7 {@see AppExtension::colLg} : largeur de colonne Bootstrap (1–12).
-     * Si une section est passée, utilise le {@see Post::getTemplateNbCol()} du premier post actif.
+     * Si une section est passée, utilise {@see Section::getTemplateNbCol()}.
      */
     public function colLg(mixed $prct, mixed $section = null): int
     {
@@ -100,14 +89,8 @@ final class HermesExtension extends AbstractExtension
         $v = max(1, min(12, $v));
 
         if ($section instanceof Section) {
-            $nb = null;
-            foreach ($section->getPosts() as $p) {
-                if ($p instanceof Post && $p->isActive()) {
-                    $nb = $p->getTemplateNbCol();
-                    break;
-                }
-            }
-            if ($nb === null || $nb < 1) {
+            $nb = $section->getTemplateNbCol();
+            if ($nb < 1) {
                 return $v;
             }
             try {

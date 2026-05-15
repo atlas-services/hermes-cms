@@ -70,4 +70,29 @@ class SectionTest extends TestCase
         $this->assertSame($t2, $section->getTemplate2());
         $this->assertSame(6, $section->getTemplate2Width());
     }
+
+    public function testDefaultTransparency(): void
+    {
+        $section = new Section();
+
+        $this->assertFalse($section->isTransparent());
+        $this->assertSame('transparent', $section->getTemplateBgcolor());
+    }
+
+    public function testTemplateBgcolorWhenTransparent(): void
+    {
+        $section = new Section();
+        $section->setTransparent(true);
+
+        $this->assertTrue($section->isTransparent());
+        $this->assertSame('transparent', $section->getTemplateBgcolor());
+    }
+
+    public function testTemplateNbColAndImageFilterDefaults(): void
+    {
+        $section = new Section();
+
+        $this->assertSame(4, $section->getTemplateNbCol());
+        $this->assertSame('bd_154', $section->getTemplateImageFilter());
+    }
 }

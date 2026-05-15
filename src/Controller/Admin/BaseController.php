@@ -245,4 +245,146 @@ class BaseController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
+    #[Route('/update-section-template-nb-col', name: 'app_update_section_template_nb_col', methods: ['POST'])]
+    public function updateSectionTemplateNbCol(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $section = $this->resolveSectionFromJson($request, $entityManager);
+        if ($section instanceof JsonResponse) {
+            return $section;
+        }
+
+        try {
+            /** @var array{template_nb_col?: mixed} $data */
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        $v = filter_var($data['template_nb_col'] ?? null, FILTER_VALIDATE_INT);
+        if (false === $v || $v < 1 || $v > 12) {
+            return new JsonResponse(['status' => 'invalid template_nb_col'], 400);
+        }
+
+        $section->setTemplateNbCol($v);
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
+    #[Route('/update-section-transparent', name: 'app_update_section_transparent', methods: ['POST'])]
+    public function updateSectionTransparent(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $section = $this->resolveSectionFromJson($request, $entityManager);
+        if ($section instanceof JsonResponse) {
+            return $section;
+        }
+
+        try {
+            /** @var array{transparent?: mixed} $data */
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        $transparent = filter_var($data['transparent'] ?? false, FILTER_VALIDATE_BOOLEAN);
+        $section->setTransparent($transparent);
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
+    #[Route('/update-section-template-bgcolor', name: 'app_update_section_template_bgcolor', methods: ['POST'])]
+    public function updateSectionTemplateBgcolor(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $section = $this->resolveSectionFromJson($request, $entityManager);
+        if ($section instanceof JsonResponse) {
+            return $section;
+        }
+
+        try {
+            /** @var array{template_bgcolor?: mixed} $data */
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        $color = trim((string) ($data['template_bgcolor'] ?? ''));
+        if ($color === '') {
+            $section->setTemplateBgcolor(null);
+        } else {
+            if ($section->isTransparent()) {
+                return new JsonResponse(['status' => 'section is transparent'], 400);
+            }
+            $section->setTemplateBgcolor($color);
+        }
+
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
+    #[Route('/update-section-template-image-filter', name: 'app_update_section_template_image_filter', methods: ['POST'])]
+    public function updateSectionTemplateImageFilter(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $section = $this->resolveSectionFromJson($request, $entityManager);
+        if ($section instanceof JsonResponse) {
+            return $section;
+        }
+
+        try {
+            /** @var array{template_image_filter?: mixed} $data */
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        $filter = trim((string) ($data['template_image_filter'] ?? ''));
+        if ($filter === '') {
+            $section->setTemplateImageFilter(null);
+        } else {
+            if (!preg_match('/^[a-zA-Z0-9_-]+$/', $filter)) {
+                return new JsonResponse(['status' => 'invalid template_image_filter'], 400);
+            }
+            $section->setTemplateImageFilter($filter);
+        }
+
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
+    /**
+     * @return Section|JsonResponse
+     */
+    private function resolveSectionFromJson(Request $request, EntityManagerInterface $entityManager): Section|JsonResponse
+    {
+        try {
+            /** @var array{type?: string, id?: mixed} $data */
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        if (($data['type'] ?? '') !== 'section') {
+            return new JsonResponse(['status' => 'invalid type'], 400);
+        }
+
+        $id = filter_var($data['id'] ?? null, FILTER_VALIDATE_INT);
+        if (false === $id || $id < 1) {
+            return new JsonResponse(['status' => 'invalid id'], 400);
+        }
+
+        $section = $entityManager->find(Section::class, $id);
+        if (!$section instanceof Section) {
+            return new JsonResponse(['status' => 'not found'], 404);
+        }
+
+        $main = $section->getTemplate();
+        if ($main === null || $main->getType() !== 'liste') {
+            return new JsonResponse(['status' => 'section template must be liste'], 400);
+        }
+
+        return $section;
+    }
+
 }

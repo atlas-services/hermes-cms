@@ -27,6 +27,11 @@ form:
     section_modal: Modal
     section_modal_none: None
     section_modal_width_1_to_12: 'Modal width (1 to 12)'
+    section_list_options: 'List options'
+    section_nb_col: 'Images per row'
+    section_transparent: 'Transparent background'
+    section_bgcolor: 'Background color'
+    section_image_filter: 'Image filter'
     post_template: Presentation Type
     post_template_help: This template defines the section created for this post.
     post_current_image: Current image

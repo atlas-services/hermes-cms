@@ -42,6 +42,19 @@ class Section implements PositionableInterface
     #[Assert\Range(min: 1, max: 12)]
     private ?int $template2Width = null;
 
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $transparent = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $template_bgcolor = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Assert\Range(min: 1, max: 12)]
+    private ?int $template_nb_col = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $template_image_filter = null;
+
     /** @var Collection<int, Post> */
     #[ORM\OneToMany(mappedBy: 'section', targetEntity: Post::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
@@ -122,6 +135,71 @@ class Section implements PositionableInterface
     public function setTemplate2Width(?int $template2Width): self
     {
         $this->template2Width = $template2Width;
+
+        return $this;
+    }
+
+    // -------------------------
+    // OPTIONS FOLIO / LISTE
+    // -------------------------
+
+    public function isTransparent(): bool
+    {
+        return $this->transparent ?? false;
+    }
+
+    public function setTransparent(bool $transparent): self
+    {
+        $this->transparent = $transparent;
+
+        if ($transparent) {
+            $this->template_bgcolor = 'transparent';
+        }
+
+        return $this;
+    }
+
+    public function getTemplateBgcolor(): string
+    {
+        if ($this->template_bgcolor === null || $this->isTransparent()) {
+            return 'transparent';
+        }
+
+        return $this->template_bgcolor;
+    }
+
+    public function setTemplateBgcolor(?string $template_bgcolor): self
+    {
+        $this->template_bgcolor = $template_bgcolor;
+
+        return $this;
+    }
+
+    public function getRawTemplateBgcolor(): ?string
+    {
+        return $this->template_bgcolor;
+    }
+
+    public function getTemplateNbCol(): int
+    {
+        return $this->template_nb_col ?? 4;
+    }
+
+    public function setTemplateNbCol(?int $template_nb_col): self
+    {
+        $this->template_nb_col = $template_nb_col;
+
+        return $this;
+    }
+
+    public function getTemplateImageFilter(): string
+    {
+        return $this->template_image_filter ?? 'bd_154';
+    }
+
+    public function setTemplateImageFilter(?string $template_image_filter): self
+    {
+        $this->template_image_filter = $template_image_filter;
 
         return $this;
     }
