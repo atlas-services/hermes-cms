@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="d-flex flex-column min-vh-100">
-    <header class="mb-4">
+    <header class="mb-0">
         {% set navbarTemplate = 'front/navbar/' ~ (configs.nav_bar|default('base')) ~ '.html.twig' %}
         {% include [navbarTemplate, 'front/navbar/base.html.twig'] with { menu: menu, menuTree: menuTree, configs: configs } %}
     </header>
@@ -21,7 +21,8 @@
                 {% set effW = mainW < secW ? mainW : secW %}
                 <div class="row justify-content-center mx-0">
                     <div class="col-12 col-lg-{{ effW }} mx-auto px-0 ">
-                        <section class="mx-auto px-0">
+                        {% set sectionBg = section.isTransparent ? 'transparent' : section.templateBgcolor %}
+                        <section class="mx-auto px-0" style="background-color: {{ sectionBg }}">
                             {% set sectionColSm = (section.templateWidth|default(10) + 0)|round(0, 'floor') %}
                             <div class="section-content col-sm-{{ sectionColSm }} mx-auto">
                                 {% if section.template and section.template.code == 'folio1' %}

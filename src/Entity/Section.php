@@ -152,16 +152,16 @@ class Section implements PositionableInterface
     {
         $this->transparent = $transparent;
 
-        if ($transparent) {
-            $this->template_bgcolor = 'transparent';
-        }
-
         return $this;
     }
 
     public function getTemplateBgcolor(): string
     {
-        if ($this->template_bgcolor === null || $this->isTransparent()) {
+        if ($this->isTransparent()) {
+            return 'transparent';
+        }
+
+        if ($this->template_bgcolor === null || $this->template_bgcolor === '') {
             return 'transparent';
         }
 
@@ -170,7 +170,13 @@ class Section implements PositionableInterface
 
     public function setTemplateBgcolor(?string $template_bgcolor): self
     {
-        $this->template_bgcolor = $template_bgcolor;
+        $normalized = $template_bgcolor !== null ? trim($template_bgcolor) : null;
+        if ($normalized === '' || $normalized === 'transparent') {
+            $this->template_bgcolor = null;
+        } else {
+            $this->template_bgcolor = $normalized;
+            $this->transparent = false;
+        }
 
         return $this;
     }

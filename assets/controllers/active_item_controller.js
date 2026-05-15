@@ -204,9 +204,18 @@ export default class extends Controller {
     }
 
     async persistSectionTemplateBgcolor(event) {
-        await this._postSectionField('update-section-template-bgcolor', event, {
+        const row = event.currentTarget.closest('.list-items');
+        const ok = await this._postSectionField('update-section-template-bgcolor', event, {
             template_bgcolor: event.currentTarget.value,
         });
+        if (!ok || !row) {
+            return;
+        }
+        const transparentInput = row.querySelector('[data-action*="persistSectionTransparent"]');
+        if (transparentInput) {
+            transparentInput.checked = false;
+        }
+        event.currentTarget.disabled = false;
     }
 
     async persistSectionTemplateImageFilter(event) {

@@ -248,7 +248,7 @@ class BaseController extends AbstractController
     #[Route('/update-section-template-nb-col', name: 'app_update_section_template_nb_col', methods: ['POST'])]
     public function updateSectionTemplateNbCol(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $section = $this->resolveSectionFromJson($request, $entityManager);
+        $section = $this->resolveListeSectionFromJson($request, $entityManager);
         if ($section instanceof JsonResponse) {
             return $section;
         }
@@ -309,24 +309,16 @@ class BaseController extends AbstractController
         }
 
         $color = trim((string) ($data['template_bgcolor'] ?? ''));
-        if ($color === '') {
-            $section->setTemplateBgcolor(null);
-        } else {
-            if ($section->isTransparent()) {
-                return new JsonResponse(['status' => 'section is transparent'], 400);
-            }
-            $section->setTemplateBgcolor($color);
-        }
-
+        $section->setTemplateBgcolor($color === '' ? null : $color);
         $entityManager->flush();
 
-        return new JsonResponse(['status' => 'success']);
+        return new JsonResponse(['status' => 'success', 'transparent' => $section->isTransparent()]);
     }
 
     #[Route('/update-section-template-image-filter', name: 'app_update_section_template_image_filter', methods: ['POST'])]
     public function updateSectionTemplateImageFilter(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $section = $this->resolveSectionFromJson($request, $entityManager);
+        $section = $this->resolveListeSectionFromJson($request, $entityManager);
         if ($section instanceof JsonResponse) {
             return $section;
         }
@@ -377,6 +369,19 @@ class BaseController extends AbstractController
         $section = $entityManager->find(Section::class, $id);
         if (!$section instanceof Section) {
             return new JsonResponse(['status' => 'not found'], 404);
+        }
+
+        return $section;
+    }
+
+    /**
+     * @return Section|JsonResponse
+     */
+    private function resolveListeSectionFromJson(Request $request, EntityManagerInterface $entityManager): Section|JsonResponse
+    {
+        $section = $this->resolveSectionFromJson($request, $entityManager);
+        if ($section instanceof JsonResponse) {
+            return $section;
         }
 
         $main = $section->getTemplate();
