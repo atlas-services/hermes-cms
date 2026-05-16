@@ -55,7 +55,8 @@
 <div class="mb-3 d-flex flex-wrap align-items-center gap-2">
     {{ form_widget(form.save, { attr: { class: 'btn btn-success' } }) }}
     {% if form.saveAndImportImages is defined %}
-        <span class="js-post-wrap-save-import d-none">{{ form_widget(form.saveAndImportImages) }}</span>
+        {# Sans sélecteur de gabarit (création depuis une section), le JS ne sait pas deviner « liste » : ne pas masquer le bouton import. #}
+        <span class="js-post-wrap-save-import{{ post_template_field_toggle|default(false) ? ' d-none' : '' }}">{{ form_widget(form.saveAndImportImages) }}</span>
     {% endif %}
 </div>
 

@@ -64,7 +64,7 @@ class PostController extends AbstractController
                 $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));
 
                 $redirectBulk = $template instanceof Template
-                    && $template->getType() === PostType::TEMPLATE_TYPE_LISTE
+                    && strtolower(trim((string) $template->getType())) === PostType::TEMPLATE_TYPE_LISTE
                     && $form->has('saveAndImportImages')
                     && $form->get('saveAndImportImages')->isClicked();
                 if ($redirectBulk) {
@@ -113,17 +113,38 @@ class PostController extends AbstractController
         $post = new Post();
         $post->setSection($section);
 
-        $form = $this->createForm(PostType::class, $post, [
+        $sectionTpl = $section->getTemplate();
+        $formOptions = [
             'menu' => $menu,
             'selected_section' => $section,
-            'template_type' => $section->getTemplate()?->getType(),
-        ]);
+            'template_type' => $sectionTpl?->getType(),
+        ];
+        if ($sectionTpl instanceof Template
+            && strtolower(trim((string) $sectionTpl->getType())) === PostType::TEMPLATE_TYPE_LISTE) {
+            // Même parcours que la création depuis menu : image non obligatoire si « import médias ».
+            $formOptions['liste_bulk_import_save'] = true;
+        }
+
+        $form = $this->createForm(PostType::class, $post, $formOptions);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->postService->create($post, $section);
                 $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));
+
+                $redirectBulk = $sectionTpl instanceof Template
+                    && strtolower(trim((string) $sectionTpl->getType())) === PostType::TEMPLATE_TYPE_LISTE
+                    && $form->has('saveAndImportImages')
+                    && $form->get('saveAndImportImages')->isClicked();
+                if ($redirectBulk) {
+                    $this->addFlash('info', $this->translator->trans('admin.post_bulk.after_create_redirect_hint'));
+
+                    return $this->redirectToRoute('post_bulk_import_media_images', [
+                        '_locale' => $request->getLocale(),
+                        'id' => $section->getId(),
+                    ]);
+                }
 
                 return $this->redirectToRoute('post_edit', [
                     'id' => $post->getId(),

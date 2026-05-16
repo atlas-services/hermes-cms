@@ -13,7 +13,7 @@ trait PositionTrait
      * @var int
      */
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Assert\Length(max: 2)]
+    #[Assert\Range(min: 0, max: 1_000_000)]
     protected ?int $position = 1 ;
 
     public function getPosition(): ?int

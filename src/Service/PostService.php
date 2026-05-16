@@ -30,8 +30,11 @@ class PostService
 
         $post->setSection($section);
 
-        // position auto (optionnel mais recommandé)
-        $post->setPosition($section->getPosts()->count() + 1);
+        $next = $this->postRepository->getMaxPositionInSection($section) + 1;
+        $post->setPosition($next);
+        if (!$section->getPosts()->contains($post)) {
+            $section->addPost($post);
+        }
 
         $this->em->persist($post);
         $this->em->flush();
@@ -126,7 +129,10 @@ class PostService
         }
 
         $post->setSection($targetSection);
-        $post->setPosition($targetSection->getPosts()->count() + 1);
+        $post->setPosition($this->postRepository->getMaxPositionInSection($targetSection) + 1);
+        if (!$targetSection->getPosts()->contains($post)) {
+            $targetSection->addPost($post);
+        }
 
         $this->em->flush();
 

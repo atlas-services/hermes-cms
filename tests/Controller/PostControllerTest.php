@@ -6,14 +6,12 @@ use App\DataFixtures\PostFixtures;
 use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
+use App\Entity\Template;
 use App\Tests\Base\BaseControllerTest;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PostControllerTest extends BaseControllerTest
 {
-    const CREATE = 'Créer';
-    const SAVE = 'Mettre à jour';
-
     protected function tearDown(): void
     {
         $this->em->clear();
@@ -66,11 +64,17 @@ class PostControllerTest extends BaseControllerTest
 
         $this->client->request('GET', '/fr/admin/post/menu/' . $menu->getId() . '/new');
 
-        $this->client->submitForm(self::CREATE, [
+        $libre = $this->em->getRepository(Template::class)->findOneBy(['code' => 'libre']);
+        $this->assertNotNull($libre);
+
+        $this->client->submitForm('Enregistrer', [
             'post[name]' => 'New Post Test',
+            'post[template]' => (string) $libre->getId(),
+            'post[content]' => '<p>Contenu requis pour le gabarit libre.</p>',
         ]);
 
-        $this->assertResponseRedirects('/fr/admin/menu/' . $menu->getId() . '/edit');
+        $this->assertResponseRedirects();
+        $this->assertMatchesRegularExpression('#/fr/admin/post/\\d+/edit#', (string) $this->client->getResponse()->headers->get('Location'));
     }
 
     // -------------------------
@@ -81,19 +85,24 @@ class PostControllerTest extends BaseControllerTest
     {
         $this->login();
 
+        $postsMenu = $this->em->getRepository(Menu::class)->findOneBy(['name' => 'Posts Menu']);
+        $this->assertNotNull($postsMenu);
+
         $section = $this->em
             ->getRepository(Section::class)
-            ->findOneBy(['position' => 1]);
+            ->findOneBy(['menu' => $postsMenu, 'position' => 1]);
 
         $this->assertNotNull($section);
 
         $this->client->request('GET', '/fr/admin/post/section/' . $section->getId() . '/new');
 
-        $this->client->submitForm(self::CREATE, [
+        $this->client->submitForm('Enregistrer', [
             'post[name]' => 'New Post in Section Test',
+            'post[content]' => '<p>Contenu pour section libre.</p>',
         ]);
 
-        $this->assertResponseRedirects('/fr/admin/post?page=' . $section->getMenu()->getId());
+        $this->assertResponseRedirects();
+        $this->assertMatchesRegularExpression('#/fr/admin/post/\\d+/edit#', (string) $this->client->getResponse()->headers->get('Location'));
     }
 
     // -------------------------
@@ -111,16 +120,17 @@ class PostControllerTest extends BaseControllerTest
         $this->assertNotNull($post);
 
         $postId = $post->getId();
-        $menuId = $post->getSection()->getMenu()->getId();
 
         $this->em->clear();
 
         $this->client->request('GET', '/fr/admin/post/' . $postId . '/edit');
 
-        $this->client->submitForm(self::SAVE, [
+        $this->client->submitForm('Enregistrer', [
             'post[name]' => 'Updated Post',
+            'post[content]' => '<p>Contenu pour mise à jour.</p>',
         ]);
 
-        $this->assertResponseRedirects('/fr/admin/menu/' . $menuId . '/edit');
+        $this->assertResponseRedirects();
+        $this->assertMatchesRegularExpression('#/fr/admin/post/' . $postId . '/edit#', (string) $this->client->getResponse()->headers->get('Location'));
     }
 }

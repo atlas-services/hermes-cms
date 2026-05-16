@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Menu;
 use App\Entity\Post;
+use App\Entity\Section;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -36,6 +37,22 @@ class PostRepository extends ServiceEntityRepository
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Plus fiable que {@see Section::getPosts()}::count() : la collection peut inclure
+     * un post non encore flushé ou être partiellement initialisée selon le contexte de chargement.
+     */
+    public function getMaxPositionInSection(Section $section): int
+    {
+        $v = $this->createQueryBuilder('p')
+            ->select('COALESCE(MAX(p.position), 0)')
+            ->where('p.section = :section')
+            ->setParameter('section', $section)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return (int) $v;
     }
 
     public function getLastPostPosition(): int

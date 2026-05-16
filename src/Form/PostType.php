@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PostType extends AbstractNameBaseType
@@ -44,6 +45,9 @@ class PostType extends AbstractNameBaseType
         $builder
             ->add('name', null, [
                 'label' => 'form.label.name',
+                'constraints' => [
+                    new Assert\NotBlank(allowNull: false),
+                ],
             ]);
 
         if (!($options['selected_section'] instanceof Section) && !$options['post_edit_mode']) {
@@ -62,7 +66,9 @@ class PostType extends AbstractNameBaseType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
             $post = $event->getData();
             $form = $event->getForm();
-            $type = $options['template_type'] ?? $this->resolveTemplateTypeForPost($post, $options['selected_section'] ?? null);
+            $type = $options['template_type'] !== null
+                ? self::normalizePostTemplateType((string) $options['template_type'])
+                : $this->resolveTemplateTypeForPost($post, $options['selected_section'] ?? null);
 
             if ($type === null && $options['menu'] instanceof Menu) {
                 $this->addAmbiguousMenuNewFields($form);
@@ -163,7 +169,7 @@ class PostType extends AbstractNameBaseType
             return ['Default'];
         }
 
-        $type = self::staticResolveTemplateTypeFromForm($form, $post);
+        $type = self::normalizePostTemplateType(self::staticResolveTemplateTypeFromForm($form, $post));
         if ($type === self::TEMPLATE_TYPE_LIBRE) {
             return ['Default', 'content'];
         }
@@ -192,15 +198,17 @@ class PostType extends AbstractNameBaseType
             ]);
         }
         if (!$form->has('imageFile')) {
-            $form->add('imageFile', VichImageType::class, $this->vichPostImageFieldOptions(false));
+            $form->add('imageFile', VichImageType::class, $this->vichPostImageFieldOptions());
         }
     }
 
     private function applyFieldsForTemplateType(FormInterface $form, ?string $type, ?Post $post): void
     {
+        $type = self::normalizePostTemplateType($type);
+
         if ($type === self::TEMPLATE_TYPE_LISTE) {
             if (!$form->has('imageFile')) {
-                $form->add('imageFile', VichImageType::class, $this->vichPostImageFieldOptions(!$post?->getFileName()));
+                $form->add('imageFile', VichImageType::class, $this->vichPostImageFieldOptions());
             }
 
             return;
@@ -209,7 +217,7 @@ class PostType extends AbstractNameBaseType
         if ($type === self::TEMPLATE_TYPE_LIBRE) {
             if (!$form->has('content')) {
                 $form->add('content', CKEditor5Type::class, [
-                    'required' => true,
+                    'required' => false,
                     'label' => 'form.label.content',
                 ]);
             }
@@ -224,17 +232,20 @@ class PostType extends AbstractNameBaseType
             ]);
         }
         if (!$form->has('imageFile')) {
-            $form->add('imageFile', VichImageType::class, $this->vichPostImageFieldOptions(false));
+            $form->add('imageFile', VichImageType::class, $this->vichPostImageFieldOptions());
         }
     }
 
     /**
+     * required=false côté formulaire : évite l’attribut HTML5 sur le fichier (blocage silencieux
+     * du submit). La contrainte {@see ImageTrait} + les groupes de validation PostType s’en chargent.
+     *
      * @return array<string, mixed>
      */
-    private function vichPostImageFieldOptions(bool $required): array
+    private function vichPostImageFieldOptions(): array
     {
         return [
-            'required' => $required,
+            'required' => false,
             'label' => 'global.image',
             'translation_domain' => 'messages',
             'download_uri' => false,
@@ -246,11 +257,11 @@ class PostType extends AbstractNameBaseType
     private function resolveTemplateTypeForPost(?Post $post, mixed $selectedSection): ?string
     {
         if ($selectedSection instanceof Section) {
-            return $selectedSection->getTemplate()?->getType();
+            return self::normalizePostTemplateType($selectedSection->getTemplate()?->getType());
         }
 
         if ($post?->getSection() !== null) {
-            return $post->getSection()->getTemplate()?->getType();
+            return self::normalizePostTemplateType($post->getSection()->getTemplate()?->getType());
         }
 
         return null;
@@ -264,13 +275,13 @@ class PostType extends AbstractNameBaseType
         if (!empty($data['template'])) {
             $templateId = $data['template'];
             if (\is_object($templateId) && $templateId instanceof Template) {
-                return $templateId->getType();
+                return self::normalizePostTemplateType($templateId->getType());
             }
             $id = filter_var($templateId, FILTER_VALIDATE_INT);
             if (false !== $id) {
                 $template = $this->entityManager->find(Template::class, $id);
                 if ($template instanceof Template) {
-                    return $template->getType();
+                    return self::normalizePostTemplateType($template->getType());
                 }
             }
         }
@@ -288,10 +299,20 @@ class PostType extends AbstractNameBaseType
         if ($form->has('template')) {
             $template = $form->get('template')->getData();
             if ($template instanceof Template) {
-                return $template->getType();
+                return self::normalizePostTemplateType($template->getType());
             }
         }
 
-        return $post->getSection()?->getTemplate()?->getType();
+        return self::normalizePostTemplateType($post->getSection()?->getTemplate()?->getType());
+    }
+
+    private static function normalizePostTemplateType(?string $type): ?string
+    {
+        if ($type === null) {
+            return null;
+        }
+        $t = strtolower(trim($type));
+
+        return $t === '' ? null : $t;
     }
 }
