@@ -3,7 +3,7 @@
         <tr>
             <th>{{ 'form.label.active'|trans }}</th>
             <th>{{ 'form.label.section_width_1_to_12'|trans }}</th>
-            <th>{{ 'Template' }}</th>
+            <th>{{ 'form.label.section_liste_template'|trans }}</th>
             <th>{{ 'form.label.section_modal'|trans }}</th>
             <th>{{ 'form.label.section_modal_width_1_to_12'|trans }}</th>
             <th>{{ 'form.label.section_bgcolor'|trans }}</th>
@@ -18,7 +18,7 @@
         data-locale="{{ app.request.locale }}"
     >
         {% for section in sections %}
-            {% set isListe = section.template and section.template.type == 'liste' %}
+            {% set isListe = section.template and section.template.type|trim|lower == 'liste' %}
             <tr class="list-items align-middle" data-move-item-target="item" data-item-id="{{ section.id }}">
                 <td>
                     <div class="form-check form-switch form-switch-sm my-0">
@@ -45,7 +45,28 @@
                     </select>
                 </td>
                 <td>
-                    {{ section.template ? section.template.name : 'Aucun template' }}
+                    {% if isListe %}
+                        {% set listeChoices = sectionListeTemplateChoices[section.id]|default([]) %}
+                        {% if listeChoices|length > 1 %}
+                            <select
+                                class="form-select form-select-sm w-auto"
+                                aria-label="{{ 'form.label.section_liste_template'|trans }}"
+                                data-controller="active-item"
+                                data-action="change->active-item#persistSectionListeTemplate"
+                                data-previous-value="{{ section.template.id }}"
+                            >
+                                {% for choice in listeChoices %}
+                                    <option value="{{ choice.id }}" {{ choice.id == section.template.id ? 'selected' : '' }}>
+                                        {{ choice.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        {% else %}
+                            {{ section.template.name }}
+                        {% endif %}
+                    {% else %}
+                        {{ section.template ? section.template.name : ('form.label.section_no_template'|trans) }}
+                    {% endif %}
                 </td>
                 <td>
                     {% if isListe %}

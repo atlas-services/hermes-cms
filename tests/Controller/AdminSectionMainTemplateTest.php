@@ -21,72 +21,79 @@ final class AdminSectionMainTemplateTest extends BaseControllerTest
         (new PostFixtures())->load($em);
     }
 
-    public function testUpdateSectionMainTemplateSameType(): void
+    public function testUpdateSectionListeTemplateListeToListe(): void
     {
         $this->login();
 
         $section = $this->em->getRepository(Section::class)->findOneBy(['position' => 1]);
         $this->assertNotNull($section);
-        $current = $section->getTemplate();
-        $this->assertNotNull($current);
-        $this->assertSame('libre', $current->getCode());
 
-        $alt = (new Template())
-            ->setName('Libre alt test')
-            ->setCode('libre_alt_test')
-            ->setType('libre')
-            ->setSummary('Alt')
-            ->setActive(true);
-        $this->em->persist($alt);
+        $folio1 = $this->ensureListeTemplate('folio1', 'Folio 1');
+        $folio2 = $this->ensureListeTemplate('folio2', 'Folio 2');
+
+        $section->setTemplate($folio1);
         $this->em->flush();
-        $altId = (int) $alt->getId();
+        $sid = (int) $section->getId();
+        $folio2Id = (int) $folio2->getId();
 
         $this->client->request(
             'POST',
-            '/fr/admin/update-section-main-template',
+            '/fr/admin/update-section-liste-template',
             server: ['CONTENT_TYPE' => 'application/json'],
             content: (string) json_encode([
                 'type' => 'section',
-                'id' => $section->getId(),
-                'template_id' => $altId,
+                'id' => $sid,
+                'template_id' => $folio2Id,
             ], JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponseIsSuccessful();
         $this->em->clear();
-        $reloaded = $this->em->find(Section::class, $section->getId());
+        $reloaded = $this->em->find(Section::class, $sid);
         $this->assertInstanceOf(Section::class, $reloaded);
-        $this->assertSame('libre_alt_test', $reloaded->getTemplate()?->getCode());
+        $this->assertSame('folio2', $reloaded->getTemplate()?->getCode());
     }
 
-    public function testUpdateSectionMainTemplateTypeMismatch(): void
+    public function testUpdateSectionListeTemplateRejectsNonListeSection(): void
     {
         $this->login();
 
         $section = $this->em->getRepository(Section::class)->findOneBy(['position' => 1]);
         $this->assertNotNull($section);
+        $this->assertSame('libre', $section->getTemplate()?->getCode());
 
-        $liste = (new Template())
-            ->setName('Liste test')
-            ->setCode('folio_test_x')
-            ->setType('liste')
-            ->setSummary('T')
-            ->setActive(true);
-        $this->em->persist($liste);
-        $this->em->flush();
-        $listeId = (int) $liste->getId();
+        $folio1 = $this->ensureListeTemplate('folio1', 'Folio 1');
 
         $this->client->request(
             'POST',
-            '/fr/admin/update-section-main-template',
+            '/fr/admin/update-section-liste-template',
             server: ['CONTENT_TYPE' => 'application/json'],
             content: (string) json_encode([
                 'type' => 'section',
-                'id' => $section->getId(),
-                'template_id' => $listeId,
+                'id' => (int) $section->getId(),
+                'template_id' => (int) $folio1->getId(),
             ], JSON_THROW_ON_ERROR)
         );
 
         $this->assertSame(400, $this->client->getResponse()->getStatusCode());
+    }
+
+    private function ensureListeTemplate(string $code, string $name): Template
+    {
+        $t = $this->em->getRepository(Template::class)->findOneBy(['code' => $code]);
+        if ($t instanceof Template) {
+            return $t;
+        }
+
+        $t = (new Template())
+            ->setName($name)
+            ->setCode($code)
+            ->setType('liste')
+            ->setSummary($name)
+            ->setActive(true);
+        $this->em->persist($t);
+        $this->em->flush();
+
+        return $t;
     }
 }

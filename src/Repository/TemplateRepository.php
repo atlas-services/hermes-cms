@@ -150,6 +150,27 @@ class TemplateRepository extends ServiceEntityRepository
             ->setParameter('code', 'folio1');
     }
 
+    /**
+     * Templates actifs d’un type logique donné (trim), ex. tous les « liste » pour l’admin.
+     *
+     * @return list<Template>
+     */
+    public function findActiveByTrimmedType(string $logicalType): array
+    {
+        $needle = trim($logicalType);
+        /** @var list<Template> $all */
+        $all = $this->createQueryBuilder('t')
+            ->where('t.active = true')
+            ->orderBy('t.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return array_values(array_filter(
+            $all,
+            static fn (Template $t): bool => trim((string) $t->getType()) === $needle
+        ));
+    }
+
     public function getQbTemplateLibreHms(): QueryBuilder
     {
         return $this->createQueryBuilder('s')

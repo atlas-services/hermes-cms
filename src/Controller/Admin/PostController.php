@@ -302,6 +302,7 @@ class PostController extends AbstractController
             'pages' => $pages,
             'selectedPage' => $selectedPage,
             'sectionModaleChoices' => $this->templateRepository->getModaleChoicesForSectionAdmin(),
+            'sectionListeTemplateChoices' => $this->buildSectionListeTemplateChoicesBySectionId($selectedPage),
         ]);
     }
 
@@ -351,6 +352,33 @@ class PostController extends AbstractController
         return $this->redirectToRoute('menu_edit', [
             'id' => $menuId
         ]);
+    }
+
+    /**
+     * Gabarits « liste » proposés pour le sélecteur admin (même liste pour chaque section de type liste).
+     *
+     * @return array<int, list<Template>>
+     */
+    private function buildSectionListeTemplateChoicesBySectionId(?Menu $page): array
+    {
+        if (!$page instanceof Menu) {
+            return [];
+        }
+
+        $listeTemplates = $this->templateRepository->findActiveByTrimmedType('liste');
+        $out = [];
+        foreach ($page->getSections() as $section) {
+            $sid = $section->getId();
+            if ($sid === null) {
+                continue;
+            }
+            $t = $section->getTemplate();
+            $out[$sid] = ($t instanceof Template && trim((string) $t->getType()) === 'liste')
+                ? $listeTemplates
+                : [];
+        }
+
+        return $out;
     }
 
     /**

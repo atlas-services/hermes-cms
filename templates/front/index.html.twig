@@ -25,11 +25,13 @@
                         <section class="mx-auto px-0" style="background-color: {{ sectionBg }}">
                             {% set sectionColSm = (section.templateWidth|default(10) + 0)|round(0, 'floor') %}
                             <div class="section-content col-sm-{{ sectionColSm }} mx-auto">
-                                {% if section.template and section.template.code == 'folio1' %}
-                                    {% include 'front/section/folio1.html.twig' %}
+                                {% set mainType = section.template ? section.template.type|trim|lower : '' %}
+                                {% set mainCode = section.template ? section.template.code : '' %}
+                                {% if mainType == 'liste' and mainCode != '' %}
+                                    {% include 'front/section/' ~ mainCode ~ '.html.twig' %}
                                 {% else %}
                                     {% for post in posts %}
-                                        <article class="mb-4">
+                                        <article class="my-0">
                                             <div class="post-content">{{ post.content|raw }}</div>
                                         </article>
                                     {% endfor %}

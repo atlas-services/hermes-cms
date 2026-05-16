@@ -223,4 +223,22 @@ export default class extends Controller {
             template_image_filter: event.currentTarget.value,
         });
     }
+
+    async persistSectionListeTemplate(event) {
+        const select = event.currentTarget;
+        const v = parseInt(select.value, 10);
+        if (Number.isNaN(v) || v < 1) {
+            console.error('persistSectionListeTemplate: template_id invalide');
+            return;
+        }
+        const ok = await this._postSectionField('update-section-liste-template', event, { template_id: v });
+        if (!ok) {
+            const prev = select.dataset.previousValue;
+            if (prev !== undefined && prev !== '') {
+                select.value = prev;
+            }
+            return;
+        }
+        select.dataset.previousValue = String(v);
+    }
 }

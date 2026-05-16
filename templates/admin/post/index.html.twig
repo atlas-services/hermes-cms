@@ -44,6 +44,7 @@
             {{ include('admin/section/_list.html.twig', {
                 sections: selectedPage.sections,
                 sectionModaleChoices: sectionModaleChoices|default([]),
+                sectionListeTemplateChoices: sectionListeTemplateChoices|default({}),
             }) }}
         {% endif %}
     {% endif %}

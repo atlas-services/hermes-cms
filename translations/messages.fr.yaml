@@ -35,6 +35,8 @@ form:
     section_transparent: 'Fond transparent'
     section_bgcolor: 'Couleur de fond'
     section_image_filter: 'Filtre image'
+    section_liste_template: Gabarit liste
+    section_no_template: Aucun gabarit
     post_template: Type de présentation
     post_template_help: Ce template définit la section créée pour ce post.
     post_current_image: Image actuelle
