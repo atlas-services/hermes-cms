@@ -1,2 +1,53 @@
-{# Liste card2 — squelette vide : rendu provisoire = folio1 ; remplacer par le markup spécifique. #}
-{% include 'front/section/folio1.html.twig' %}
+{# Porté depuis atlas-services/hermes release/2.2.7 (templates/front/base/hermes/template/card2.html.twig) — chemins & configs Hermes3. #}
+<!-- Section card -->
+<section id="{{ section.id }}" class="col-12 col-lg-{{ (section.templateWidth ?? configs.card_container_width|default(12))|col_lg  }}  pb-0  mx-auto px-0">
+    <div class="col-lg-{{ configs.card_container_width|default(12)|col_lg }} col-12 mx-auto ml-0 mr-0 pl-0 pr-0">
+        {% for post in posts|sort((a, b) => a.position <=> b.position) %}
+            {% if loop.index is odd %}
+                <div class="row col-lg-12 col-12 mx-auto ml-0 mr-0">
+                {% if not loop.last  %}
+                    {% set margin = 'ml-lg-auto mr-lg-4 mt-lg-3' %}
+                {% else %}
+                    {% set margin = 'ml-lg-auto mr-lg-auto pl-lg-3 ' %}
+                {% endif %}
+                {% set float_direction = 'float-left mr-lg-4 mr-3 mb-3' %}
+            {% else %}
+                {% set margin = 'mr-lg-auto ml-lg-4 mt-lg-3'  %}
+                {% set float_direction = 'float-right ml-lg-4 ml-3 mb-3' %}
+            {% endif %}
+
+            <div class="col-lg-5 col-12 h-rounded-lg-04 pt-3 pl-lg-3 pr-lg-3 pb-2 pr-0 pl-0 {{ margin }} my-3 w-auto shadow-lg text-center" style="background-color: {{ configs.card_bgcolor|default('#f8f9fa') }};color: {{ configs.card_color|default('#212529') }};">
+                <div class="text-left pb-3 col-12">
+                    <p class="text-justify col-12 h-font-size-14">
+                        {% if vich_uploader_asset(post, 'imageFile') is not null %}
+                            <img class="h-w-50 h-rounded-lg-3 {{ float_direction }}" alt="" class="img-fluid img-thumbnail" src="{{ asset(vich_uploader_asset(post, 'imageFile')) }}" />
+                        {% if section.template2 and section.template2.code is defined %}
+                            {% if section.template2 and section.template2.code in ['modale1', 'modale3' ] %}
+                            <!-- Modale1  -->
+                            <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'"
+                               class="d-block mb-4 h-100 thumbnail" href="#" data-image-id="" data-name="{{ post.name }}" data-content="{{ post.content }}"  data-bs-toggle="modal"
+                               data-image ="{{ asset(vich_uploader_asset(post, 'imageFile')) }}"
+                               data-bs-target="#image-gallery-{{ section.id }}">
+                                {{ post.content|striptags|u.truncate(600, '...')|raw }}
+                            </a>
+                        {% endif %}
+                        {% if section.template2 and 'modale2' == section.template2.code %}
+                            <!-- Modale2  -->
+                            <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'"
+                               class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal{{ post.id }}">
+                                {{ post.content|striptags|u.truncate(550, '...')|raw }}
+                            </a>
+                        {% endif %}
+                        {% endif %}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            {% if loop.index is  even %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+<!-- Modale -->
+{% include 'front/hermes/modale.html.twig' %}

@@ -22,11 +22,12 @@
                 <div class="row justify-content-center mx-0">
                     <div class="col-12 col-lg-{{ effW }} mx-auto px-0 ">
                         {% set sectionBg = section.isTransparent ? 'transparent' : section.templateBgcolor %}
-                        <section class="mx-auto px-0" style="background-color: {{ sectionBg }}">
+                        {% set mainType = section.template ? section.template.type|trim|lower : '' %}
+                        {% set mainCode = section.template ? section.template.code : '' %}
+                        {% set isListeSectionTemplate = mainType == 'liste' and mainCode != '' %}
+                        <section class="mx-auto px-0" style="background-color: {{ sectionBg }}"{% if not isListeSectionTemplate %} id="{{ section.id }}"{% endif %}>
                             {% set sectionColSm = (section.templateWidth|default(10) + 0)|round(0, 'floor') %}
                             <div class="section-content col-sm-{{ sectionColSm }} mx-auto">
-                                {% set mainType = section.template ? section.template.type|trim|lower : '' %}
-                                {% set mainCode = section.template ? section.template.code : '' %}
                                 {% if mainType == 'liste' and mainCode != '' %}
                                     {% include 'front/section/' ~ mainCode ~ '.html.twig' %}
                                 {% else %}

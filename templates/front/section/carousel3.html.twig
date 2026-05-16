@@ -1,2 +1,79 @@
-{# Liste carousel3 — squelette vide : rendu provisoire = folio1 ; remplacer par le markup spécifique. #}
-{% include 'front/section/folio1.html.twig' %}
+{# Porté depuis atlas-services/hermes release/2.2.7 (templates/front/base/hermes/template/carousel3.html.twig) — chemins & configs Hermes3. #}
+<!-- Section carousel -->
+<section id="{{ section.id }}" class="pb-0  px-0">
+    {% set filter = 'bd' %}
+    {% set col_xx = (12/section.templateNbCol)|round %}
+
+    <div class="container col-12 col-lg-{{ (section.templateWidth ?? configs.carousel_multiple_container_width|default(10))|col_lg   }}" style="background-color:{{ section.templateBgcolor ?? configs.content_bgcolor|default('#ffffff') }}" >
+        <!--Carousel Wrapper-->
+        <div id="multi-item-example" class="carousel slide carousel-multi-item " data-bs-ride="carousel">
+
+            <!--Controls-->
+            <div class="controls-top mb-3 text-center">
+                 <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="btn-floating" href="#multi-item-example" data-bs-slide="prev"><i class="fa fa-chevron-left"></i></a>
+                 <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="btn-floating" href="#multi-item-example" data-bs-slide="next"><i class="fa fa-chevron-right"></i></a>
+            </div>
+            <!--/.Controls-->
+                <!--Slides-->
+                <div class="carousel-inner" role="listbox">
+                    {% for post in posts|sort((a, b) => a.position <=> b.position) %}
+                        {% set active = '' %}
+                        {% set card_class = 'clearfix d-none d-md-block' %}
+                        {% if ((loop.index  - 1) is divisible by(section.templateNbCol)) %}
+                            {% set card_class = '' %}
+                        {% endif %}
+                        {% if (loop.index  == 1 ) %}
+                            {% set active = 'active' %}
+                        {% endif %}
+                    <!--begin 3 slide-->
+                        {% if ((loop.index  - 1) is divisible by(section.templateNbCol)) %}
+                            <div class="carousel-item col-12 px-0 {{ active }}">
+                            <div class="row">
+                        {% endif %}
+                        <div class="col-md-{{col_xx}} mx-auto {{ card_class }}">
+                            <div class="card mb-2">
+                                <img  class="card-img-top" src="{{ asset(vich_uploader_asset(post, 'imageFile')) }}"
+                                     alt="{{ (post.fileName ?? post.name) }}">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        {% if( not section.template2) %}
+                                            {{ post.name }}
+                                        {% else %}
+                                        {% if section.template2 and section.template2.code in ['modale1', 'modale3' ] %}
+                                            <!-- Modale1  -->
+                                             <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="thumbnail portfolio-link" href="#" data-image-id="" data-name="{{ post.name }}" data-content="{{ post.content }}"  data-bs-toggle="modal"
+                                               data-image ="{{ asset(vich_uploader_asset(post, 'imageFile')) }}"
+                                               data-bs-target="#image-gallery-{{ section.id }}">
+                                                {{ post.name }}
+                                            </a>
+                                            {% endif %}
+                                            {% if section.template2 and 'modale2' == section.template2.code %}
+                                            <!-- Modale2  -->
+                                             <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="portfolio-link"  data-bs-toggle="modal" href="#portfolioModal{{ post.id }}">
+                                                {{ post.name }}
+                                            </a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </h4>
+                                    <p class="card-text">{{ post.content|striptags|u.truncate(25, '...')|raw }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% if ((loop.index ) is divisible by(section.templateNbCol)) %}
+                            </div>
+                            </div>
+                        {% endif %}
+
+                    <!--/.End 3 slide-->
+
+                    {% endfor %}
+                </div>
+                <!--/.Slides-->
+            </div>
+            <!--/.Carousel Wrapper-->
+        </div>
+</section>
+
+
+<!-- Modale  -->
+{% include 'front/hermes/modale.html.twig' %}

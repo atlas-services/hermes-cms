@@ -3,7 +3,7 @@
 {% set padding_y = configs.folio1_padding_y|default(2) %}
 {% set folioNbCol = section.templateNbCol %}
 {% set picture_groups = section|col_imgs %}
-<section id="portfolio" class="py-0 pb-lg-4 mx-auto px-0">
+<section id="{{ section.id }}" class="py-0 pb-lg-4 mx-auto px-0">
     <div class="container-fluid col-12 col-lg-{{ (section.templateWidth ?? (configs.folio_container_width|default(8)))|col_lg }} mx-auto px-0">
         <div id="folio" class="row mx-auto g-3 g-lg-4">
             {% for pictures in picture_groups %}
