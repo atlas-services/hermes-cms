@@ -1,0 +1,25 @@
+{# Dispatch selon le type logique (hermes_templates.yaml). Variables : section, posts, configs (passées explicitement par le parent). #}
+{% set tpl = section.template ?? null %}
+{% if tpl is null %}
+    {% include 'front/section/_posts_html.html.twig' with { posts: posts } %}
+{% else %}
+    {% set ttype = tpl.type|default('')|trim|lower %}
+    {# Contenu riche / formulaires : toujours le rendu posts HTML (avant les branches « liste » pour éviter tout repli folio erroné). #}
+    {% if ttype in ['libre', 'formulaire'] %}
+        {% include 'front/section/_posts_html.html.twig' with { posts: posts } %}
+    {% elseif ttype in ['liste', 'modale'] %}
+        {% include ['front/section/' ~ tpl.code ~ '.html.twig', 'front/section/folio1.html.twig'] with {
+            section: section,
+            posts: posts,
+            configs: configs,
+        } %}
+    {% elseif ttype == 'livredor' %}
+        {% include ['front/section/' ~ tpl.code ~ '.html.twig', 'front/section/_posts_html.html.twig'] with {
+            section: section,
+            posts: posts,
+            configs: configs,
+        } %}
+    {% else %}
+        {% include 'front/section/_posts_html.html.twig' with { posts: posts } %}
+    {% endif %}
+{% endif %}

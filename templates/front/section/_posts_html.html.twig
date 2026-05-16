@@ -1,0 +1,6 @@
+{# Contenu « plusieurs posts » : libre, formulaire, livredor sans gabarit dédié, ou section sans template. #}
+{% for post in posts %}
+    <article class="mb-4">
+        <div class="post-content">{{ post.content|raw }}</div>
+    </article>
+{% endfor %}
