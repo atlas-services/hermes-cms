@@ -1,0 +1,19 @@
+# API Hermes (API Platform) — modèles HTML « libre » à insérer depuis l’admin.
+# ReDoc : https://api.hermes-cms.org/api/docs?ui=re_doc
+# Réf. serveur API : https://github.com/atlas-services/api-hermes/tree/release/1.1.2
+# (branches utiles : release/*, dev — pas de branche « develop » sur ce dépôt.)
+# api-hermes : collection Template = …/templates. Hermes 2.2.x : souvent libre_templates → API_HERMES_CATALOG_ENTITY.
+# Comme Hermes 2.2.7 (src/Api/ApiClient) : getEntities utilise API_HERMES_TEMPLATES + nom d’entité (paramètre ci‑dessous).
+# https://github.com/atlas-services/hermes/blob/release/2.2.7/src/Api/ApiClient.php
+#
+# API_HERMES_BASE_URL : résolution des IRI relatives + (en 2.2.x) POST /api/login JWT.
+# API_HERMES_TEMPLATES : préfixe des routes API (ex. …/api/) — même rôle que getEntities(..., $entity).
+# API_HERMES_CATALOG_ENTITY : segment collection (défaut templates). Mettre libre_templates pour une API 2.2.x.
+# API_HERMES_LIBRE_CATALOG_PATH : optionnel, URL complète ou chemin relatif pour surcharger la collection.
+# API_HERMES_EMAIL / API_HERMES_PASSWORD : identifiants API (login JWT chiffré POST …/api/login, comme Hermes 2.2.7).
+# API_HERMES_NOT_JWT_VERSION, API_HERMES_IS_CMS : mêmes flags que la 2.2.7.
+parameters:
+    hermes_api.base_uri: '%env(API_HERMES_BASE_URL)%'
+    hermes_api.templates_uri: '%env(API_HERMES_TEMPLATES)%'
+    hermes_api.libre_catalog_path: '%env(API_HERMES_LIBRE_CATALOG_PATH)%'
+    hermes_api.catalog_entity: '%env(API_HERMES_CATALOG_ENTITY)%'

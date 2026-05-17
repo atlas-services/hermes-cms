@@ -5,12 +5,28 @@ import EnhancedEditor from '../ckeditor5.js';
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     connect() {
-        this.editor = EnhancedEditor.create(this.element)
-            .then(editor => (this.editor = editor))
-            .catch(error => console.error(error));
+        this._onInsert = (ev) => this.insertHtml(ev.detail?.html);
+        document.addEventListener('hermes:insertHtml', this._onInsert);
+        EnhancedEditor.create(this.element)
+            .then((editor) => {
+                this.editor = editor;
+            })
+            .catch((error) => console.error(error));
     }
 
     disconnect() {
-        this.editor.destroy().catch(error => console.error(error));
+        document.removeEventListener('hermes:insertHtml', this._onInsert);
+        if (this.editor && typeof this.editor.destroy === 'function') {
+            this.editor.destroy().catch((error) => console.error(error));
+        }
+    }
+
+    insertHtml(html) {
+        if (!html || !this.editor) {
+            return;
+        }
+        const ed = this.editor;
+        const current = ed.getData() || '';
+        ed.setData(current + (current.trim() !== '' ? '\n' : '') + html);
     }
 }

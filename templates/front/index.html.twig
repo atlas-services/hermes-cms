@@ -30,6 +30,8 @@
                             <div class="section-content col-sm-{{ sectionColSm }} mx-auto">
                                 {% if mainType == 'liste' and mainCode != '' %}
                                     {% include 'front/section/' ~ mainCode ~ '.html.twig' %}
+                                {% elseif mainType == 'libre' %}
+                                    {% include 'front/section/libre.html.twig' %}
                                 {% else %}
                                     {% for post in posts %}
                                         <article class="my-0">

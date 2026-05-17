@@ -9,6 +9,7 @@
 imports:
 - { resource: 'hermes_templates.yaml'}
 - { resource: 'hermes_configs.yaml'}
+- { resource: 'hermes_api.yaml'}
 parameters:
     app.menu.max_depth: '%env(APP_MAX_DEPTH)%'
     hermes_admin_email: '%env(APP_HERMES_ADMIN_EMAIL)%'
@@ -52,3 +53,14 @@ services:
     App\Service\MenuManager:
         arguments:
             $maxDepth: '%app.menu.max_depth%'
+
+    App\Service\HermesApiClient:
+        arguments:
+            $hermesApiBaseUri: '%hermes_api.base_uri%'
+            $hermesApiTemplatesUri: '%hermes_api.templates_uri%'
+            $hermesApiLibreCatalogPath: '%hermes_api.libre_catalog_path%'
+            $hermesApiCatalogEntity: '%hermes_api.catalog_entity%'
+            $hermesApiEmail: '%env(API_HERMES_EMAIL)%'
+            $hermesApiPassword: '%env(API_HERMES_PASSWORD)%'
+            $hermesApiNotJwtVersion: '%env(bool:API_HERMES_NOT_JWT_VERSION)%'
+            $hermesApiIsCms: '%env(bool:API_HERMES_IS_CMS)%'

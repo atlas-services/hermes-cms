@@ -70,6 +70,15 @@ admin:
     section_not_liste: Cette section n’utilise pas un template de type « liste » ; l’import d’images n’est pas disponible.
     duplicate_name: Un conflit de nom a empêché l’import (nom de post déjà utilisé).
     import_error: Une erreur est survenue pendant l’import.
+  hermes_api:
+    libre_panel_title: Modèles Hermes (API)
+    libre_panel_help: "Renseignez API_HERMES_BASE_URL, API_HERMES_TEMPLATES, API_HERMES_EMAIL et API_HERMES_PASSWORD (.env). L’admin obtient un JWT via POST /api/login (corps chiffré libsodium, comme Hermes 2.2.7) et le garde en session."
+    libre_preview: Prévisualiser
+    libre_insert: Insérer
+    libre_preview_title: Aperçu du modèle
+    libre_insert_editor: Insérer dans l’éditeur
+    libre_preview_close: Fermer
+    libre_preview_loading: Chargement de l’aperçu…
   section:
     clear_all_images: Supprimer les images
     confirm_delete_section: "Supprimer cette section et tous ses posts ? Cette action est irréversible."

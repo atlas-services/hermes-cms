@@ -66,6 +66,15 @@ admin:
     section_not_liste: This section does not use a « list » template; image import is not available.
     duplicate_name: Import failed because a post name already exists in this section.
     import_error: An error occurred during import.
+  hermes_api:
+    libre_panel_title: Hermes templates (API)
+    libre_panel_help: "Configure API_HERMES_BASE_URL, API_HERMES_TEMPLATES, API_HERMES_EMAIL, and API_HERMES_PASSWORD (.env). The admin obtains a JWT via POST /api/login (libsodium-encrypted body, Hermes 2.2.7 style) and stores it in the session."
+    libre_preview: Preview
+    libre_insert: Insert
+    libre_preview_title: Template preview
+    libre_insert_editor: Insert into editor
+    libre_preview_close: Close
+    libre_preview_loading: Loading preview…
   section:
     clear_all_images: Remove images
     confirm_delete_section: "Delete this section and all its posts? This cannot be undone."

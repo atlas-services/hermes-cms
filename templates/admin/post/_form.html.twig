@@ -47,6 +47,42 @@
         {{ form_label(form.content) }}
         {{ form_widget(form.content) }}
         {{ form_errors(form.content) }}
+        <div class="card border-secondary mt-3" data-controller="hermes-libre-api"
+             data-hermes-libre-api-catalog-url-value="{{ path('admin_hermes_api_libre_catalog', { _locale: app.request.locale }) }}"
+             data-hermes-libre-api-html-url-value="{{ path('admin_hermes_api_libre_html', { _locale: app.request.locale }) }}"
+             data-hermes-libre-api-preview-label-value="{{ 'admin.hermes_api.libre_preview'|trans }}"
+             data-hermes-libre-api-insert-label-value="{{ 'admin.hermes_api.libre_insert'|trans }}"
+             data-hermes-libre-api-modal-heading-value="{{ 'admin.hermes_api.libre_preview_title'|trans }}"
+             data-hermes-libre-api-loading-label-value="{{ 'admin.hermes_api.libre_preview_loading'|trans }}">
+            <div class="card-header py-2">
+                <strong>{{ 'admin.hermes_api.libre_panel_title'|trans }}</strong>
+                <span class="text-muted small ms-2">{{ 'admin.hermes_api.libre_panel_help'|trans }}</span>
+            </div>
+            <div class="card-body py-2">
+                <p class="small text-muted mb-2" data-hermes-libre-api-target="status"></p>
+                <div data-hermes-libre-api-target="list"></div>
+            </div>
+            <div class="modal fade" tabindex="-1" aria-hidden="true" data-hermes-libre-api-target="modal">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" data-hermes-libre-api-target="modalTitle"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'admin.hermes_api.libre_preview_close'|trans }}"></button>
+                        </div>
+                        <div class="modal-body p-0 bg-light" style="min-height: 50vh;">
+                            <iframe class="w-100 border-0 d-block bg-white" title="{{ 'admin.hermes_api.libre_preview_title'|trans }}"
+                                    data-hermes-libre-api-target="previewFrame"
+                                    sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+                                    style="min-height: 50vh; height: 60vh;"></iframe>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'admin.hermes_api.libre_preview_close'|trans }}</button>
+                            <button type="button" class="btn btn-primary" data-hermes-libre-api-target="confirmInsertBtn" data-action="hermes-libre-api#confirmInsert">{{ 'admin.hermes_api.libre_insert_editor'|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endif %}
 

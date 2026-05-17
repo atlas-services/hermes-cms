@@ -1,0 +1,6 @@
+{# Gabarit « libre » (Hermes 2.2.7 : templates/front/base/hermes/template/libre.html.twig) — posts triés, actifs seuls. #}
+{% for post in posts|sort((a, b) => a.position <=> b.position) %}
+    {% if post.active %}
+        <div class="post-content">{{ post.content|raw }}</div>
+    {% endif %}
+{% endfor %}
