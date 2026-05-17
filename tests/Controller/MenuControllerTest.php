@@ -4,10 +4,10 @@ namespace App\Tests\Controller;
 
 use App\DataFixtures\MenuFixtures;
 use App\Entity\Menu;
-use App\Tests\Base\BaseControllerTest;
+use App\Tests\Base\AbstractControllerWebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
-class MenuControllerTest extends BaseControllerTest
+class MenuControllerTest extends AbstractControllerWebTestCase
 {
     const CREATE = 'Créer';
     const SAVE = 'Mettre à jour';

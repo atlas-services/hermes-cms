@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @codeCoverageIgnore
  */
-abstract class BaseControllerTest extends WebTestCase
+abstract class AbstractControllerWebTestCase extends WebTestCase
 {
     protected KernelBrowser $client;
     protected EntityManagerInterface $em;

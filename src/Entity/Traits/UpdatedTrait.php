@@ -29,9 +29,11 @@ trait UpdatedTrait
     /**
      * @param \DateTime $updatedAt
      */
-    public function setUpdatedAt(\DateTime $updatedAt): void
+    public function setUpdatedAt(\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**

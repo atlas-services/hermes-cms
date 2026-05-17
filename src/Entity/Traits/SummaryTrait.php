@@ -22,9 +22,10 @@ trait SummaryTrait
         return $this->summary;
     }
 
-    public function setSummary(?string $summary): void
+    public function setSummary(?string $summary): static
     {
         $this->summary = $summary;
-    }
 
+        return $this;
+    }
 }

@@ -40,9 +40,11 @@ trait ImageTrait
     /**
      * @param null|string $fileName
      */
-    public function setFileName(?string $fileName): void
+    public function setFileName(?string $fileName): static
     {
         $this->fileName = $fileName;
+
+        return $this;
     }
 
     /**
@@ -67,7 +69,7 @@ trait ImageTrait
      * @param null|File $imageFile
      * @throws \Exception
      */
-    public function setImageFile(?File $imageFile): void
+    public function setImageFile(?File $imageFile): static
     {
         $this->imageFile = $imageFile;
 
@@ -77,6 +79,8 @@ trait ImageTrait
 //            $this->updatedAt = new \DateTimeImmutable();
             $this->updatedAt = new \DateTime();
         }
+
+        return $this;
     }
 
 }

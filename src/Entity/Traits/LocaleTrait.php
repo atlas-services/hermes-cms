@@ -18,8 +18,10 @@ trait LocaleTrait
         return $this->locale;
     }
 
-    public function setLocale(string $locale = 'fr'): void
+    public function setLocale(string $locale = 'fr'): static
     {
         $this->locale = $locale;
+
+        return $this;
     }
 }

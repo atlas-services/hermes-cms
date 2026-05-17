@@ -22,8 +22,10 @@ trait ConfigTypeTrait
         return $this->type;
     }
 
-    public function setType(?string $type): void
+    public function setType(?string $type): static
     {
         $this->type = $type;
+
+        return $this;
     }
 }

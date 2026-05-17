@@ -34,9 +34,11 @@ trait PublishedTrait
     /**
      * @param \DateTime $startPublishedAt
      */
-    public function setStartPublishedAt(?\DateTime $startPublishedAt): void
+    public function setStartPublishedAt(?\DateTime $startPublishedAt): static
     {
         $this->startPublishedAt = $startPublishedAt;
+
+        return $this;
     }
 
     /**
@@ -50,9 +52,11 @@ trait PublishedTrait
     /**
      * @param \DateTime $endPublishedAt
      */
-    public function setEndPublishedAt(?\DateTime $endPublishedAt): void
+    public function setEndPublishedAt(?\DateTime $endPublishedAt): static
     {
         $this->endPublishedAt = $endPublishedAt;
+
+        return $this;
     }
 
 

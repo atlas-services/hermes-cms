@@ -22,8 +22,10 @@ trait CodeTrait
         return $this->code;
     }
 
-    public function setCode(?string $code): void
+    public function setCode(?string $code): static
     {
         $this->code = $code;
+
+        return $this;
     }
 }

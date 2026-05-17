@@ -7,10 +7,10 @@ namespace App\Tests\Controller;
 use App\DataFixtures\PostFixtures;
 use App\Entity\Section;
 use App\Entity\Template;
-use App\Tests\Base\BaseControllerTest;
+use App\Tests\Base\AbstractControllerWebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class AdminSectionMainTemplateTest extends BaseControllerTest
+final class AdminSectionMainTemplateTest extends AbstractControllerWebTestCase
 {
     protected function loadFixtures(): void
     {

@@ -22,8 +22,10 @@ trait ValueTrait
         return $this->value;
     }
 
-    public function setValue(?string $value): void
+    public function setValue(?string $value): static
     {
         $this->value = $value;
+
+        return $this;
     }
 }

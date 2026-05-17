@@ -45,10 +45,15 @@ class PostRepository extends ServiceEntityRepository
      */
     public function getMaxPositionInSection(Section $section): int
     {
+        // Section sans identifiant (persistée mais pas encore flushée) : aucun post en base ne la référence encore.
+        if ($section->getId() === null) {
+            return 0;
+        }
+
         $v = $this->createQueryBuilder('p')
             ->select('COALESCE(MAX(p.position), 0)')
-            ->where('p.section = :section')
-            ->setParameter('section', $section)
+            ->where('p.section = :sectionId')
+            ->setParameter('sectionId', $section->getId())
             ->getQuery()
             ->getSingleScalarResult();
 

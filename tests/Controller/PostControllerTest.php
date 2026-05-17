@@ -7,10 +7,10 @@ use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
 use App\Entity\Template;
-use App\Tests\Base\BaseControllerTest;
+use App\Tests\Base\AbstractControllerWebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PostControllerTest extends BaseControllerTest
+class PostControllerTest extends AbstractControllerWebTestCase
 {
     protected function tearDown(): void
     {
