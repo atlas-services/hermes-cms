@@ -38,10 +38,11 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+    # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # prod : ROLE_ADMIN ; dev / local (APP_ENV) : admin sans connexion (allow_if → symfony/expression-language)
-        - { path: ^/(fr|en)/admin, roles: PUBLIC_ACCESS, allow_if: "is_granted('ROLE_ADMIN') or '%kernel.environment%' in ['dev', 'local']" }
+        - { path: ^/(fr|en)/admin, roles: ['ROLE_ADMIN'] }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
