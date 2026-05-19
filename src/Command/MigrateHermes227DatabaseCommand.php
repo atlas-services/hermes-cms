@@ -14,16 +14,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Importe une base SQLite Hermes 2.2.x (fichier type {@code data/data.sqlite}) vers le schéma Hermes 3.
+ * Importe une base SQLite Hermes 2.2.x vers le schéma Hermes 3.
+ *
+ * Les arguments sont en général {@code data/<nom>.sqlite} : le stem {@code <nom>} (sans {@code .sqlite})
+ * sert à réécrire les URLs {@code /{nom}/uploads/} → {@code /uploads/{nom}/} (source = {@code dataFrom}, cible = {@code dataTo}).
  *
  * Prérequis côté source : tables {@code template}, {@code menu}, {@code section}, {@code post}.
  * Optionnel : {@code sheet} (feuilles → menus racines), {@code user}.
  *
- * Optionnel : fichier {@code data/config_<stem>.sqlite} (même {@code stem} que le fichier de la base source,
- * ex. {@code atlas.sqlite} → {@code config_atlas.sqlite}) pour recopier la table {@code config} dans la cible.
+ * Optionnel : {@code data/config/<nom>.sqlite} (même {@code <nom>} que la base source) pour recopier
+ * la table {@code config} (ex. {@code data/atlas.sqlite} + {@code data/config/atlas.sqlite}).
  *
- * Après migration : ajuster {@code DATABASE_URL} vers le fichier cible, puis éventuellement
- * {@code php bin/console app:init-hermes} pour (re)charger configs / gabarits par défaut sans doublons.
+ * Après migration : ajuster {@code DATABASE_URL} vers le fichier cible, puis copier les médias avec
+ * {@code app:migrate-media} (les posts Vich 2.2.7 ne sont pas au même chemin qu’en 3.x).
+ * Puis éventuellement {@code php bin/console app:init-hermes} pour (re)charger configs / gabarits par défaut sans doublons.
  */
 #[AsCommand(
     name: 'app:migrate',
@@ -39,8 +43,8 @@ final class MigrateHermes227DatabaseCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('dataFrom', InputArgument::REQUIRED, 'Chemin absolu ou relatif au projet de l’ancienne base (.sqlite)')
-            ->addArgument('dataTo', InputArgument::REQUIRED, 'Chemin absolu ou relatif de la nouvelle base (.sqlite) ; le fichier est créé s’il n’existe pas')
+            ->addArgument('dataFrom', InputArgument::REQUIRED, 'Ancienne base (ex. data/db/jazzenville.sqlite — stem = nom dans /{nom}/uploads/)')
+            ->addArgument('dataTo', InputArgument::REQUIRED, 'Nouvelle base (ex. data/db/jazzenville.sqlite — stem = nom dans /uploads/{nom}/ ; créée si absente)')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Réinitialiser la cible si elle existe déjà (drop du schéma Doctrine puis recréation)');
     }
 

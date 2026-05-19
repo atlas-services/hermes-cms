@@ -31,6 +31,7 @@ composer require symfony/http-client
 composer require symfony/mailer
 composer require symfony/monolog-bundle
 composer require symfony/security-bundle
+composer require symfony/expression-language
 composer require symfony/stimulus-bundle
 composer require symfony/translation
 composer require symfony/ux-icons
@@ -108,6 +109,56 @@ php bin/console importmap:require tom-select/dist/css/tom-select.bootstrap5.css
 ## Prérequis techniques
 
 - PHP **8.4** minimum (voir `composer.json`).
+- **symfony/expression-language** : requis pour les expressions `allow_if` de `config/packages/security.yaml` (admin ouvert sans login en `APP_ENV=dev` ou `local`, `ROLE_ADMIN` en prod).
+
+## Sécurité admin (dev / prod) — FR
+
+Règle dans `config/packages/security.yaml` :
+
+```yaml
+access_control:
+    - { path: ^/(fr|en)/admin, roles: PUBLIC_ACCESS, allow_if: "is_granted('ROLE_ADMIN') or '%kernel.environment%' in ['dev', 'local']" }
+```
+
+En **production** (`APP_ENV=prod`), seuls les utilisateurs `ROLE_ADMIN` accèdent à `/fr/admin` et `/en/admin`. En **dev** ou **local**, l’admin est accessible sans être connecté.
+
+## Admin security (dev / prod) — EN
+
+See `config/packages/security.yaml` : admin requires `ROLE_ADMIN` in production; in `dev` or `local` environments the admin area is reachable without logging in (`symfony/expression-language` for `allow_if`).
+
+## Migration depuis Hermes 2.2.x (FR)
+
+Import d’une base SQLite 2.2.x ([release/2.2.7](https://github.com/atlas-services/hermes/tree/release/2.2.7)) vers Hermes 3. Le **nom de base** (stem du fichier `.sqlite` passé à la commande, ex. `jazzenville`) sert à la réécriture des URLs dans le HTML : `/{nom}/uploads/` → `/uploads/{nom}/` (source = stem de `dataFrom`, cible = stem de `dataTo`). Prévoir `data/config/<nom>.sqlite` (même `<nom>` que la base source) et l’ancien répertoire uploads (`entity/`, `content/`). `DATABASE_URL` en SQLite pendant `app:migrate`. Aligner **`APP_NAME`** (`.env`) sur le stem de la base cible si vous utilisez les chemins par défaut (`APP_DB`, `public/uploads/${APP_NAME}`).
+
+```bash
+php bin/console app:migrate \
+  /var/www/html/hermes/data/db/jazzenville.sqlite \
+  data/db/jazzenville.sqlite --force
+```
+
+Puis `DATABASE_URL` vers `data/db/jazzenville.sqlite`. Optionnel : `php bin/console app:init-hermes`.
+
+Les dossiers `content/` et `entity/Config/` se recopient sous `public/uploads/<nom>/` — `app:migrate-media` avec la base migrée, l’ancienne racine uploads et la cible :
+
+```bash
+php bin/console app:migrate-media data/db/jazzenville.sqlite \
+  /var/www/html/hermes/public/jazzenville/uploads \
+  public/uploads/jazzenville
+```
+
+(`--dry-run`, `--overwrite`.) Copie partielle possible : `rsync -a ancien/uploads/content/ public/uploads/content/` et idem pour `entity/Config/`.
+
+## Migration from Hermes 2.2.x (EN)
+
+Import a 2.2.x SQLite DB into Hermes 3. URL rewrite uses the **DB filename stem** from the command (`dataFrom` → `dataTo`), e.g. `/jazzenville/uploads/` → `/uploads/jazzenville/`. Also `data/config/<name>.sqlite` and the legacy uploads tree. Set **`APP_NAME`** in `.env` to match the target DB stem when using default paths.
+
+```bash
+php bin/console app:migrate /path/to/old/data/db/jazzenville.sqlite data/db/jazzenville.sqlite --force
+php bin/console app:migrate-media data/db/jazzenville.sqlite \
+  /path/to/old/public/jazzenville/uploads public/uploads/jazzenville
+```
+
+---
 
 ## Show Room et modeles - FR
 

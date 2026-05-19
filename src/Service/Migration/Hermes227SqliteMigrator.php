@@ -28,8 +28,12 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  *   feuille (lorsqu’il n’a qu’un {@code sheet_id}) est fusionné : aucune ligne menu enfant n’est créée,
  *   les anciens ids pointent vers le menu parent cible ;
  * - colonnes supprimées en 3.x (ex. {@code url} sur post, {@code name} sur section, {@code user_id} sur menu) sont ignorées ;
- * - si un fichier {@code config_<stem>.sqlite} existe à côté de la base source (même répertoire, {@code stem} = nom de
- *   fichier sans extension), sa table {@code config} est recopiée dans la base cible (colonnes communes, ex. {@code transparent}).
+ * - si un fichier {@code config/<nom>.sqlite} existe au même niveau que la base source (ex. {@code data/atlas.sqlite}
+ *   → {@code data/config/atlas.sqlite}), sa table {@code config} est recopiée dans la base cible ;
+ * - dans le HTML des posts (et champs texte config), les URLs Hermes 2.2.x
+ *   {@code /{nom}/uploads/…} sont réécrites en {@code /uploads/{nom}/…} ;
+ *   {@code {nom}} source = stem de {@code dataFrom}, cible = stem de {@code dataTo}
+ *   (ex. {@code data/db/jazzenville.sqlite} → {@code /jazzenville/uploads/} → {@code /uploads/jazzenville/}).
  *
  * La génération du DDL repose sur le schéma Doctrine du projet : l’URL Doctrine par défaut
  * ({@code DATABASE_URL}) doit être **SQLite**, afin que le SQL créé corresponde au fichier cible.
@@ -140,14 +144,36 @@ final class Hermes227SqliteMigrator
             $sectionResult['skipped'],
         ));
 
-        $postResult = $this->migratePosts($source, $target, $sectionResult['insertedSectionIds']);
+        $legacyMediaSite = $this->resolveDbStem($fromPath);
+        $targetMediaSite = $this->resolveDbStem($toPath);
+        $log(sprintf(
+            'Réécriture URLs médias : /%s/uploads/ → /uploads/%s/ (stem dataFrom → stem dataTo).',
+            $legacyMediaSite,
+            $targetMediaSite,
+        ));
+
+        $postResult = $this->migratePosts(
+            $source,
+            $target,
+            $sectionResult['insertedSectionIds'],
+            $legacyMediaSite,
+            $targetMediaSite,
+        );
         $log(sprintf(
             '%d publication(s) (post) migrée(s), %d ignorée(s) (section absente ou non migrée).',
             $postResult['inserted'],
             $postResult['skipped'],
         ));
+        if ($postResult['urlsRewritten'] > 0) {
+            $log(sprintf(
+                '%d publication(s) : URLs médias réécrites (/%s/uploads/ → /uploads/%s/).',
+                $postResult['urlsRewritten'],
+                $legacyMediaSite,
+                $targetMediaSite,
+            ));
+        }
 
-        $nCfg = $this->migrateConfigFromCompanionSqlite($fromPath, $target, $log);
+        $nCfg = $this->migrateConfigFromCompanionSqlite($fromPath, $target, $legacyMediaSite, $targetMediaSite, $log);
         if ($nCfg > 0) {
             $log(sprintf('%d entrée(s) de configuration migrée(s) depuis la base compagnon.', $nCfg));
         }
@@ -581,10 +607,15 @@ final class Hermes227SqliteMigrator
     /**
      * @param array<int, true> $insertedSectionIds
      *
-     * @return array{inserted: int, skipped: int}
+     * @return array{inserted: int, skipped: int, urlsRewritten: int}
      */
-    private function migratePosts(PDO $source, PDO $target, array $insertedSectionIds): array
-    {
+    private function migratePosts(
+        PDO $source,
+        PDO $target,
+        array $insertedSectionIds,
+        string $legacyMediaSite,
+        string $targetMediaSite,
+    ): array {
         $postCols = $this->getTableColumns($source, 'post');
         $sectionCol = \in_array('section_id', $postCols, true) ? 'section_id' : (\in_array('section', $postCols, true) ? 'section' : null);
         if ($sectionCol === null) {
@@ -599,6 +630,7 @@ final class Hermes227SqliteMigrator
         );
         $inserted = 0;
         $skipped = 0;
+        $urlsRewritten = 0;
         foreach ($rows as $r) {
             $rawSec = $r[$sectionCol] ?? null;
             if ($rawSec === null || $rawSec === '') {
@@ -610,6 +642,11 @@ final class Hermes227SqliteMigrator
                 ++$skipped;
                 continue;
             }
+            $rawContent = $r['content'] ?? null;
+            $content = $this->rewriteLegacyMediaUrls($rawContent, $legacyMediaSite, $targetMediaSite);
+            if ($rawContent !== null && $content !== $rawContent) {
+                ++$urlsRewritten;
+            }
             $stmt->execute([
                 'id' => (int) $r['id'],
                 'active' => (int) ($r['active'] ?? 1),
@@ -619,7 +656,7 @@ final class Hermes227SqliteMigrator
                 'name' => $this->clipString((string) ($r['name'] ?? ''), self::STR_NAME_MAX),
                 'locale' => $hasLocale ? (string) ($r['locale'] ?? 'fr') : 'fr',
                 'section_id' => $sectionId,
-                'content' => $r['content'] ?? null,
+                'content' => $content,
                 'file_name' => $r['file_name'] ?? null,
                 'updated_at' => $this->normalizeDateTime($r['updated_at'] ?? null),
             ]);
@@ -627,16 +664,21 @@ final class Hermes227SqliteMigrator
         }
         $this->syncSqliteSequence($target, 'post');
 
-        return ['inserted' => $inserted, 'skipped' => $skipped];
+        return ['inserted' => $inserted, 'skipped' => $skipped, 'urlsRewritten' => $urlsRewritten];
     }
 
     /**
-     * Base Hermes 2.x : {@code <répertoire>/config_<stem>.sqlite} avec le même {@code stem} que la base données principale source.
+     * Base Hermes 2.x : {@code <répertoire>/config/<fichier>.sqlite} (même nom de fichier que la base principale source).
      *
      * @return int nombre de lignes insérées dans {@code config} sur la cible
      */
-    private function migrateConfigFromCompanionSqlite(string $normalizedMainDbPath, PDO $target, callable $log): int
-    {
+    private function migrateConfigFromCompanionSqlite(
+        string $normalizedMainDbPath,
+        PDO $target,
+        string $legacyMediaSite,
+        string $targetMediaSite,
+        callable $log,
+    ): int {
         $configPath = $this->resolveCompanionConfigSqlitePath($normalizedMainDbPath);
         if (!is_file($configPath)) {
             $log(sprintf('Aucune base compagnon « config » (%s) — étape ignorée.', $configPath));
@@ -677,7 +719,7 @@ final class Hermes227SqliteMigrator
         $stmt = $target->prepare('INSERT INTO config (' . $colSql . ') VALUES (' . $phSql . ')');
 
         foreach ($rows as $r) {
-            $params = $this->mapConfigSourceRowToTarget($targetCols, $r);
+            $params = $this->mapConfigSourceRowToTarget($targetCols, $r, $legacyMediaSite, $targetMediaSite);
             $bound = [];
             foreach ($params as $k => $v) {
                 $bound[':' . $k] = $v;
@@ -692,9 +734,36 @@ final class Hermes227SqliteMigrator
     private function resolveCompanionConfigSqlitePath(string $normalizedMainDbPath): string
     {
         $dir = \dirname($normalizedMainDbPath);
-        $stem = pathinfo($normalizedMainDbPath, \PATHINFO_FILENAME);
+        $baseName = basename($normalizedMainDbPath);
 
-        return $dir . \DIRECTORY_SEPARATOR . 'config_' . $stem . '.sqlite';
+        return $dir . \DIRECTORY_SEPARATOR . 'config' . \DIRECTORY_SEPARATOR . $baseName;
+    }
+
+    /** Nom de base sans {@code .sqlite} (stem du chemin passé à {@code app:migrate}). */
+    private function resolveDbStem(string $normalizedSqlitePath): string
+    {
+        $stem = pathinfo($normalizedSqlitePath, \PATHINFO_FILENAME);
+
+        return $stem !== '' ? $stem : 'app';
+    }
+
+    /**
+     * Hermes 2.2.x : {@code /{site}/uploads/…} → Hermes 3 : {@code /uploads/{site}/…}.
+     */
+    private function rewriteLegacyMediaUrls(?string $text, string $legacyMediaSite, string $targetMediaSite): ?string
+    {
+        if ($text === null || $text === '' || $legacyMediaSite === '' || $targetMediaSite === '') {
+            return $text;
+        }
+
+        $legacy = '/' . $legacyMediaSite . '/uploads/';
+        $modern = '/uploads/' . $targetMediaSite . '/';
+
+        if ($legacy === $modern) {
+            return $text;
+        }
+
+        return str_replace($legacy, $modern, $text);
     }
 
     /**
@@ -703,8 +772,12 @@ final class Hermes227SqliteMigrator
      *
      * @return array<string, mixed>
      */
-    private function mapConfigSourceRowToTarget(array $targetCols, array $sourceRow): array
-    {
+    private function mapConfigSourceRowToTarget(
+        array $targetCols,
+        array $sourceRow,
+        string $legacyMediaSite,
+        string $targetMediaSite,
+    ): array {
         $params = [];
         foreach ($targetCols as $col) {
             $params[$col] = match ($col) {
@@ -721,8 +794,22 @@ final class Hermes227SqliteMigrator
                 'end_published_at' => $this->normalizeDateTime($sourceRow['end_published_at'] ?? null),
                 'code' => $this->clipString($sourceRow['code'] ?? null, self::STR_CODE_MAX) ?: null,
                 'type' => $this->clipString($sourceRow['type'] ?? null, self::STR_TYPE_MAX) ?: null,
-                'value' => $this->clipString($sourceRow['value'] ?? null, 250) ?: null,
-                'summary' => $this->clipString($sourceRow['summary'] ?? null, self::STR_SUMMARY_MAX) ?: null,
+                'value' => $this->clipString(
+                    $this->rewriteLegacyMediaUrls(
+                        isset($sourceRow['value']) ? (string) $sourceRow['value'] : null,
+                        $legacyMediaSite,
+                        $targetMediaSite,
+                    ),
+                    250,
+                ) ?: null,
+                'summary' => $this->clipString(
+                    $this->rewriteLegacyMediaUrls(
+                        isset($sourceRow['summary']) ? (string) $sourceRow['summary'] : null,
+                        $legacyMediaSite,
+                        $targetMediaSite,
+                    ),
+                    self::STR_SUMMARY_MAX,
+                ) ?: null,
                 'file_name' => $this->clipString($sourceRow['file_name'] ?? null, 255) ?: null,
                 default => \array_key_exists($col, $sourceRow) ? $sourceRow[$col] : null,
             };
