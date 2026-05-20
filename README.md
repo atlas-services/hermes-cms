@@ -157,7 +157,8 @@ php bin/console app:migrate /path/to/old/data/db/jazzenville.sqlite data/db/jazz
 php bin/console app:migrate-media data/db/jazzenville.sqlite \
   /path/to/old/public/jazzenville/uploads public/uploads/jazzenville
 ```
-
+php bin/console app:migrate /var/www/html/hermes/data/db/atlas.sqlite data/db/atlas.sqlite --force
+php bin/console app:migrate-media data/db/atlas.sqlite /var/www/html/hermes/public/atlas/uploads public/uploads/atlas
 ---
 
 ## Show Room et modeles - FR

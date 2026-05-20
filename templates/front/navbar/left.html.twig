@@ -1,0 +1,71 @@
+{% set navOffset = (configs.nav_offset|default(0) + 0)|round(0, 'floor') %}
+{% set navOffset = navOffset < 0 ? 0 : (navOffset > 11 ? 11 : navOffset) %}
+{% set navEspacement = (configs.nav_espacement|default(0) + 0)|round(0, 'floor') %}
+{% set navEspacement = navEspacement < 0 ? 0 : (navEspacement > 5 ? 5 : navEspacement) %}
+{% set navLinkPx = (configs.nav_link_px|default(2) + 0)|round(0, 'floor') %}
+{% set navLinkPx = navLinkPx < 0 ? 0 : (navLinkPx > 5 ? 5 : navLinkPx) %}
+{% set navLinkPy = (configs.nav_link_py|default(2) + 0)|round(0, 'floor') %}
+{% set navLinkPy = navLinkPy < 0 ? 0 : (navLinkPy > 5 ? 5 : navLinkPy) %}
+{% set navLinkRounded = (configs.nav_link_rounded|default(0) + 0)|round(0, 'floor') %}
+{% set navLinkRounded = navLinkRounded < 0 ? 0 : (navLinkRounded > 5 ? 5 : navLinkRounded) %}
+{% set navSubMenuMx = (configs.nav_sub_menu_mx|default(0) + 0)|round(0, 'floor') %}
+{% set navSubMenuMx = navSubMenuMx < 0 ? 0 : (navSubMenuMx > 5 ? 5 : navSubMenuMx) %}
+{% set navMenuTextSize = configs.nav_menu_text_size|default('h6') %}
+{% set navSubMenuTextSize = configs.nav_sub_menu_text_size|default('h6') %}
+{% set logoConfig = configs.logo|default(null) %}
+{% set logoUrl = logoConfig ? vich_uploader_asset(logoConfig, 'imageFile') : null %}
+{% set logoTop = configs.affiche_logo_top|default(false) %}
+{% set logoLeftOffset = (logoConfig and attribute(logoConfig, 'value') is not null) ? attribute(logoConfig, 'value') : '0px' %}
+{% set navOffcanvasPosition = configs.nav_offcanvas_position|default('start') %}
+{% set navOffcanvasPct = (configs.nav_offcanvas_pct|default(15) + 0)|round(0, 'floor') %}
+{% set navOffcanvasPct = navOffcanvasPct < 5 ? 5 : (navOffcanvasPct > 100 ? 100 : navOffcanvasPct) %}
+{% set navHeaderColor = configs.nav_header_color|default('#000000') %}
+{% set offcanvasEdgeClass = navOffcanvasPosition == 'end' ? 'end-0' : (navOffcanvasPosition == 'top' ? 'top-0' : (navOffcanvasPosition == 'bottom' ? 'bottom-0' : 'start-0')) %}
+{% set mtBtn = logoUrl and not logoTop ? 'mt-5 mt-lg-0' : 'mt-5 pt-lg-4' %}
+
+<div id="section_top"></div>
+<nav id="mainNavLeft"
+     class="navbar fixed-top col-12"
+     style="background-color: transparent; font-family: {{ configs.nav_font_family|default('inherit') }};">
+    <div class="float-start">
+        {% if logoUrl and not logoTop %}
+            <a class="d-none d-lg-block col-{{ navOffset }} align-middle text-decoration-none" href="{{ path('front_root') }}">
+                <img src="{{ asset(logoUrl) }}"
+                     alt="Logo"
+                     class="img-fluid"
+                     style="margin-left: {{ logoLeftOffset }};">
+            </a>
+            {% set mtBtn = 'mt-5 mt-lg-0' %}
+        {% endif %}
+    </div>
+
+    <div class="d-block d-lg-none position-absolute {{ offcanvasEdgeClass }} {{ mtBtn }}">
+        <button id="btnOffcanvasDarkNavbarSmall"
+                type="button"
+                class="navbar-toggler collapsed float-end border-0 shadow-none"
+                style="background-color: {{ configs.nav_header_bgcolor|default('transparent') }}"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasDarkNavbarSmall"
+                aria-controls="offcanvasDarkNavbarSmall"
+                aria-label="Toggle navigation">
+            <span class="visually-hidden">Toggle navigation</span>
+            <i class="fa fa-2x fa-bars" style="color: {{ navHeaderColor }}"></i>
+        </button>
+    </div>
+
+    <div class="d-none d-lg-block position-absolute {{ offcanvasEdgeClass }} {{ mtBtn }}">
+        <button id="btnOffcanvasDarkNavbar"
+                type="button"
+                class="navbar-toggler collapsed float-end border-0 shadow-none"
+                style="background-color: {{ configs.nav_header_bgcolor|default('transparent') }}"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasDarkNavbar"
+                aria-controls="offcanvasDarkNavbar"
+                aria-label="Toggle navigation">
+            <span class="visually-hidden">Toggle navigation</span>
+            <i class="fa fa-2x fa-bars" style="color: {{ navHeaderColor }}"></i>
+        </button>
+    </div>
+
+    {% include 'front/navbar/left_nav.html.twig' %}
+</nav>

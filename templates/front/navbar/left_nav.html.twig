@@ -1,0 +1,27 @@
+<div id="offcanvasDarkNavbarSmall"
+     class="offcanvas offcanvas-{{ navOffcanvasPosition }} d-lg-none mt-0 pt-0 shadow-sm hermes-nav-left-offcanvas"
+     style="background-color: {{ configs.nav_bgcolor|default('#ffffff') }}; --hermes-nav-left-width: {{ navOffcanvasPct }}%;"
+     data-bs-scroll="true"
+     data-bs-backdrop="false"
+     tabindex="-1"
+     aria-labelledby="offcanvasDarkNavbarSmallLabel">
+    {% include 'front/navbar/left_nav_ul.html.twig' with {
+        mobileOnly: true,
+        listVisibilityClass: 'd-block d-lg-none',
+        maxHeight: '500px',
+    } %}
+</div>
+
+<div id="offcanvasDarkNavbar"
+     class="offcanvas offcanvas-{{ navOffcanvasPosition }} d-none d-lg-block show mt-0 pt-0 shadow-sm hermes-nav-left-offcanvas hermes-nav-left-offcanvas--desktop"
+     style="background-color: {{ configs.nav_bgcolor|default('#ffffff') }}; width: {{ navOffcanvasPct }}%; --hermes-nav-left-width: {{ navOffcanvasPct }}%;"
+     data-bs-scroll="true"
+     data-bs-backdrop="false"
+     tabindex="-1"
+     aria-labelledby="offcanvasDarkNavbarLabel">
+    {% include 'front/navbar/left_nav_ul.html.twig' with {
+        mobileOnly: false,
+        listVisibilityClass: 'd-none d-lg-block',
+        maxHeight: '850px',
+    } %}
+</div>

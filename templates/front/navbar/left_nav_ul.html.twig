@@ -1,0 +1,43 @@
+{# Liste du menu dans les offcanvas (mobile + desktop). #}
+{% import 'front/navbar/_navbar_macros.html.twig' as nav %}
+{% set navCloseColor = configs.nav_header_color|default('#000000') %}
+
+<div class="offcanvas-body">
+    {% if mobileOnly %}
+        {# Mobile uniquement #}
+        <button type="button"
+                class="btn border-0 bg-transparent position-absolute {{ offcanvasEdgeClass }} pt-2 mx-3 d-lg-none shadow-none"
+                style="background-color: {{ configs.nav_header_bgcolor|default('transparent') }}"
+                data-bs-dismiss="offcanvas"
+                aria-label="Fermer">
+            <i class="fa fa-2x fa-times" style="color: {{ navCloseColor }}"></i>
+        </button>
+    {% else %}
+        {# Desktop uniquement #}
+        <div class="offcanvas-header">
+            <button type="button"
+                    class="btn border-0 bg-transparent position-absolute {{ offcanvasEdgeClass }} mt-lg-4 mt-0 mx-2 d-none d-lg-block shadow-none"
+                    style="background-color: {{ configs.nav_header_bgcolor|default('transparent') }}"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Fermer">
+                <i class="fa fa-2x fa-times" style="color: {{ navCloseColor }}"></i>
+            </button>
+        </div>
+    {% endif %}
+
+    {% if logoUrl is defined and logoUrl and not (logoTop|default(false)) %}
+        <a class="d-lg-none d-block mb-3 text-decoration-none" href="{{ path('front_root') }}">
+            <img src="{{ asset(logoUrl) }}"
+                 alt="Logo"
+                 class="img-fluid"
+                 style="max-height: 100px; margin-left: {{ logoLeftOffset|default('0px') }};">
+        </a>
+    {% endif %}
+
+    <ul class="navbar-nav justify-content-start ps-3 {{ listVisibilityClass|default('d-block') }}"
+        style="height: auto; max-height: {{ maxHeight|default('500px') }}; overflow-x: hidden; min-height: {{ configs.nav_height|default('auto') }}; background-color: {{ configs.nav_bgcolor|default('#ffffff') }};">
+        <hr class="w-100 border-light opacity-50 {{ mobileOnly ? 'd-lg-none' : 'd-none' }}">
+        {{ nav.renderMenuLeft(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+        <hr class="w-100 border-light opacity-50 {{ mobileOnly ? 'd-lg-none' : 'd-none' }}">
+    </ul>
+</div>

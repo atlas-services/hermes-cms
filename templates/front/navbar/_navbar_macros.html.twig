@@ -1,0 +1,127 @@
+{% macro menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) %}
+    <hr class="border-0 p-0 aos-nav-hr w-100 mx-0 my-{{ navEspacement }}"
+        style="height: 2px; min-height: 2px; background-color: {{ linkColor }};"
+        {% if hrAos %}
+            data-aos="{{ navAosEffect|e('html_attr') }}"
+            data-aos-duration="{{ navAosDuration }}"
+            data-aos-once="true"
+        {% endif %}
+        aria-hidden="true">
+{% endmacro %}
+
+{% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, hrMainNavOnly) %}
+    {% set activeTrailIds = [currentMenu.id] %}
+    {% for p in currentMenu.parents %}
+        {% set activeTrailIds = activeTrailIds|merge([p.id]) %}
+    {% endfor %}
+    {% for node in nodes %}
+        {% set isActive = node.menu.id in activeTrailIds %}
+        {% set hrAos = navAosActive and node.menu.id in activeTrailIds %}
+        {% set linkBg = isActive ? configs.nav_bgcolor_active|default('transparent') : configs.nav_bgcolor_link|default('transparent') %}
+        {% set linkColor = isActive ? configs.nav_color_active|default(configs.nav_link_color|default('#000000')) : configs.nav_link_color|default('#000000') %}
+        {% set linkBorder = configs.nav_link_border_bottom|default('') %}
+        {% if node.children|length > 0 %}
+            <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch">
+                <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
+                     style="background-color: {{ linkBg }};">
+                    {% if node.type == 'page' %}
+                        <a class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                           href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                           id="navbarDropdown{{ node.menu.id }}"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false"
+                           style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                            {{ node.menu.name }}
+                        </a>
+                    {% else %}
+                        <span class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                              id="navbarDropdown{{ node.menu.id }}"
+                              role="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                              style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                            {{ node.menu.name }}
+                        </span>
+                    {% endif %}
+                    <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
+                        aria-labelledby="navbarDropdown{{ node.menu.id }}"
+                        style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
+                        {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, false) }}
+                    </ul>
+                    {% if hrMainNavOnly %}
+                        {{ _self.menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) }}
+                    {% endif %}
+                </div>
+            </li>
+        {% elseif node.type == 'page' %}
+            <li class="nav-item me-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch"
+                style="{{ node.menu.parent is not null ? 'background-color: ' ~ configs.nav_li_bgcolor|default('#ffffff') : 'background-color: ' ~ configs.nav_bgcolor|default('#ffffff') }}">
+                <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
+                     style="background-color: {{ linkBg }};">
+                    <a class="nav-link px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                       href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                       style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                        {{ node.menu.name }}
+                    </a>
+                    {% if hrMainNavOnly %}
+                        {{ _self.menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) }}
+                    {% endif %}
+                </div>
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro renderMenuLeft(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) %}
+    {% set activeTrailIds = [currentMenu.id] %}
+    {% for p in currentMenu.parents %}
+        {% set activeTrailIds = activeTrailIds|merge([p.id]) %}
+    {% endfor %}
+    {% for node in nodes %}
+        {% set isActive = node.menu.id in activeTrailIds %}
+        {% set linkBg = isActive ? configs.nav_bgcolor_active|default('transparent') : configs.nav_bgcolor_link|default('transparent') %}
+        {% set linkColor = isActive ? configs.nav_color_active|default(configs.nav_link_color|default('#000000')) : configs.nav_link_color|default('#000000') %}
+        {% set linkBorder = configs.nav_link_border_bottom|default('') %}
+        {% if node.children|length > 0 %}
+            <li class="nav-item dropdown my-lg-{{ navEspacement }} py-lg-{{ navEspacement }} rounded-{{ navLinkRounded }} {{ navMenuTextSize }}"
+                style="background-color: {{ linkBg }};">
+                {% if node.type == 'page' %}
+                    <a class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} text-decoration-none"
+                       href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                       id="navbarLeftDropdown{{ node.menu.id }}"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false"
+                       style="color: {{ linkColor }}; background-color: {{ linkBg }}; {{ linkBorder }}">
+                        {{ node.menu.name }}
+                    </a>
+                {% else %}
+                    <span class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }}"
+                          id="navbarLeftDropdown{{ node.menu.id }}"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                          style="color: {{ linkColor }}; background-color: {{ linkBg }}; {{ linkBorder }}">
+                        {{ node.menu.name }}
+                    </span>
+                {% endif %}
+                <ul class="dropdown-menu mt-1 mx-lg-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
+                    aria-labelledby="navbarLeftDropdown{{ node.menu.id }}"
+                    style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }}; color: {{ configs.nav_color_active|default(configs.nav_link_color|default('#000000')) }}; border-color: {{ configs.nav_link_color|default('#000000') }};">
+                    {{ _self.renderMenuLeft(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+                </ul>
+            </li>
+        {% elseif node.type == 'page' %}
+            <li class="nav-item my-lg-{{ navEspacement }} py-lg-{{ navEspacement }} rounded-{{ navLinkRounded }} {{ navMenuTextSize }} {{ linkBorder }}"
+                style="background-color: {{ node.menu.parent is not null ? configs.nav_li_bgcolor|default('#ffffff') : configs.nav_bgcolor|default('#ffffff') }};">
+                <a class="nav-link px-{{ navLinkPx }} py-{{ navLinkPy }} text-decoration-none"
+                   href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                   style="color: {{ linkColor }}; background-color: {{ linkBg }};">
+                    {{ node.menu.name }}
+                </a>
+            </li>
+        {% endif %}
+        <hr class="w-100 border-light opacity-50 d-lg-none">
+    {% endfor %}
+{% endmacro %}
