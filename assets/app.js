@@ -16,15 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (typeof AOS !== 'undefined' && typeof AOS.init === 'function') {
-        AOS.init({
-            once: true,
-            duration: 800,
-            startEvent: 'DOMContentLoaded',
-        });
-        requestAnimationFrame(() => {
+        const refreshAos = () => {
             if (typeof AOS.refresh === 'function') {
                 AOS.refresh();
             }
+        };
+
+        AOS.init({
+            once: true,
+            duration: 600,
+            startEvent: 'DOMContentLoaded',
+        });
+        requestAnimationFrame(refreshAos);
+        window.addEventListener('load', refreshAos);
+
+        document.querySelectorAll('.navbar-collapse').forEach((collapseEl) => {
+            collapseEl.addEventListener('shown.bs.collapse', refreshAos);
         });
     }
 });

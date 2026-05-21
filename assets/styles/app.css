@@ -2,6 +2,11 @@ body {
     background-color: skyblue;
 }
 
+/* Séparateur animé (AOS) sous l’entrée active du menu base (Hermes 2.2.7) */
+.aos-nav-hr {
+    opacity: 1;
+}
+
 /* Navbar menu gauche (offcanvas persistant desktop, Hermes 2.2.7 left / left_nav) */
 @media (min-width: 992px) {
     body:has(#offcanvasDarkNavbar.show) .hermes-nav-menu-left-main {

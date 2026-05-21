@@ -1,5 +1,5 @@
 {% macro menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) %}
-    <hr class="border-0 p-0 aos-nav-hr w-100 mx-0 my-{{ navEspacement }}"
+    <hr class="border-0 p-0 aos-nav-hr w-100 mx-0 my-{{ navEspacement }} d-none d-sm-block"
         style="height: 2px; min-height: 2px; background-color: {{ linkColor }};"
         {% if hrAos %}
             data-aos="{{ navAosEffect|e('html_attr') }}"

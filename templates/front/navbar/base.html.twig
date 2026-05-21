@@ -21,7 +21,7 @@
 {% set logoTop = configs.affiche_logo_top|default(false) %}
 {% set logoLeftOffset = (logoConfig and attribute(logoConfig, 'value') is not null) ? attribute(logoConfig, 'value') : '0px' %}
 {% set navAosCfg = configs.nav_data_aos_active|default(false) %}
-{% set navAosActive = navAosCfg is same as(true) or navAosCfg == 1 or navAosCfg == '1' %}
+{% set navAosActive = navAosCfg is same as(true) or navAosCfg in [1, '1', 'true', 'on'] %}
 {% set navAosEffect = configs.nav_data_aos|default('fade-up') %}
 {% set navAosDuration = (configs.nav_data_aos_duration|default(1000) + 0)|round(0, 'floor') %}
 
