@@ -5,18 +5,35 @@ alwaysApply: true
 
 # Hermes3 — contexte pour l’agent
 
+## Référence Hermes 2.2.7 (legacy)
+
+Quand l’utilisateur parle de **« Hermes 2.2.7 »**, **« Hermes v2 »**, **« Hermes 2.2 »** ou demande de **chercher / comparer dans l’ancien Hermes**, il s’agit du dépôt de référence :
+
+- **GitHub** : [atlas-services/hermes — branche `release/2.2.7`](https://github.com/atlas-services/hermes/tree/release/2.2.7)
+- **Copie locale courante** (si présente) : `/var/www/html/hermes` (checkout `release/2.2.7`)
+
+**Ce n’est pas** le dépôt courant **Hermes3** (`/var/www/html/hermes3`). Utiliser Hermes 2.2.7 pour l’inspiration fonctionnelle (templates, config, navbar, admin, etc.) ; **implémenter et adapter dans Hermes3** en respectant les contraintes ci-dessous (pas de copie aveugle Symfony 5 / Webpack / FOSCKEditor de la v2).
+
 ## Rôle du produit
 
 - **Hermes (V3)** : CMS pour **sites vitrines** : menus, pages, sections, posts, gabarits (folios, carousels, cards), saisie libre avec **CKEditor 5**, médias, réglages visuels (couleurs, largeurs, fonds des zones du site : menu, contenu, footer, etc.).
 - Documentation détaillée d’installation et `importmap` : **`README.md`** à la racine.
 
-## Stack technique (aligné README)
+## Stack technique — contraintes obligatoires (Hermes3)
 
-- **Symfony 8**, **PHP 8.4+** (voir `composer.json`).
-- **Bootstrap 5** (admin + gabarits front).
-- **Symfony UX** : notamment `symfony/stimulus-bundle`, `symfony/ux-icons`, `symfony/ux-twig-component`, `symfony/ux-autocomplete`.
-- **JavaScript** : la logique interactive côté navigateur vit **surtout dans `assets/controllers/`** (contrôleurs Stimulus, enregistrés via `assets/controllers.json`). Les **points d’entrée** ou scripts « globaux » restent à la racine de `assets/` (ex. `app.js`, `ckeditor5.js`, `admin_media_upload.js`) quand le README ou le projet l’exige — ne pas multiplier des fichiers JS ad hoc hors de ces emplacements sans bonne raison.
-- **Front sans workflow Node/npm obligatoire** : **Asset Mapper + importmap** (`importmap.php`, `assets/app.js`, `php bin/console importmap:install`). Ne pas introduire Node/npm/Webpack/Vite sans accord explicite.
+Ne pas proposer de stack incompatible sans accord explicite de l’utilisateur :
+
+| Contrainte | Hermes3 |
+|------------|---------|
+| Framework | **Symfony 8** (`composer.json`) |
+| PHP | **8.4+** |
+| UI | **Bootstrap 5** |
+| Interactivité | **Symfony UX** + **Stimulus** (`symfony/stimulus-bundle`, `ux-icons`, `ux-twig-component`, `ux-autocomplete`, …) |
+| Assets front | **Asset Mapper** + **importmap** (`importmap.php`, `assets/app.js`, `importmap:install`) — **pas** Webpack Encore / Vite / npm obligatoire |
+| JS métier | **`assets/controllers/`** + entrées ciblées dans `assets/*.js` (`app.js`, `ckeditor5.js`, `admin_media_upload.js`, …) via `assets/controllers.json` |
+
+- **JavaScript** : la logique interactive côté navigateur vit **surtout dans `assets/controllers/`** (contrôleurs Stimulus, enregistrés via `assets/controllers.json`). Les **points d’entrée** ou scripts « globaux » restent à la racine de `assets/` quand le README ou le projet l’exige — ne pas multiplier des fichiers JS ad hoc hors de ces emplacements sans bonne raison.
+- **Front sans workflow Node/npm obligatoire** : **Asset Mapper + importmap** uniquement par défaut.
 - **CKEditor 5** via importmap (`assets/ckeditor5.js`, contrôleur Stimulus `ckeditor5`) — **pas** FOSCKEditorBundle.
 - **Médias** : **elFinder retiré** ; arborescence / dossiers / suppression côté admin gérés par Symfony ; **upload** via **Uppy** (importmap, `assets/admin_media_upload.js`, XHR vers l’API Symfony).
 - Autres libs importmap courantes : Tom Select (UX Autocomplete), Font Awesome, AOS, etc. (voir README section Asset Mapper).

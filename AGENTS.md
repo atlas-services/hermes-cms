@@ -2,6 +2,14 @@
 
 Ce fichier résume le projet pour les humains et les outils d’assistance (Cursor, etc.). Le détail d’installation reste dans **`README.md`**.
 
+## Référence Hermes 2.2.7
+
+Pour **« Hermes 2.2.7 »**, **« Hermes v2 »** ou une recherche dans l’ancien Hermes :
+
+- Dépôt : [github.com/atlas-services/hermes/tree/release/2.2.7](https://github.com/atlas-services/hermes/tree/release/2.2.7)
+- Copie locale (si disponible) : `/var/www/html/hermes`
+- **Projet courant** = **Hermes3** (`/var/www/html/hermes3`) — les évolutions s’y portent en respectant Symfony 8, PHP 8.4+, Symfony UX, Asset Mapper et importmap.
+
 ## Produit
 
 **Hermes (V3)** est un CMS pour **sites vitrines** : structure menu / pages / sections / posts, gabarits (folios, carousels, cards), contenu riche **CKEditor 5**, médias, et configuration visuelle (couleurs, fonds, largeurs des zones du site).
@@ -10,10 +18,11 @@ Ce fichier résume le projet pour les humains et les outils d’assistance (Curs
 
 | Domaine | Choix du projet |
 |--------|------------------|
-| Framework | Symfony **8**, PHP **8.4+** |
+| Framework | **Symfony 8** (contrainte stricte) |
+| PHP | **8.4+** (contrainte stricte) |
 | UI | **Bootstrap 5** |
-| Interactivité | **Stimulus** + bundles **Symfony UX** (icons, twig-component, autocomplete, …) — comportement UI : **`assets/controllers/`** en priorité ; scripts d’amorçage / libs dans `assets/*.js` (voir README) |
-| Assets | **Asset Mapper + importmap** — pas de chaîne Node/npm obligatoire pour le front principal |
+| Interactivité | **Symfony UX** + **Stimulus** — UI dans **`assets/controllers/`** ; entrées `assets/*.js` (voir README) |
+| Assets | **Asset Mapper** + **importmap** (`importmap.php`) — pas de Node/npm/Webpack/Vite par défaut |
 | Éditeur | **CKEditor 5** (importmap), pas FOSCKEditorBundle |
 | Médias | **Sans elFinder** : admin Symfony + **Uppy** (XHR) pour l’upload |
 | Persistance | Doctrine, VichUploader, LiipImagine, extensions Stof, etc. (voir `composer.json` / README) |
