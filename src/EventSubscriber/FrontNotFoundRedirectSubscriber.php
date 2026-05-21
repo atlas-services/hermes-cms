@@ -46,6 +46,6 @@ final class FrontNotFoundRedirectSubscriber implements EventSubscriberInterface
         }
 
         return preg_match('#^/(api|_profiler|_wdt)(/|$)#', $path) === 1
-            || preg_match('#^/(fr|en)/(admin|login|logout)(/|$)#', $path) === 1;
+            || preg_match('#^/(fr|en)/(admin|login|logout|forgotten_password|re-init-password|reset_password)(/|$)#', $path) === 1;
     }
 }

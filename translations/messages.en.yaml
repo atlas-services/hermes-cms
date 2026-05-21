@@ -262,3 +262,35 @@ info:
   admin_sous_presentation11: 'Les templates de type "Libre" vous permettent de créer des contenus comme vous le souhaitez.'
   admin_sous_presentation12: 'Les templates de type "Liste" sont particulièrement adaptés pour afficher vos listes d''images, d''articles, de livres, de concerts... : les affichages correspondants seront au choix, des portfolios, des carousels ou des cartes.'
   admin_sous_presentation13: 'La configuration vous permet de modifier l''aspect de vos pages, la largeur du contenu, les couleurs ou image de fond...'
+
+security:
+  forgot_password:
+    title: Forgot password
+    heading: Receive a new password
+    help: Enter your administrator account e-mail address. If it is recognized, you will receive a reset link.
+    submit: Send e-mail
+    link: I forgot my password
+    back_to_login: Back to login
+    email_sent: If this address matches an account, a reset e-mail has been sent.
+    email_send_failed: The e-mail could not be sent. Check mailer configuration (MAILER_DSN).
+    email_required: Please enter your e-mail address.
+    email_invalid: Invalid e-mail address.
+  reset_password:
+    title: Reset password
+    heading: Choose a new password
+    submit: Reset
+    back_to_login: Back to login
+    password_repeat: Confirm password
+    password_required: Please enter a password.
+    password_min_length: Your password should be at least {{ limit }} characters.
+    password_mismatch: Passwords do not match.
+    invalid_token: This reset link is invalid or has already been used.
+    success: Your password has been updated. You can sign in now.
+  email:
+    reset_password:
+      subject: Reset your password
+      greeting: Hello%name%,
+      intro: You requested a password reset for your Hermes administration account.
+      link: Click here to choose a new password
+      ignore: If you did not request this, please ignore this message.
+      from_name: Hermes

@@ -8,6 +8,7 @@
        <div class="container-fluid col-lg-4 my-5 py-5 shadow-sm shadow-lg border border-secondary rounded-3 ">
 
     <form method="post">
+        {% include 'components/Alert.html.twig' %}
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -38,6 +39,11 @@
         <button class=" mx-auto mt-5 text-center btn btn-outline-success" id="login_submit" name="login_submit" type="submit">
             {{ 'form.label.connect'|trans }}
         </button>
+        <p class="mt-4 mb-0 text-center">
+            <a class="text-decoration-none" id="forgotten_password" href="{{ path('app_forgotten_password', {'_locale': app.request.locale}) }}">
+                {{ 'security.forgot_password.link'|trans }}
+            </a>
+        </p>
     </form>
     </div>
     </section>

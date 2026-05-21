@@ -212,3 +212,35 @@ config:
   affiche_list_formulaire: Configuration des formulaires
   affiche_list_undefined: Configuration non définie
   affiche_list_isotope: Configuration isotope
+
+security:
+  forgot_password:
+    title: Mot de passe oublié
+    heading: Recevoir un nouveau mot de passe
+    help: Saisissez l’adresse e-mail de votre compte administrateur. Si elle est reconnue, vous recevrez un lien de réinitialisation.
+    submit: Envoyer l’e-mail
+    link: J’ai oublié mon mot de passe
+    back_to_login: Retour à la connexion
+    email_sent: Si cette adresse correspond à un compte, un e-mail de réinitialisation a été envoyé.
+    email_send_failed: L’e-mail n’a pas pu être envoyé. Vérifiez la configuration du mailer (MAILER_DSN).
+    email_required: Veuillez saisir votre adresse e-mail.
+    email_invalid: Adresse e-mail invalide.
+  reset_password:
+    title: Réinitialiser le mot de passe
+    heading: Choisissez un nouveau mot de passe
+    submit: Réinitialiser
+    back_to_login: Retour à la connexion
+    password_repeat: Confirmer le mot de passe
+    password_required: Veuillez saisir un mot de passe.
+    password_min_length: Le mot de passe doit contenir au moins {{ limit }} caractères.
+    password_mismatch: Les mots de passe ne correspondent pas.
+    invalid_token: Ce lien de réinitialisation est invalide ou a déjà été utilisé.
+    success: Votre mot de passe a été mis à jour. Vous pouvez vous connecter.
+  email:
+    reset_password:
+      subject: Réinitialisation de votre mot de passe
+      greeting: Bonjour%name%,
+      intro: Vous avez demandé la réinitialisation de votre mot de passe pour l’administration Hermes.
+      link: Cliquez ici pour choisir un nouveau mot de passe
+      ignore: Si vous n’êtes pas à l’origine de cette demande, ignorez ce message.
+      from_name: Hermes

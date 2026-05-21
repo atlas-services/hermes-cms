@@ -3,8 +3,8 @@
 
 {% for type, messages in app.flashes %}
     {% for message in messages %}
-    <div class="alert alert-{{ type }} {{ class }}" style="z-index:-1">
-        {{ message }}
+    <div class="alert alert-{{ type }} {{ class|default('') }}" style="z-index:-1">
+        {{ message|trans({}, 'messages') }}
         {# Same as above, but using "this", which is the component object #}
         {# {{ this.message }} #}
     </div>

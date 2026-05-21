@@ -56,7 +56,7 @@ final class FrontController extends AbstractController
         return $this->render('front/contact.html.twig');
     }
 
-    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => 'fr|en', 'slugs' => '(?!(contact|login|logout|admin)(/|$)).+'], defaults: ['_locale' => 'fr'])]
+    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => 'fr|en', 'slugs' => '(?!(contact|login|logout|admin|forgotten_password|re-init-password|reset_password)(/|$)).+'], defaults: ['_locale' => 'fr'])]
     public function menu(string $slugs, Request $request, FrontMenuService $frontMenuService, MenuTreeBuilder $menuTreeBuilder): Response
     {
         $slugParts = array_filter(explode('/', $slugs));

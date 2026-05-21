@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Form\ForgotPasswordFormType;
+use App\Form\ResetPasswordFormType;
+use App\Service\PasswordResetService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +21,64 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
+        ]);
+    }
+
+    #[Route('/forgotten_password', name: 'app_forgotten_password')]
+    #[Route('/re-init-password', name: 'app_init_password')]
+    public function forgottenPassword(Request $request, PasswordResetService $passwordResetService): Response
+    {
+        $form = $this->createForm(ForgotPasswordFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = (string) $form->get('email')->getData();
+
+            try {
+                $passwordResetService->requestPasswordReset($email, $request->getLocale());
+            } catch (\Throwable) {
+                $this->addFlash('danger', 'security.forgot_password.email_send_failed');
+
+                return $this->redirectToRoute('app_forgotten_password', ['_locale' => $request->getLocale()]);
+            }
+
+            $this->addFlash('success', 'security.forgot_password.email_sent');
+
+            return $this->redirectToRoute('app_login', ['_locale' => $request->getLocale()]);
+        }
+
+        return $this->render('security/forgotten_password.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/reset_password/{token}', name: 'app_reset_password')]
+    public function resetPassword(
+        Request $request,
+        PasswordResetService $passwordResetService,
+        string $token
+    ): Response {
+        $user = $passwordResetService->findUserByResetToken($token);
+
+        if (!$user) {
+            $this->addFlash('danger', 'security.reset_password.invalid_token');
+
+            return $this->redirectToRoute('app_login', ['_locale' => $request->getLocale()]);
+        }
+
+        $form = $this->createForm(ResetPasswordFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $passwordResetService->resetPassword($user, (string) $form->get('plainPassword')->getData());
+            $this->addFlash('success', 'security.reset_password.success');
+
+            return $this->redirectToRoute('app_login', ['_locale' => $request->getLocale()]);
+        }
+
+        return $this->render('security/reset_password.html.twig', [
+            'form' => $form,
+            'token' => $token,
         ]);
     }
 
