@@ -1,0 +1,13 @@
+{% if presentation_text|default('') %}
+    <h2 class="h4 mb-3">{{ presentation_text }}</h2>
+{% endif %}
+{% set userLabel = user_text|default('')|trim %}
+{% if userLabel != '' and userLabel != '$$$' and userLabel != '~$$$' %}
+    <p class="lead mb-3">{{ userLabel }}</p>
+{% endif %}
+{% if contact_email|default(null) %}
+    <p class="mb-4">
+        {{ 'formulaire.email'|trans }} :
+        <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+    </p>
+{% endif %}

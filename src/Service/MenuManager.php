@@ -10,6 +10,7 @@ class MenuManager
 {
     public function __construct(
         private MenuRepository $menuRepository,
+        private MenuContactProvisioner $menuContactProvisioner,
         private int $maxDepth
     ) {}
 
@@ -46,6 +47,7 @@ class MenuManager
         );
 
         $this->menuRepository->save($menu);
+        $this->menuContactProvisioner->provisionIfContactMenu($menu);
     }
 
     // -------------------------

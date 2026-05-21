@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Config;
 use App\Form\ConfigType;
 use App\Repository\ConfigRepository;
+use App\Service\ConfigGlobalsProvider;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
@@ -15,6 +16,11 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route(path: '/{_locale}/admin/config')]
 class ConfigController extends AbstractController
 {
+    public function __construct(
+        private readonly ConfigGlobalsProvider $configGlobalsProvider,
+    ) {
+    }
+
     #[Route(path: '/navbar-type/{type}', name: 'config_navbar_type', methods: ['GET'])]
     public function switchType(
         Request $request,
@@ -186,15 +192,15 @@ class ConfigController extends AbstractController
      * @param array<string, mixed> $array
      * @return array<string, mixed>
      */
-    protected function mergeActiveConfig(
-        ManagerRegistry $doctrine,
-        array $array
-    ): array {
-        /** @var ConfigRepository $repo */
-        $repo = $doctrine->getRepository(Config::class);
+    /**
+     * @param array<string, mixed> $array
+     *
+     * @return array<string, mixed>
+     */
+    protected function mergeActiveConfig(ManagerRegistry $doctrine, array $array): array
+    {
+        unset($doctrine);
 
-        $configuration = $repo->getActiveConfig();
-
-        return array_merge($array, $configuration);
+        return array_merge($array, $this->configGlobalsProvider->getConfigs());
     }
 }

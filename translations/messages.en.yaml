@@ -44,6 +44,66 @@ form:
     new_post: Création d'un Post
     content: Content
     show_post: Affichage d'un Post
+  flash:
+    invalid: The form has errors. Please correct the highlighted fields.
+    sent: Your message has been sent. Thank you!
+    send_failed: Sending failed. Please try again later or contact the site administrator.
+  mail:
+    page: Page
+  contact:
+    mail_subject: 'Site contact %site%'
+    mail_heading: New contact message
+    firstname: First name
+    lastname: Last name
+    email: E-mail
+    telephone: Phone
+    message: Message
+    firstname_placeholder: Your first name
+    lastname_placeholder: Your last name
+    email_placeholder: you@example.com
+    telephone_placeholder: '+1 234 567 8900'
+    message_placeholder: Your message
+    firstname_required: First name is required.
+    lastname_required: Last name is required.
+    email_required: E-mail is required.
+    email_invalid: Invalid e-mail address.
+    telephone_required: Phone number is required.
+    telephone_invalid: Invalid phone number.
+    message_required: Message is required.
+    firstname_min: First name is too short.
+    firstname_max: First name is too long.
+    lastname_min: Last name is too short.
+    lastname_max: Last name is too long.
+    message_min: Message is too short.
+    message_max: Message is too long.
+  newsletter:
+    mail_subject: 'Newsletter signup — %site%'
+    mail_heading: New newsletter subscription
+    firstname: First name
+    lastname: Last name
+    email: E-mail
+    firstname_required: First name is required.
+    lastname_required: Last name is required.
+    email_required: E-mail is required.
+    email_invalid: Invalid e-mail address.
+  livredor:
+    mail_subject: 'Guestbook — %site%'
+    mail_heading: New guestbook entry
+    firstname: First name
+    lastname: Last name
+    message: Message
+    firstname_required: First name is required.
+    lastname_required: Last name is required.
+    message_required: Message is required.
+
+formulaire:
+  send: Send
+  email: Contact e-mail
+
+menu:
+  created: Menu created successfully.
+  contact_section_created: A contact form section was added automatically.
+
 admin:
   title: admin
   post_bulk:

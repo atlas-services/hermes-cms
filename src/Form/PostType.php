@@ -28,6 +28,8 @@ class PostType extends AbstractNameBaseType
 
     public const TEMPLATE_TYPE_LIBRE = 'libre';
 
+    public const TEMPLATE_TYPE_FORMULAIRE = 'formulaire';
+
     public function __construct(
         private TemplateRepository $templateRepository,
         private EntityManagerInterface $entityManager,
@@ -112,6 +114,19 @@ class PostType extends AbstractNameBaseType
                     $form->remove('imageFile');
                 }
                 unset($data['imageFile']);
+                $event->setData($data);
+
+                return;
+            }
+
+            if ($type === self::TEMPLATE_TYPE_FORMULAIRE) {
+                if ($form->has('content')) {
+                    $form->remove('content');
+                }
+                if ($form->has('imageFile')) {
+                    $form->remove('imageFile');
+                }
+                unset($data['content'], $data['imageFile']);
                 $event->setData($data);
 
                 return;
@@ -222,6 +237,10 @@ class PostType extends AbstractNameBaseType
                 ]);
             }
 
+            return;
+        }
+
+        if ($type === self::TEMPLATE_TYPE_FORMULAIRE) {
             return;
         }
 

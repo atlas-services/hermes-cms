@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Menu;
 use App\Repository\MenuRepository;
+use App\Service\MenuContactProvisioner;
 
 final class FrontMenuService
 {
@@ -128,13 +129,29 @@ final class FrontMenuService
                     $posts[] = $post;
                 }
             }
-            if ($posts === []) {
+            $templateType = strtolower(trim((string) ($section->getTemplate()?->getType() ?? '')));
+            if ($posts === [] && $templateType !== 'formulaire') {
                 continue;
             }
             $blocks[] = ['section' => $section, 'posts' => $posts];
         }
 
         return $blocks;
+    }
+
+    public function findContactPage(string $locale): ?Menu
+    {
+        $menu = $this->menuRepository->findOneBy([
+            'slug' => MenuContactProvisioner::CONTACT_MENU_NAME,
+            'locale' => $locale,
+            'active' => true,
+        ]);
+
+        if ($menu === null || !$menu->isPage() || !$this->isMenuHierarchyFullyActive($menu)) {
+            return null;
+        }
+
+        return $menu;
     }
 
     /** Tous les ancêtres du menu sont actifs (cohérence avec la résolution par slug). */

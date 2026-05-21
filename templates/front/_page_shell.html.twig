@@ -1,0 +1,31 @@
+{# Enveloppe page front : navbar, zone sections, footer #}
+{% set navBarType = configs.nav_bar|default('base') %}
+{% if navBarType == 'left' %}
+    {% set navBarType = 'menu_left' %}
+{% endif %}
+<div class="d-flex flex-column min-vh-100">
+    <header class="mb-0">
+        {% set navbarTemplate = 'front/navbar/' ~ navBarType ~ '.html.twig' %}
+        {% include [navbarTemplate, 'front/navbar/base.html.twig'] with {
+            menu: menu|default(null),
+            menuTree: menuTree,
+            configs: configs,
+        } %}
+    </header>
+
+    <main class="flex-grow-1{% if navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}">
+        {% set mainW = (configs.container_width|default(12) + 0)|round(0, 'floor') %}
+        {% set mainW = mainW < 1 ? 1 : (mainW > 12 ? 12 : mainW) %}
+        {% set secW = (configs.content_container_width|default(12) + 0)|round(0, 'floor') %}
+        {% set secW = secW < 1 ? 1 : (secW > 12 ? 12 : secW) %}
+        <div class="container-fluid px-0">
+            {% block page_main %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="mt-auto{% if navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}">
+        <div class="container">
+            <p>&copy; {{ "now"|date('Y') }} {{ configs.title|default('') }}</p>
+        </div>
+    </footer>
+</div>

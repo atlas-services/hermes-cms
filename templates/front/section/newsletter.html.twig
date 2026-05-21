@@ -1,0 +1,40 @@
+{% if configs.newsletter_active|default(false) %}
+{% set form_id = 'newsletter-' ~ section.id %}
+{% set pres = form_presentation %}
+{% set input_class = 'form-control hermes-form-field rounded-' ~ pres.rounded_input ~ ' py-' ~ pres.py_input ~ ' my-' ~ pres.my_input %}
+{% include 'front/section/_formulaire_styles.html.twig' with { form_id: form_id, presentation: pres } %}
+
+<div class="hermes-form-{{ form_id }} text-center py-4" style="background-color: {{ pres.bgcolor }}; color: {{ pres.color }};">
+    <div class="container">
+        {% include 'components/Alert.html.twig' %}
+        {% include 'front/section/_formulaire_header.html.twig' with {
+            presentation_text: configs.newsletter_presentation|default(''),
+        } %}
+
+        {{ form_start(newsletter_form, {
+            action: path('front_form_newsletter', { _locale: app.request.locale }),
+            attr: { class: 'hermes-form-' ~ form_id },
+        }) }}
+        <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
+        <input type="hidden" name="_page_label" value="{{ menu.name }}">
+
+        <div class="row justify-content-center g-3">
+            <div class="col-12 col-md-4">
+                {{ form_row(newsletter_form.firstname, { attr: { class: input_class } }) }}
+            </div>
+            <div class="col-12 col-md-4">
+                {{ form_row(newsletter_form.lastname, { attr: { class: input_class } }) }}
+            </div>
+            <div class="col-12 col-md-4">
+                {{ form_row(newsletter_form.email, { attr: { class: input_class } }) }}
+            </div>
+            <div class="col-12 text-center mt-3">
+                <button type="submit" class="btn {{ pres.bgcolor_btn }} px-5">
+                    {{ 'formulaire.send'|trans }}
+                </button>
+            </div>
+        </div>
+        {{ form_end(newsletter_form) }}
+    </div>
+</div>
+{% endif %}

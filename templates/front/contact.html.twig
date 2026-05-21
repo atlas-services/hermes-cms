@@ -1,10 +1,29 @@
 {% extends 'front/base.html.twig' %}
 
-{% block title %}Contact{% endblock %}
+{% block title %}{{ menu.name|default('Contact') }}{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1>Contact</h1>
-    <p>Page de contact à compléter.</p>
-</div>
+{% embed 'front/_page_shell.html.twig' with { menu: menu|default(null), menuTree: menuTree, configs: configs } %}
+    {% block page_main %}
+        {% if sectionsForFront|length > 0 %}
+            {% include 'front/_sections.html.twig' with {
+                sectionsForFront: sectionsForFront,
+                menu: menu|default(null),
+                configs: configs,
+            } %}
+        {% else %}
+            {# Route /contact sans menu « contact » en base : formulaire seul avec configs contact_* #}
+            <div class="row justify-content-center mx-0">
+                {% set contactW = (configs.contact_width|default(12) + 0)|round(0, 'floor') %}
+                {% set contactW = contactW < 1 ? 1 : (contactW > 12 ? 12 : contactW) %}
+                <div class="col-12 col-lg-{{ contactW }} mx-auto px-0">
+                    {% include 'front/section/contact.html.twig' with {
+                        section: null,
+                        menu: menu|default(null),
+                    }|merge(hermes_formulaire_vars('contact', configs)) %}
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
+{% endembed %}
 {% endblock %}

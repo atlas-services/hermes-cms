@@ -47,6 +47,65 @@ form:
     show_post: Affichage d'un Post
     content: Contenu
     template_width: Largeur du template (de 1 à 12)
+  flash:
+    invalid: Le formulaire contient des erreurs. Veuillez corriger les champs indiqués.
+    sent: Votre message a bien été envoyé. Merci !
+    send_failed: L’envoi a échoué. Réessayez plus tard ou contactez l’administrateur du site.
+  mail:
+    page: Page
+  contact:
+    mail_subject: 'Contact site %site%'
+    mail_heading: Nouveau message de contact
+    firstname: Prénom
+    lastname: Nom
+    email: E-mail
+    telephone: Téléphone
+    message: Message
+    firstname_placeholder: Votre prénom
+    lastname_placeholder: Votre nom
+    email_placeholder: votre@email.fr
+    telephone_placeholder: '06 12 34 56 78'
+    message_placeholder: Votre message
+    firstname_required: Le prénom est obligatoire.
+    lastname_required: Le nom est obligatoire.
+    email_required: L’e-mail est obligatoire.
+    email_invalid: Adresse e-mail invalide.
+    telephone_required: Le téléphone est obligatoire.
+    telephone_invalid: Numéro de téléphone invalide.
+    message_required: Le message est obligatoire.
+    firstname_min: Le prénom est trop court.
+    firstname_max: Le prénom est trop long.
+    lastname_min: Le nom est trop court.
+    lastname_max: Le nom est trop long.
+    message_min: Le message est trop court.
+    message_max: Le message est trop long.
+  newsletter:
+    mail_subject: 'Inscription newsletter — %site%'
+    mail_heading: Nouvelle inscription newsletter
+    firstname: Prénom
+    lastname: Nom
+    email: E-mail
+    firstname_required: Le prénom est obligatoire.
+    lastname_required: Le nom est obligatoire.
+    email_required: L’e-mail est obligatoire.
+    email_invalid: Adresse e-mail invalide.
+  livredor:
+    mail_subject: 'Livre d’or — %site%'
+    mail_heading: Nouveau message livre d’or
+    firstname: Prénom
+    lastname: Nom
+    message: Message
+    firstname_required: Le prénom est obligatoire.
+    lastname_required: Le nom est obligatoire.
+    message_required: Le message est obligatoire.
+
+formulaire:
+  send: Envoyer
+  email: E-mail de contact
+
+menu:
+  created: Menu créé avec succès.
+  contact_section_created: Une section formulaire de contact a été ajoutée automatiquement.
 
 admin:
   title: admin

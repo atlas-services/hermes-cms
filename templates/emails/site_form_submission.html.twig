@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="{{ locale|default('fr') }}">
+<head>
+    <meta charset="utf-8">
+    <title>{{ kind }}</title>
+</head>
+<body style="font-family: sans-serif; line-height: 1.5; color: #333;">
+    <h1 style="font-size: 1.25rem;">{{ ('form.' ~ kind ~ '.mail_heading')|trans({}, 'messages', locale|default('fr')) }}</h1>
+    {% if pageLabel %}
+        <p><strong>{{ 'form.mail.page'|trans({}, 'messages', locale|default('fr')) }}:</strong> {{ pageLabel }}</p>
+    {% endif %}
+    <table cellpadding="6" cellspacing="0" border="0" style="border-collapse: collapse;">
+        {% for name, value in fields %}
+            {% if value is not null and value != '' %}
+            <tr>
+                <th align="left" style="vertical-align: top;">{{ ('form.' ~ kind ~ '.' ~ name)|trans({}, 'messages', locale|default('fr')) }}</th>
+                <td>{{ value|e }}</td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+</body>
+</html>

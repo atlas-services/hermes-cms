@@ -50,10 +50,10 @@ final class MenuController extends AbstractController
             try {
                 $menuManager->create($menu);
 
-                $this->addFlash('success', sprintf(
-                    'Menu "%s" créé !',
-                    $menu->getName()
-                ));
+                $this->addFlash('success', 'menu.created');
+                if (!$menu->getSections()->isEmpty()) {
+                    $this->addFlash('info', 'menu.contact_section_created');
+                }
 
                 return $this->redirectToRoute('menu_index');
 

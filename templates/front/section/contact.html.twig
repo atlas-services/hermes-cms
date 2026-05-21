@@ -1,0 +1,46 @@
+{% set form_id = 'contact-' ~ (section.id|default('standalone')) %}
+{% set pres = form_presentation %}
+{% set input_class = 'form-control hermes-form-field rounded-' ~ pres.rounded_input ~ ' py-' ~ pres.py_input ~ ' my-' ~ pres.my_input %}
+{% include 'front/section/_formulaire_styles.html.twig' with { form_id: form_id, presentation: pres } %}
+
+<div id="formulaire" class="hermes-form-{{ form_id }} text-center py-4" style="background-color: {{ pres.bgcolor }}; color: {{ pres.color }};">
+    <div class="container">
+        {% include 'components/Alert.html.twig' %}
+        {% include 'front/section/_formulaire_header.html.twig' with {
+            presentation_text: configs.contact_presentation|default('')|trim,
+            user_text: configs.contact_user|default(''),
+            contact_email: contact_email_display,
+        } %}
+
+        {{ form_start(contact_form, {
+            action: path('front_form_contact', { _locale: app.request.locale }),
+            attr: { class: 'hermes-form-' ~ form_id, id: 'form_contact' },
+        }) }}
+        <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
+        <input type="hidden" name="_page_label" value="{{ menu.name|default('Contact') }}">
+
+        <div class="row justify-content-center g-3">
+            <div class="col-12 col-md-6">
+                {{ form_row(contact_form.firstname, { attr: { class: input_class } }) }}
+            </div>
+            <div class="col-12 col-md-6">
+                {{ form_row(contact_form.lastname, { attr: { class: input_class } }) }}
+            </div>
+            <div class="col-12 col-md-6">
+                {{ form_row(contact_form.email, { attr: { class: input_class } }) }}
+            </div>
+            <div class="col-12 col-md-6">
+                {{ form_row(contact_form.telephone, { attr: { class: input_class } }) }}
+            </div>
+            <div class="col-12 col-lg-10">
+                {{ form_row(contact_form.message, { attr: { class: input_class } }) }}
+            </div>
+            <div class="col-12 text-center mt-3">
+                <button type="submit" class="btn {{ pres.bgcolor_btn }} px-5">
+                    {{ 'formulaire.send'|trans }}
+                </button>
+            </div>
+        </div>
+        {{ form_end(contact_form) }}
+    </div>
+</div>

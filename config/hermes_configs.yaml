@@ -148,7 +148,7 @@ parameters:
         position: 1
       contact_user:
         summary: contact (utilisé dans le formulaire de contact)
-        value: ~$$$
+        value: ~
         position: 3
       contact_presentation:
         summary: présentation contact (utilisé dans le formulaire de contact)
@@ -186,6 +186,22 @@ parameters:
         summary: Couleur input du formulaire
         value: '#000000'
         position: 11
+      contact_rounded_input:
+        summary: Arrondi des champs (max = 5)
+        value: 0
+        position: 13
+      contact_py_input:
+        summary: Padding vertical des champs (max = 5)
+        value: 2
+        position: 14
+      contact_my_input:
+        summary: Marge verticale des champs (max = 5)
+        value: 2
+        position: 15
+      contact_border_color_input:
+        summary: Couleur de bordure des champs
+        value: '#dee2e6'
+        position: 16
     newsletter:
       newsletter_active:
         summary: Activer la newsletter dans les Formulaires
