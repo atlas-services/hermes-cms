@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|default('fr') }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="{{ configs.description|default('')|e('html_attr') }}">
+        {% if configs.keywords|default('') %}
+        <meta name="keywords" content="{{ configs.keywords|e('html_attr') }}">
+        {% endif %}
+        <meta name="author" content="{{ configs.author|default('')|e('html_attr') }}">
+        <meta name="robots" content="{{ configs.robots|default('index, follow')|e('html_attr') }}">
+
+        {# Favicon : config site.favicon, sinon logo (Hermes 2.2.7 head.html.twig) #}
+        {% set faviconConfig = configs.favicon|default(configs.logo|default(null)) %}
+        {% if faviconConfig %}
+            {% set faviconPath = vich_uploader_asset(faviconConfig, 'imageFile') %}
+            <link rel="icon" href="{{ faviconPath ? asset(faviconPath) : asset('favicon.ico') }}" />
+        {% endif %}
+
+        <title>{% block title %}{{ configs.title|default('') }}{% endblock %}</title>
+
+        {% block stylesheets %}{% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+
+        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphpHotReload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>
