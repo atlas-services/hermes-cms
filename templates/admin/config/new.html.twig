@@ -3,9 +3,25 @@
 {% block title %}{{ 'form.label.create'|trans() }} — {{ 'config.label'|trans() }}{% endblock %}
 
 {% block content %}
-    <h1>{{ 'form.label.create'|trans() }}</h1>
+<div class="hermes-admin-config-page">
+    <nav class="mb-3" aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0 small">
+            <li class="breadcrumb-item">
+                <a href="{{ path('admin_index') }}" class="text-decoration-none">{{ 'config.label'|trans() }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'form.label.create'|trans() }}</li>
+        </ol>
+    </nav>
+
+    <header class="mb-4 pb-3 border-bottom">
+        <h1 class="h3 text-secondary mb-0">{{ 'form.label.create'|trans() }} — {{ 'config.label'|trans() }}</h1>
+    </header>
 
     {{ include('admin/config/_form.html.twig', {'button_label': 'form.label.create'|trans()}) }}
 
-    <a class="btn btn-info my-3" href="{{ path('admin_index') }}">{{ 'form.label.back_to_list'|trans() }}</a>
+    <a class="btn btn-outline-secondary mt-3" href="{{ path('admin_index') }}">
+        <i class="fa fa-arrow-left me-1" aria-hidden="true"></i>
+        {{ 'form.label.back_to_list'|trans() }}
+    </a>
+</div>
 {% endblock %}

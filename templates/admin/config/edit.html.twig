@@ -1,16 +1,49 @@
 {% extends '/admin/base.html.twig' %}
 
-{% block title %}{{ 'config.label'|trans() }} — {{ 'form.label.edit'|trans() }}{% endblock %}
+{% block title %}{{ config.summary }} — {{ 'form.label.edit'|trans() }}{% endblock %}
 
 {% block content %}
-    <a class="btn btn-outline-success my-sm-3" href="{{ path('config_index', {'type': config.type ?? 'undefined'}) }}">{{ 'form.label.back_to_list'|trans() }}</a>
-    <h1 class="text-secondary">{{ 'config.label'|trans() }}</h1>
+<div class="hermes-admin-config-page">
+    <nav class="mb-3" aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0 small">
+            <li class="breadcrumb-item">
+                <a href="{{ path('config_index', {'type': config.type ?? 'undefined'}) }}" class="text-decoration-none">
+                    {{ 'config.label'|trans() }}
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ config.summary }}</li>
+        </ol>
+    </nav>
+
+    <header class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4 pb-3 border-bottom">
+        <div>
+            <h1 class="h3 mb-2 text-secondary">{{ config.summary }}</h1>
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <span class="badge rounded-pill text-bg-primary">{{ config.type }}</span>
+                <code class="small text-muted user-select-all">{{ config.code }}</code>
+                {% if config.active %}
+                    <span class="badge rounded-pill text-bg-success">{{ 'global.active'|trans() }}</span>
+                {% else %}
+                    <span class="badge rounded-pill text-bg-secondary">{{ 'global.inactive'|trans() }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <a class="btn btn-outline-secondary btn-sm align-self-center"
+           href="{{ path('config_index', {'type': config.type ?? 'undefined'}) }}">
+            <i class="fa fa-arrow-left me-1" aria-hidden="true"></i>
+            {{ 'form.label.back_to_list'|trans() }}
+        </a>
+    </header>
 
     {{ include('admin/config/_form.html.twig', {'button_label': 'form.label.update'|trans()}) }}
+
     {% if is_granted('ROLE_SUPER_ADMIN') %}
-        {{ include('admin/config/_delete_form.html.twig') }}
+        <div class="card border-danger border-opacity-25 shadow-sm mt-4">
+            <div class="card-body py-3">
+                <h2 class="h6 text-danger mb-2">{{ 'global.danger_zone'|trans|default('Zone sensible') }}</h2>
+                {{ include('admin/config/_delete_form.html.twig') }}
+            </div>
+        </div>
     {% endif %}
-
-    <a class="btn btn-outline-success my-sm-3" href="{{ path('config_index', {'type': config.type ?? 'undefined'}) }}">{{ 'form.label.back_to_list'|trans() }}</a>
-
+</div>
 {% endblock %}

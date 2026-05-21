@@ -2,6 +2,21 @@ body {
     background-color: skyblue;
 }
 
+/* Admin — édition configuration */
+.hermes-admin-config-page .card {
+    border-radius: 0.5rem;
+}
+
+.hermes-admin-config-page .breadcrumb {
+    --bs-breadcrumb-divider: '›';
+}
+
+.hermes-admin-config-page .form-control-color {
+    width: 100%;
+    max-width: 16rem;
+    height: 2.75rem;
+}
+
 /* Séparateur animé (AOS) sous l’entrée active du menu base (Hermes 2.2.7) */
 .aos-nav-hr {
     opacity: 1;

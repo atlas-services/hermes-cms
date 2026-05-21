@@ -135,9 +135,16 @@ admin:
       delete_file_outside: Invalid path (outside media area).
       file_deleted: 'File "%name%" deleted.'
 
+translation:
+  yes: Yes
+  no: No
+
 config:
   label: Configuration
   type: Type
+  parameters: Settings
+  transparent_help: You can choose transparency or a color below.
+  width_hint: Bootstrap 12-column value (e.g. 6 = half width).
   value: Valeur
   list: Configurations
   affiche_list_image: Configuration des images
@@ -185,6 +192,7 @@ global:
   new_menu: New menu
   active: Active
   inactive: Inactive
+  danger_zone: Danger zone
   autres_options: Autres options
   autres_options_liste: Autres options (Liste)
 

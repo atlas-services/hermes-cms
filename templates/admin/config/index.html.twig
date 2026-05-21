@@ -3,10 +3,21 @@
 {% block title %}{{ 'global.list'|trans() }}{% endblock %}
 
 {% block content %}
-    <h1 class="text-secondary">{{ 'config.label'|trans() }}</h1>
+<div class="hermes-admin-config-page">
+    <header class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+        <h1 class="h3 text-secondary mb-0">{{ 'config.label'|trans() }}</h1>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <a class="btn btn-success btn-sm" href="{{ path('config_new') }}">
+                <i class="fa fa-plus me-1" aria-hidden="true"></i>{{ 'form.label.create'|trans() }}
+            </a>
+        {% endif %}
+    </header>
 
-    <table class="table">
-        <thead>
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+        <tr>
         <th>{{ 'global.active'|trans() }}</th>
         <th>{{ 'config.type'|trans() }}</th>
         {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -63,9 +74,8 @@
         {% endfor %}
         </tbody>
     </table>
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <a class="btn btn-success mb-3" href="{{ path('config_new') }}">{{ 'form.label.create'|trans() }}</a>
-    {% endif %}
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -140,4 +150,5 @@
             });
         });
     </script>
+</div>
 {% endblock %}

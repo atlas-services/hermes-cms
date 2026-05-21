@@ -1,22 +1,101 @@
-{# {% form_theme form 'admin/form/theme_posts.html.twig' %} #}
-{#{% import "admin/section/macro_form.html.twig" as forms %}#}
-{{ form_start(form) }} 
-        {{ form_row(form.type) }}
-    {% if form.active is defined %}
-        {{ form_row(form.active) }}
-    {% endif %}
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
-        {{ form_row(form.code) }}
-    {% endif %}
-    {{ form_row(form.summary) }}
-    {% if form.transparent is defined  %}
-        {{ form_row(form.transparent) }}
-    {% endif %}
-    {{ form_row(form.value) }}
-    {{ form_row(form.position) }}
-    {% if form.imageFile is defined  %}
-        {{ form_row(form.imageFile) }}
-    {% endif %}
-    <button class="btn btn-success mt-4 col-12 col-lg-2" type="submit"><i class="fa fa-save"></i> {{ button_label|default('form.label.save'|trans()) }}</button>
-    {{ form_widget(form._token) }}
+{% form_theme form with ['admin/form/theme_config.html.twig', 'form/vich_image_widget.html.twig'] %}
+
+{% set isWidthField = 'width' in config.code %}
+{% set formAttr = {} %}
+{% if form.imageFile is defined %}
+    {% set formAttr = formAttr|merge({ enctype: 'multipart/form-data' }) %}
+{% endif %}
+
+{{ form_start(form, { attr: formAttr|merge({ class: 'hermes-config-form', novalidate: 'novalidate' }) }) }}
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom py-3">
+                <h2 class="h6 mb-0 text-secondary">
+                    <i class="fa fa-sliders-h me-2 text-success" aria-hidden="true"></i>
+                    {{ 'global.value'|trans }}
+                </h2>
+            </div>
+            <div class="card-body">
+                {% if form.transparent is defined %}
+                    <div class="alert alert-light border mb-3 py-2 small text-muted" role="note">
+                        {{ 'config.transparent_help'|trans }}
+                    </div>
+                    {{ form_row(form.transparent) }}
+                {% endif %}
+
+                <div class="mb-0">
+                    {{ form_row(form.value) }}
+                    {% if isWidthField %}
+                        <small class="text-muted d-block mt-2">{{ 'config.width_hint'|trans }}</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-white border-bottom py-3">
+                <h2 class="h6 mb-0 text-secondary">
+                    <i class="fa fa-align-left me-2 text-success" aria-hidden="true"></i>
+                    {{ 'global.summary'|trans }}
+                </h2>
+            </div>
+            <div class="card-body">
+                {{ form_row(form.summary) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom py-3">
+                <h2 class="h6 mb-0 text-secondary">
+                    <i class="fa fa-info-circle me-2 text-success" aria-hidden="true"></i>
+                    {{ 'config.parameters'|trans }}
+                </h2>
+            </div>
+            <div class="card-body">
+                {% if form.type.vars.disabled %}
+                    <div class="mb-3">
+                        <span class="form-label fw-semibold d-block">{{ 'config.type'|trans }}</span>
+                        <span class="badge text-bg-secondary">{{ config.type }}</span>
+                    </div>
+                {% else %}
+                    {{ form_row(form.type) }}
+                {% endif %}
+                {% if form.active is defined %}
+                    {{ form_row(form.active) }}
+                {% endif %}
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    {{ form_row(form.code) }}
+                {% endif %}
+                {{ form_row(form.position) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if form.imageFile is defined %}
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-header bg-white border-bottom py-3">
+            <h2 class="h6 mb-0 text-secondary">
+                <i class="fa fa-image me-2 text-success" aria-hidden="true"></i>
+                {{ 'global.image'|trans }}
+            </h2>
+        </div>
+        <div class="card-body">
+            {{ form_row(form.imageFile) }}
+        </div>
+    </div>
+{% endif %}
+
+<div class="d-flex flex-wrap gap-2 align-items-center mt-4 pt-3 border-top">
+    <button class="btn btn-success px-4" type="submit">
+        <i class="fa fa-save me-1" aria-hidden="true"></i>
+        {{ button_label|default('form.label.save'|trans()) }}
+    </button>
+</div>
+
+{{ form_widget(form._token) }}
 {{ form_end(form, {'render_rest': false}) }}

@@ -161,6 +161,7 @@ global:
   page: Pages
   active: Actif
   inactive: Inactif
+  danger_zone: Zone sensible
   no_record: Pas d'enregistrement
   list: Liste
   code: Code
@@ -188,10 +189,17 @@ info:
   admin_sous_presentation12: 'Les templates de type "Liste" sont particulièrement adaptés pour afficher vos listes d''images, d''articles, de livres, de concerts... : les affichages correspondants seront au choix, des portfolios, des carousels ou des cartes.'
   admin_sous_presentation13: 'La configuration vous permet de modifier l''aspect de vos pages, la largeur du contenu, les couleurs ou image de fond...'
 
+translation:
+  yes: Oui
+  no: Non
+
 config:
   label: Configuration
   list: Liste des configurations
   type: Type
+  parameters: Paramètres
+  transparent_help: Vous pouvez choisir la transparence ou une couleur ci-dessous.
+  width_hint: Valeur sur 12 colonnes Bootstrap (ex. 6 = moitié de la largeur).
   toggle_success: Configuration mise à jour avec succès
   toggle_error: Erreur lors de la mise à jour de la configuration
   affiche_list_image: Configuration des images

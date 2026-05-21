@@ -196,7 +196,8 @@ class ConfigType extends AbstractType
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => $options['type_choices'],
-                'attr' => ['class' => 'select2 custom-select select2 custom-select-lg mb-3']
+                'disabled' => $options['disable_type'],
+                'attr' => ['class' => 'form-select'],
             ]);
 
         if ($options['show_active']) {
@@ -413,11 +414,12 @@ class ConfigType extends AbstractType
                         'required' => false,
                     ]);
                     $form->add('transparent', ChoiceType::class, [
-                        'choices' =>  [
-                            'transparent.no' => false,
-                            'transparent.yes' => true ,
+                        'choices' => [
+                            'translation.no' => false,
+                            'translation.yes' => true,
                         ],
-                        'attr' => ['class' => 'custom-select custom-select-lg mb-3']
+                        'choice_translation_domain' => 'messages',
+                        'attr' => ['class' => 'form-select'],
                     ]);
                 } else {
                     if ('width' == $code || strpos($code, 'width')) {
@@ -488,6 +490,7 @@ class ConfigType extends AbstractType
                 'left' => 'left',
                 'full' => 'full',
             ],
+            'disable_type' => false,
         ]);
     }
 }
