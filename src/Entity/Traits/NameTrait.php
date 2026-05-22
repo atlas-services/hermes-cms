@@ -12,8 +12,8 @@ trait NameTrait
     /**
      * @var string
      */
-    #[ORM\Column(type: 'string',length: 25, nullable: false)]
-    #[Assert\Length(max: 25)]
+    #[ORM\Column(type: 'string',length: 75, nullable: false)]
+    #[Assert\Length(max: 75)]
     protected $name;
 
     public function getName(): ?string

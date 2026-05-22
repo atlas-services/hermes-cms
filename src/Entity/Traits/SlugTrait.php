@@ -12,7 +12,7 @@ trait SlugTrait
     /**
      * @var string
      */
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 80)]
     #[Gedmo\Slug(fields: ['name'])]
     private ?string $slug = null;
 

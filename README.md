@@ -128,34 +128,33 @@ See `config/packages/security.yaml` : admin requires `ROLE_ADMIN` in production;
 
 ## Migration depuis Hermes 2.2.x (FR)
 
-Import d’une base SQLite 2.2.x ([release/2.2.7](https://github.com/atlas-services/hermes/tree/release/2.2.7)) vers Hermes 3. Le **nom de base** (stem du fichier `.sqlite` passé à la commande, ex. `jazzenville`) sert à la réécriture des URLs dans le HTML : `/{nom}/uploads/` → `/uploads/{nom}/` (source = stem de `dataFrom`, cible = stem de `dataTo`). Prévoir `data/config/<nom>.sqlite` (même `<nom>` que la base source) et l’ancien répertoire uploads (`entity/`, `content/`). `DATABASE_URL` en SQLite pendant `app:migrate`. Aligner **`APP_NAME`** (`.env`) sur le stem de la base cible si vous utilisez les chemins par défaut (`APP_DB`, `public/uploads/${APP_NAME}`).
+Import d’une base SQLite 2.2.x ([release/2.2.7](https://github.com/atlas-services/hermes/tree/release/2.2.7)) vers Hermes 3. Le **nom de base** (stem du fichier `.sqlite` passé à la commande, ex. `envolarchi`) sert à la réécriture des URLs dans le HTML : `/{nom}/uploads/` → `/uploads/{nom}/` (source = stem de `dataFrom`, cible = stem de `dataTo`). Prévoir `data/config/<nom>.sqlite` (même `<nom>` que la base source) et l’ancien répertoire uploads (`entity/`, `content/`). `DATABASE_URL` en SQLite pendant `app:migrate`. Aligner **`APP_NAME`** (`.env`) sur le stem de la base cible si vous utilisez les chemins par défaut (`APP_DB`, `public/uploads/${APP_NAME}`).
 
 ```bash
 php bin/console app:migrate \
-  /var/www/html/hermes/data/db/jazzenville.sqlite \
-  data/db/jazzenville.sqlite --force
+  /var/www/html/hermes/data/db/envolarchi.sqlite \
+  data/db/envolarchi.sqlite --force
 ```
 
-Puis `DATABASE_URL` vers `data/db/jazzenville.sqlite`. Optionnel : `php bin/console app:init-hermes`.
+Puis `DATABASE_URL` vers `data/db/envolarchi.sqlite`. Optionnel : `php bin/console app:init-hermes`.
 
 Les dossiers `content/` et `entity/Config/` se recopient sous `public/uploads/<nom>/` — `app:migrate-media` avec la base migrée, l’ancienne racine uploads et la cible :
 
 ```bash
-php bin/console app:migrate-media data/db/jazzenville.sqlite \
-  /var/www/html/hermes/public/jazzenville/uploads \
-  public/uploads/jazzenville
+php bin/console app:migrate-media data/db/envolarchi.sqlite \
+  /var/www/html/hermes/public/envolarchi/uploads \
+  public/uploads/envolarchi
 ```
 
 (`--dry-run`, `--overwrite`.) Copie partielle possible : `rsync -a ancien/uploads/content/ public/uploads/content/` et idem pour `entity/Config/`.
 
 ## Migration from Hermes 2.2.x (EN)
 
-Import a 2.2.x SQLite DB into Hermes 3. URL rewrite uses the **DB filename stem** from the command (`dataFrom` → `dataTo`), e.g. `/jazzenville/uploads/` → `/uploads/jazzenville/`. Also `data/config/<name>.sqlite` and the legacy uploads tree. Set **`APP_NAME`** in `.env` to match the target DB stem when using default paths.
+Import a 2.2.x SQLite DB into Hermes 3. URL rewrite uses the **DB filename stem** from the command (`dataFrom` → `dataTo`), e.g. `/envolarchi/uploads/` → `/uploads/envolarchi/`. Also `data/config/<name>.sqlite` and the legacy uploads tree. Set **`APP_NAME`** in `.env` to match the target DB stem when using default paths.
 
 ```bash
-php bin/console app:migrate /path/to/old/data/db/jazzenville.sqlite data/db/jazzenville.sqlite --force
-php bin/console app:migrate-media data/db/jazzenville.sqlite \
-  /path/to/old/public/jazzenville/uploads public/uploads/jazzenville
+php bin/console app:migrate /path/to/old/data/db/envolarchi.sqlite data/db/envolarchi.sqlite --force
+php bin/console app:migrate-media data/db/envolarchi.sqlite /path/to/old/public/envolarchi/uploads public/uploads/envolarchi
 ```
 php bin/console app:migrate /var/www/html/hermes/data/db/atlas.sqlite data/db/atlas.sqlite --force
 php bin/console app:migrate-media data/db/atlas.sqlite /var/www/html/hermes/public/atlas/uploads public/uploads/atlas
