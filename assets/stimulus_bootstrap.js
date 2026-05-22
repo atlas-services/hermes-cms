@@ -1,5 +1,8 @@
 import { startStimulusApp } from '@symfony/stimulus-bundle';
+import PageChevronController from './controllers/page_chevron_controller.js';
 
 const app = startStimulusApp();
-// register any custom, 3rd party controllers here
-// app.register('some_controller_name', SomeImportedController);
+
+if (!app.router.modulesByIdentifier.has('page-chevron')) {
+    app.register('page-chevron', PageChevronController);
+}

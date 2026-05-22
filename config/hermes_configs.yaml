@@ -81,12 +81,12 @@ parameters:
         value: ~
         position: 21
       chevron_position:
-        summary: Position verticale du chevron
-        value: '95%'
+        summary: Position verticale du chevron (1 à 5 % ou 95 à 100 %)
+        value: '95'
         position: 19
       chevron_right:
-        summary: Position latérale du chevron
-        value: ~
+        summary: Position latérale du chevron (1 à 5 % ou 95 à 100 %)
+        value: '5'
         position: 20
       chevron_color:
         summary: Couleur du chevron

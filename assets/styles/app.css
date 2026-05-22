@@ -76,6 +76,64 @@ body {
     border-radius: 0.125rem;
 }
 
+/* Chevrons navigation page (Hermes 2.2.7) */
+.hermes-chevron {
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    line-height: 1;
+}
+
+.hermes-chevron--slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.25rem;
+    min-height: 3.25rem;
+    pointer-events: auto;
+    z-index: 9998;
+}
+
+.hermes-chevron--slot .hermes-chevron__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hermes-chevron--slot .hermes-chevron__link[hidden],
+.hermes-chevron--slot .hermes-chevron__icon[hidden],
+.hermes-chevron--slot .hermes-chevron__icon.d-none {
+    display: none !important;
+}
+
+.hermes-chevron__link {
+    text-decoration: none;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.hermes-chevron__icon {
+    font-size: 3rem;
+    vertical-align: middle;
+}
+
+.hermes-chevron__icon--accueil {
+    font-size: 5rem;
+}
+
+.hermes-chevron--accueil {
+    position: fixed;
+    z-index: 9999;
+}
+
+.hermes-section-bottom-anchor {
+    display: block;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
 /* Séparateur animé (AOS) sous l’entrée active du menu base (Hermes 2.2.7) */
 .aos-nav-hr {
     opacity: 1;

@@ -96,6 +96,12 @@ form:
     lastname_required: Last name is required.
     message_required: Message is required.
 
+front:
+  chevron:
+    scroll_down: Scroll down the page
+    scroll_bottom: Go to bottom of page
+    scroll_top: Back to top of page
+
 formulaire:
   send: Send
   email: Contact e-mail

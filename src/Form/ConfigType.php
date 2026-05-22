@@ -59,6 +59,21 @@ class ConfigType extends AbstractType
         '100' => '100',
     ];
 
+    /** Pourcentages chevron : 1–5 % et 95–100 % (pas de 1). */
+    public const CHEVRON_PERCENT = [
+        '1 %' => '1',
+        '2 %' => '2',
+        '3 %' => '3',
+        '4 %' => '4',
+        '5 %' => '5',
+        '95 %' => '95',
+        '96 %' => '96',
+        '97 %' => '97',
+        '98 %' => '98',
+        '99 %' => '99',
+        '100 %' => '100',
+    ];
+
     const DECIMAL = [
         '0.1' => '0.1',
         '0.2' => '0.2',
@@ -315,22 +330,10 @@ class ConfigType extends AbstractType
                     $choice = true;
                     $options = self::DECIMAL;
                     break;                      
-                // chevron position
                 case 'chevron_position':
-                    $choice = true;
-                    $options = [
-                        'top'  => '0%',
-                        'middle' => '50%' ,
-                        'bottom' =>'95%',
-                    ];
-                    break;
                 case 'chevron_right':
                     $choice = true;
-                    $options = [
-                        'right'  => '0%',
-                        'middle' => '50%' ,
-                        'left' =>'95%',
-                    ];
+                    $options = self::CHEVRON_PERCENT;
                     break;
                 // affiche_admin_post
                 case 'affiche_admin_post':

@@ -1,0 +1,73 @@
+{# Chevrons navigation page (Hermes 2.2.7 — configs site : chevron_*) #}
+{% set chevronStyle = configs.chevron|default('') %}
+{% if chevronStyle == 'circle' or chevronStyle == 'circle-' %}
+    {% set chevronStyle = 'circle-' %}
+{% else %}
+    {% set chevronStyle = '' %}
+{% endif %}
+{% set chevronColor = configs.chevron_color|default('#000000') %}
+{% set chevronBg = configs.chevron_bgcolor|default('#ffffff') %}
+{% set chevronOpacity = configs.chevron_opacity|default(0.5) %}
+{% set chevronAccueilColor = configs.chevron_accueil_color|default('#000000') %}
+{% set chevronAccueilBg = configs.chevron_accueil_bgcolor|default('#ffffff') %}
+{% set chevronAccueilOpacity = configs.chevron_accueil_opacity|default(0.4) %}
+{% set chevronSlotStyle = hermes_chevron_slot_style(configs) %}
+
+{% set accueilCfg = configs.accueil|default(null) %}
+{% set accueilWidth = accueilCfg and accueilCfg.value is not null ? (accueilCfg.value + 0) : 0 %}
+{% set isHome = app.request.attributes.get('_route') == 'front_home' %}
+{% set showAccueilChevron = isHome and accueilCfg and accueilCfg.fileName and accueilWidth >= 80 %}
+
+<div
+    class="hermes-page-chevrons"
+    data-controller="page-chevron"
+    data-page-chevron-scroll-threshold-value="8"
+>
+    {% if showAccueilChevron %}
+        <div
+            id="chevron_accueil_down_div"
+            class="hermes-chevron hermes-chevron--accueil"
+            style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: {{ chevronAccueilBg }}; opacity: {{ chevronAccueilOpacity }};"
+            data-page-chevron-target="accueilDown"
+        >
+            <button
+                type="button"
+                class="hermes-chevron__link border-0 bg-transparent p-0"
+                data-action="click->page-chevron#navigate"
+                aria-label="{{ 'front.chevron.scroll_down'|trans }}"
+            >
+                <i class="fa-solid fa-angles-down hermes-chevron__icon hermes-chevron__icon--accueil" style="color: {{ chevronAccueilColor }};"></i>
+            </button>
+        </div>
+    {% endif %}
+
+    <div
+        id="chevron_nav_slot"
+        class="hermes-chevron hermes-chevron--slot"
+        style="{{ chevronSlotStyle }}; background-color: {{ chevronBg }}; opacity: {{ chevronOpacity }};"
+    >
+        <button
+            type="button"
+            class="hermes-chevron__link border-0 bg-transparent p-0"
+            data-page-chevron-target="navLink"
+            data-action="click->page-chevron#navigate"
+            data-label-down="{{ 'front.chevron.scroll_bottom'|trans }}"
+            data-label-up="{{ 'front.chevron.scroll_top'|trans }}"
+            aria-label="{{ 'front.chevron.scroll_bottom'|trans }}"
+        >
+            <i
+                data-page-chevron-target="iconDown"
+                class="hermes-chevron__icon fa fa-chevron-{{ chevronStyle }}down"
+                style="color: {{ chevronColor }};"
+                aria-hidden="false"
+            ></i>
+            <i
+                data-page-chevron-target="iconUp"
+                class="hermes-chevron__icon fa fa-chevron-{{ chevronStyle }}up d-none"
+                style="color: {{ chevronColor }};"
+                hidden
+                aria-hidden="true"
+            ></i>
+        </button>
+    </div>
+</div>
