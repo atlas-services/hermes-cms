@@ -11,18 +11,18 @@
         <a class="btn btn-success" href="{{ path('menu_index') }}">{{ 'global.list_menus'|trans() }}</a>
     </div>
 
-    {% if pages is empty %}
+    {% if pageChoices is empty %}
         <div class="alert alert-warning">
             {{ 'Aucune page disponible.' }}
         </div>
     {% else %}
         <form method="get" class="row g-3 mb-4">
-            <div class="col-auto">
+            <div class="col-md-6 col-lg-5">
                 <label for="page-select" class="form-label">{{ 'global.page'|trans() }}</label>
                 <select id="page-select" name="page" class="form-select" onchange="this.form.submit()">
-                    {% for page in pages %}
-                        <option value="{{ page.id }}" {{ selectedPage is defined and page.id == selectedPage.id ? 'selected' : '' }}>
-                            {{ page.name }}
+                    {% for choice in pageChoices %}
+                        <option value="{{ choice.menu.id }}" {{ selectedPage is defined and choice.menu.id == selectedPage.id ? 'selected' : '' }}>
+                            {{ choice.label }}
                         </option>
                     {% endfor %}
                 </select>

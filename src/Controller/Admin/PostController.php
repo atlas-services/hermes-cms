@@ -12,6 +12,7 @@ use App\Form\PostType;
 use App\Repository\MenuRepository;
 use App\Repository\TemplateRepository;
 use App\Service\AdminMediaStorage;
+use App\Service\MenuTreeBuilder;
 use App\Service\PostBulkImagesFromMediaService;
 use App\Service\PostService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -33,6 +34,7 @@ class PostController extends AbstractController
         private MenuRepository $menuRepository,
         private EntityManagerInterface $entityManager,
         private TemplateRepository $templateRepository,
+        private MenuTreeBuilder $menuTreeBuilder,
         private TranslatorInterface $translator,
     ) {}
 
@@ -308,19 +310,25 @@ class PostController extends AbstractController
     public function index(Request $request): Response
     {
         $pages = $this->menuRepository->findPages();
+        $pageChoices = $this->menuTreeBuilder->orderPagesByTree($pages);
         $pageId = $request->query->getInt('page');
         $selectedPage = null;
 
         if ($pageId > 0) {
-            $selectedPage = $this->menuRepository->find($pageId);
+            foreach ($pageChoices as $choice) {
+                if ($choice['menu']->getId() === $pageId) {
+                    $selectedPage = $choice['menu'];
+                    break;
+                }
+            }
         }
 
-        if ($selectedPage === null && count($pages) > 0) {
-            $selectedPage = $pages[0];
+        if ($selectedPage === null && $pageChoices !== []) {
+            $selectedPage = $pageChoices[0]['menu'];
         }
 
         return $this->render('admin/post/index.html.twig', [
-            'pages' => $pages,
+            'pageChoices' => $pageChoices,
             'selectedPage' => $selectedPage,
             'sectionModaleChoices' => $this->templateRepository->getModaleChoicesForSectionAdmin(),
             'sectionListeTemplateChoices' => $this->buildSectionListeTemplateChoicesBySectionId($selectedPage),

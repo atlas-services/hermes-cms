@@ -1,4 +1,4 @@
-<table class="table table-hover">
+<table class="table table-hover hermes-admin-section-list">
     <thead>
         <tr>
             <th>{{ 'form.label.active'|trans }}</th>
@@ -104,11 +104,12 @@
                     {% endif %}
                 </td>
                 <td>
-                    <div class="d-flex flex-column gap-1 align-items-start">
+                    <div class="hermes-section-appearance d-flex flex-column gap-2 align-items-start">
                         <div class="form-check form-switch form-switch-sm my-0">
                             <input
                                 type="checkbox"
-                                class="form-check-input"
+                                role="switch"
+                                class="form-check-input bg-success"
                                 data-controller="active-item"
                                 data-action="change->active-item#persistSectionTransparent"
                                 {{ section.isTransparent ? 'checked' : '' }}
@@ -117,15 +118,18 @@
                             <label class="form-check-label small" for="section-transparent-{{ section.id }}">{{ 'form.label.section_transparent'|trans }}</label>
                         </div>
                         {% set sectionBgHex = section.rawTemplateBgcolor %}
-                        <input
-                            type="color"
-                            class="form-control form-control-color form-control-sm js-section-bgcolor"
-                            value="{{ sectionBgHex is not null and sectionBgHex starts with '#' ? sectionBgHex : '#ffffff' }}"
-                            data-controller="active-item"
-                            data-action="change->active-item#persistSectionTemplateBgcolor"
-                            {{ section.isTransparent ? 'disabled' : '' }}
-                            title="{{ 'form.label.section_bgcolor'|trans }}"
-                        >
+                        <div class="hermes-section-bgcolor-wrap">
+                            <input
+                                type="color"
+                                class="form-control form-control-color hermes-section-bgcolor-input js-section-bgcolor"
+                                value="{{ sectionBgHex is not null and sectionBgHex starts with '#' ? sectionBgHex : '#ffffff' }}"
+                                data-controller="active-item"
+                                data-action="change->active-item#persistSectionTemplateBgcolor"
+                                {{ section.isTransparent ? 'disabled' : '' }}
+                                title="{{ 'form.label.section_bgcolor'|trans }}"
+                                aria-label="{{ 'form.label.section_bgcolor'|trans }}"
+                            >
+                        </div>
                     </div>
                 </td>
                 <td>
