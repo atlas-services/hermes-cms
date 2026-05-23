@@ -10,10 +10,12 @@
 {% endmacro %}
 
 {% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, hrMainNavOnly) %}
-    {% set activeTrailIds = [currentMenu.id] %}
-    {% for p in currentMenu.parents %}
-        {% set activeTrailIds = activeTrailIds|merge([p.id]) %}
-    {% endfor %}
+    {% set activeTrailIds = currentMenu ? [currentMenu.id] : [] %}
+    {% if currentMenu %}
+        {% for p in currentMenu.parents %}
+            {% set activeTrailIds = activeTrailIds|merge([p.id]) %}
+        {% endfor %}
+    {% endif %}
     {% for node in nodes %}
         {% set isActive = node.menu.id in activeTrailIds %}
         {% set hrAos = navAosActive and node.menu.id in activeTrailIds %}

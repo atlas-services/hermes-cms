@@ -13,7 +13,8 @@
         } %}
 
         {{ form_start(contact_form, {
-            action: path('front_form_contact', { _locale: app.request.locale }),
+            action: contact_form_action|default(path('front_form_contact', { _locale: app.request.locale })),
+            method: 'POST',
             attr: { class: 'hermes-form-' ~ form_id, id: 'form_contact' },
         }) }}
         <input type="hidden" name="_redirect" value="{{ app.request.uri }}">

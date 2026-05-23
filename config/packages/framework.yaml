@@ -6,8 +6,8 @@ framework:
         default_path: '%kernel.project_dir%/translations'
         fallbacks:
             - fr
-    # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    session:
+        save_path: '%kernel.project_dir%/var/sessions'
 
     #esi: true
     #fragments: true

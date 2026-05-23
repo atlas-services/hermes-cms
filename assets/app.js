@@ -1,4 +1,5 @@
 import './stimulus_bootstrap.js';
+import './controllers/csrf_protection_controller.js';
 import 'bootstrap';
 import { Tooltip } from 'bootstrap';
 import AOS from 'aos';

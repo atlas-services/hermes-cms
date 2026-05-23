@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\Front;
 
+use App\Validator\Constraints\FrenchPhoneNumber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -61,10 +62,7 @@ final class ContactFormType extends AbstractType
                 ]),
                 'constraints' => [
                     new Assert\NotBlank(message: 'form.contact.telephone_required'),
-                    new Assert\Regex(
-                        pattern: '/^[+]?[0-9][0-9\s.\-]{8,18}[0-9]$/',
-                        message: 'form.contact.telephone_invalid',
-                    ),
+                    new FrenchPhoneNumber(),
                 ],
             ])
             ->add('message', TextareaType::class, [
@@ -85,6 +83,7 @@ final class ContactFormType extends AbstractType
         $resolver->setDefaults([
             'translation_domain' => 'messages',
             'input_class' => 'form-control',
+            'csrf_protection' => false,
         ]);
     }
 }

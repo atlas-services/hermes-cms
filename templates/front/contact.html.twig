@@ -20,6 +20,7 @@
                     {% include 'front/section/contact.html.twig' with {
                         section: null,
                         menu: menu|default(null),
+                        contact_form_action: path('front_contact', { _locale: app.request.locale }),
                     }|merge(hermes_formulaire_vars('contact', configs)) %}
                 </div>
             </div>

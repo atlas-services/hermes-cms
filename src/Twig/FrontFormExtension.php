@@ -9,7 +9,9 @@ use App\Form\Front\ContactFormType;
 use App\Form\Front\LivredorFormType;
 use App\Form\Front\NewsletterFormType;
 use App\Service\FormPresentationResolver;
+use App\Service\FrontFormDraftStorage;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormView;
 use Twig\Attribute\AsTwigFunction;
 
 final class FrontFormExtension
@@ -17,6 +19,7 @@ final class FrontFormExtension
     public function __construct(
         private readonly FormFactoryInterface $formFactory,
         private readonly FormPresentationResolver $presentationResolver,
+        private readonly FrontFormDraftStorage $draftStorage,
     ) {
     }
 
@@ -45,24 +48,35 @@ final class FrontFormExtension
 
         return match ($kind) {
             FormTemplateKind::Contact => [
-                'contact_form' => $this->formFactory->create(ContactFormType::class, null, [
-                    'input_class' => $inputClass,
-                ])->createView(),
+                'contact_form' => $this->buildFormView(ContactFormType::class, $kind, $inputClass),
                 'form_presentation' => $presentation,
                 'contact_email_display' => $this->presentationResolver->contactEmailDisplay($configs),
             ],
             FormTemplateKind::Newsletter => [
-                'newsletter_form' => $this->formFactory->create(NewsletterFormType::class, null, [
-                    'input_class' => $inputClass,
-                ])->createView(),
+                'newsletter_form' => $this->buildFormView(NewsletterFormType::class, $kind, $inputClass),
                 'form_presentation' => $presentation,
             ],
             FormTemplateKind::Livredor => [
-                'livredor_form' => $this->formFactory->create(LivredorFormType::class, null, [
-                    'input_class' => $inputClass,
-                ])->createView(),
+                'livredor_form' => $this->buildFormView(LivredorFormType::class, $kind, $inputClass),
                 'form_presentation' => $presentation,
             ],
         };
+    }
+
+    /**
+     * @param class-string $formTypeClass
+     */
+    private function buildFormView(string $formTypeClass, FormTemplateKind $kind, string $inputClass): FormView
+    {
+        $form = $this->formFactory->create($formTypeClass, null, [
+            'input_class' => $inputClass,
+        ]);
+
+        $draft = $this->draftStorage->consume($kind);
+        if ($draft !== null) {
+            $form->submit($draft, false);
+        }
+
+        return $form->createView();
     }
 }

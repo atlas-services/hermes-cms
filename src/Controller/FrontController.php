@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Menu;
+use App\Enum\FormTemplateKind;
+use App\Form\Front\ContactFormType;
+use App\Service\FrontFormSubmissionHandler;
 use App\Service\FrontMenuService;
 use App\Service\MenuTreeBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,12 +53,24 @@ final class FrontController extends AbstractController
         ]);
     }
 
-    #[Route('/{_locale}/contact', name: 'front_contact', requirements: ['_locale' => 'fr|en'], defaults: ['_locale' => 'fr'])]
+    #[Route('/{_locale}/contact', name: 'front_contact', requirements: ['_locale' => 'fr|en'], defaults: ['_locale' => 'fr'], methods: ['GET', 'POST'])]
     public function contact(
         Request $request,
         FrontMenuService $frontMenuService,
         MenuTreeBuilder $menuTreeBuilder,
+        FrontFormSubmissionHandler $formHandler,
     ): Response {
+        $response = $formHandler->handle(
+            $request,
+            FormTemplateKind::Contact,
+            ContactFormType::class,
+            'front_contact',
+            ['input_class' => 'form-control'],
+        );
+        if ($response !== null) {
+            return $response;
+        }
+
         $locale = $request->getLocale();
         $menu = $frontMenuService->findContactPage($locale);
         $sectionsForFront = $menu !== null
@@ -69,7 +84,7 @@ final class FrontController extends AbstractController
         ]);
     }
 
-    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => 'fr|en', 'slugs' => '(?!(contact|login|logout|admin|forgotten_password|re-init-password|reset_password)(/|$)).+'], defaults: ['_locale' => 'fr'])]
+    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => 'fr|en', 'slugs' => '(?!(contact|form|login|logout|admin|forgotten_password|re-init-password|reset_password)(/|$)).+'], defaults: ['_locale' => 'fr'])]
     public function menu(string $slugs, Request $request, FrontMenuService $frontMenuService, MenuTreeBuilder $menuTreeBuilder): Response
     {
         $slugParts = array_filter(explode('/', $slugs));

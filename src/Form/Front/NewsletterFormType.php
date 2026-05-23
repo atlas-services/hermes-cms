@@ -49,6 +49,7 @@ final class NewsletterFormType extends AbstractType
         $resolver->setDefaults([
             'translation_domain' => 'messages',
             'input_class' => 'form-control',
+            'csrf_protection' => false,
         ]);
     }
 }

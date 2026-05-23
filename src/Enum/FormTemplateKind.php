@@ -19,6 +19,15 @@ enum FormTemplateKind: string
         };
     }
 
+    public function mailTemplate(): string
+    {
+        return match ($this) {
+            self::Contact => 'emails/email_contact.html.twig',
+            self::Newsletter => 'emails/email_newsletter.html.twig',
+            self::Livredor => 'emails/email_livredor.html.twig',
+        };
+    }
+
     public static function tryFromTemplateCode(?string $code): ?self
     {
         if ($code === null || $code === '') {
