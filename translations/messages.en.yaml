@@ -273,8 +273,7 @@ global:
   upload_hermes_dir: Uploads Pictures
   newsletter_users: Newsletter subscriber list
   active_newsletter: Active subscriber
-  template: Template
-  copyright: &copy;2025 Tous droits réservés par
+  copyright: '©2025 All rights reserved by'
   created_by: This site has been powered by the CMS<a href="http://hermes-cms.org" target="_blanks">HERMES</a>
   about: A propos
   hello: Hello
@@ -331,7 +330,7 @@ global:
   post: Contenu
   url: Url de la vidéo
   menu: Sous Menu
-  template: Affichage
+  template: Template
   position: Position
   locale: Langue
   add_locale: Ajouter une langue
