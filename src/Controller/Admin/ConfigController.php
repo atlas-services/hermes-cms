@@ -62,36 +62,6 @@ class ConfigController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/new', name: 'config_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ManagerRegistry $doctrine): Response
-    {
-        $options = [
-            'code_disabled' => !$this->isGranted('ROLE_SUPER_ADMIN'),
-            'show_active' => $this->isGranted('ROLE_SUPER_ADMIN'),
-        ];
-
-        $config = new Config();
-        $form = $this->createForm(ConfigType::class, $config, $options);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $doctrine->getManager();
-            $entityManager->persist($config);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_index');
-        }
-
-        $array = [
-            'config' => $config,
-            'form' => $form->createView(),
-        ];
-
-        $array = $this->mergeActiveConfig($doctrine, $array);
-
-        return $this->render('admin/config/new.html.twig', $array);
-    }
-
     #[Route(path: '/{type}', name: 'config_index', methods: ['GET'])]
     public function index(
         ManagerRegistry $doctrine,
@@ -169,29 +139,6 @@ class ConfigController extends AbstractController
         return $this->render('admin/config/edit.html.twig', $array);
     }
 
-    #[Route(path: '/{id}', name: 'config_delete', methods: ['POST', 'DELETE'])]
-    public function delete(
-        Request $request,
-        ManagerRegistry $doctrine,
-        Config $config
-    ): Response {
-        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
-            return $this->redirectToRoute('admin_index');
-        }
-
-        if ($this->isCsrfTokenValid('delete' . $config->getId(), $request->request->get('_token'))) {
-            $entityManager = $doctrine->getManager();
-            $entityManager->remove($config);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('admin_index');
-    }
-
-    /**
-     * @param array<string, mixed> $array
-     * @return array<string, mixed>
-     */
     /**
      * @param array<string, mixed> $array
      *

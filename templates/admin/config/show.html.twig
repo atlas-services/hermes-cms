@@ -24,6 +24,4 @@
     <a class="btn btn-info my-3" href="{{ path('config_index', {'type': config.type}) }}">{{ 'form.label.back_to_list'|trans() }}</a>
 
     <a class="btn btn-outline-success my-3" href="{{ path('config_edit', {'id': config.id}) }}">{{ 'form.label.edit'|trans() }}</a>
-
-    {{ include('admin/config/_delete_form.html.twig') }}
 {% endblock %}

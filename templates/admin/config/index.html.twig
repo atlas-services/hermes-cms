@@ -4,13 +4,8 @@
 
 {% block content %}
 <div class="hermes-admin-config-page">
-    <header class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+    <header class="mb-4">
         <h1 class="h3 text-secondary mb-0">{{ 'config.label'|trans() }}</h1>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <a class="btn btn-success btn-sm" href="{{ path('config_new') }}">
-                <i class="fa fa-plus me-1" aria-hidden="true"></i>{{ 'form.label.create'|trans() }}
-            </a>
-        {% endif %}
     </header>
 
     <div class="card border-0 shadow-sm">
@@ -61,11 +56,6 @@
                     <td class="col-sm-2">
                         <a class="btn btn-success" href="{{ path('config_edit', {'id': config.id}) }}">{{'form.label.update'|trans()|raw }}</a>
                     </td>
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <td>
-                        {{ include('admin/config/_delete_form.html.twig') }}
-                    </td>
-                    {% endif %}
                 </tr>
         {% else %}
             <tr class="align-middle">

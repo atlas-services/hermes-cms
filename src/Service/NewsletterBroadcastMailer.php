@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Post;
 use App\Entity\Section;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -24,7 +25,14 @@ final class NewsletterBroadcastMailer
     }
 
     /**
-     * @return array{type: string, message: string}
+     * @return array{
+     *     type: string,
+     *     message: string,
+     *     count?: int,
+     *     errors?: int,
+     *     sent_emails?: list<string>,
+     *     deactivated?: bool
+     * }
      */
     public function send(Section $section, bool $testMode = false): array
     {
@@ -33,7 +41,7 @@ final class NewsletterBroadcastMailer
             return ['type' => 'danger', 'message' => 'newsletter.send.not_template'];
         }
 
-        $recipients = $this->userRepository->findNewsletterEmails($testMode);
+        $recipients = $this->userRepository->findNewsletterRecipientsForSend($testMode);
         if ($recipients === []) {
             return ['type' => 'warning', 'message' => 'newsletter.send.no_recipients'];
         }
@@ -47,37 +55,65 @@ final class NewsletterBroadcastMailer
             $subject .= ' (Test)';
         }
 
-        $sent = 0;
+        /** @var list<User> $sentUsers */
+        $sentUsers = [];
+        /** @var list<string> $sentEmails */
+        $sentEmails = [];
         $errors = 0;
-        foreach ($recipients as $recipient) {
+
+        foreach ($recipients as $user) {
+            $email = $user->getEmail();
+            if ($email === null || $email === '') {
+                continue;
+            }
+
             try {
                 $message = (new TemplatedEmail())
                     ->from(new Address($this->fromEmail, 'Hermes'))
-                    ->to($recipient)
+                    ->to($email)
                     ->subject($subject)
                     ->htmlTemplate('newsletter/newsletter.html.twig')
                     ->context(['section' => $section]);
 
                 $this->mailer->send($message);
-                ++$sent;
+                $sentUsers[] = $user;
+                $sentEmails[] = $email;
             } catch (TransportExceptionInterface) {
                 ++$errors;
             }
         }
 
+        $sent = \count($sentEmails);
+
         if ($sent === 0) {
             return ['type' => 'danger', 'message' => 'newsletter.send.failed'];
         }
 
+        $deactivated = false;
+        if (!$testMode && $sentUsers !== []) {
+            $this->userRepository->deactivateNewsletterSubscribers($sentUsers);
+            $deactivated = true;
+        }
+
+        $base = [
+            'sent_emails' => $sentEmails,
+            'count' => $sent,
+            'deactivated' => $deactivated,
+        ];
+
         if ($errors > 0) {
             return [
+                ...$base,
                 'type' => 'warning',
                 'message' => 'newsletter.send.partial',
-                'count' => $sent,
                 'errors' => $errors,
             ];
         }
 
-        return ['type' => 'success', 'message' => 'newsletter.send.success', 'count' => $sent];
+        return [
+            ...$base,
+            'type' => 'success',
+            'message' => 'newsletter.send.success',
+        ];
     }
 }

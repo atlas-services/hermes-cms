@@ -137,6 +137,8 @@ newsletter:
     failed: Échec de l’envoi de la newsletter.
     no_recipients: Aucun destinataire actif pour cette newsletter.
     not_template: Cette section n’est pas un gabarit newsletter.
+    recipients_heading: 'Destinataires (%count%) :'
+    deactivated: Les abonnés concernés ont été désactivés (ils ne recevront plus la newsletter tant qu’ils ne sont pas réactivés).
 
 admin:
   title: admin
@@ -271,6 +273,9 @@ global:
   new: Créer
   edit: Modifier
   delete_content: le contenu
+  confirm_delete_question: 'Êtes-vous certain de vouloir supprimer'
+  confirm_delete: Supprimer
+  unconfirm_delete: Annuler
   back_to_list: Retour à la liste
   continue: Continuer
 

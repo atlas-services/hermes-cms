@@ -58,12 +58,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * @return list<string>
+     * @return list<User>
      */
-    public function findNewsletterEmails(bool $testMode = false): array
+    public function findNewsletterRecipientsForSend(bool $testMode = false): array
     {
         $role = $testMode ? User::ROLE_TEST_NEWSLETTER : User::ROLE_NEWSLETTER;
-        $emails = [];
+        $recipients = [];
 
         foreach ($this->createQueryBuilder('u')->getQuery()->getResult() as $user) {
             if (!$user instanceof User) {
@@ -75,6 +75,25 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             if (!$testMode && !$user->isActiveNewsletter()) {
                 continue;
             }
+            $recipients[] = $user;
+        }
+
+        usort($recipients, static function (User $a, User $b): int {
+            $cmp = strcmp((string) $a->getLastname(), (string) $b->getLastname());
+
+            return $cmp !== 0 ? $cmp : strcmp((string) $a->getEmail(), (string) $b->getEmail());
+        });
+
+        return $recipients;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function findNewsletterEmails(bool $testMode = false): array
+    {
+        $emails = [];
+        foreach ($this->findNewsletterRecipientsForSend($testMode) as $user) {
             $email = $user->getEmail();
             if ($email !== null && $email !== '') {
                 $emails[] = $email;
@@ -82,6 +101,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         return array_values(array_unique($emails));
+    }
+
+    /**
+     * @param list<User> $users
+     */
+    public function deactivateNewsletterSubscribers(array $users): void
+    {
+        if ($users === []) {
+            return;
+        }
+
+        foreach ($users as $user) {
+            $user->setActiveNewsletter(false);
+        }
+
+        $this->getEntityManager()->flush();
     }
 
     public function switchNewsletterActive(int $id): User

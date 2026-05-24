@@ -36,14 +36,5 @@
     </header>
 
     {{ include('admin/config/_form.html.twig', {'button_label': 'form.label.update'|trans()}) }}
-
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <div class="card border-danger border-opacity-25 shadow-sm mt-4">
-            <div class="card-body py-3">
-                <h2 class="h6 text-danger mb-2">{{ 'global.danger_zone'|trans|default('Zone sensible') }}</h2>
-                {{ include('admin/config/_delete_form.html.twig') }}
-            </div>
-        </div>
-    {% endif %}
 </div>
 {% endblock %}
