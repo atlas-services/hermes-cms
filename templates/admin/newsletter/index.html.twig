@@ -1,0 +1,70 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}{{ 'section.newsletter'|trans }}{% endblock %}
+
+{% block content %}
+    {% include 'admin/_newsletter_admin_nav.html.twig' with { context: 'heading' } only %}
+
+    <div class="table-responsive card border-0 shadow-sm">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>{{ 'global.active'|trans }}</th>
+                    <th>{{ 'menu.name'|trans|default('Menu') }}</th>
+                    <th>{{ 'global.template'|trans }}</th>
+                    <th>{{ 'global.list_posts'|trans|default('Posts') }}</th>
+                    <th>{{ 'global.position'|trans }}</th>
+                    <th>{{ 'global.actions'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for section in sections %}
+                    {% set menu = section.menu %}
+                    <tr>
+                        <td>
+                            <span class="badge {{ section.active ? 'bg-success' : 'bg-secondary' }}">
+                                {{ section.active ? 'global.active'|trans : 'global.inactive'|trans }}
+                            </span>
+                        </td>
+                        <td>{{ menu ? menu.name : '—' }}</td>
+                        <td>{{ section.template ? section.template.name : '—' }}</td>
+                        <td>
+                            <ul class="list-unstyled mb-0 small">
+                                {% for post in section.posts %}
+                                    <li>{{ post.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ section.position }}</td>
+                        <td class="text-nowrap">
+                            {% if menu %}
+                                <a class="btn btn-sm btn-outline-primary" href="{{ path('post_index', { _locale: app.request.locale, page: menu.id }) }}">
+                                    {{ 'global.list_pages'|trans }}
+                                </a>
+                            {% endif %}
+                            {% if section.posts|length > 0 %}
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ path('post_edit', { id: section.posts|first.id, _locale: app.request.locale }) }}">
+                                    {{ 'global.edit'|trans }}
+                                </a>
+                            {% endif %}
+                            {% if section.template and section.template.code == 'newsletter_template' %}
+                                <a class="btn btn-sm btn-success" href="{{ path('admin_newsletters_send', { section: section.id, _locale: app.request.locale }) }}">
+                                    {{ 'newsletter.action_send'|trans }}
+                                </a>
+                                <a class="btn btn-sm btn-warning" href="{{ path('admin_newsletters_send', { section: section.id, test: 'test', _locale: app.request.locale }) }}">
+                                    {{ 'newsletter.action_send_test'|trans }}
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-muted">{{ 'global.no_record'|trans }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p class="text-muted small mt-3">{{ 'newsletter.index_help'|trans }}</p>
+{% endblock %}

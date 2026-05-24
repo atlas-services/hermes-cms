@@ -1,0 +1,95 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}{{ 'user.newsletter'|trans }}{% endblock %}
+
+{% block content %}
+    {% include 'admin/_newsletter_admin_nav.html.twig' with { context: 'heading' } only %}
+
+    <div class="mb-3">
+        <button type="button" class="btn btn-sm btn-success" id="newsletter-activate-all" data-active="1">
+            {{ 'newsletter.activate_all'|trans }}
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary" id="newsletter-deactivate-all" data-active="0">
+            {{ 'newsletter.deactivate_all'|trans }}
+        </button>
+    </div>
+
+    <div class="table-responsive card border-0 shadow-sm">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>{{ 'global.active_newsletter'|trans }}</th>
+                    <th>{{ 'user.firstname'|trans }} / {{ 'user.lastname'|trans }}</th>
+                    <th>{{ 'user.email'|trans }}</th>
+                    <th>{{ 'user.roles'|trans }}</th>
+                    <th>{{ 'global.actions'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            <button type="button"
+                                    class="btn btn-sm {{ user.activeNewsletter ? 'btn-success' : 'btn-secondary' }} newsletter-toggle-user"
+                                    data-id="{{ user.id }}">
+                                {{ user.activeNewsletter ? 'global.active'|trans : 'global.inactive'|trans }}
+                            </button>
+                        </td>
+                        <td>
+                            {{ user.firstname == 'newsletter' ? 'NC /' : user.firstname|default('') }}
+                            {{ user.lastname == 'newsletter' ? 'NC' : user.lastname|default('') }}
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% for role in user.roles %}
+                                <span class="badge bg-secondary">{{ role }}</span>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('user_newsletter_edit', { id: user.id, _locale: app.request.locale }) }}">
+                                {{ 'global.edit'|trans }}
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-muted">{{ 'global.no_record'|trans }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        (function () {
+            const switchUserUrl = '{{ path('switch_user_active_ajax', { _locale: app.request.locale }) }}';
+            const switchAllUrl = '{{ path('switch_users_active_ajax', { _locale: app.request.locale }) }}';
+
+            document.querySelectorAll('.newsletter-toggle-user').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    const body = new URLSearchParams();
+                    body.set('id', id);
+                    fetch(switchUserUrl, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body })
+                        .then((r) => r.json())
+                        .then((data) => {
+                            const active = !!data.data;
+                            btn.classList.toggle('btn-success', active);
+                            btn.classList.toggle('btn-secondary', !active);
+                            btn.textContent = active ? '{{ 'global.active'|trans|e('js') }}' : '{{ 'global.inactive'|trans|e('js') }}';
+                        });
+                });
+            });
+
+            function switchAll(active) {
+                const body = new URLSearchParams();
+                body.set('active', active ? '1' : '0');
+                fetch(switchAllUrl, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body })
+                    .then(() => window.location.reload());
+            }
+
+            document.getElementById('newsletter-activate-all')?.addEventListener('click', () => switchAll(true));
+            document.getElementById('newsletter-deactivate-all')?.addEventListener('click', () => switchAll(false));
+        })();
+    </script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{# Liens croisés abonnés / campagnes — lien actif selon la route admin courante. #}
+{% set currentRoute = app.request.attributes.get('_route') %}
+{% set subscribersActive = currentRoute in ['user_newsletter', 'user_newsletter_edit'] %}
+{% set campaignsActive = currentRoute is not null and (currentRoute starts with 'admin_newsletters') %}
+
+{% set subscribersUrl = path('user_newsletter', { _locale: app.request.locale }) %}
+{% set campaignsUrl = path('admin_newsletters_index', { _locale: app.request.locale }) %}
+{% set subscribersLabel = 'global.newsletter_users'|trans %}
+{% set campaignsLabel = 'section.newsletter'|trans %}
+
+{% if context == 'dropdown' %}
+    <p class="mb-0 mx-3">
+        {% if subscribersActive %}
+            <span class="fw-semibold text-white">{{ subscribersLabel }}</span>
+        {% else %}
+            <a class="link-light text-decoration-none" href="{{ subscribersUrl }}">{{ subscribersLabel }}</a>
+        {% endif %}
+        <span class="text-white-50 mx-1">/</span>
+        {% if campaignsActive %}
+            <span class="fw-semibold text-white">{{ campaignsLabel }}</span>
+        {% else %}
+            <a class="link-light text-decoration-none" href="{{ campaignsUrl }}">{{ campaignsLabel }}</a>
+        {% endif %}
+    </p>
+{% else %}
+    <h1 class="h3 text-secondary mb-4">
+        {% if subscribersActive %}
+            <span class="fw-semibold">{{ subscribersLabel }}</span>
+        {% else %}
+            <a class="text-secondary text-decoration-none" href="{{ subscribersUrl }}">{{ subscribersLabel }}</a>
+        {% endif %}
+        <span class="text-muted fw-normal"> / </span>
+        {% if campaignsActive %}
+            <span class="fw-semibold">{{ campaignsLabel }}</span>
+        {% else %}
+            <a class="text-secondary text-decoration-none" href="{{ campaignsUrl }}">{{ campaignsLabel }}</a>
+        {% endif %}
+    </h1>
+{% endif %}

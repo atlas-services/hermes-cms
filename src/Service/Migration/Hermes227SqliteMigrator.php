@@ -205,6 +205,21 @@ final class Hermes227SqliteMigrator
         return (bool) $stmt->fetchColumn();
     }
 
+    private function tableHasColumn(PDO $pdo, string $table, string $column): bool
+    {
+        if (!$this->tableExists($pdo, $table)) {
+            return false;
+        }
+        $rows = $pdo->query('PRAGMA table_info(' . $table . ')')->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($rows as $row) {
+            if (($row['name'] ?? '') === $column) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function createTargetSchema(string $toPath, bool $force, callable $log): void
     {
         $tool = new SchemaTool($this->entityManager);
@@ -255,22 +270,35 @@ final class Hermes227SqliteMigrator
     private function migrateUsers(PDO $source, PDO $target): int
     {
         $rows = $source->query('SELECT * FROM user')->fetchAll(PDO::FETCH_ASSOC);
-        $stmt = $target->prepare(
-            'INSERT INTO user (id, email, roles, password, is_verified) VALUES (:id, :email, :roles, :password, :is_verified)',
-        );
+        $hasNewsletterCols = $this->tableHasColumn($source, 'user', 'active_newsletter');
+        if ($hasNewsletterCols) {
+            $stmt = $target->prepare(
+                'INSERT INTO user (id, email, roles, password, is_verified, firstname, lastname, active_newsletter) VALUES (:id, :email, :roles, :password, :is_verified, :firstname, :lastname, :active_newsletter)',
+            );
+        } else {
+            $stmt = $target->prepare(
+                'INSERT INTO user (id, email, roles, password, is_verified) VALUES (:id, :email, :roles, :password, :is_verified)',
+            );
+        }
         $n = 0;
         foreach ($rows as $r) {
             $roles = $r['roles'] ?? '[]';
             if (\is_array($roles)) {
                 $roles = json_encode($roles, JSON_THROW_ON_ERROR);
             }
-            $stmt->execute([
+            $params = [
                 'id' => (int) $r['id'],
                 'email' => (string) ($r['email'] ?? 'user' . $r['id'] . '@migrated.invalid'),
                 'roles' => (string) $roles,
                 'password' => (string) ($r['password'] ?? ''),
                 'is_verified' => 1,
-            ]);
+            ];
+            if ($hasNewsletterCols) {
+                $params['firstname'] = $r['firstname'] ?? null;
+                $params['lastname'] = $r['lastname'] ?? null;
+                $params['active_newsletter'] = isset($r['active_newsletter']) ? (int) (bool) $r['active_newsletter'] : 1;
+            }
+            $stmt->execute($params);
             ++$n;
         }
 

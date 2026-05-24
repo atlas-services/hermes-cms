@@ -114,6 +114,30 @@ menu:
   contact_section_created: Une section formulaire de contact a été ajoutée automatiquement.
   toggle_submenu: 'Afficher ou masquer le sous-menu « %name% »'
 
+user:
+  newsletter: Liste des abonnés newsletter
+  firstname: Prénom
+  lastname: Nom
+  email: E-mail
+  roles: Rôles
+  password_optional: Nouveau mot de passe (optionnel)
+
+section:
+  newsletter: Newsletters (campagnes)
+
+newsletter:
+  action_send: Envoyer la newsletter
+  action_send_test: Envoyer (test)
+  activate_all: Activer tous les abonnés
+  deactivate_all: Désactiver tous les abonnés
+  index_help: Les campagnes utilisent une section au gabarit « newsletter_template ». Créez-les via Menus et pages, puis envoyez depuis cette liste.
+  send:
+    success: 'Newsletter envoyée à %count% destinataire(s).'
+    partial: 'Newsletter envoyée à %count% destinataire(s) ; %errors% échec(s).'
+    failed: Échec de l’envoi de la newsletter.
+    no_recipients: Aucun destinataire actif pour cette newsletter.
+    not_template: Cette section n’est pas un gabarit newsletter.
+
 admin:
   title: admin
   post_bulk:
@@ -216,6 +240,10 @@ global:
   list_pages: Liste des pages
   uploads_and_locales: Uploads et locales
   upload_hermes_dir: Uploads d'images
+  newsletter_and_testimony: Newsletter et livre d'or
+  newsletter_users: Liste des abonnés newsletter
+  active_newsletter: Abonné actif
+  template: Gabarit
   copyright: 2023 All Rights Reserved by
   created_by: Ce site a été conçu avec le CMS<a href="http://hermes-cms.org" target="_blanks">HERMES</a>
   about: À propos

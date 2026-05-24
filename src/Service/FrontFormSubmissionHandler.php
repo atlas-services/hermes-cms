@@ -21,6 +21,7 @@ final class FrontFormSubmissionHandler
     public function __construct(
         private readonly FormFactoryInterface $formFactory,
         private readonly SiteFormSubmissionMailer $mailer,
+        private readonly NewsletterSubscriberRegistrar $newsletterSubscriberRegistrar,
         private readonly FrontFormDraftStorage $draftStorage,
         private readonly LoggerInterface $logger,
         private readonly UrlGeneratorInterface $urlGenerator,
@@ -89,6 +90,9 @@ final class FrontFormSubmissionHandler
         try {
             $pageLabel = $request->request->getString('_page_label') ?: null;
             $this->mailer->send($kind, $fields, $locale, $pageLabel !== '' ? $pageLabel : null);
+            if ($kind === FormTemplateKind::Newsletter) {
+                $this->newsletterSubscriberRegistrar->registerFromForm($fields);
+            }
             $this->addFlash($request, 'success', 'form.flash.sent');
             $this->logger->info('Front form mail sent.', [
                 'kind' => $kind->value,

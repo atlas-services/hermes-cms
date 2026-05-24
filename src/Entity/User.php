@@ -40,6 +40,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $resetToken = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastname = null;
+
+    #[ORM\Column(name: 'active_newsletter', type: 'boolean', nullable: true, options: ['default' => true])]
+    private ?bool $activeNewsletter = true;
+
+    public const string ROLE_NEWSLETTER = 'ROLE_NEWSLETTER';
+
+    public const string ROLE_TEST_NEWSLETTER = 'ROLE_TEST_NEWSLETTER';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -143,5 +156,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->resetToken = $resetToken;
 
         return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(?string $firstname): static
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(?string $lastname): static
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function isActiveNewsletter(): bool
+    {
+        return $this->activeNewsletter ?? true;
+    }
+
+    public function setActiveNewsletter(?bool $activeNewsletter): static
+    {
+        $this->activeNewsletter = $activeNewsletter;
+
+        return $this;
+    }
+
+    public function hasNewsletterRole(): bool
+    {
+        return \in_array(self::ROLE_NEWSLETTER, $this->roles, true);
     }
 }

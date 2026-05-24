@@ -1,0 +1,11 @@
+{% extends 'newsletter/base_email.html.twig' %}
+
+{% block content %}
+    {% for post in section.posts|sort((a, b) => a.position <=> b.position) %}
+        {% if post.content is not empty %}
+            <div style="margin-bottom:1.5rem;">
+                {{ post.content|raw }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

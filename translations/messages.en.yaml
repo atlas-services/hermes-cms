@@ -111,6 +111,30 @@ menu:
   contact_section_created: A contact form section was added automatically.
   toggle_submenu: 'Show or hide submenu “%name%”'
 
+user:
+  newsletter: Newsletter subscribers
+  firstname: First name
+  lastname: Last name
+  email: E-mail
+  roles: Roles
+  password_optional: New password (optional)
+
+section:
+  newsletter: Newsletters (campaigns)
+
+newsletter:
+  action_send: Send newsletter
+  action_send_test: Send (test)
+  activate_all: Activate all subscribers
+  deactivate_all: Deactivate all subscribers
+  index_help: Campaigns use a section with the « newsletter_template » layout. Create them under Menus and pages, then send from this list.
+  send:
+    success: 'Newsletter sent to %count% recipient(s).'
+    partial: 'Newsletter sent to %count% recipient(s); %errors% failure(s).'
+    failed: Newsletter send failed.
+    no_recipients: No active recipients for this newsletter.
+    not_template: This section is not a newsletter template.
+
 admin:
   title: admin
   post_bulk:
@@ -247,6 +271,9 @@ global:
   list_pages: Pages List
   uploads_and_locales: Uploads and locales
   upload_hermes_dir: Uploads Pictures
+  newsletter_users: Newsletter subscriber list
+  active_newsletter: Active subscriber
+  template: Template
   copyright: &copy;2025 Tous droits réservés par
   created_by: This site has been powered by the CMS<a href="http://hermes-cms.org" target="_blanks">HERMES</a>
   about: A propos
@@ -266,9 +293,7 @@ global:
   copyleft: 2021 Tous droits réservés par 
   blocks: Mes blocks de contenus
   speed_dashboard: Création rapide
-  newsletter_and_testimony: Newsletter et livre d''or
-  newsletter_users: Mail list Newsletter
-  active_newsletter: Newsletter active
+  newsletter_and_testimony: Newsletter and guestbook
   new_page: Menu
   new_post: Nouveau contenu dans le menu
   menu_one_page: Menu One page
