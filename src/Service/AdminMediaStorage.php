@@ -337,7 +337,7 @@ final class AdminMediaStorage
         $webkit = trim(str_replace('\\', '/', $webkitRelativePath), '/');
 
         if ($webkit === '') {
-            $file = $this->sanitizeSegment(basename((string) $clientOriginalName)) ?: 'file';
+            $file = $this->sanitizeFileName($clientOriginalName);
             $rel = $base !== '' ? $base . '/' . $file : $file;
             $this->assertDepth($rel);
 
@@ -413,8 +413,19 @@ final class AdminMediaStorage
         }
     }
 
+    /**
+     * Nom de fichier client sécurisé pour l’enregistrement (espaces → « _ », caractères invalides supprimés).
+     */
+    public function sanitizeFileName(string $clientOriginalName): string
+    {
+        $base = basename(str_replace('\\', '/', $clientOriginalName));
+
+        return $this->sanitizeSegment($base) ?: 'file';
+    }
+
     private function sanitizeSegment(string $segment): string
     {
+        $segment = preg_replace('/\s+/u', '_', $segment) ?? $segment;
         $segment = preg_replace('/[^\p{L}\p{N}._-]+/u', '_', $segment) ?? '';
         if ($segment === '' || $segment === '_' || $segment === '.') {
             $segment = preg_replace('/[^A-Za-z0-9._-]+/', '_', $segment) ?? '';

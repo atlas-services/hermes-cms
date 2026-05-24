@@ -2,22 +2,19 @@
 
 namespace App\Controller\Api;
 
+use App\Service\AdminMediaStorage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/api', name: 'api_')]
 class FileUploadController extends AbstractController
 {
-
     public function __construct(
-        private readonly ParameterBagInterface $params,
-    )
-    {
+        private readonly AdminMediaStorage $mediaStorage,
+    ) {
     }
 
     #[Route(
@@ -26,34 +23,37 @@ class FileUploadController extends AbstractController
         defaults: ['_format' => 'json'],
         methods: ['POST']
     )]
-        public function fileUpload(Request $request): JsonResponse
+    public function fileUpload(Request $request): JsonResponse
     {
-        // Handle the file upload. Ensure you validate the file (e.g., for type and size)
-        $uploadedFile = $request->files->get('upload'); // 'upload' is the default field name used by CKEditor for uploads
+        $uploadedFile = $request->files->get('upload');
 
         if (!$uploadedFile) {
             return new JsonResponse(['error' => ['message' => 'No file uploaded']], Response::HTTP_BAD_REQUEST);
         }
 
-        // Perform file validation, e.g., file type and size
+        $safeName = $this->mediaStorage->sanitizeFileName((string) $uploadedFile->getClientOriginalName());
+        $targetAbs = $this->mediaStorage->getRootFs() . DIRECTORY_SEPARATOR . $safeName;
+        $targetAbs = $this->mediaStorage->dedupeFileAbsolutePath($targetAbs);
+        $parentDir = dirname($targetAbs);
 
-        /** @var string $projectDir */
-        $projectDir = $this->params->get('kernel.project_dir');
-
-        // Save the file to a directory. You can use services like Symfony's FileSystem or Flysystem for this
-        $destination = $projectDir . '/public/'.$this->params->get('hermes_path_content_image_post');
+        if (!is_dir($parentDir) && !@mkdir($parentDir, 0775, true) && !is_dir($parentDir)) {
+            return new JsonResponse(['error' => ['message' => 'Could not create upload directory']], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         try {
-            $uploadedFile->move($destination, $uploadedFile->getClientOriginalName());
+            $uploadedFile->move($parentDir, basename($targetAbs));
         } catch (\Exception $exception) {
             return new JsonResponse(['error' => ['message' => 'Could not save file: '.$exception->getMessage()]], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        // Return a JSON response that includes the URL to the uploaded file. This URL is used by CKEditor to reference the image
-        $url = $request->getSchemeAndHttpHost().'/'.$this->params->get('hermes_path_content_image_post').'/'.$uploadedFile->getClientOriginalName();
+        try {
+            $relPath = $this->mediaStorage->relativePathFromAbsolute($targetAbs);
+        } catch (\InvalidArgumentException) {
+            return new JsonResponse(['error' => ['message' => 'Stored outside media root']], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        $url = $request->getSchemeAndHttpHost().'/'.$this->mediaStorage->webRelativeUrl($relPath);
 
         return new JsonResponse(['url' => $url]);
     }
-
-
 }

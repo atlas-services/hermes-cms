@@ -87,6 +87,9 @@ final class MigrateHermes227MediaCommand extends Command
                 ['Posts copiés', (string) $stats['postsCopied']],
                 ['Posts ignorés (déjà en cible)', (string) $stats['postsSkipped']],
                 ['Posts sans fichier source', (string) $stats['postsMissing']],
+                ['Fichiers renommés (espaces → _)', (string) $stats['filesRenamed']],
+                ['Posts file_name mis à jour', (string) $stats['postsFileNameUpdated']],
+                ['Publications HTML corrigées', (string) $stats['contentRowsUpdated']],
             ],
         );
 

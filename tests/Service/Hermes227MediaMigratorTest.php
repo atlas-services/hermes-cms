@@ -50,6 +50,49 @@ INSERT INTO post VALUES (1, 10, "photo.jpg");
         $this->removeTree($tmp);
     }
 
+    public function testRenamesFilesWithSpacesDuringMigration(): void
+    {
+        self::bootKernel();
+
+        $tmp = static::getContainer()->getParameter('kernel.project_dir') . '/var/test_media_' . uniqid('', true);
+        $from = $tmp . '/from';
+        $to = $tmp . '/to';
+        $db = $tmp . '/db.sqlite';
+        mkdir($tmp, 0775, true);
+
+        mkdir($from . '/entity/section3/carte', 0775, true);
+        mkdir($from . '/content/galerie', 0775, true);
+        file_put_contents($from . '/entity/section3/carte/ma photo.jpg', 'jpg');
+        file_put_contents($from . '/content/galerie/slide un.jpg', 'slide');
+
+        $p = new PDO('sqlite:' . $db);
+        $p->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $p->exec(<<<'SQL'
+CREATE TABLE menu (id INTEGER PRIMARY KEY, code TEXT);
+CREATE TABLE section (id INTEGER PRIMARY KEY, menu_id INTEGER);
+CREATE TABLE post (id INTEGER PRIMARY KEY, section_id INTEGER, file_name TEXT, content TEXT);
+INSERT INTO menu VALUES (2, 'carte');
+INSERT INTO section VALUES (3, 2);
+INSERT INTO post VALUES (1, 3, 'ma photo.jpg', '<img src="/uploads/demo/content/galerie/slide un.jpg">');
+SQL);
+
+        $migrator = static::getContainer()->get(Hermes227MediaMigrator::class);
+        $stats = $migrator->migrate($db, $from, $to, false, true, static function (): void {});
+
+        self::assertFileExists($to . '/entity/menu2/carte/section3/post/ma_photo.jpg');
+        self::assertFileExists($to . '/content/galerie/slide_un.jpg');
+        self::assertGreaterThanOrEqual(1, $stats['filesRenamed']);
+
+        $fileName = $p->query('SELECT file_name FROM post WHERE id = 1')->fetchColumn();
+        self::assertSame('ma_photo.jpg', $fileName);
+
+        $content = $p->query('SELECT content FROM post WHERE id = 1')->fetchColumn();
+        self::assertStringContainsString('slide_un.jpg', (string) $content);
+        self::assertStringNotContainsString('slide un.jpg', (string) $content);
+
+        $this->removeTree($tmp);
+    }
+
     private function removeTree(string $dir): void
     {
         if (!is_dir($dir)) {
