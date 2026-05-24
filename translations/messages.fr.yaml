@@ -112,6 +112,7 @@ formulaire:
 menu:
   created: Menu créé avec succès.
   contact_section_created: Une section formulaire de contact a été ajoutée automatiquement.
+  toggle_submenu: 'Afficher ou masquer le sous-menu « %name% »'
 
 admin:
   title: admin

@@ -76,41 +76,49 @@
 {% endmacro %}
 
 {% macro renderMenuLeft(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) %}
-    {% set activeTrailIds = [currentMenu.id] %}
-    {% for p in currentMenu.parents %}
-        {% set activeTrailIds = activeTrailIds|merge([p.id]) %}
-    {% endfor %}
+    {% set activeTrailIds = [] %}
+    {% if currentMenu %}
+        {% set activeTrailIds = [currentMenu.id] %}
+        {% for p in currentMenu.parents %}
+            {% set activeTrailIds = activeTrailIds|merge([p.id]) %}
+        {% endfor %}
+    {% endif %}
     {% for node in nodes %}
         {% set isActive = node.menu.id in activeTrailIds %}
         {% set linkBg = isActive ? configs.nav_bgcolor_active|default('transparent') : configs.nav_bgcolor_link|default('transparent') %}
         {% set linkColor = isActive ? configs.nav_color_active|default(configs.nav_link_color|default('#000000')) : configs.nav_link_color|default('#000000') %}
         {% set linkBorder = configs.nav_link_border_bottom|default('') %}
         {% if node.children|length > 0 %}
-            <li class="nav-item dropdown my-lg-{{ navEspacement }} py-lg-{{ navEspacement }} rounded-{{ navLinkRounded }} {{ navMenuTextSize }}"
+            {% set submenuId = 'navbarLeftSubmenu' ~ node.menu.id %}
+            <li class="nav-item my-lg-{{ navEspacement }} py-lg-{{ navEspacement }} rounded-{{ navLinkRounded }} {{ navMenuTextSize }}"
                 style="background-color: {{ linkBg }};">
-                {% if node.type == 'page' %}
-                    <a class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} text-decoration-none"
-                       href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
-                       id="navbarLeftDropdown{{ node.menu.id }}"
-                       role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false"
-                       style="color: {{ linkColor }}; background-color: {{ linkBg }}; {{ linkBorder }}">
-                        {{ node.menu.name }}
-                    </a>
-                {% else %}
-                    <span class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }}"
-                          id="navbarLeftDropdown{{ node.menu.id }}"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                          style="color: {{ linkColor }}; background-color: {{ linkBg }}; {{ linkBorder }}">
-                        {{ node.menu.name }}
-                    </span>
-                {% endif %}
-                <ul class="dropdown-menu mt-1 mx-lg-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
-                    aria-labelledby="navbarLeftDropdown{{ node.menu.id }}"
-                    style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }}; color: {{ configs.nav_color_active|default(configs.nav_link_color|default('#000000')) }}; border-color: {{ configs.nav_link_color|default('#000000') }};">
+                <div class="d-flex align-items-stretch w-100">
+                    {% if node.type == 'page' %}
+                        <a class="nav-link flex-grow-1 px-{{ navLinkPx }} py-{{ navLinkPy }} text-decoration-none"
+                           href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                           style="color: {{ linkColor }}; background-color: {{ linkBg }}; {{ linkBorder }}">
+                            {{ node.menu.name }}
+                        </a>
+                    {% else %}
+                        <span class="nav-link flex-grow-1 px-{{ navLinkPx }} py-{{ navLinkPy }}"
+                              style="color: {{ linkColor }}; background-color: {{ linkBg }}; {{ linkBorder }}">
+                            {{ node.menu.name }}
+                        </span>
+                    {% endif %}
+                    <button type="button"
+                            class="btn btn-link nav-link border-0 shadow-none hermes-nav-left-submenu-toggle px-2 py-{{ navLinkPy }}"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#{{ submenuId }}"
+                            aria-expanded="{{ isActive ? 'true' : 'false' }}"
+                            aria-controls="{{ submenuId }}"
+                            aria-label="{{ 'menu.toggle_submenu'|trans({'%name%': node.menu.name}) }}"
+                            style="color: {{ linkColor }}; background-color: {{ linkBg }};">
+                        <i class="fa fa-chevron-down hermes-nav-left-chevron" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <ul id="{{ submenuId }}"
+                    class="collapse list-unstyled hermes-nav-left-submenu mx-lg-{{ navSubMenuMx }} {{ navSubMenuTextSize }} {{ isActive ? 'show' : '' }}"
+                    style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }}; color: {{ configs.nav_color_active|default(configs.nav_link_color|default('#000000')) }};">
                     {{ _self.renderMenuLeft(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
                 </ul>
             </li>

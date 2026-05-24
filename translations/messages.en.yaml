@@ -109,6 +109,7 @@ formulaire:
 menu:
   created: Menu created successfully.
   contact_section_created: A contact form section was added automatically.
+  toggle_submenu: 'Show or hide submenu “%name%”'
 
 admin:
   title: admin

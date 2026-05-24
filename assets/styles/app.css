@@ -155,12 +155,17 @@ body {
     opacity: 1;
 }
 
-.hermes-nav-left-offcanvas .dropdown-menu {
-    position: static !important;
-    display: block;
-    float: none;
+.hermes-nav-left-offcanvas .hermes-nav-left-submenu {
     border: 0;
     box-shadow: none;
+}
+
+.hermes-nav-left-offcanvas .hermes-nav-left-submenu-toggle .hermes-nav-left-chevron {
+    transition: transform 0.2s ease;
+}
+
+.hermes-nav-left-offcanvas .hermes-nav-left-submenu-toggle[aria-expanded="true"] .hermes-nav-left-chevron {
+    transform: rotate(180deg);
 }
 
 .post-content img {
