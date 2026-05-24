@@ -23,6 +23,9 @@
         {% set secW = (configs.content_container_width|default(12) + 0)|round(0, 'floor') %}
         {% set secW = secW < 1 ? 1 : (secW > 12 ? 12 : secW) %}
         <div class="container-fluid px-0">
+            {# Hermes 2.2.7 js-front.js : couleur des liens .link dans contenu libre #}
+            <input type="hidden" id="content_link_color" value="{{ configs.content_link_color|default('#000000')|e('html_attr') }}">
+            <input type="hidden" id="content_link_hover_color" value="{{ configs.content_link_hover_color|default('#ffffff')|e('html_attr') }}">
             {% block page_main %}{% endblock %}
         </div>
     </main>

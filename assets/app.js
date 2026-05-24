@@ -1,5 +1,6 @@
 import './stimulus_bootstrap.js';
 import './controllers/csrf_protection_controller.js';
+import { initHermesJsFront } from './front/js/hermes/js-front.js';
 import 'bootstrap';
 import { Tooltip } from 'bootstrap';
 import AOS from 'aos';
@@ -11,6 +12,8 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'aos/dist/aos.css';
 
 document.addEventListener('DOMContentLoaded', () => {
+    initHermesJsFront();
+
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     [...tooltipTriggerList].forEach(el => {
         new Tooltip(el);

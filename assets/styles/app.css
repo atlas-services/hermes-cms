@@ -183,7 +183,8 @@ body {
 
 
 
-.carousel-item {
+/* Carrousels gabarits section (plein écran) */
+section[id] .carousel-item {
     height: 100vh;
     min-height: 300px;
     background: no-repeat center center scroll;
@@ -191,13 +192,58 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-
-/* Alignement des slides */
-.carousel-item {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+}
+
+/* Carrousel Hermes 2.2.7 dans contenu libre (#carousel-fade + #imageModal) */
+.post-content .carousel-item {
+    height: auto;
+    min-height: 0;
+    background: none;
+    display: block;
+}
+
+.post-content img[data-img-src] {
+    cursor: pointer;
+}
+
+.post-content #imageModal .modal-body {
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+}
+
+.post-content #imageModal #modalImage {
+    max-height: min(85vh, 100%);
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.post-content #imageModal .carousel-control-prev,
+.post-content #imageModal .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    opacity: 1;
+    z-index: 6;
+    border: 0;
+    background: transparent;
+}
+
+.post-content #imageModal .carousel-control-prev {
+    left: 0.25rem;
+}
+
+.post-content #imageModal .carousel-control-next {
+    right: 0.25rem;
+}
+
+.post-content .h-oswald {
+    font-family: 'Oswald', Helvetica, Arial, Lucida, sans-serif;
 }
 
 .carousel-caption {
