@@ -18,10 +18,6 @@
     {% include 'front/_chevrons.html.twig' %}
 
     <main class="flex-grow-1{% if navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}">
-        {% set mainW = (configs.container_width|default(12) + 0)|round(0, 'floor') %}
-        {% set mainW = mainW < 1 ? 1 : (mainW > 12 ? 12 : mainW) %}
-        {% set secW = (configs.content_container_width|default(12) + 0)|round(0, 'floor') %}
-        {% set secW = secW < 1 ? 1 : (secW > 12 ? 12 : secW) %}
         <div class="container-fluid px-0">
             {# Hermes 2.2.7 js-front.js : couleur des liens .link dans contenu libre #}
             <input type="hidden" id="content_link_color" value="{{ configs.content_link_color|default('#000000')|e('html_attr') }}">

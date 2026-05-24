@@ -1,23 +1,18 @@
-{# Boucle sections front (pages menu, contact, etc.) #}
+{# Boucle sections front (pages menu, contact, etc.) — pas de marge verticale entre blocs (gy-0, section.my-0). #}
+<div class="hermes-front-sections">
 {% for block in sectionsForFront %}
     {% set section = block.section %}
     {% set posts = block.posts %}
-    {% set effW = mainW < secW ? mainW : secW %}
+    {% set effW = (section.templateWidth|default(10) + 0)|round(0, 'floor') %}
+    {% set effW = effW < 1 ? 1 : (effW > 12 ? 12 : effW) %}
     {% set mainType = section.template ? section.template.type|trim|lower : '' %}
     {% set mainCode = section.template ? section.template.code : '' %}
-    {% if mainType == 'formulaire' and mainCode != '' %}
-        {% set formWidthKey = mainCode ~ '_width' %}
-        {% set formW = (configs[formWidthKey]|default(effW) + 0)|round(0, 'floor') %}
-        {% set formW = formW < 1 ? 1 : (formW > 12 ? 12 : formW) %}
-        {% set effW = mainW < formW ? mainW : formW %}
-    {% endif %}
-    <div class="row justify-content-center mx-0">
-        <div class="col-12 col-lg-{{ effW }} mx-auto px-0 ">
+    <div class="row justify-content-center mx-0 gy-0">
+        <div class="col-12 col-lg-{{ effW }} mx-auto px-0">
             {% set sectionBg = section.isTransparent ? 'transparent' : section.templateBgcolor %}
             {% set isListeSectionTemplate = mainType == 'liste' and mainCode != '' %}
-            <section class="mx-auto px-0" style="background-color: {{ sectionBg }}"{% if not isListeSectionTemplate %} id="{{ section.id }}"{% endif %}>
-                {% set sectionColSm = (section.templateWidth|default(10) + 0)|round(0, 'floor') %}
-                <div class="section-content col-sm-{{ sectionColSm }} mx-auto">
+            <section class="mx-auto px-0 my-0" style="background-color: {{ sectionBg }}"{% if not isListeSectionTemplate %} id="{{ section.id }}"{% endif %}>
+                <div class="section-content col-sm-{{ effW }} mx-auto">
                     {% if mainType == 'liste' and mainCode != '' %}
                         {% include 'front/section/' ~ mainCode ~ '.html.twig' %}
                     {% elseif mainType == 'libre' %}
@@ -40,3 +35,4 @@
         </div>
     </div>
 {% endfor %}
+</div>

@@ -134,6 +134,33 @@ body {
     border: 0;
 }
 
+/* Sections front : pas d’espace vertical entre blocs (gouttière .row, utilitaires my-sm-* du contenu). */
+.hermes-front-sections > .row {
+    --bs-gutter-y: 0;
+}
+
+.hermes-front-sections > .row > [class*='col-'] {
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.hermes-front-sections > .row > [class*='col-'] > section {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+@media (min-width: 576px) {
+  /* Contenu libre : annule my-sm-* en bordure entre deux sections (ex. my-sm-5 = 3rem). */
+  .hermes-front-sections > .row:not(:last-child) .post-content > *:last-child[class*='my-sm-'] {
+    margin-bottom: 0 !important;
+  }
+
+  .hermes-front-sections > .row:not(:first-child) .post-content > *:first-child[class*='my-sm-'] {
+    margin-top: 0 !important;
+  }
+}
+
 /* Séparateur animé (AOS) sous l’entrée active du menu base (Hermes 2.2.7) */
 .aos-nav-hr {
     opacity: 1;
