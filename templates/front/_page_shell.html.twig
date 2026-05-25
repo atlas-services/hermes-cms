@@ -3,8 +3,13 @@
 {% if navBarType == 'left' %}
     {% set navBarType = 'menu_left' %}
 {% endif %}
-<div class="d-flex flex-column min-vh-100">
-    <header class="mb-0">
+{# Menu base : true = reste en haut au scroll (sticky-top sur <header>) ; false = défile avec le contenu.
+   Futur : configs.nav_base_fixed_top (hermes_configs.yaml, groupe nav) #}
+{% set nav_base_fixed_top = true %}
+{% set navBaseSticky = navBarType == 'base' and nav_base_fixed_top %}
+<div class="d-flex flex-column min-vh-100{{ navBaseSticky ? ' hermes-layout-nav-base-fixed' : '' }}">
+    <header class="mb-0 w-100{{ navBaseSticky ? ' sticky-top hermes-nav-base-header' : '' }}"
+            {% if navBaseSticky %}style="background-color: {{ configs.nav_bgcolor|default('#ffffff') }}; z-index: 1030;"{% endif %}>
         {% set navbarTemplate = 'front/navbar/' ~ navBarType ~ '.html.twig' %}
         {% include [navbarTemplate, 'front/navbar/base.html.twig'] with {
             menu: menu|default(null),

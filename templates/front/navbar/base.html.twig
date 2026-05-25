@@ -16,6 +16,7 @@
 {% set navSubMenuMx = navSubMenuMx < 0 ? 0 : (navSubMenuMx > 5 ? 5 : navSubMenuMx) %}
 {% set navMenuTextSize = configs.nav_menu_text_size|default('h6') %}
 {% set navSubMenuTextSize = configs.nav_sub_menu_text_size|default('h6') %}
+{% set navHeight = configs.nav_height|default('90px') %}
 {% set logoConfig = configs.logo|default(null) %}
 {% set logoUrl = logoConfig ? vich_uploader_asset(logoConfig, 'imageFile') : null %}
 {% set logoTop = configs.affiche_logo_top|default(false) %}
@@ -25,10 +26,11 @@
 {% set navAosEffect = configs.nav_data_aos|default('fade-up') %}
 {% set navAosDuration = (configs.nav_data_aos_duration|default(1000) + 0)|round(0, 'floor') %}
 
-<nav class="navbar navbar-expand-lg rounded"
+<nav class="navbar navbar-expand-lg rounded w-100"
      style="
         background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
         font-family: {{ configs.nav_font_family|default('inherit') }};
+        min-height: {{ navHeight }};
      ">
     <div class="container-fluid px-0">
         <div class="row w-100 g-0">
@@ -69,7 +71,7 @@
                         <div class="col {{ navOffset > 0 ? 'offset-lg-' ~ navOffset : '' }}">
                             <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center"
                                 style="
-                                    min-height: {{ configs.nav_height|default('auto') }};
+                                    min-height: {{ navHeight }};
                                     background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
                                 ">
                                 {{ nav.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, true) }}

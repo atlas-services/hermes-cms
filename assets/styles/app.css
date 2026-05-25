@@ -161,6 +161,16 @@ body {
   }
 }
 
+/* Menu base : sticky-top sur <header> (hauteur = flux document, config nav_height sur <nav>) */
+.hermes-layout-nav-base-fixed {
+    align-items: stretch;
+}
+
+.hermes-nav-base-header {
+    align-self: flex-start;
+    flex-shrink: 0;
+}
+
 /* Séparateur animé (AOS) sous l’entrée active du menu base (Hermes 2.2.7) */
 .aos-nav-hr {
     opacity: 1;
