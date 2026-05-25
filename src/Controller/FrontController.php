@@ -84,7 +84,7 @@ final class FrontController extends AbstractController
         ]);
     }
 
-    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => 'fr|en', 'slugs' => '(?!(contact|form|login|logout|admin|forgotten_password|re-init-password|reset_password)(/|$)).+'], defaults: ['_locale' => 'fr'])]
+    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => 'fr|en', 'slugs' => '(?!(contact|form|login|logout|admin|forgotten_password|re-init-password|reset_password|sitemap\\.xml)(/|$)).+'], defaults: ['_locale' => 'fr'])]
     public function menu(string $slugs, Request $request, FrontMenuService $frontMenuService, MenuTreeBuilder $menuTreeBuilder): Response
     {
         $slugParts = array_filter(explode('/', $slugs));

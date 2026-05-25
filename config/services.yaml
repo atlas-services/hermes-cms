@@ -17,7 +17,8 @@ parameters:
     hermes_newsletter_email: '%env(APP_HERMES_NEWSLETTER_EMAIL)%'
     version: v1.0.0
     app.locales: [fr, en] #'%env(APP_LOCALES)%'
-    app.default_locale: '%env(APP_DEFAULT_LOCALE)%'
+    app.default_locale_fallback: fr
+    app.default_locale: '%env(default:app.default_locale_fallback:APP_DEFAULT_LOCALE)%'
     app.name: '%env(APP_NAME)%'
     hermes_pages: '%env(APP_PAGES)%'
     hermes_list_templates: '%env(APP_LIST_TEMPLATES)%'

@@ -31,11 +31,7 @@
         </div>
     </main>
 
-    <footer class="mt-auto{% if navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}">
-        <div class="container">
-            <p>&copy; {{ "now"|date('Y') }} {{ configs.title|default('') }}</p>
-        </div>
-    </footer>
+    {% include 'front/_footer.html.twig' with { navBarType: navBarType } %}
 
     <section id="section_bottom" class="hermes-section-bottom-anchor" aria-hidden="true"></section>
 </div>

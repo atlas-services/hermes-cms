@@ -1,0 +1,59 @@
+{# Modale plan du site (Hermes 2.2.7 — front/base/hermes/sitemap/sitemap.html.twig) #}
+<div class="modal fade" id="sitemapModal" tabindex="-1" aria-labelledby="sitemapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-10 text-center"
+                    id="sitemapModalLabel"
+                    style="color: {{ configs.footer_color|default('#000000') }}">
+                    {{ 'front.sitemap.title'|trans }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'front.sitemap.close'|trans }}"></button>
+            </div>
+            <div class="modal-body"
+                 style="background-color: {{ configs.footer_bgcolor|default('#ffffff') }}; color: {{ configs.footer_color|default('#000000') }}">
+                <div class="row col-12 mb-3">
+                    {% set urls = hermes_sitemap_html() %}
+                    {% for url in urls %}
+                        {% if url|length == 1 %}
+                            {% if url.0.name|lower != url.0.sheetname|lower %}
+                                <div class="col-6 col-sm-2 mb-3 mt-sm-0">
+                                    <p class="my-0 py-0">{{ url.0.sheetname }}</p>
+                                    <a class="text-decoration-none"
+                                       href="{{ url.0.loc }}"
+                                       style="color: {{ configs.footer_link_color|default('#000000') }}"
+                                       onmouseover="this.style.color='{{ configs.footer_link_hover_color|default('#000000') }}'"
+                                       onmouseout="this.style.color='{{ configs.footer_link_color|default('#000000') }}'">{{ url.0.name }}</a>
+                                </div>
+                            {% else %}
+                                <div class="col-6 col-sm-2 mb-3 mt-sm-0">
+                                    <p class="my-0 py-0">
+                                        <a class="text-decoration-none"
+                                           href="{{ url.0.loc }}"
+                                           style="color: {{ configs.footer_color|default('#000000') }}"
+                                           onmouseover="this.style.color='{{ configs.footer_link_hover_color|default('#000000') }}'"
+                                           onmouseout="this.style.color='{{ configs.footer_color|default('#000000') }}'">{{ url.0.sheetname }}</a>
+                                    </p>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="col-6 col-sm-2 mb-3 mt-sm-0">
+                                <p class="my-0 py-0">{{ url.0.sheetname }}</p>
+                                {% for menu in url %}
+                                    <a class="text-decoration-none"
+                                       href="{{ menu.loc }}"
+                                       style="color: {{ configs.footer_link_color|default('#000000') }}"
+                                       onmouseover="this.style.color='{{ configs.footer_link_hover_color|default('#000000') }}'"
+                                       onmouseout="this.style.color='{{ configs.footer_link_color|default('#000000') }}'">{{ menu.name }}</a><br>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-muted mb-0">{{ 'front.sitemap.empty'|trans }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>

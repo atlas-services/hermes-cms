@@ -1,0 +1,41 @@
+{# Footer front + modale plan du site (Hermes 2.2.7) #}
+{% if configs.footer_affiche|default(true) %}
+    {% set footerW = configs.footer_container_width|default(12)|col_lg %}
+    <footer class="footer pt-3 col-lg-{{ footerW }} col-12 mx-auto px-0 mt-auto{% if navBarType is defined and navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}"
+            style="background-color: {{ configs.footer_bgcolor|default('transparent') }}; color: {{ configs.footer_color|default('#000000') }}">
+        <div class="container">
+            {% if configs.footer_about|default('') %}
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-justify h5 mb-2">{{ configs.footer_about }}</p>
+                    </div>
+                </div>
+                <hr>
+            {% endif %}
+            <div class="row align-items-center">
+                <div class="col-12 text-center">
+                    <button type="button"
+                            class="btn border-0 bg-transparent"
+                            data-bs-toggle="modal"
+                            data-bs-target="#sitemapModal"
+                            style="color: {{ configs.footer_link_color|default('#000000') }}"
+                            onmouseover="this.style.color='{{ configs.footer_link_hover_color|default('#000000') }}'"
+                            onmouseout="this.style.color='{{ configs.footer_link_color|default('#000000') }}'">
+                        {{ 'front.sitemap.link'|trans }}
+                    </button>
+                </div>
+                <div class="col-12 text-center">
+                    <p class="mb-0 small">&copy; {{ 'now'|date('Y') }} {{ configs.title|default('') }}</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% else %}
+    <footer class="mt-auto{% if navBarType is defined and navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}">
+        <div class="container">
+            <p class="mb-0">&copy; {{ 'now'|date('Y') }} {{ configs.title|default('') }}</p>
+        </div>
+    </footer>
+{% endif %}
+
+{% include 'front/sitemap/sitemap.html.twig' %}

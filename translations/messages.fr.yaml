@@ -104,6 +104,11 @@ front:
     scroll_down: Descendre dans la page
     scroll_bottom: Aller en bas de la page
     scroll_top: Remonter en haut de la page
+  sitemap:
+    title: Plan du site
+    link: Plan du site
+    close: Fermer
+    empty: Aucune page publiée pour cette langue.
 
 formulaire:
   send: Envoyer

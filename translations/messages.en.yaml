@@ -101,6 +101,11 @@ front:
     scroll_down: Scroll down the page
     scroll_bottom: Go to bottom of page
     scroll_top: Back to top of page
+  sitemap:
+    title: Sitemap
+    link: Sitemap
+    close: Close
+    empty: No published pages for this language.
 
 formulaire:
   send: Send
