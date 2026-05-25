@@ -67,7 +67,7 @@ class PostControllerTest extends AbstractControllerWebTestCase
         $libre = $this->em->getRepository(Template::class)->findOneBy(['code' => 'libre']);
         $this->assertNotNull($libre);
 
-        $this->client->submitForm('Enregistrer', [
+        $this->client->submitForm('post[save]', [
             'post[name]' => 'New Post Test',
             'post[template]' => (string) $libre->getId(),
             'post[content]' => '<p>Contenu requis pour le gabarit libre.</p>',
@@ -96,7 +96,7 @@ class PostControllerTest extends AbstractControllerWebTestCase
 
         $this->client->request('GET', '/fr/admin/post/section/' . $section->getId() . '/new');
 
-        $this->client->submitForm('Enregistrer', [
+        $this->client->submitForm('post[save]', [
             'post[name]' => 'New Post in Section Test',
             'post[content]' => '<p>Contenu pour section libre.</p>',
         ]);
@@ -125,7 +125,7 @@ class PostControllerTest extends AbstractControllerWebTestCase
 
         $this->client->request('GET', '/fr/admin/post/' . $postId . '/edit');
 
-        $this->client->submitForm('Enregistrer', [
+        $this->client->submitForm('post[save]', [
             'post[name]' => 'Updated Post',
             'post[content]' => '<p>Contenu pour mise à jour.</p>',
         ]);
