@@ -31,9 +31,10 @@
     {% endif %}
 
     {{ include('admin/post/_form.html.twig', {
-        'button_label': 'form.label.create'|trans(),
-        'post_template_field_toggle': post_template_field_toggle|default(false),
-        'post_template_types': post_template_types|default({}),
+        button_label: 'form.label.create'|trans(),
+        menu: menu|default(null),
+        post_template_field_toggle: post_template_field_toggle|default(false),
+        post_template_types: post_template_types|default({}),
     }) }}
 
     {% if post_template_field_toggle is defined and post_template_field_toggle %}
@@ -101,12 +102,5 @@
             apply();
         })();
         </script>
-    {% endif %}
-
-    {% if menu is defined %}
-        <a class="btn btn-info my-3"
-           href="{{ path('menu_edit', {'id': menu.id}) }}">
-            {{ 'form.label.back_to_list'|trans() }}
-        </a>
     {% endif %}
 {% endblock %}

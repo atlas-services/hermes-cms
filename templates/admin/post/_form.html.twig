@@ -1,9 +1,17 @@
 {% form_theme form with ['form/vich_image_widget.html.twig'] %}
-{% set form_attr = {} %}
+{% set form_attr = { id: 'admin-post-form' } %}
 {% if form.imageFile is defined %}
     {% set form_attr = form_attr|merge({ enctype: 'multipart/form-data' }) %}
 {% endif %}
 {{ form_start(form, { attr: form_attr }) }}
+
+{{ include('admin/post/_form_toolbar.html.twig', {
+    button_label: button_label|default(null),
+    post: post|default(false),
+    menu: menu|default(false),
+    post_template_field_toggle: post_template_field_toggle|default(false),
+    toolbar_class: 'mb-4',
+}) }}
 
 {# ------------------------- #}
 {# NAME #}
@@ -47,6 +55,15 @@
         {{ form_label(form.content) }}
         {{ form_widget(form.content) }}
         {{ form_errors(form.content) }}
+
+        {{ include('admin/post/_form_toolbar.html.twig', {
+            button_label: button_label|default(null),
+            post: post|default(false),
+            menu: menu|default(false),
+            post_template_field_toggle: post_template_field_toggle|default(false),
+            toolbar_class: 'mt-3 mb-3',
+        }) }}
+
         <div class="card border-secondary mt-3" data-controller="hermes-libre-api"
              data-hermes-libre-api-catalog-url-value="{{ path('admin_hermes_api_libre_catalog', { _locale: app.request.locale }) }}"
              data-hermes-libre-api-html-url-value="{{ path('admin_hermes_api_libre_html', { _locale: app.request.locale }) }}"
@@ -86,14 +103,16 @@
     </div>
 {% endif %}
 
-{{ form_widget(form._token) }}
+{% if form.content is not defined %}
+    {{ include('admin/post/_form_toolbar.html.twig', {
+        button_label: button_label|default(null),
+        post: post|default(false),
+        menu: menu|default(false),
+        post_template_field_toggle: post_template_field_toggle|default(false),
+        toolbar_class: 'mt-4 mb-3',
+    }) }}
+{% endif %}
 
-<div class="mb-3 d-flex flex-wrap align-items-center gap-2">
-    {{ form_widget(form.save, { attr: { class: 'btn btn-success' } }) }}
-    {% if form.saveAndImportImages is defined %}
-        {# Sans sélecteur de gabarit (création depuis une section), le JS ne sait pas deviner « liste » : ne pas masquer le bouton import. #}
-        <span class="js-post-wrap-save-import{{ post_template_field_toggle|default(false) ? ' d-none' : '' }}">{{ form_widget(form.saveAndImportImages) }}</span>
-    {% endif %}
-</div>
+{{ form_widget(form._token) }}
 
 {{ form_end(form, { render_rest: false }) }}

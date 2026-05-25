@@ -1,0 +1,36 @@
+{# Boutons post (création / édition) — inclus en haut et en bas du formulaire #}
+{% set save_label = button_label|default('form.label.save'|trans) %}
+<div class="admin-post-form-toolbar d-flex flex-wrap gap-2 align-items-center {{ toolbar_class|default('mb-3') }}">
+    <button type="submit" form="admin-post-form" name="post[save]" class="btn btn-success">
+        {{ save_label }}
+    </button>
+    {% if form.saveAndImportImages is defined %}
+        <span class="js-post-wrap-save-import{{ post_template_field_toggle|default(false) ? ' d-none' : '' }}">
+            <button type="submit" form="admin-post-form" name="post[saveAndImportImages]" class="btn btn-outline-primary">
+                {{ form.saveAndImportImages.vars.label|trans(form.saveAndImportImages.vars.label_translation_parameters, form.saveAndImportImages.vars.translation_domain) }}
+            </button>
+        </span>
+    {% endif %}
+
+    {% if post and post.section %}
+        <a class="btn btn-success" href="{{ path('post_new_section', { id: post.section.id }) }}">
+            {{ 'global.continue'|trans }}
+        </a>
+    {% endif %}
+
+    {% if post %}
+        <a class="btn btn-info" href="{{ path('post_index') }}">
+            {{ 'form.label.back_to_list'|trans }}
+        </a>
+        <button type="submit"
+                form="admin-post-delete-form"
+                class="btn btn-danger"
+                onclick="return confirm('{{ 'global.confirm_delete'|trans|e('js') }}');">
+            {{ 'form.label.delete'|trans }}
+        </button>
+    {% elseif menu is defined and menu %}
+        <a class="btn btn-info" href="{{ path('menu_edit', { id: menu.id }) }}">
+            {{ 'form.label.back_to_list'|trans }}
+        </a>
+    {% endif %}
+</div>
