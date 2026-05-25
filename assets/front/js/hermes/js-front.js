@@ -3,6 +3,8 @@
  * @see https://github.com/atlas-services/hermes/blob/release/2.2.7/assets/front/js/hermes/js-front.js
  */
 
+import { Carousel } from 'bootstrap';
+
 function colorLink() {
     const libreLinks = document.getElementsByClassName('link');
     const contentLinkColor = document.getElementById('content_link_color');
@@ -79,6 +81,62 @@ function initModalImageInScope(scope) {
     }
 }
 
+/**
+ * Carrousels Bootstrap 5 dans le contenu libre (ex. carousel-multi-item migré Hermes 2.2.7).
+ * Répare data-bs-ride mal placé dans class="" et initialise les contrôles prev/next.
+ */
+function repairCarouselMarkup(carouselEl) {
+    [...carouselEl.classList].forEach((cls) => {
+        if (cls === 'data-bs-ride' || cls.startsWith('data-bs-ride=')) {
+            carouselEl.classList.remove(cls);
+        }
+    });
+
+    /* Pas de défilement auto : navigation manuelle (évite aller-retour parasite). */
+    carouselEl.removeAttribute('data-bs-ride');
+
+    const items = carouselEl.querySelectorAll('.carousel-inner > .carousel-item');
+    items.forEach((item, index) => {
+        item.classList.toggle('active', index === 0);
+    });
+}
+
+function bindCarouselControls(carouselEl) {
+    const target = carouselEl.id ? `#${carouselEl.id}` : null;
+
+    carouselEl.querySelectorAll('[data-bs-slide]').forEach((control) => {
+        if (!control.getAttribute('data-bs-target')) {
+            const href = control.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                control.setAttribute('data-bs-target', href);
+            } else if (target) {
+                control.setAttribute('data-bs-target', target);
+            }
+        }
+        control.addEventListener('click', (event) => {
+            event.preventDefault();
+        });
+    });
+}
+
+function initPostContentCarousels() {
+    document.querySelectorAll('.post-content .carousel.slide, .carousel-multi-item.carousel.slide').forEach((carouselEl) => {
+        repairCarouselMarkup(carouselEl);
+        bindCarouselControls(carouselEl);
+
+        const existing = Carousel.getInstance(carouselEl);
+        if (existing) {
+            existing.dispose();
+        }
+
+        Carousel.getOrCreateInstance(carouselEl, {
+            interval: false,
+            ride: false,
+            wrap: true,
+        });
+    });
+}
+
 function initModalImage() {
     const scopes = [];
     document.querySelectorAll('.post-content').forEach((el) => {
@@ -95,9 +153,11 @@ function initModalImage() {
 }
 
 export function initHermesJsFront() {
+    initPostContentCarousels();
+    initModalImage();
+
     window.addEventListener('load', () => {
         colorLink();
+        initPostContentCarousels();
     });
-
-    initModalImage();
 }

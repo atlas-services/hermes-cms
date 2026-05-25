@@ -6,28 +6,25 @@
 
     <div class="container col-12 col-lg-{{ (section.templateWidth ?? configs.carousel_multiple_container_width|default(10))|col_lg   }}" style="background-color:{{ section.templateBgcolor ?? configs.content_bgcolor|default('#ffffff') }}" >
         <!--Carousel Wrapper-->
-        <div id="multi-item-example" class="carousel slide carousel-multi-item " data-bs-ride="carousel">
+        {% set carouselId = 'multi-item-example-' ~ section.id %}
+        <div id="{{ carouselId }}" class="carousel slide carousel-multi-item">
 
             <!--Controls-->
             <div class="controls-top mb-3 text-center">
-                 <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="btn-floating" href="#multi-item-example" data-bs-slide="prev"><i class="fa fa-chevron-left"></i></a>
-                 <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="btn-floating" href="#multi-item-example" data-bs-slide="next"><i class="fa fa-chevron-right"></i></a>
+                 <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="btn-floating" href="#{{ carouselId }}" data-bs-target="#{{ carouselId }}" data-bs-slide="prev" role="button"><i class="fa fa-chevron-left"></i></a>
+                 <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="btn-floating" href="#{{ carouselId }}" data-bs-target="#{{ carouselId }}" data-bs-slide="next" role="button"><i class="fa fa-chevron-right"></i></a>
             </div>
             <!--/.Controls-->
                 <!--Slides-->
                 <div class="carousel-inner" role="listbox">
                     {% for post in posts|sort((a, b) => a.position <=> b.position) %}
-                        {% set active = '' %}
                         {% set card_class = 'clearfix d-none d-md-block' %}
                         {% if ((loop.index  - 1) is divisible by(section.templateNbCol)) %}
                             {% set card_class = '' %}
                         {% endif %}
-                        {% if (loop.index  == 1 ) %}
-                            {% set active = 'active' %}
-                        {% endif %}
                     <!--begin 3 slide-->
                         {% if ((loop.index  - 1) is divisible by(section.templateNbCol)) %}
-                            <div class="carousel-item col-12 px-0 {{ active }}">
+                            <div class="carousel-item col-12 px-0{{ loop.index == 1 ? ' active' : '' }}">
                             <div class="row">
                         {% endif %}
                         <div class="col-md-{{col_xx}} mx-auto {{ card_class }}">
@@ -69,9 +66,9 @@
                     {% endfor %}
                 </div>
                 <!--/.Slides-->
-            </div>
-            <!--/.Carousel Wrapper-->
         </div>
+        <!--/.Carousel Wrapper-->
+    </div>
 </section>
 
 

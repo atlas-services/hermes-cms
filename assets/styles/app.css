@@ -225,8 +225,8 @@ body {
 
 
 
-/* Carrousels gabarits section (plein écran) */
-section[id] .carousel-item {
+/* Carrousels gabarits section plein écran (carousel1/2) — slide active uniquement */
+section[id] .carousel:not(.carousel-multi-item) .carousel-inner > .carousel-item.active {
     height: 100vh;
     min-height: 300px;
     background: no-repeat center center scroll;
@@ -239,12 +239,40 @@ section[id] .carousel-item {
     align-items: flex-start;
 }
 
-/* Carrousel Hermes 2.2.7 dans contenu libre (#carousel-fade + #imageModal) */
-.post-content .carousel-item {
+/* Carrousel multi-item (carousel3 + contenu libre) : cartes, hauteur auto.
+   Ne pas forcer display — Bootstrap masque les .carousel-item inactifs (display:none). */
+.post-content .carousel-multi-item .carousel-item,
+section[id] .carousel-multi-item .carousel-item {
     height: auto;
     min-height: 0;
     background: none;
-    display: block;
+}
+
+.post-content .carousel-multi-item .carousel-inner,
+section[id] .carousel-multi-item .carousel-inner {
+    overflow: hidden;
+}
+
+.post-content .carousel-multi-item .controls-top,
+section[id] .carousel-multi-item .controls-top {
+    text-align: center;
+}
+
+.post-content .carousel-multi-item .controls-top .btn-floating,
+section[id] .carousel-multi-item .controls-top .btn-floating {
+    display: inline-block;
+    padding: 0.35rem 0.65rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+.post-content .carousel-multi-item .card-img-top,
+section[id] .carousel-multi-item .card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
 .post-content img[data-img-src] {
