@@ -10,6 +10,11 @@ parameters:
       summary: Template Newsletter
       code: newsletter_template
       name: Template Newsletter
+    footer:
+      type: libre
+      summary: Template footer
+      code: footer_template
+      name: Template Footer
     contact:
       type: formulaire
       summary: Formulaire Contact

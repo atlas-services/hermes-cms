@@ -3,8 +3,7 @@
 {% for block in sectionsForFront %}
     {% set section = block.section %}
     {% set posts = block.posts %}
-    {% set effW = (section.templateWidth|default(10) + 0)|round(0, 'floor') %}
-    {% set effW = effW < 1 ? 1 : (effW > 12 ? 12 : effW) %}
+    {% set effW = section.templateWidth|default(10)|col_lg %}
     {% set mainType = section.template ? section.template.type|trim|lower : '' %}
     {% set mainCode = section.template ? section.template.code : '' %}
     <div class="row justify-content-center mx-0 gy-0">

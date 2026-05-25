@@ -1,0 +1,27 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.footer_sections.title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>{{ 'admin.footer_sections.title'|trans }}</h1>
+            <p class="text-muted mb-0">{{ 'admin.footer_sections.help'|trans }}</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" href="{{ path('config_index', { type: 'footer', _locale: app.request.locale }) }}">
+                {{ 'config.affiche_list_footer'|trans }}
+            </a>
+            <form method="post" action="{{ path('admin_footer_sections_new', { _locale: app.request.locale }) }}">
+                <button type="submit" class="btn btn-success">{{ 'admin.footer_sections.add_section'|trans }}</button>
+            </form>
+        </div>
+    </div>
+
+    {{ include('admin/section/_list.html.twig', {
+        sections: sections,
+        sectionModaleChoices: [],
+        sectionListeTemplateChoices: {},
+        footerSectionList: true,
+    }) }}
+{% endblock %}

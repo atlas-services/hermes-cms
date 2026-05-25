@@ -42,7 +42,7 @@
             </div>
 
             {{ include('admin/section/_list.html.twig', {
-                sections: selectedPage.sections,
+                sections: selectedPage.sections|filter(section => not section.footerSection),
                 sectionModaleChoices: sectionModaleChoices|default([]),
                 sectionListeTemplateChoices: sectionListeTemplateChoices|default({}),
             }) }}

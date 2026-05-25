@@ -57,6 +57,10 @@ class ConventionedDirectoryNamer implements DirectoryNamerInterface
             if ($object instanceof Post) {
                 $section = $object->getSection();
 
+                if ($section?->isFooterSection()) {
+                    return sprintf('footer/section%d/post/', $section->getId());
+                }
+
                 if ($section && $section->getMenu()) {
                     $menu = $section->getMenu();
 

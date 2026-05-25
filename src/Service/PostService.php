@@ -11,6 +11,7 @@ use App\Entity\Template;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Repository\TemplateRepository;
+use App\Service\FooterSectionService;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PostService
@@ -50,6 +51,10 @@ class PostService
         }
 
         $template = $template ?? ($menu->getSections()->isEmpty() ? null : $menu->getSections()->first()->getTemplate());
+
+        if ($template !== null && FooterSectionService::TEMPLATE_CODE === strtolower(trim((string) $template->getCode()))) {
+            throw new \DomainException('Le gabarit footer se gère depuis « Sections du pied de page », pas depuis une page menu.');
+        }
 
         if (!$template) {
             $template = $this->em->getRepository(Template::class)->findOneBy(['code' => 'libre']);
@@ -197,6 +202,18 @@ class PostService
     // -------------------------
     private function assertSectionIsValid(Section $section): void
     {
+        if ($section->getTemplate() === null) {
+            throw new \DomainException('La section doit avoir un template.');
+        }
+
+        if ($section->isFooterSection()) {
+            if ($section->getMenu() !== null) {
+                throw new \DomainException('Une section footer ne doit pas être rattachée à une page menu.');
+            }
+
+            return;
+        }
+
         $menu = $section->getMenu();
 
         if (!$menu) {
@@ -205,10 +222,6 @@ class PostService
 
         if (!$menu->isLeaf()) {
             throw new \DomainException('Impossible d’ajouter un post : le menu possède des enfants.');
-        }
-
-        if ($section->getTemplate() === null) {
-            throw new \DomainException('La section doit avoir un template.');
         }
     }
 }

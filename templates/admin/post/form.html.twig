@@ -12,5 +12,7 @@
     {{ include('admin/post/_form.html.twig', {
         button_label: 'form.label.update'|trans(),
         post: post,
+        section: post.section,
+        isFooterSection: post.section ? post.section.footerSection : false,
     }) }}
 {% endblock %}

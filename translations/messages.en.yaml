@@ -24,6 +24,7 @@ form:
     parent: Parent
     parent_menu: -- parent Menu --
     post_section_type_summary: 'This post is of type %summary%.'
+    section_position: 'Section: %position%'
     section_modal: Modal
     section_modal_none: None
     section_modal_width_1_to_12: 'Modal width (1 to 12)'
@@ -173,6 +174,15 @@ admin:
     libre_insert_editor: Insert into editor
     libre_preview_close: Close
     libre_preview_loading: Loading preview…
+  footer_sections:
+    title: Footer sections
+    nav: Footer content (sections)
+    help: "CKEditor blocks shown on every page in the site footer. Not tied to a menu page."
+    add_section: New footer section
+    post_create_context: Adding a post to the site footer (global footer section).
+    back_to_list: Back to footer sections
+  post:
+    create_in_menu: "Adding a post to the menu:"
   section:
     clear_all_images: Remove images
     confirm_delete_section: "Delete this section and all its posts? This cannot be undone."

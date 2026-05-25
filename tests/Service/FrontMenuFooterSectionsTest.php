@@ -1,0 +1,60 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Service;
+
+use App\DataFixtures\PostFixtures;
+use App\Entity\Menu;
+use App\Entity\Post;
+use App\Entity\Section;
+use App\Entity\Template;
+use App\Service\FooterSectionService;
+use App\Service\FrontMenuService;
+use App\Tests\Base\BaseKernelTestCase;
+
+final class FrontMenuFooterSectionsTest extends BaseKernelTestCase
+{
+    protected function loadFixtures(): array
+    {
+        return [new PostFixtures()];
+    }
+
+    public function testFooterSectionsAreExcludedFromPageAndLoadedGlobally(): void
+    {
+        $em = $this->em;
+        /** @var FrontMenuService $frontMenu */
+        $frontMenu = static::getContainer()->get(FrontMenuService::class);
+
+        $footerTpl = $em->getRepository(Template::class)->findOneBy(['code' => FooterSectionService::TEMPLATE_CODE]);
+        $this->assertInstanceOf(Template::class, $footerTpl);
+
+        $menu = $em->getRepository(Menu::class)->findOneBy(['name' => 'Posts Menu']);
+        $this->assertInstanceOf(Menu::class, $menu);
+
+        $footerSection = new Section();
+        $footerSection->setMenu(null);
+        $footerSection->setTemplate($footerTpl);
+        $footerSection->setPosition(99);
+        $footerSection->setActive(true);
+        $em->persist($footerSection);
+
+        $footerPost = new Post();
+        $footerPost->setName('Footer post');
+        $footerPost->setActive(true);
+        $footerPost->setContent('<p>Footer</p>');
+        $footerPost->setPosition(1);
+        $footerSection->addPost($footerPost);
+        $em->persist($footerPost);
+        $em->flush();
+
+        $bodyBlocks = $frontMenu->getVisibleFrontSections($menu);
+        foreach ($bodyBlocks as $block) {
+            $this->assertFalse($block['section']->isFooterSection());
+        }
+
+        $footerBlocks = $frontMenu->getVisibleFooterSections();
+        $this->assertNotEmpty($footerBlocks);
+        $this->assertTrue($footerBlocks[0]['section']->isFooterSection());
+    }
+}

@@ -27,6 +27,7 @@ form:
     parent: Parent
     parent_menu: -- Menu Parent --
     post_section_type_summary: 'Ce Post est de type %summary%.'
+    section_position: 'Section : %position%'
     section_modal: Modale
     section_modal_none: Aucune
     section_modal_width_1_to_12: 'Largeur modale (1 à 12)'
@@ -176,6 +177,15 @@ admin:
     libre_insert_editor: Insérer dans l’éditeur
     libre_preview_close: Fermer
     libre_preview_loading: Chargement de l’aperçu…
+  footer_sections:
+    title: Sections du pied de page
+    nav: Contenu footer (sections)
+    help: "Blocs CKEditor affichés sur toutes les pages du site, dans le pied de page. Non rattachés à une page menu."
+    add_section: Nouvelle section footer
+    post_create_context: Ajout d’un post dans le pied de page (section footer globale).
+    back_to_list: Retour aux sections footer
+  post:
+    create_in_menu: "Ajout d’un post dans le menu :"
   section:
     clear_all_images: Supprimer les images
     confirm_delete_section: "Supprimer cette section et tous ses posts ? Cette action est irréversible."

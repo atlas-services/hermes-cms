@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Menu;
+use App\Entity\Section;
 use App\Repository\MenuRepository;
+use App\Repository\SectionRepository;
 use App\Service\MenuContactProvisioner;
 
 final class FrontMenuService
 {
-    public function __construct(private MenuRepository $menuRepository)
-    {
+    public function __construct(
+        private MenuRepository $menuRepository,
+        private SectionRepository $sectionRepository,
+    ) {
     }
 
     public function findMenuBySlugs(array $slugs, string $locale): ?Menu
@@ -120,6 +124,9 @@ final class FrontMenuService
     {
         $blocks = [];
         foreach ($menu->getSections() as $section) {
+            if ($section->isFooterSection()) {
+                continue;
+            }
             if (!$section->isActive()) {
                 continue;
             }
@@ -131,6 +138,33 @@ final class FrontMenuService
             }
             $templateType = strtolower(trim((string) ($section->getTemplate()?->getType() ?? '')));
             if ($posts === [] && $templateType !== 'formulaire') {
+                continue;
+            }
+            $blocks[] = ['section' => $section, 'posts' => $posts];
+        }
+
+        return $blocks;
+    }
+
+    /**
+     * Sections footer globales (toutes pages), même format que {@see getVisibleFrontSections()}.
+     *
+     * @return list<array{section: Section, posts: list<\App\Entity\Post>}>
+     */
+    public function getVisibleFooterSections(): array
+    {
+        $blocks = [];
+        foreach ($this->sectionRepository->findFooterSections() as $section) {
+            if (!$section->isActive()) {
+                continue;
+            }
+            $posts = [];
+            foreach ($section->getPosts() as $post) {
+                if ($post->isActive()) {
+                    $posts[] = $post;
+                }
+            }
+            if ($posts === []) {
                 continue;
             }
             $blocks[] = ['section' => $section, 'posts' => $posts];

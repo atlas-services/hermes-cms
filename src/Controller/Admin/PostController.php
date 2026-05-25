@@ -107,8 +107,9 @@ class PostController extends AbstractController
         }
 
         $menu = $section->getMenu();
+        $isFooter = $section->isFooterSection();
 
-        if (!$menu) {
+        if (!$isFooter && !$menu) {
             throw $this->createNotFoundException('Menu introuvable pour cette section');
         }
 
@@ -119,7 +120,7 @@ class PostController extends AbstractController
         $formOptions = [
             'menu' => $menu,
             'selected_section' => $section,
-            'template_type' => $sectionTpl?->getType(),
+            'template_type' => $isFooter ? PostType::TEMPLATE_TYPE_LIBRE : $sectionTpl?->getType(),
         ];
         if ($sectionTpl instanceof Template
             && strtolower(trim((string) $sectionTpl->getType())) === PostType::TEMPLATE_TYPE_LISTE) {
@@ -160,6 +161,7 @@ class PostController extends AbstractController
             'form' => $form->createView(),
             'menu' => $menu,
             'section' => $section,
+            'isFooterSection' => $isFooter,
         ]);
     }
 
@@ -259,37 +261,29 @@ class PostController extends AbstractController
     #[Route('/section/{id}/delete', name: 'section_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function deleteSection(Request $request, Section $section): Response
     {
-        $menu = $section->getMenu();
-        if ($menu === null) {
-            throw $this->createNotFoundException('Menu introuvable pour cette section');
-        }
-        $pageId = $menu->getId();
+        $back = $this->adminListRouteForSection($section);
 
         if (!$this->isCsrfTokenValid('delete_section_' . $section->getId(), (string) $request->request->get('_token'))) {
             $this->addFlash('danger', $this->translator->trans('admin.media_upload.flash.invalid_csrf'));
 
-            return $this->redirectToRoute('post_index', ['_locale' => $request->getLocale(), 'page' => $pageId]);
+            return $this->redirectToRoute($back['route'], $back['params']);
         }
 
         $this->postService->deleteSection($section);
         $this->addFlash('success', $this->translator->trans('admin.section.flash_section_deleted'));
 
-        return $this->redirectToRoute('post_index', ['_locale' => $request->getLocale(), 'page' => $pageId]);
+        return $this->redirectToRoute($back['route'], $back['params']);
     }
 
     #[Route('/section/{id}/clear-liste-images', name: 'section_clear_liste_images', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function clearListeSectionImages(Request $request, Section $section): Response
     {
-        $menu = $section->getMenu();
-        if ($menu === null) {
-            throw $this->createNotFoundException('Menu introuvable pour cette section');
-        }
-        $pageId = $menu->getId();
+        $back = $this->adminListRouteForSection($section);
 
         if (!$this->isCsrfTokenValid('delete_liste_posts_' . $section->getId(), (string) $request->request->get('_token'))) {
             $this->addFlash('danger', $this->translator->trans('admin.media_upload.flash.invalid_csrf'));
 
-            return $this->redirectToRoute('post_index', ['_locale' => $request->getLocale(), 'page' => $pageId]);
+            return $this->redirectToRoute($back['route'], $back['params']);
         }
 
         try {
@@ -303,7 +297,7 @@ class PostController extends AbstractController
             $this->addFlash('warning', $this->translator->trans('admin.section.flash_not_liste'));
         }
 
-        return $this->redirectToRoute('post_index', ['_locale' => $request->getLocale(), 'page' => $pageId]);
+        return $this->redirectToRoute($back['route'], $back['params']);
     }
 
     #[Route(name: 'post_index', methods: ['GET'])]
@@ -374,13 +368,43 @@ class PostController extends AbstractController
             return $this->redirectToRoute('post_index');
         }
 
-        $menuId = $post->getSection()->getMenu()->getId();
+        $section = $post->getSection();
+        if ($section === null) {
+            return $this->redirectToRoute('post_index');
+        }
 
+        $back = $this->adminListRouteForSection($section);
         $this->postService->delete($post);
 
-        return $this->redirectToRoute('menu_edit', [
-            'id' => $menuId
-        ]);
+        return $this->redirectToRoute($back['route'], $back['params']);
+    }
+
+    /**
+     * @return array{route: string, params: array<string, int|string>}
+     */
+    private function adminListRouteForSection(Section $section): array
+    {
+        $locale = $this->container->get('request_stack')->getCurrentRequest()?->getLocale() ?? 'fr';
+
+        if ($section->isFooterSection()) {
+            return [
+                'route' => 'admin_footer_sections_index',
+                'params' => ['_locale' => $locale],
+            ];
+        }
+
+        $menu = $section->getMenu();
+        if ($menu === null || $menu->getId() === null) {
+            return [
+                'route' => 'post_index',
+                'params' => ['_locale' => $locale],
+            ];
+        }
+
+        return [
+            'route' => 'post_index',
+            'params' => ['_locale' => $locale, 'page' => $menu->getId()],
+        ];
     }
 
     /**

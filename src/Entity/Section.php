@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: \App\Repository\SectionRepository::class)]
 class Section implements PositionableInterface
@@ -21,7 +22,7 @@ class Section implements PositionableInterface
     use ActiveTrait;
 
     #[ORM\ManyToOne(targetEntity: Menu::class, inversedBy: 'sections')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private ?Menu $menu = null;
 
     #[ORM\ManyToOne(targetEntity: Template::class, inversedBy: 'sections')]
@@ -79,6 +80,31 @@ class Section implements PositionableInterface
         $this->menu = $menu;
 
         return $this;
+    }
+
+    public function isFooterSection(): bool
+    {
+        return 'footer_template' === strtolower(trim((string) ($this->template?->getCode() ?? '')));
+    }
+
+    #[Assert\Callback]
+    public function validateMenuRelation(ExecutionContextInterface $context): void
+    {
+        if ($this->isFooterSection()) {
+            if ($this->menu !== null) {
+                $context->buildViolation('Une section footer ne doit pas être rattachée à une page menu.')
+                    ->atPath('menu')
+                    ->addViolation();
+            }
+
+            return;
+        }
+
+        if ($this->menu === null) {
+            $context->buildViolation('La section doit être rattachée à une page menu.')
+                ->atPath('menu')
+                ->addViolation();
+        }
     }
 
     // -------------------------
