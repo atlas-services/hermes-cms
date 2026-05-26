@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # Déploiement production Hermes3 (dépendances, assets, droits fichiers).
 # Usage : sudo HTTP_USER=www-data HTTP_GROUP=www-data ./deploy_prod.sh
+#         (ou : bash deploy_prod.sh — ne pas utiliser « sh deploy_prod.sh »)
+if [ -z "${BASH_VERSION:-}" ]; then
+    exec /usr/bin/env bash "$0" "$@"
+fi
+
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -50,18 +55,17 @@ if [[ -f .env ]]; then
     UPLOAD_MEDIA_DIR=$(php -r 'require "vendor/autoload.php"; (new Symfony\Component\Dotenv\Dotenv())->bootEnv(getcwd() . "/.env"); $b = $_ENV["APP_BASE_MEDIA_DATA"] ?? "uploads/app"; echo "public/" . trim(str_replace("\\", "/", $b), "/");')
 fi
 
-WRITABLE_DIRS=(var data public/media/cache)
-if [[ -d "${UPLOAD_MEDIA_DIR}" ]]; then
-    WRITABLE_DIRS+=("${UPLOAD_MEDIA_DIR}")
-fi
-
-for dir in "${WRITABLE_DIRS[@]}"; do
+for dir in var data public/media/cache; do
     _run_as_root chown -R "${HTTP_USER}:${HTTP_GROUP}" "${dir}"
     _run_as_root chmod -R ug+rwx "${dir}"
-    if [[ "${dir}" != var ]]; then
-        _run_as_root find "${dir}" -type d -exec chmod g+s {} + 2>/dev/null || true
-    fi
+    _run_as_root find "${dir}" -type d -exec chmod g+s {} + 2>/dev/null || true
 done
+
+if [[ -d "${UPLOAD_MEDIA_DIR}" ]]; then
+    _run_as_root chown -R "${HTTP_USER}:${HTTP_GROUP}" "${UPLOAD_MEDIA_DIR}"
+    _run_as_root chmod -R ug+rwx "${UPLOAD_MEDIA_DIR}"
+    _run_as_root find "${UPLOAD_MEDIA_DIR}" -type d -exec chmod g+s {} + 2>/dev/null || true
+fi
 
 for dir in public/assets public/bundles; do
     if [[ -d "${dir}" ]]; then
