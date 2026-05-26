@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-
+# Déploiement production Hermes3 (dépendances, assets, droits fichiers).
+# Usage : sudo HTTP_USER=www-data HTTP_GROUP=www-data ./deploy_prod.sh
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -9,7 +10,6 @@ HTTP_GROUP="${HTTP_GROUP:-www-data}"
 composer install --no-dev --optimize-autoloader
 composer run deploy-assets
 
-# Répertoires inscriptibles : création uniquement s’ils n’existent pas encore
 _ensure_dir() {
     if [[ ! -d "$1" ]]; then
         mkdir -p "$1"
@@ -20,30 +20,46 @@ for dir in var/cache var/log var/sessions data/db public/uploads public/media/ca
     _ensure_dir "${dir}"
 done
 
-_run_chown() {
+_run_as_root() {
     if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
-        chown -R "${HTTP_USER}:${HTTP_GROUP}" "$@"
+        "$@"
     elif command -v sudo >/dev/null 2>&1; then
-        sudo chown -R "${HTTP_USER}:${HTTP_GROUP}" "$@"
+        sudo "$@"
     else
-        echo "Avertissement : chown ignoré (lancez le script en root ou avec sudo)." >&2
-        return 0
+        echo "Avertissement : « $* » ignoré (root ou sudo requis)." >&2
+        return 1
     fi
 }
 
-# Cache, logs, sessions, base SQLite, uploads Vich/Uppy, cache miniatures
-for dir in var data public/uploads public/media/cache; do
-    _run_chown "${dir}"
-    chmod -R ug+rwx "${dir}"
-    find "${dir}" -type d -exec chmod g+s {} + 2>/dev/null || true
-done
+_run_as_web() {
+    if [[ "${EUID:-$(id -u)}" -eq 0 ]] && command -v runuser >/dev/null 2>&1; then
+        runuser -u "${HTTP_USER}" -- "$@"
+    else
+        sudo -u "${HTTP_USER}" "$@"
+    fi
+}
 
-# Assets compilés (asset-map:compile) et bundles Symfony : lecture par le serveur web
-for dir in public/assets public/bundles; do
-    if [[ -d "${dir}" ]]; then
-        _run_chown "${dir}"
-        chmod -R a+rX "${dir}"
+# Cache prod souvent possédé par PHP-FPM : impossible à chmod depuis l’utilisateur de déploiement
+if [[ -d var/cache/prod ]]; then
+    _run_as_root rm -rf var/cache/prod
+fi
+
+for dir in var data public/uploads public/media/cache; do
+    _run_as_root chown -R "${HTTP_USER}:${HTTP_GROUP}" "${dir}"
+    _run_as_root chmod -R ug+rwx "${dir}"
+    if [[ "${dir}" != var ]]; then
+        _run_as_root find "${dir}" -type d -exec chmod g+s {} + 2>/dev/null || true
     fi
 done
+
+for dir in public/assets public/bundles; do
+    if [[ -d "${dir}" ]]; then
+        _run_as_root chown -R "${HTTP_USER}:${HTTP_GROUP}" "${dir}"
+        _run_as_root chmod -R a+rX "${dir}"
+    fi
+done
+
+# Recréer le cache prod avec le propriétaire web (évite var/cache/prod/twig en root ou deploy)
+_run_as_web php bin/console cache:warmup --env=prod
 
 echo "Déploiement terminé (propriétaire ${HTTP_USER}:${HTTP_GROUP})."
