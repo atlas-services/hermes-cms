@@ -84,6 +84,10 @@
         "create-db-file": [
             "@php -r \"require 'vendor/autoload.php'; (new Symfony\\Component\\Dotenv\\Dotenv())->bootEnv(getcwd() . '/.env'); \\$db = \\$_ENV['APP_DB'] ?? getenv('APP_DB'); if (!\\$db) { fwrite(STDERR, 'APP_DB is not set\\n'); exit(1); } \\$path = 'data/db/' . \\$db; if (!is_dir('data/db')) mkdir('data/db', 0777, true); if (!file_exists(\\$path)) touch(\\$path);\""
         ],
+        "deploy-assets": [
+            "@php bin/console importmap:install",
+            "@php bin/console asset-map:compile --env=prod"
+        ],
         "post-install-cmd": [
             "@create-db-file",
             "@auto-scripts"
