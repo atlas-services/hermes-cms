@@ -16,7 +16,7 @@ _ensure_dir() {
     fi
 }
 
-for dir in var/cache var/log var/sessions data/db public/uploads public/media/cache; do
+for dir in var/cache var/log var/sessions data/db public/media/cache; do
     _ensure_dir "${dir}"
 done
 
@@ -44,7 +44,18 @@ if [[ -d var/cache/prod ]]; then
     _run_as_root rm -rf var/cache/prod
 fi
 
-for dir in var data public/uploads public/media/cache; do
+# public/uploads/<APP_NAME> : créé par composer create-upload-dir (APP_BASE_MEDIA_DATA)
+UPLOAD_MEDIA_DIR="public/uploads"
+if [[ -f .env ]]; then
+    UPLOAD_MEDIA_DIR=$(php -r 'require "vendor/autoload.php"; (new Symfony\Component\Dotenv\Dotenv())->bootEnv(getcwd() . "/.env"); $b = $_ENV["APP_BASE_MEDIA_DATA"] ?? "uploads/app"; echo "public/" . trim(str_replace("\\", "/", $b), "/");')
+fi
+
+WRITABLE_DIRS=(var data public/media/cache)
+if [[ -d "${UPLOAD_MEDIA_DIR}" ]]; then
+    WRITABLE_DIRS+=("${UPLOAD_MEDIA_DIR}")
+fi
+
+for dir in "${WRITABLE_DIRS[@]}"; do
     _run_as_root chown -R "${HTTP_USER}:${HTTP_GROUP}" "${dir}"
     _run_as_root chmod -R ug+rwx "${dir}"
     if [[ "${dir}" != var ]]; then

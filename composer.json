@@ -84,16 +84,21 @@
         "create-db-file": [
             "@php -r \"require 'vendor/autoload.php'; (new Symfony\\Component\\Dotenv\\Dotenv())->bootEnv(getcwd() . '/.env'); \\$db = \\$_ENV['APP_DB'] ?? getenv('APP_DB'); if (!\\$db) { fwrite(STDERR, 'APP_DB is not set\\n'); exit(1); } \\$path = 'data/db/' . \\$db; if (!is_dir('data/db')) mkdir('data/db', 0777, true); if (!file_exists(\\$path)) touch(\\$path);\""
         ],
+        "create-upload-dir": [
+            "@php -r \"require 'vendor/autoload.php'; (new Symfony\\Component\\Dotenv\\Dotenv())->bootEnv(getcwd() . '/.env'); \\$base = \\$_ENV['APP_BASE_MEDIA_DATA'] ?? getenv('APP_BASE_MEDIA_DATA'); if (!\\$base) { fwrite(STDERR, 'APP_BASE_MEDIA_DATA is not set\\n'); exit(1); } \\$path = 'public/' . trim(\\$base, '/'); if (!is_dir(\\$path)) { mkdir(\\$path, 0777, true); }\""
+        ],
         "deploy-assets": [
             "@php bin/console importmap:install",
             "@php bin/console asset-map:compile --env=prod"
         ],
         "post-install-cmd": [
             "@create-db-file",
+            "@create-upload-dir",
             "@auto-scripts"
         ],
         "post-update-cmd": [
             "@create-db-file",
+            "@create-upload-dir",
             "@auto-scripts"
         ]
     },
