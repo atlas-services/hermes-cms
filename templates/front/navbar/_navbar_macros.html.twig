@@ -1,12 +1,12 @@
 {% macro menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) %}
-    <hr class="border-0 p-0 aos-nav-hr w-100 mx-0 my-{{ navEspacement }} d-none d-sm-block"
+    {% if hrAos %}
+        <hr class="border-0 p-0 aos-nav-hr w-100 mx-0 my-{{ navEspacement }} d-none d-sm-block"
         style="height: 2px; min-height: 2px; background-color: {{ linkColor }};"
-        {% if hrAos %}
             data-aos="{{ navAosEffect|e('html_attr') }}"
             data-aos-duration="{{ navAosDuration }}"
             data-aos-once="true"
-        {% endif %}
         aria-hidden="true">
+    {% endif %}
 {% endmacro %}
 
 {% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, hrMainNavOnly) %}
@@ -23,7 +23,7 @@
         {% set linkColor = isActive ? configs.nav_color_active|default(configs.nav_link_color|default('#000000')) : configs.nav_link_color|default('#000000') %}
         {% set linkBorder = configs.nav_link_border_bottom|default('') %}
         {% if node.children|length > 0 %}
-            <li class="nav-item dropdown me-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch">
+            <li class="nav-item dropdown mx-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch">
                 <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
                      style="background-color: {{ linkBg }};">
                     {% if node.type == 'page' %}
@@ -57,7 +57,7 @@
                 </div>
             </li>
         {% elseif node.type == 'page' %}
-            <li class="nav-item me-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch"
+            <li class="nav-item mx-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch"
                 style="{{ node.menu.parent is not null ? 'background-color: ' ~ configs.nav_li_bgcolor|default('#ffffff') : 'background-color: ' ~ configs.nav_bgcolor|default('#ffffff') }}">
                 <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
                      style="background-color: {{ linkBg }};">
