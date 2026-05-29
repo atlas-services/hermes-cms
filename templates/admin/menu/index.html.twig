@@ -4,19 +4,28 @@
 
 {% block content %}
     <div>
-        <h1>Menus</h1>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <h1 class="mb-0">Menus</h1>
+            <form method="get" class="d-flex align-items-center gap-2">
+                <label for="menu_locale" class="form-label mb-0 text-nowrap">{{ 'menu.filter_locale'|trans }}</label>
+                <select id="menu_locale" name="menu_locale" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
+                    {% for loc in menu_locales %}
+                        <option value="{{ loc }}" {{ loc == menu_locale ? 'selected' }}>{{ loc|upper }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
 
-        <a class="btn btn-success mb-3" href="{{ path('menu_new') }}">
+        <a class="btn btn-success mb-3" href="{{ path('menu_new', menu_index_query) }}">
             {{ 'form.label.create'|trans() }}
         </a>
 
-        {# 🌳 ARBRE COMPLET #}
-        {{ component('Menu', { menus: menus }) }}
+        {{ component('Menu', { menus: menus, menu_locale: menu_locale }) }}
 
-    {% if(menus|length) > 0 %}
-            <a class="btn btn-success mt-3" href="{{ path('menu_new') }}">
+        {% if menus|length > 0 %}
+            <a class="btn btn-success mt-3" href="{{ path('menu_new', menu_index_query) }}">
                 {{ 'form.label.create'|trans() }}
             </a>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 {% endblock %}

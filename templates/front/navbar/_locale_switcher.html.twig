@@ -1,0 +1,28 @@
+{% set localeLinks = front_locale_switcher(menu|default(null)) %}
+{% if localeLinks|length > 1 %}
+    <nav class="hermes-locale-switcher border-bottom"
+         aria-label="{{ 'front.locale_switcher.label'|trans }}"
+         style="background-color: {{ configs.nav_li_bgcolor|default(configs.nav_bgcolor|default('#ffffff')) }};">
+        <div class="container-fluid">
+            <ul class="nav nav-pills justify-content-center flex-wrap gap-1 py-2 mb-0 {{ configs.nav_sub_menu_text_size|default('small') }}">
+                {% for link in localeLinks %}
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-1 rounded-pill {{ link.active ? 'active' : '' }}"
+                           href="{{ link.url }}"
+                           hreflang="{{ link.locale }}"
+                           lang="{{ link.locale }}"
+                           {% if link.active %}aria-current="page"{% endif %}
+                           style="{% if link.active %}
+                               background-color: {{ configs.nav_bgcolor_active|default('#0d6efd') }};
+                               color: {{ configs.nav_color_active|default('#ffffff') }};
+                           {% else %}
+                               color: {{ configs.nav_link_color|default('#000000') }};
+                           {% endif %}">
+                            {{ link.label }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+{% endif %}

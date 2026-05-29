@@ -46,10 +46,12 @@ final class FrontController extends AbstractController
         $request->setLocale($firstPage->getLocale());
         $request->attributes->set('_locale', $firstPage->getLocale());
 
+        $locale = $firstPage->getLocale() ?? 'fr';
+
         return $this->render('front/index.html.twig', [
             'menu' => $firstPage,
-            'sectionsForFront' => $frontMenuService->getVisibleFrontSections($firstPage),
-            'menuTree' => $menuTreeBuilder->buildTree(true),
+            'sectionsForFront' => $frontMenuService->getVisibleFrontSections($firstPage, $locale),
+            'menuTree' => $menuTreeBuilder->buildTree(true, $locale),
         ]);
     }
 
@@ -74,12 +76,12 @@ final class FrontController extends AbstractController
         $locale = $request->getLocale();
         $menu = $frontMenuService->findContactPage($locale);
         $sectionsForFront = $menu !== null
-            ? $frontMenuService->getVisibleFrontSections($menu)
+            ? $frontMenuService->getVisibleFrontSections($menu, $locale)
             : [];
 
         return $this->render('front/contact.html.twig', [
             'menu' => $menu,
-            'menuTree' => $menuTreeBuilder->buildTree(true),
+            'menuTree' => $menuTreeBuilder->buildTree(true, $locale),
             'sectionsForFront' => $sectionsForFront,
         ]);
     }
@@ -100,8 +102,8 @@ final class FrontController extends AbstractController
             throw $this->createNotFoundException('Menu not found');
         }
 
-        $sectionsForFront = $frontMenuService->getVisibleFrontSections($menu);
-        $menuTree = $menuTreeBuilder->buildTree(true);
+        $sectionsForFront = $frontMenuService->getVisibleFrontSections($menu, $locale);
+        $menuTree = $menuTreeBuilder->buildTree(true, $locale);
 
         return $this->render('front/index.html.twig', [
             'menu' => $menu,

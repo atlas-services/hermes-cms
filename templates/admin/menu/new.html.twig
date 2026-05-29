@@ -7,5 +7,5 @@
 
     {{ include('admin/menu/_form.html.twig', {'button_label': 'form.label.create'|trans()}) }}
 
-    <a class="btn btn-info my-3" href="{{ path('menu_index') }}">{{ 'form.label.back_to_list'|trans() }}</a>
+    <a class="btn btn-info my-3" href="{{ path('menu_index', menu_locale is defined ? { menu_locale: menu_locale } : {}) }}">{{ 'form.label.back_to_list'|trans() }}</a>
 {% endblock %}

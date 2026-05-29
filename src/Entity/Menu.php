@@ -10,15 +10,18 @@ use App\Entity\Traits\IdTrait;
 use App\Entity\Traits\LocaleTrait;
 use App\Entity\Traits\NameTrait;
 use App\Entity\Traits\PositionTrait;
+use App\Entity\Traits\ReferenceNameTrait;
 use App\Entity\Traits\SlugTrait;
 use App\Entity\Traits\UpdatedTrait;
 use App\Repository\MenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: MenuRepository::class)]
+#[UniqueEntity(fields: ['locale', 'referenceName'], message: 'menu.reference_name_locale_exists')]
 class Menu implements PositionableInterface, ActivableInterface
 {
     use IdTrait;
@@ -28,6 +31,7 @@ class Menu implements PositionableInterface, ActivableInterface
     use SlugTrait;
     use PositionTrait;
     use LocaleTrait;
+    use ReferenceNameTrait;
     use UpdatedTrait;
 
     public const MAX_DEPTH = 5;
@@ -61,6 +65,13 @@ class Menu implements PositionableInterface, ActivableInterface
     {
         $this->children = new ArrayCollection();
         $this->sections = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function syncReferenceName(): void
+    {
+        $this->ensureReferenceNameFromLabel($this->getName() ?? $this->getSlug() ?? $this->getCode());
     }
 
     // -------------------------

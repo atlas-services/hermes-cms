@@ -1,12 +1,19 @@
 {% macro menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) %}
     {% if hrAos %}
-        <hr class="border-0 p-0 aos-nav-hr w-100 mx-0 my-{{ navEspacement }} d-none d-sm-block"
+        {% set dataaos = navAosEffect|e('html_attr') %}
+        {% set dataaosduration = navAosDuration %}
+        {% set dataaosonce = "true" %}
+    {% else %}
+        {% set dataaos= '' %}
+        {% set dataaosduration = '' %}
+        {% set dataaosonce = '' %}
+    {% endif %}    
+     <hr class="border-0 p-0 aos-nav-hr w-100 mx-0 my-{{ navEspacement }} d-none d-sm-block"
         style="height: 2px; min-height: 2px; background-color: {{ linkColor }};"
-            data-aos="{{ navAosEffect|e('html_attr') }}"
-            data-aos-duration="{{ navAosDuration }}"
-            data-aos-once="true"
+           data-aos = "{{ dataaos }}"
+           data-aos-duration = "{{ dataaosduration }}"
+           data-aos-once = "{{ dataaosonce }}"
         aria-hidden="true">
-    {% endif %}
 {% endmacro %}
 
 {% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, hrMainNavOnly) %}

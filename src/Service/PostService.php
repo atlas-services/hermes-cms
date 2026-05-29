@@ -30,6 +30,9 @@ class PostService
         $this->assertSectionIsValid($section);
 
         $post->setSection($section);
+        if ($post->getLocale() === null || $post->getLocale() === '') {
+            $post->setLocale($section->getEffectiveLocale());
+        }
 
         $next = $this->postRepository->getMaxPositionInSection($section) + 1;
         $post->setPosition($next);

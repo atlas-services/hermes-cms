@@ -56,6 +56,16 @@ class Section implements PositionableInterface
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $template_image_filter = null;
 
+    /** Locale explicite pour les sections footer (sans menu). */
+    #[ORM\Column(type: 'string', length: 10, nullable: true)]
+    #[Assert\Locale]
+    private ?string $locale = null;
+
+    /** Clé stable entre langues (footer) ; optionnel sur sections de page. */
+    #[ORM\Column(name: 'reference_name', type: 'string', length: 100, nullable: true)]
+    #[Assert\Length(max: 100)]
+    private ?string $referenceName = null;
+
     /** @var Collection<int, Post> */
     #[ORM\OneToMany(mappedBy: 'section', targetEntity: Post::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
@@ -87,6 +97,50 @@ class Section implements PositionableInterface
         return 'footer_template' === strtolower(trim((string) ($this->template?->getCode() ?? '')));
     }
 
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(?string $locale): self
+    {
+        $this->locale = $locale !== null && $locale !== '' ? $locale : null;
+
+        return $this;
+    }
+
+    public function getReferenceName(): ?string
+    {
+        return $this->referenceName;
+    }
+
+    public function setReferenceName(?string $referenceName): self
+    {
+        $normalized = strtolower(trim((string) $referenceName));
+        $this->referenceName = $normalized !== '' ? $normalized : null;
+
+        return $this;
+    }
+
+    public function ensureFooterReferenceName(): self
+    {
+        if ($this->referenceName !== null && $this->referenceName !== '') {
+            return $this;
+        }
+        $this->referenceName = 'footer-' . ($this->getId() ?? uniqid());
+
+        return $this;
+    }
+
+    public function getEffectiveLocale(): string
+    {
+        if ($this->menu !== null) {
+            return $this->menu->getLocale() ?? 'fr';
+        }
+
+        return $this->locale ?? 'fr';
+    }
+
     #[Assert\Callback]
     public function validateMenuRelation(ExecutionContextInterface $context): void
     {
@@ -94,6 +148,11 @@ class Section implements PositionableInterface
             if ($this->menu !== null) {
                 $context->buildViolation('Une section footer ne doit pas être rattachée à une page menu.')
                     ->atPath('menu')
+                    ->addViolation();
+            }
+            if ($this->locale === null || trim($this->locale) === '') {
+                $context->buildViolation('Une section footer doit avoir une langue.')
+                    ->atPath('locale')
                     ->addViolation();
             }
 

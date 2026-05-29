@@ -55,7 +55,7 @@
     <td class="text-nowrap">
         <a 
             class="text-decoration-none px-3 py-2 mx-2 border border-1 border-success rounded-3" 
-            href="{{ path('menu_edit', {id: node.menu.id}) }}"
+            href="{{ path('menu_edit', menu_locale is defined ? { id: node.menu.id, menu_locale: menu_locale } : { id: node.menu.id }) }}"
             data-bs-toggle="tooltip"
             data-bs-title="{{ node.type == 'root' ? 'Modifier le menu' : 'Modifier le Sous Menu' }}" 
         >
@@ -64,7 +64,7 @@
 
         <a 
             class="text-decoration-none px-3 py-2 mx-2 border border-1 rounded-3 {{ node.type == 'page' ? 'border-secondary text-secondary disabled' : 'border-success' }}"
-            href="{{ node.type == 'page' ? '#' : path('menu_new', {parent: node.menu.id}) }}"
+            href="{{ node.type == 'page' ? '#' : path('menu_new', menu_locale is defined ? { parent: node.menu.id, menu_locale: menu_locale } : { parent: node.menu.id }) }}"
             data-bs-toggle="tooltip"
             data-bs-title="{{ node.type == 'page' ? 'Impossible d\'ajouter un sous-menu à une page' : 'Ajouter un Sous Menu' }}"
             {{ node.type == 'page' ? 'aria-disabled="true" tabindex="-1"' : '' }}

@@ -105,6 +105,8 @@ front:
     scroll_down: Descendre dans la page
     scroll_bottom: Aller en bas de la page
     scroll_top: Remonter en haut de la page
+  locale_switcher:
+    label: Choisir la langue
   sitemap:
     title: Plan du site
     link: Plan du site
@@ -117,7 +119,9 @@ formulaire:
 
 menu:
   created: Menu créé avec succès.
+  reference_name_locale_exists: Cette clé de référence existe déjà pour cette langue.
   contact_section_created: Une section formulaire de contact a été ajoutée automatiquement.
+  filter_locale: Langue des menus
   toggle_submenu: 'Afficher ou masquer le sous-menu « %name% »'
 
 user:
@@ -183,6 +187,8 @@ admin:
     help: "Blocs CKEditor affichés sur toutes les pages du site, dans le pied de page. Non rattachés à une page menu."
     add_section: Nouvelle section footer
     post_create_context: Ajout d’un post dans le pied de page (section footer globale).
+  locale_copy:
+    help: 'Copie les menus, sections et posts depuis la langue « %source% » vers la langue choisie.'
     back_to_list: Retour aux sections footer
   post:
     create_in_menu: "Ajout d’un post dans le menu :"
@@ -256,6 +262,8 @@ global:
   list_posts: Liste des Posts
   list_pages: Liste des pages
   uploads_and_locales: Uploads et locales
+  add_locale: Ajouter une langue
+  locale: Langue
   upload_hermes_dir: Uploads d'images
   newsletter_and_testimony: Newsletter et livre d'or
   newsletter_users: Liste des abonnés newsletter

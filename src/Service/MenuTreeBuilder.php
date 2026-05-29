@@ -16,22 +16,24 @@ class MenuTreeBuilder
     /**
      * @return MenuNode[]
      */
-    public function buildTree(bool $onlyActiveMenus = false): array
+    public function buildTree(bool $onlyActiveMenus = false, ?string $locale = null): array
     {
-        $roots = $this->repository->findRoots();
+        $roots = $locale !== null
+            ? $this->repository->findRootsByLocale($locale)
+            : $this->repository->findRoots();
 
         $nodes = [];
         foreach ($roots as $menu) {
             if ($onlyActiveMenus && !$menu->isActive()) {
                 continue;
             }
-            $nodes[] = $this->buildNode($menu, [], $onlyActiveMenus);
+            $nodes[] = $this->buildNode($menu, [], $onlyActiveMenus, $locale);
         }
 
         return $nodes;
     }
 
-    private function buildNode(Menu $menu, array $path = [], bool $onlyActiveMenus = false): MenuNode
+    private function buildNode(Menu $menu, array $path = [], bool $onlyActiveMenus = false, ?string $locale = null): MenuNode
     {
         $node = new MenuNode();
         $node->menu = $menu;
@@ -43,13 +45,21 @@ class MenuTreeBuilder
         $node->canAddPage = $this->canAddPage($menu);
 
         foreach ($menu->getChildren() as $child) {
+            if ($locale !== null && !$this->menuMatchesLocale($child, $locale)) {
+                continue;
+            }
             if ($onlyActiveMenus && !$child->isActive()) {
                 continue;
             }
-            $node->children[] = $this->buildNode($child, $slugParts, $onlyActiveMenus);
+            $node->children[] = $this->buildNode($child, $slugParts, $onlyActiveMenus, $locale);
         }
 
         return $node;
+    }
+
+    private function menuMatchesLocale(Menu $menu, string $locale): bool
+    {
+        return ($menu->getLocale() ?? 'fr') === $locale;
     }
 
     private function resolveType(Menu $menu): string

@@ -41,9 +41,9 @@ class SectionRepository extends ServiceEntityRepository
      *
      * @return list<Section>
      */
-    public function findFooterSections(): array
+    public function findFooterSections(?string $locale = null): array
     {
-        return $this->createQueryBuilder('s')
+        $qb = $this->createQueryBuilder('s')
             ->innerJoin('s.template', 't')
             ->leftJoin('s.posts', 'p')
             ->addSelect('p')
@@ -51,22 +51,54 @@ class SectionRepository extends ServiceEntityRepository
             ->andWhere('t.code = :code')
             ->setParameter('code', FooterSectionService::TEMPLATE_CODE)
             ->orderBy('s.position', 'ASC')
-            ->addOrderBy('p.position', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->addOrderBy('p.position', 'ASC');
+
+        if ($locale !== null) {
+            $qb->andWhere('s.locale = :locale')
+                ->setParameter('locale', $locale);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
-    public function getNextFooterPosition(): int
+    /**
+     * @return list<Section>
+     */
+    public function findFooterSectionsForLocale(string $locale): array
     {
-        $max = (int) $this->createQueryBuilder('s')
+        return $this->findFooterSections($locale);
+    }
+
+    public function findOneFooterByLocaleAndReference(string $locale, string $referenceName): ?Section
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.template', 't')
+            ->andWhere('s.menu IS NULL')
+            ->andWhere('t.code = :code')
+            ->andWhere('s.locale = :locale')
+            ->andWhere('s.referenceName = :ref')
+            ->setParameter('code', FooterSectionService::TEMPLATE_CODE)
+            ->setParameter('locale', $locale)
+            ->setParameter('ref', strtolower(trim($referenceName)))
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function getNextFooterPosition(?string $locale = null): int
+    {
+        $qb = $this->createQueryBuilder('s')
             ->select('COALESCE(MAX(s.position), 0)')
             ->innerJoin('s.template', 't')
             ->andWhere('s.menu IS NULL')
             ->andWhere('t.code = :code')
-            ->setParameter('code', FooterSectionService::TEMPLATE_CODE)
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->setParameter('code', FooterSectionService::TEMPLATE_CODE);
 
-        return $max + 1;
+        if ($locale !== null) {
+            $qb->andWhere('s.locale = :locale')
+                ->setParameter('locale', $locale);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult() + 1;
     }
 }

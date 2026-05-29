@@ -1,0 +1,21 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}{{ 'global.add_locale'|trans }}{% endblock %}
+
+{% block content %}
+    <a class="btn h-btn-outline-success mb-sm-3" href="{{ path('admin_index', {_locale: app.request.locale}) }}">{{ 'global.back_to_list'|trans }}</a>
+    <h1 class="text-success">{{ 'global.add_locale'|trans }}</h1>
+    <p class="text-muted">{{ 'admin.locale_copy.help'|trans({ '%source%': source_locale }) }}</p>
+
+    {{ form_start(form) }}
+    {{ form_row(form.locale) }}
+    {{ form_row(form.save) }}
+    {{ form_widget(form._token) }}
+    {{ form_end(form, { render_rest: false }) }}
+
+    {% if form.vars.submitted and not form.vars.valid %}
+        <div class="alert alert-danger mt-3">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+{% endblock %}

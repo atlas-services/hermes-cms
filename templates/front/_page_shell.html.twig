@@ -18,6 +18,11 @@
         } %}
     </header>
 
+    {% include 'front/navbar/_locale_switcher.html.twig' with {
+        menu: menu|default(null),
+        configs: configs,
+    } %}
+
     <div id="section_top"></div>
 
     {% include 'front/_chevrons.html.twig' %}

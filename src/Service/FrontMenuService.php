@@ -40,7 +40,7 @@ final class FrontMenuService
 
     public function findFirstAccessiblePage(string $locale): ?Menu
     {
-        foreach ($this->menuRepository->findRoots() as $root) {
+        foreach ($this->menuRepository->findRootsByLocale($locale) as $root) {
             if (!$root->isActive()) {
                 continue;
             }
@@ -120,8 +120,9 @@ final class FrontMenuService
      *
      * @return list<array{section: Section, posts: list<Post>}>
      */
-    public function getVisibleFrontSections(Menu $menu): array
+    public function getVisibleFrontSections(Menu $menu, ?string $locale = null): array
     {
+        $locale ??= $menu->getLocale() ?? 'fr';
         $blocks = [];
         foreach ($menu->getSections() as $section) {
             if ($section->isFooterSection()) {
@@ -132,7 +133,7 @@ final class FrontMenuService
             }
             $posts = [];
             foreach ($section->getPosts() as $post) {
-                if ($post->isActive()) {
+                if ($post->isActive() && $this->postMatchesLocale($post, $menu, $locale)) {
                     $posts[] = $post;
                 }
             }
@@ -151,16 +152,16 @@ final class FrontMenuService
      *
      * @return list<array{section: Section, posts: list<\App\Entity\Post>}>
      */
-    public function getVisibleFooterSections(): array
+    public function getVisibleFooterSections(string $locale = 'fr'): array
     {
         $blocks = [];
-        foreach ($this->sectionRepository->findFooterSections() as $section) {
+        foreach ($this->sectionRepository->findFooterSectionsForLocale($locale) as $section) {
             if (!$section->isActive()) {
                 continue;
             }
             $posts = [];
             foreach ($section->getPosts() as $post) {
-                if ($post->isActive()) {
+                if ($post->isActive() && $this->postMatchesLocale($post, null, $locale)) {
                     $posts[] = $post;
                 }
             }
@@ -200,5 +201,12 @@ final class FrontMenuService
         }
 
         return true;
+    }
+
+    private function postMatchesLocale(\App\Entity\Post $post, ?Menu $menu, string $locale): bool
+    {
+        $postLocale = $post->getLocale() ?? $menu?->getLocale() ?? 'fr';
+
+        return $postLocale === $locale;
     }
 }

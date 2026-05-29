@@ -30,9 +30,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('menu_index') }}">{{ 'form.label.back_to_list'|trans() }}</a>
+    <a href="{{ path('menu_index', menu_locale is defined ? { menu_locale: menu_locale } : {}) }}">{{ 'form.label.back_to_list'|trans() }}</a>
 
-    <a href="{{ path('menu_edit', {'id': menu.id}) }}">{{ 'form.label.edit'|trans() }}</a>
+    <a href="{{ path('menu_edit', menu_locale is defined ? { id: menu.id, menu_locale: menu_locale } : { id: menu.id }) }}">{{ 'form.label.edit'|trans() }}</a>
 
     {{ include('admin/menu/_delete_form.html.twig') }}
 {% endblock %}

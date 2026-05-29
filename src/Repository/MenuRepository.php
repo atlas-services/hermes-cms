@@ -31,6 +31,31 @@ class MenuRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Menu[]
+     */
+    public function findRootsByLocale(string $locale): array
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.children', 'c')
+            ->addSelect('c')
+            ->where('m.parent IS NULL')
+            ->andWhere('m.locale = :locale OR (m.locale IS NULL AND :locale = :default)')
+            ->setParameter('locale', $locale)
+            ->setParameter('default', 'fr')
+            ->orderBy('m.position', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findOneByLocaleAndReferenceName(string $locale, string $referenceName): ?Menu
+    {
+        return $this->findOneBy([
+            'locale' => $locale,
+            'referenceName' => strtolower(trim($referenceName)),
+        ]);
+    }
+
     public function findChildren(Menu $menu): array
     {
         return $this->createQueryBuilder('m')
@@ -76,5 +101,31 @@ class MenuRepository extends ServiceEntityRepository
             ->addOrderBy('p.position', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return Menu[]
+     */
+    public function findByLocale(string $locale): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.locale = :locale OR (m.locale IS NULL AND :locale = :default)')
+            ->setParameter('locale', $locale)
+            ->setParameter('default', 'fr')
+            ->orderBy('m.position', 'ASC')
+            ->addOrderBy('m.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countByLocale(string $locale): int
+    {
+        return (int) $this->createQueryBuilder('m')
+            ->select('COUNT(m.id)')
+            ->andWhere('m.locale = :locale OR (m.locale IS NULL AND :locale = :default)')
+            ->setParameter('locale', $locale)
+            ->setParameter('default', 'fr')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

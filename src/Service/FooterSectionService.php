@@ -29,7 +29,7 @@ final class FooterSectionService
         return self::TEMPLATE_CODE === strtolower(trim((string) ($section->getTemplate()?->getCode() ?? '')));
     }
 
-    public function createSection(): Section
+    public function createSection(string $locale = 'fr'): Section
     {
         $template = $this->templateRepository->findOneBy(['code' => self::TEMPLATE_CODE]);
         if (!$template instanceof Template) {
@@ -38,9 +38,11 @@ final class FooterSectionService
 
         $section = new Section();
         $section->setMenu(null);
+        $section->setLocale($locale);
         $section->setTemplate($template);
         $section->setTemplateWidth(12);
-        $section->setPosition($this->sectionRepository->getNextFooterPosition());
+        $section->setPosition($this->sectionRepository->getNextFooterPosition($locale));
+        $section->ensureFooterReferenceName();
 
         $this->entityManager->persist($section);
         $this->entityManager->flush();

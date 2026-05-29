@@ -390,8 +390,8 @@ final class Hermes227SqliteMigrator
         );
 
         $stmt = $target->prepare(
-            'INSERT INTO menu (code, active, name, slug, position, locale, updated_at, parent_id)
-             VALUES (:code, :active, :name, :slug, :position, :locale, :updated_at, :parent_id)',
+            'INSERT INTO menu (code, active, name, slug, position, locale, reference_name, updated_at, parent_id)
+             VALUES (:code, :active, :name, :slug, :position, :locale, :reference_name, :updated_at, :parent_id)',
         );
 
         $map = [];
@@ -444,6 +444,12 @@ final class Hermes227SqliteMigrator
 
                 $code = $r['code'] ?? ($hasRefName ? ($r['reference_name'] ?? null) : null) ?? ('menu-' . $oldId);
                 $codeStr = $this->clipString((string) $code, self::STR_CODE_MAX);
+                $refName = $hasRefName
+                    ? strtolower(trim((string) ($r['reference_name'] ?? $codeStr)))
+                    : strtolower(trim($codeStr));
+                if ($refName === '') {
+                    $refName = 'menu-' . $oldId;
+                }
                 $stmt->execute([
                     'code' => $codeStr,
                     'active' => (int) ($r['active'] ?? 1),
@@ -451,6 +457,7 @@ final class Hermes227SqliteMigrator
                     'slug' => $this->clipString((string) ($r['slug'] ?? $code), self::STR_SLUG_MAX),
                     'position' => (int) ($r['position'] ?? 0),
                     'locale' => (string) ($r['locale'] ?? 'fr'),
+                    'reference_name' => $this->clipString($refName, 100),
                     'updated_at' => $this->normalizeDateTime($r['updated_at'] ?? null),
                     'parent_id' => $resolved,
                 ]);

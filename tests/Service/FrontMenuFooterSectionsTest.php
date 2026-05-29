@@ -34,6 +34,8 @@ final class FrontMenuFooterSectionsTest extends BaseKernelTestCase
 
         $footerSection = new Section();
         $footerSection->setMenu(null);
+        $footerSection->setLocale('fr');
+        $footerSection->setReferenceName('footer-test');
         $footerSection->setTemplate($footerTpl);
         $footerSection->setPosition(99);
         $footerSection->setActive(true);
@@ -41,6 +43,7 @@ final class FrontMenuFooterSectionsTest extends BaseKernelTestCase
 
         $footerPost = new Post();
         $footerPost->setName('Footer post');
+        $footerPost->setLocale('fr');
         $footerPost->setActive(true);
         $footerPost->setContent('<p>Footer</p>');
         $footerPost->setPosition(1);
@@ -53,8 +56,10 @@ final class FrontMenuFooterSectionsTest extends BaseKernelTestCase
             $this->assertFalse($block['section']->isFooterSection());
         }
 
-        $footerBlocks = $frontMenu->getVisibleFooterSections();
+        $footerBlocks = $frontMenu->getVisibleFooterSections('fr');
         $this->assertNotEmpty($footerBlocks);
         $this->assertTrue($footerBlocks[0]['section']->isFooterSection());
+
+        $this->assertSame([], $frontMenu->getVisibleFooterSections('en'));
     }
 }

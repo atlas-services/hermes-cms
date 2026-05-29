@@ -102,6 +102,8 @@ front:
     scroll_down: Scroll down the page
     scroll_bottom: Go to bottom of page
     scroll_top: Back to top of page
+  locale_switcher:
+    label: Choose language
   sitemap:
     title: Sitemap
     link: Sitemap
@@ -114,6 +116,7 @@ formulaire:
 
 menu:
   created: Menu created successfully.
+  filter_locale: Menu language
   contact_section_created: A contact form section was added automatically.
   toggle_submenu: 'Show or hide submenu “%name%”'
 

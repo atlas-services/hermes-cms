@@ -6,6 +6,7 @@ namespace App\Twig;
 
 use App\Service\ConfigGlobalsProvider;
 use App\Service\FrontMenuService;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
@@ -14,14 +15,17 @@ final class ConfigExtension extends AbstractExtension implements GlobalsInterfac
     public function __construct(
         private readonly ConfigGlobalsProvider $configGlobalsProvider,
         private readonly FrontMenuService $frontMenuService,
+        private readonly RequestStack $requestStack,
     ) {
     }
 
     public function getGlobals(): array
     {
+        $locale = $this->requestStack->getCurrentRequest()?->getLocale() ?? 'fr';
+
         return [
             'configs' => $this->configGlobalsProvider->getConfigs(),
-            'sectionsForFooter' => $this->frontMenuService->getVisibleFooterSections(),
+            'sectionsForFooter' => $this->frontMenuService->getVisibleFooterSections($locale),
         ];
     }
 }
