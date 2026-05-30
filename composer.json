@@ -73,11 +73,13 @@
         "symfony/polyfill-php84": "*"
     },
     "scripts": {
+        "prepare-var-dirs": [
+            "@php -r \"foreach (['var/cache', 'var/log', 'var/sessions'] as \\$d) { if (!is_dir(\\$d)) { mkdir(\\$d, 0777, true); } }\""
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd",
-            "d:s:u --force": "symfony-cmd",
             "app:create-user": "symfony-cmd",
             "app:init-hermes": "symfony-cmd"
         },
@@ -92,11 +94,13 @@
             "@php bin/console asset-map:compile --env=prod"
         ],
         "post-install-cmd": [
+            "@prepare-var-dirs",
             "@create-db-file",
             "@create-upload-dir",
             "@auto-scripts"
         ],
         "post-update-cmd": [
+            "@prepare-var-dirs",
             "@create-db-file",
             "@create-upload-dir",
             "@auto-scripts"
