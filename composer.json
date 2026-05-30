@@ -79,9 +79,7 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "importmap:install": "symfony-cmd",
-            "app:create-user": "symfony-cmd",
-            "app:init-hermes": "symfony-cmd"
+            "importmap:install": "symfony-cmd"
         },
         "create-db-file": [
             "@php -r \"require 'vendor/autoload.php'; (new Symfony\\Component\\Dotenv\\Dotenv())->bootEnv(getcwd() . '/.env'); \\$db = \\$_ENV['APP_DB'] ?? getenv('APP_DB'); if (!\\$db) { fwrite(STDERR, 'APP_DB is not set\\n'); exit(1); } \\$path = 'data/db/' . \\$db; if (!is_dir('data/db')) mkdir('data/db', 0777, true); if (!file_exists(\\$path)) touch(\\$path);\""
@@ -95,13 +93,11 @@
         ],
         "post-install-cmd": [
             "@prepare-var-dirs",
-            "@create-db-file",
             "@create-upload-dir",
             "@auto-scripts"
         ],
         "post-update-cmd": [
             "@prepare-var-dirs",
-            "@create-db-file",
             "@create-upload-dir",
             "@auto-scripts"
         ]
