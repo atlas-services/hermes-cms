@@ -77,7 +77,6 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd",
-            "d:s:u --force": "symfony-cmd",
             "app:create-user": "symfony-cmd",
             "app:init-hermes": "symfony-cmd"
         },

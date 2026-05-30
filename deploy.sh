@@ -21,6 +21,7 @@ for dir in var/cache var/log data/db public/bundles public/uploads; do
     _ensure_dir "${dir}"
 done
 
+symfony console d:s:u --force
 symfony console c:c && chmod -Rf 777 var/cache/ var/log/ data/db/ public/bundles public/uploads
 
 echo "Déploiement terminé."
