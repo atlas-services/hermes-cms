@@ -176,6 +176,22 @@ body {
     opacity: 1;
 }
 
+/* Sous-menus imbriqués (niveau 3+) dans la navbar Bootstrap */
+.navbar-nav .dropdown-menu {
+    overflow: visible;
+}
+
+@media (max-width: 991.98px) {
+    .navbar-nav .dropdown-menu .dropend > .dropdown-menu {
+        position: static;
+        float: none;
+        margin: 0;
+        padding-left: 1rem;
+        border: 0;
+        box-shadow: none;
+    }
+}
+
 /* Navbar menu gauche (offcanvas persistant desktop, Hermes 2.2.7 left / left_nav) */
 @media (min-width: 992px) {
     body:has(#offcanvasDarkNavbar.show) .hermes-nav-menu-left-main {

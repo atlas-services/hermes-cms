@@ -23,8 +23,12 @@
             <a class="btn btn-info" href="{{ path('admin_footer_sections_index', { _locale: app.request.locale }) }}">
                 {{ 'admin.footer_sections.back_to_list'|trans }}
             </a>
+        {% elseif menu %}
+            <a class="btn btn-info" href="{{ path('post_index', { page: menu.id, _locale: app.request.locale }) }}">
+                {{ 'form.label.back_to_list'|trans }}
+            </a>
         {% else %}
-            <a class="btn btn-info" href="{{ path('post_index') }}">
+            <a class="btn btn-info" href="{{ path('post_index', { _locale: app.request.locale }) }}">
                 {{ 'form.label.back_to_list'|trans }}
             </a>
         {% endif %}
@@ -34,12 +38,12 @@
                 onclick="return confirm('{{ 'global.confirm_delete'|trans|e('js') }}');">
             {{ 'form.label.delete'|trans }}
         </button>
-    {% elseif isFooterSection|default(false) or (section is defined and section.footerSection) %}
+    {% elseif isFooterSection|default(false) or (section and section.footerSection) %}
         <a class="btn btn-info" href="{{ path('admin_footer_sections_index', { _locale: app.request.locale }) }}">
             {{ 'admin.footer_sections.back_to_list'|trans }}
         </a>
-    {% elseif menu is defined and menu %}
-        <a class="btn btn-info" href="{{ path('menu_edit', { id: menu.id }) }}">
+    {% elseif menu %}
+        <a class="btn btn-info" href="{{ path('post_index', { page: menu.id, _locale: app.request.locale }) }}">
             {{ 'form.label.back_to_list'|trans }}
         </a>
     {% endif %}

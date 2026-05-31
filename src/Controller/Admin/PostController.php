@@ -92,6 +92,8 @@ class PostController extends AbstractController
         return $this->render('admin/post/new.html.twig', [
             'form' => $form->createView(),
             'menu' => $menu,
+            'section' => null,
+            'isFooterSection' => false,
             'post_template_field_toggle' => true,
             'post_template_types' => $this->buildPostTemplateTypeMeta(),
         ]);

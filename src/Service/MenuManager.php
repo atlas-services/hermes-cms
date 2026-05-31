@@ -42,12 +42,36 @@ class MenuManager
             $this->assertCanAddChild($parent);
         }
 
+        $this->assignUniqueReferenceName($menu);
+
         $menu->setPosition(
             $this->menuRepository->getNextPosition($parent)
         );
 
         $this->menuRepository->save($menu);
         $this->menuContactProvisioner->provisionIfContactMenu($menu);
+    }
+
+    /** Calcule un referenceName unique pour la locale (avant validation / persist). */
+    public function assignUniqueReferenceName(Menu $menu): void
+    {
+        $menu->syncReferenceName();
+
+        $locale = $menu->getLocale() ?? 'fr';
+        $base = $menu->getReferenceName();
+        $candidate = $base;
+        $suffix = 2;
+
+        while (true) {
+            $existing = $this->menuRepository->findOneByLocaleAndReferenceName($locale, $candidate);
+            if ($existing === null || ($menu->getId() !== null && $existing->getId() === $menu->getId())) {
+                $menu->setReferenceName($candidate);
+
+                return;
+            }
+            $candidate = $base . '-' . $suffix;
+            ++$suffix;
+        }
     }
 
     // -------------------------

@@ -3,14 +3,22 @@
 namespace App\Form;
 
 use App\Entity\Menu;
+use App\Service\MenuManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuType extends AbstractType
 {
+    public function __construct(
+        private readonly MenuManager $menuManager,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -47,6 +55,14 @@ class MenuType extends AbstractType
                 ],
             ])
         ;
+
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event): void {
+            $menu = $event->getData();
+            if (!$menu instanceof Menu) {
+                return;
+            }
+            $this->menuManager->assignUniqueReferenceName($menu);
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

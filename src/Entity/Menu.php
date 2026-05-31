@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: MenuRepository::class)]
-#[UniqueEntity(fields: ['locale', 'referenceName'], message: 'menu.reference_name_locale_exists')]
+#[UniqueEntity(fields: ['locale', 'referenceName'], message: 'menu.reference_name_locale_exists', errorPath: 'name')]
 class Menu implements PositionableInterface, ActivableInterface
 {
     use IdTrait;

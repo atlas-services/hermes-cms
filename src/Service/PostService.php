@@ -50,7 +50,7 @@ class PostService
     public function createFromMenu(Post $post, Menu $menu, ?Template $template): Post
     {
         if (!$menu->isLeaf()) {
-            throw new \DomainException('Le menu doit être une feuille.');
+            throw new \DomainException('Impossible d’ajouter un post : le menu possède des sous-menus.');
         }
 
         $template = $template ?? ($menu->getSections()->isEmpty() ? null : $menu->getSections()->first()->getTemplate());
@@ -81,6 +81,7 @@ class PostService
         }
         $section->setPosition($maxPosition + 1);
 
+        $menu->addSection($section);
         $this->em->persist($section);
 
         return $this->create($post, $section);

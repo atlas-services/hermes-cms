@@ -30,54 +30,94 @@
         {% set linkColor = isActive ? configs.nav_color_active|default(configs.nav_link_color|default('#000000')) : configs.nav_link_color|default('#000000') %}
         {% set linkBorder = configs.nav_link_border_bottom|default('') %}
         {% if node.children|length > 0 %}
-            <li class="nav-item dropdown mx-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch">
-                <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
-                     style="background-color: {{ linkBg }};">
+            {% if hrMainNavOnly %}
+                <li class="nav-item dropdown mx-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch">
+                    <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
+                         style="background-color: {{ linkBg }};">
+                        {% if node.type == 'page' %}
+                            <a class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                               href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                               id="navbarDropdown{{ node.menu.id }}"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               data-bs-auto-close="outside"
+                               aria-expanded="false"
+                               style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                                {{ node.menu.name }}
+                            </a>
+                        {% else %}
+                            <button type="button"
+                                    class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }} border-0 bg-transparent text-start w-100"
+                                    id="navbarDropdown{{ node.menu.id }}"
+                                    data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside"
+                                    aria-expanded="false"
+                                    style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                                {{ node.menu.name }}
+                            </button>
+                        {% endif %}
+                        <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
+                            aria-labelledby="navbarDropdown{{ node.menu.id }}"
+                            style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
+                            {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, false) }}
+                        </ul>
+                        {{ _self.menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) }}
+                    </div>
+                </li>
+            {% else %}
+                <li class="dropend">
                     {% if node.type == 'page' %}
-                        <a class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                        <a class="dropdown-item dropdown-toggle {{ navSubMenuTextSize }}"
                            href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
                            id="navbarDropdown{{ node.menu.id }}"
                            role="button"
                            data-bs-toggle="dropdown"
+                           data-bs-auto-close="outside"
                            aria-expanded="false"
                            style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
                             {{ node.menu.name }}
                         </a>
                     {% else %}
-                        <span class="nav-link dropdown-toggle px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
-                              id="navbarDropdown{{ node.menu.id }}"
-                              role="button"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                              style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                        <button type="button"
+                                class="dropdown-item dropdown-toggle {{ navSubMenuTextSize }} text-start"
+                                id="navbarDropdown{{ node.menu.id }}"
+                                data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside"
+                                aria-expanded="false"
+                                style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
                             {{ node.menu.name }}
-                        </span>
+                        </button>
                     {% endif %}
-                    <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
+                    <ul class="dropdown-menu {{ navSubMenuTextSize }}"
                         aria-labelledby="navbarDropdown{{ node.menu.id }}"
                         style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
                         {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, false) }}
                     </ul>
-                    {% if hrMainNavOnly %}
-                        {{ _self.menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) }}
-                    {% endif %}
-                </div>
-            </li>
+                </li>
+            {% endif %}
         {% elseif node.type == 'page' %}
-            <li class="nav-item mx-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch"
-                style="{{ node.menu.parent is not null ? 'background-color: ' ~ configs.nav_li_bgcolor|default('#ffffff') : 'background-color: ' ~ configs.nav_bgcolor|default('#ffffff') }}">
-                <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
-                     style="background-color: {{ linkBg }};">
-                    <a class="nav-link px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+            {% if hrMainNavOnly %}
+                <li class="nav-item mx-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch"
+                    style="{{ node.menu.parent is not null ? 'background-color: ' ~ configs.nav_li_bgcolor|default('#ffffff') : 'background-color: ' ~ configs.nav_bgcolor|default('#ffffff') }}">
+                    <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}"
+                         style="background-color: {{ linkBg }};">
+                        <a class="nav-link px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}"
+                           href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
+                           style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
+                            {{ node.menu.name }}
+                        </a>
+                        {{ _self.menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) }}
+                    </div>
+                </li>
+            {% else %}
+                <li>
+                    <a class="dropdown-item {{ navSubMenuTextSize }}"
                        href="{{ path('front_menu', {'_locale': app.request.locale, 'slugs': node.slugPath}) }}"
                        style="background-color: {{ linkBg }}; color: {{ linkColor }}; {{ linkBorder }}">
                         {{ node.menu.name }}
                     </a>
-                    {% if hrMainNavOnly %}
-                        {{ _self.menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) }}
-                    {% endif %}
-                </div>
-            </li>
+                </li>
+            {% endif %}
         {% endif %}
     {% endfor %}
 {% endmacro %}

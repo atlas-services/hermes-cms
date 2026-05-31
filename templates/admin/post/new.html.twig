@@ -3,27 +3,27 @@
 {% block title %}New Post{% endblock %}
 
 {% block content %}
+    {% set section = section|default(null) %}
+    {% set menu = menu|default(null) %}
+    {% set isFooterSection = isFooterSection|default(false) %}
+
     <h1>{{ 'form.label.create'|trans() }}</h1>
 
-    {% if isFooterSection|default(false) or (section is defined and section.footerSection) %}
+    {% if isFooterSection or (section and section.footerSection) %}
         <div class="alert alert-info">
             {{ 'admin.footer_sections.post_create_context'|trans }}
-            {% if section is defined %}
+            {% if section %}
                 <br>
                 {{ 'form.label.section_position'|trans({'%position%': section.position}) }}
             {% endif %}
         </div>
-    {% elseif menu is defined and menu %}
+    {% elseif menu %}
         <div class="alert alert-info">
             {{ 'admin.post.create_in_menu'|trans }} <strong>{{ menu.name }}</strong>
-            {% if section is defined %}
-                <br>
-                {{ 'form.label.section_position'|trans({'%position%': section.position}) }}
-            {% endif %}
         </div>
     {% endif %}
 
-    {% if section is defined %}
+    {% if section %}
         <div class="alert alert-secondary">
             {{ 'form.label.post_section_type_summary'|trans({
                 '%summary%': section.template ? (section.template.summary|default('')) : ''
@@ -42,7 +42,7 @@
         button_label: 'form.label.create'|trans(),
         menu: menu|default(null),
         section: section|default(null),
-        isFooterSection: isFooterSection|default(section is defined ? section.footerSection : false),
+        isFooterSection: isFooterSection,
         post_template_field_toggle: post_template_field_toggle|default(false),
         post_template_types: post_template_types|default({}),
     }) }}
