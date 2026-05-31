@@ -15,30 +15,27 @@ final class LocaleCopyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $targetLocales = array_values(array_filter(
-            $options['locales'],
-            static fn (string $locale): bool => $locale !== $options['source_locale'],
-        ));
-
         $builder
             ->add('locale', ChoiceType::class, [
                 'label' => 'global.locale',
                 'placeholder' => 'global.locale',
-                'choices' => array_combine($targetLocales, $targetLocales),
+                'choices' => $options['locale_choices'],
                 'constraints' => [new NotBlank()],
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'global.update',
+                'attr' => ['class' => 'btn btn-success'],
+                'row_attr' => ['class' => 'mt-4 mb-0'],
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'locales' => ['fr', 'en'],
+            'locale_choices' => [],
             'source_locale' => 'fr',
         ]);
-        $resolver->setAllowedTypes('locales', 'array');
+        $resolver->setAllowedTypes('locale_choices', 'array');
         $resolver->setAllowedTypes('source_locale', 'string');
     }
 }

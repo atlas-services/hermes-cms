@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Form\Admin\LocaleCopyType;
+use App\Service\AppLocaleService;
 use App\Service\LocaleCopyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,12 +21,17 @@ final class LocaleController extends AbstractController
     public function newLocale(
         Request $request,
         LocaleCopyService $localeCopyService,
-        #[Autowire(param: 'app.locales')]
-        array $appLocales,
+        AppLocaleService $appLocaleService,
     ): Response {
         $sourceLocale = $localeCopyService->resolveDefaultSourceLocale();
+        $localeChoices = $appLocaleService->getAvailableTargetLocaleChoices($sourceLocale);
+
+        if ($localeChoices === []) {
+            $this->addFlash('warning', 'Toutes les langues disponibles possèdent déjà des menus ou des posts.');
+        }
+
         $form = $this->createForm(LocaleCopyType::class, null, [
-            'locales' => $appLocales,
+            'locale_choices' => $localeChoices,
             'source_locale' => $sourceLocale,
         ]);
         $form->handleRequest($request);
@@ -40,7 +45,10 @@ final class LocaleController extends AbstractController
                 $this->addFlash('warning', $result['warning'] ?? 'Copie impossible.');
             }
 
-            return $this->redirectToRoute('menu_index', ['_locale' => $request->getLocale()]);
+            return $this->redirectToRoute('menu_index', [
+                '_locale' => $request->getLocale(),
+                'menu_locale' => $targetLocale,
+            ]);
         }
 
         if ($form->isSubmitted() && !$form->isValid()) {
@@ -50,6 +58,7 @@ final class LocaleController extends AbstractController
         return $this->render('admin/locale/new.html.twig', [
             'form' => $form,
             'source_locale' => $sourceLocale,
+            'source_locale_label' => $appLocaleService->formatLabel($sourceLocale),
         ]);
     }
 }

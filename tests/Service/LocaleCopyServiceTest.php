@@ -73,4 +73,56 @@ final class LocaleCopyServiceTest extends BaseKernelTestCase
         $this->assertNotEmpty($enPosts);
         $this->assertSame('en', $enPosts[0]->getLocale());
     }
+
+    public function testCopyLocalePreservesMenuHierarchyAndOrder(): void
+    {
+        $em = $this->em;
+        /** @var LocaleCopyService $copy */
+        $copy = static::getContainer()->get(LocaleCopyService::class);
+        /** @var MenuRepository $menuRepo */
+        $menuRepo = static::getContainer()->get(MenuRepository::class);
+
+        $solution = new Menu();
+        $solution->setName('Solution');
+        $solution->setLocale('fr');
+        $solution->setReferenceName('solution');
+        $solution->setPosition(1);
+        $em->persist($solution);
+
+        $niveau2 = new Menu();
+        $niveau2->setName('Niveau2');
+        $niveau2->setLocale('fr');
+        $niveau2->setReferenceName('niveau2');
+        $niveau2->setPosition(1);
+        $niveau2->setParent($solution);
+        $em->persist($niveau2);
+
+        $niveau3 = new Menu();
+        $niveau3->setName('Niveau3');
+        $niveau3->setLocale('fr');
+        $niveau3->setReferenceName('niveau3');
+        $niveau3->setPosition(1);
+        $niveau3->setParent($niveau2);
+        $em->persist($niveau3);
+        $em->flush();
+
+        $result = $copy->copyLocale('en', 'fr');
+        $this->assertArrayHasKey('success', $result, $result['warning'] ?? json_encode($result));
+
+        $em->clear();
+
+        $enSolution = $menuRepo->findOneByLocaleAndReferenceName('en', 'solution');
+        $enNiveau2 = $menuRepo->findOneByLocaleAndReferenceName('en', 'niveau2');
+        $enNiveau3 = $menuRepo->findOneByLocaleAndReferenceName('en', 'niveau3');
+
+        $this->assertInstanceOf(Menu::class, $enSolution);
+        $this->assertInstanceOf(Menu::class, $enNiveau2);
+        $this->assertInstanceOf(Menu::class, $enNiveau3);
+        $this->assertNull($enSolution->getParent());
+        $this->assertSame($enSolution, $enNiveau2->getParent());
+        $this->assertSame($enNiveau2, $enNiveau3->getParent());
+        $this->assertSame(1, $enSolution->getPosition());
+        $this->assertSame(1, $enNiveau2->getPosition());
+        $this->assertSame(1, $enNiveau3->getPosition());
+    }
 }

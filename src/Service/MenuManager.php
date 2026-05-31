@@ -36,6 +36,10 @@ class MenuManager
 
     public function create(Menu $menu): void
     {
+        if ($menu->getId() !== null) {
+            throw new \InvalidArgumentException('Utiliser update() pour modifier un menu existant.');
+        }
+
         $parent = $menu->getParent();
 
         if ($parent) {
@@ -48,6 +52,23 @@ class MenuManager
             $this->menuRepository->getNextPosition($parent)
         );
 
+        $this->menuRepository->save($menu);
+        $this->menuContactProvisioner->provisionIfContactMenu($menu);
+    }
+
+    public function update(Menu $menu): void
+    {
+        if ($menu->getId() === null) {
+            throw new \InvalidArgumentException('Utiliser create() pour un nouveau menu.');
+        }
+
+        $parent = $menu->getParent();
+
+        if ($parent) {
+            $this->assertCanAddChild($parent);
+        }
+
+        $this->assignUniqueReferenceName($menu);
         $this->menuRepository->save($menu);
         $this->menuContactProvisioner->provisionIfContactMenu($menu);
     }

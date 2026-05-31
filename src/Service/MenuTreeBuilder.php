@@ -83,7 +83,7 @@ class MenuTreeBuilder
      *
      * @return list<array{menu: Menu, depth: int, label: string}>
      */
-    public function orderPagesByTree(array $pages): array
+    public function orderPagesByTree(array $pages, ?string $locale = null): array
     {
         /** @var array<int, Menu> $pagesById */
         $pagesById = [];
@@ -97,7 +97,7 @@ class MenuTreeBuilder
         $ordered = [];
         $seen = [];
 
-        foreach ($this->buildTree() as $root) {
+        foreach ($this->buildTree(false, $locale) as $root) {
             $this->collectPagesInTreeOrder($root, 0, [], $pagesById, $ordered, $seen);
         }
 

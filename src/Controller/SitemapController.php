@@ -46,7 +46,7 @@ TXT;
         return new Response($body, Response::HTTP_OK, ['Content-Type' => 'text/plain; charset=UTF-8']);
     }
 
-    #[Route('/{_locale}/sitemap.xml', name: 'front_sitemap', requirements: ['_locale' => 'fr|en'], defaults: ['_locale' => 'fr'], methods: ['GET'])]
+    #[Route('/{_locale}/sitemap.xml', name: 'front_sitemap', requirements: ['_locale' => '[a-z]{2,3}'], defaults: ['_locale' => 'fr'], methods: ['GET'])]
     public function xml(Request $request, SitemapBuilder $sitemapBuilder): Response
     {
         $locale = $request->getLocale();

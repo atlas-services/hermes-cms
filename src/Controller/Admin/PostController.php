@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Trait\AdminMenuLocaleFilterTrait;
 use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
@@ -12,6 +13,7 @@ use App\Form\PostType;
 use App\Repository\MenuRepository;
 use App\Repository\TemplateRepository;
 use App\Service\AdminMediaStorage;
+use App\Service\AppLocaleService;
 use App\Service\MenuTreeBuilder;
 use App\Service\PostBulkImagesFromMediaService;
 use App\Service\PostService;
@@ -29,6 +31,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/admin/post')]
 class PostController extends AbstractController
 {
+    use AdminMenuLocaleFilterTrait;
+
     public function __construct(
         private PostService $postService,
         private MenuRepository $menuRepository,
@@ -36,7 +40,10 @@ class PostController extends AbstractController
         private TemplateRepository $templateRepository,
         private MenuTreeBuilder $menuTreeBuilder,
         private TranslatorInterface $translator,
-    ) {}
+        AppLocaleService $appLocaleService,
+    ) {
+        $this->appLocaleService = $appLocaleService;
+    }
 
     // -------------------------
     // CREATE (via Menu)
@@ -183,16 +190,10 @@ class PostController extends AbstractController
         if ($tpl === null || $tpl->getType() !== PostType::TEMPLATE_TYPE_LISTE) {
             $this->addFlash('warning', $this->translator->trans('admin.post_bulk.section_not_liste'));
 
-            return $this->redirectToRoute('post_index', [
-                '_locale' => $request->getLocale(),
-                'page' => $menu->getId(),
-            ]);
+            return $this->redirectToRoute('post_index', $this->postIndexParams($request, $menu));
         }
 
-        $redirectBack = fn (): Response => $this->redirectToRoute('post_index', [
-            '_locale' => $request->getLocale(),
-            'page' => $menu->getId(),
-        ]);
+        $redirectBack = fn (): Response => $this->redirectToRoute('post_index', $this->postIndexParams($request, $menu));
 
         if ($request->isMethod('POST')) {
             $tokenId = 'post_bulk_import_images_' . $section->getId();
@@ -305,8 +306,9 @@ class PostController extends AbstractController
     #[Route(name: 'post_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
-        $pages = $this->menuRepository->findPages();
-        $pageChoices = $this->menuTreeBuilder->orderPagesByTree($pages);
+        $menuLocale = $this->resolveMenuFilterLocale($request);
+        $pages = $this->menuRepository->findPages($menuLocale);
+        $pageChoices = $this->menuTreeBuilder->orderPagesByTree($pages, $menuLocale);
         $pageId = $request->query->getInt('page');
         $selectedPage = null;
 
@@ -326,6 +328,8 @@ class PostController extends AbstractController
         return $this->render('admin/post/index.html.twig', [
             'pageChoices' => $pageChoices,
             'selectedPage' => $selectedPage,
+            'menu_locale' => $menuLocale,
+            'menu_locales' => $this->appLocaleService->getContentLocales(),
             'sectionModaleChoices' => $this->templateRepository->getModaleChoicesForSectionAdmin(),
             'sectionListeTemplateChoices' => $this->buildSectionListeTemplateChoicesBySectionId($selectedPage),
         ]);
@@ -367,12 +371,12 @@ class PostController extends AbstractController
     public function delete(Request $request, Post $post): Response
     {
         if (!$this->isCsrfTokenValid('delete_' . (string) $post->getId(), $request->request->get('_token'))) {
-            return $this->redirectToRoute('post_index');
+            return $this->redirectToRoute('post_index', $this->postIndexParams($request));
         }
 
         $section = $post->getSection();
         if ($section === null) {
-            return $this->redirectToRoute('post_index');
+            return $this->redirectToRoute('post_index', $this->postIndexParams($request));
         }
 
         $back = $this->adminListRouteForSection($section);
@@ -386,7 +390,8 @@ class PostController extends AbstractController
      */
     private function adminListRouteForSection(Section $section): array
     {
-        $locale = $this->container->get('request_stack')->getCurrentRequest()?->getLocale() ?? 'fr';
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $locale = $request?->getLocale() ?? 'fr';
 
         if ($section->isFooterSection()) {
             return [
@@ -399,13 +404,21 @@ class PostController extends AbstractController
         if ($menu === null || $menu->getId() === null) {
             return [
                 'route' => 'post_index',
-                'params' => ['_locale' => $locale],
+                'params' => $request instanceof Request
+                    ? $this->postIndexParams($request)
+                    : ['_locale' => $locale, 'menu_locale' => $this->appLocaleService->getDefaultLocale()],
             ];
         }
 
         return [
             'route' => 'post_index',
-            'params' => ['_locale' => $locale, 'page' => $menu->getId()],
+            'params' => $request instanceof Request
+                ? $this->postIndexParams($request, $menu)
+                : [
+                    '_locale' => $locale,
+                    'menu_locale' => $menu->getLocale() ?? $this->appLocaleService->getDefaultLocale(),
+                    'page' => $menu->getId(),
+                ],
         ];
     }
 

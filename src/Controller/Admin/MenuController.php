@@ -2,15 +2,16 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Trait\AdminMenuLocaleFilterTrait;
 use App\Entity\Menu;
 use App\Form\MenuType;
+use App\Service\AppLocaleService;
 use App\Service\MenuManager;
 use App\Repository\MenuRepository;
 use App\Exception\MaxDepthExceededException;
 use App\Service\MenuTreeBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,12 +19,12 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/{_locale}/admin/menu', defaults: ['_locale' => 'fr'], requirements: ['_locale' => 'fr|en'])]
 final class MenuController extends AbstractController
 {
+    use AdminMenuLocaleFilterTrait;
+
     public function __construct(
-        #[Autowire(param: 'app.locales')]
-        private readonly array $appLocales,
-        #[Autowire(param: 'app.default_locale')]
-        private readonly string $defaultLocale,
+        AppLocaleService $appLocaleService,
     ) {
+        $this->appLocaleService = $appLocaleService;
     }
 
     #[Route(name: 'menu_index', methods: ['GET'])]
@@ -34,7 +35,7 @@ final class MenuController extends AbstractController
         return $this->render('admin/menu/index.html.twig', [
             'menus' => $menuTreeBuilder->buildTree(false, $menuLocale),
             'menu_locale' => $menuLocale,
-            'menu_locales' => $this->appLocales,
+            'menu_locales' => $this->appLocaleService->getContentLocales(),
             'menu_index_query' => ['menu_locale' => $menuLocale],
         ]);
     }
@@ -106,7 +107,7 @@ final class MenuController extends AbstractController
                 }
             }
 
-            $menuManager->create($menu);
+            $menuManager->update($menu);
 
             $this->addFlash('info', sprintf(
                 'Menu "%s" mis à jour !',
@@ -152,23 +153,5 @@ final class MenuController extends AbstractController
             'menu' => $menu,
             'menu_locale' => $this->resolveMenuFilterLocale($request),
         ]);
-    }
-
-    private function resolveMenuFilterLocale(Request $request): string
-    {
-        $locale = $request->query->getString('menu_locale', $this->defaultLocale);
-
-        return \in_array($locale, $this->appLocales, true) ? $locale : $this->defaultLocale;
-    }
-
-    /**
-     * @return array{_locale: string, menu_locale: string}
-     */
-    private function menuIndexParams(Request $request, string $menuLocale): array
-    {
-        return [
-            '_locale' => $request->getLocale(),
-            'menu_locale' => $menuLocale,
-        ];
     }
 }

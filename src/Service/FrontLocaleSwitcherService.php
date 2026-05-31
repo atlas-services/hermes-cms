@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Entity\Menu;
 use App\Repository\MenuRepository;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -19,8 +18,7 @@ final class FrontLocaleSwitcherService
         private readonly FrontMenuService $frontMenuService,
         private readonly MenuContactProvisioner $contactProvisioner,
         private readonly UrlGeneratorInterface $urlGenerator,
-        #[Autowire(param: 'app.locales')]
-        private readonly array $appLocales,
+        private readonly AppLocaleService $appLocaleService,
     ) {
     }
 
@@ -43,7 +41,7 @@ final class FrontLocaleSwitcherService
 
             $links[] = [
                 'locale' => $locale,
-                'label' => strtoupper($locale),
+                'label' => $this->appLocaleService->formatLabel($locale),
                 'url' => $this->buildMenuUrl($targetMenu, $locale),
                 'active' => $locale === $currentLocale,
             ];
@@ -58,7 +56,7 @@ final class FrontLocaleSwitcherService
     private function findLocalesWithDisplayableContent(): array
     {
         $locales = [];
-        foreach ($this->appLocales as $locale) {
+        foreach ($this->appLocaleService->getContentLocales() as $locale) {
             if ($this->findFirstPageWithDisplayableContent($locale) !== null) {
                 $locales[] = $locale;
             }

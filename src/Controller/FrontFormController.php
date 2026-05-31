@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/{_locale}', defaults: ['_locale' => 'fr'], requirements: ['_locale' => 'fr|en'], priority: 10)]
+#[Route('/{_locale}', defaults: ['_locale' => 'fr'], requirements: ['_locale' => '[a-z]{2,3}'], priority: 10)]
 final class FrontFormController extends AbstractController
 {
     #[Route('/form/contact', name: 'front_form_contact', methods: ['POST'])]

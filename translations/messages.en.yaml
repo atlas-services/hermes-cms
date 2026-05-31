@@ -340,7 +340,7 @@ global:
   delete_section: le(s) contenu(s) de
   delete_menu: le sous-menu (et ses contenus)
   delete_sheet: le menu
-  update: Sauvegarder
+  update: Copy language
   update_next: Sauvegarder et Continuer
   update_libelle: Mettez à jour votre site (vos contenus, vos menus et sous menus)
   config_site: Configurez votre site (email de contact, logo, image de fond, couleur en arrière plan...)

@@ -301,6 +301,7 @@ global:
   unconfirm_delete: Annuler
   back_to_list: Retour à la liste
   continue: Continuer
+  update: Copier la langue
 
 info:
   admin_type_site_1: 'Hermes a été conçu pour vous permettre de créer facilement vos pages Web.'

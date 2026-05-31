@@ -96,6 +96,21 @@ class MenuManagerTest extends BaseKernelTestCase
         $this->assertSame($parent, $menu->getParent());
     }
 
+    public function testUpdateMenuPreservesPosition(): void
+    {
+        $repo = static::getContainer()->get('doctrine')->getRepository(Menu::class);
+        $menu = $repo->findOneBy(['name' => 'Child 1']);
+        $this->assertInstanceOf(Menu::class, $menu);
+
+        $positionBefore = $menu->getPosition();
+        $menu->setName('Child 1 renamed');
+
+        $this->menuManager->update($menu);
+
+        $this->assertSame($positionBefore, $menu->getPosition());
+        $this->assertSame('Child 1 renamed', $menu->getName());
+    }
+
     // -------------------------
     // READ
     // -------------------------

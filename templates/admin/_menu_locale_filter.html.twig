@@ -1,0 +1,9 @@
+<label for="menu_locale" class="form-label mb-0 text-nowrap">{{ 'menu.filter_locale'|trans }}</label>
+<select id="menu_locale"
+        name="menu_locale"
+        class="form-select form-select-sm w-auto"
+        onchange="{{ onchange|default('this.form.submit()') }}">
+    {% for loc in menu_locales %}
+        <option value="{{ loc }}" {{ loc == menu_locale ? 'selected' }}>{{ loc|locale_label }}</option>
+    {% endfor %}
+</select>

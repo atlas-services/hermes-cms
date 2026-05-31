@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class FrontController extends AbstractController
 {
     #[Route('/', name: 'front_root')]
-    #[Route('/{_locale}/', name: 'front_home', requirements: ['_locale' => 'fr|en'], defaults: ['_locale' => 'fr'])]
+    #[Route('/{_locale}/', name: 'front_home', requirements: ['_locale' => '[a-z]{2,3}'], defaults: ['_locale' => 'fr'])]
     public function home(Request $request, FrontMenuService $frontMenuService, MenuTreeBuilder $menuTreeBuilder): Response
     {
         $preferredLocales = [];
@@ -55,7 +55,7 @@ final class FrontController extends AbstractController
         ]);
     }
 
-    #[Route('/{_locale}/contact', name: 'front_contact', requirements: ['_locale' => 'fr|en'], defaults: ['_locale' => 'fr'], methods: ['GET', 'POST'])]
+    #[Route('/{_locale}/contact', name: 'front_contact', requirements: ['_locale' => '[a-z]{2,3}'], defaults: ['_locale' => 'fr'], methods: ['GET', 'POST'])]
     public function contact(
         Request $request,
         FrontMenuService $frontMenuService,
@@ -86,7 +86,7 @@ final class FrontController extends AbstractController
         ]);
     }
 
-    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => 'fr|en', 'slugs' => '(?!(contact|form|login|logout|admin|forgotten_password|re-init-password|reset_password|sitemap\\.xml)(/|$)).+'], defaults: ['_locale' => 'fr'])]
+    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => '[a-z]{2,3}', 'slugs' => '(?!(contact|form|login|logout|admin|forgotten_password|re-init-password|reset_password|sitemap\\.xml)(/|$)).+'], defaults: ['_locale' => 'fr'])]
     public function menu(string $slugs, Request $request, FrontMenuService $frontMenuService, MenuTreeBuilder $menuTreeBuilder): Response
     {
         $slugParts = array_filter(explode('/', $slugs));

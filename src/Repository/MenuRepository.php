@@ -87,9 +87,9 @@ class MenuRepository extends ServiceEntityRepository
     /**
      * @return Menu[]
      */
-    public function findPages(): array
+    public function findPages(?string $locale = null): array
     {
-        return $this->createQueryBuilder('m')
+        $qb = $this->createQueryBuilder('m')
             ->distinct()
             ->innerJoin('m.sections', 's')
             ->addSelect('s')
@@ -98,9 +98,15 @@ class MenuRepository extends ServiceEntityRepository
             ->orderBy('m.position', 'ASC')
             ->addOrderBy('m.name', 'ASC')
             ->addOrderBy('s.position', 'ASC')
-            ->addOrderBy('p.position', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->addOrderBy('p.position', 'ASC');
+
+        if ($locale !== null) {
+            $qb->andWhere('m.locale = :locale OR (m.locale IS NULL AND :locale = :default)')
+                ->setParameter('locale', $locale)
+                ->setParameter('default', 'fr');
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -116,6 +122,24 @@ class MenuRepository extends ServiceEntityRepository
             ->addOrderBy('m.id', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function findDistinctLocales(): array
+    {
+        /** @var list<string|null> $rows */
+        $rows = $this->createQueryBuilder('m')
+            ->select('DISTINCT COALESCE(m.locale, :default)')
+            ->setParameter('default', 'fr')
+            ->getQuery()
+            ->getSingleColumnResult();
+
+        return array_values(array_filter(
+            array_map(static fn (?string $locale): string => strtolower(trim((string) $locale)), $rows),
+            static fn (string $locale): bool => $locale !== '',
+        ));
     }
 
     public function countByLocale(string $locale): int

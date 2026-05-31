@@ -157,4 +157,24 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return list<string>
+     */
+    public function findDistinctLocales(): array
+    {
+        /** @var list<string|null> $rows */
+        $rows = $this->createQueryBuilder('p')
+            ->select('DISTINCT COALESCE(p.locale, m.locale, :default)')
+            ->innerJoin('p.section', 's')
+            ->leftJoin('s.menu', 'm')
+            ->setParameter('default', 'fr')
+            ->getQuery()
+            ->getSingleColumnResult();
+
+        return array_values(array_filter(
+            array_map(static fn (?string $locale): string => strtolower(trim((string) $locale)), $rows),
+            static fn (string $locale): bool => $locale !== '',
+        ));
+    }
 }

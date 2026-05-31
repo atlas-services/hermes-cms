@@ -10,7 +10,6 @@ use App\Entity\Section;
 use App\Repository\MenuRepository;
 use App\Repository\SectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Duplication d’une locale source vers une locale cible (modèle Hermes 2.2.7).
@@ -21,10 +20,7 @@ final class LocaleCopyService
         private readonly EntityManagerInterface $entityManager,
         private readonly MenuRepository $menuRepository,
         private readonly SectionRepository $sectionRepository,
-        #[Autowire(param: 'app.locales')]
-        private readonly array $appLocales,
-        #[Autowire(param: 'app.default_locale')]
-        private readonly string $defaultLocale,
+        private readonly AppLocaleService $appLocaleService,
     ) {
     }
 
@@ -35,13 +31,13 @@ final class LocaleCopyService
             return $active->getLocale();
         }
 
-        foreach ($this->appLocales as $locale) {
+        foreach ($this->appLocaleService->getContentLocales() as $locale) {
             if ($this->menuRepository->countByLocale($locale) > 0) {
                 return $locale;
             }
         }
 
-        return $this->defaultLocale;
+        return $this->appLocaleService->getDefaultLocale();
     }
 
     /**
@@ -50,8 +46,12 @@ final class LocaleCopyService
     public function copyLocale(string $targetLocale, ?string $sourceLocale = null): array
     {
         $targetLocale = strtolower(trim($targetLocale));
-        if (!\in_array($targetLocale, $this->appLocales, true)) {
-            return ['warning' => sprintf('Locale « %s » non autorisée.', $targetLocale)];
+        if (!$this->appLocaleService->isValidLanguageCode($targetLocale)) {
+            return ['warning' => sprintf('Locale « %s » non reconnue.', $targetLocale)];
+        }
+
+        if (\in_array($targetLocale, $this->appLocaleService->getContentLocales(), true)) {
+            return ['warning' => sprintf('La langue « %s » possède déjà des menus ou des posts.', $targetLocale)];
         }
 
         $sourceLocale ??= $this->resolveSourceLocale($targetLocale);
@@ -107,26 +107,46 @@ final class LocaleCopyService
             return $active->getLocale();
         }
 
-        foreach ($this->appLocales as $locale) {
+        foreach ($this->appLocaleService->getContentLocales() as $locale) {
             if ($locale !== $targetLocale && $this->menuRepository->countByLocale($locale) > 0) {
                 return $locale;
             }
         }
 
-        return $this->defaultLocale;
+        return $this->appLocaleService->getDefaultLocale();
     }
 
     private function copyMenus(string $sourceLocale, string $targetLocale): int
     {
         $menus = $this->menuRepository->findByLocale($sourceLocale);
+        usort($menus, static function (Menu $a, Menu $b): int {
+            $depthCmp = $a->getDepth() <=> $b->getDepth();
+            if ($depthCmp !== 0) {
+                return $depthCmp;
+            }
+
+            $positionCmp = $a->getPosition() <=> $b->getPosition();
+            if ($positionCmp !== 0) {
+                return $positionCmp;
+            }
+
+            return ($a->getId() ?? 0) <=> ($b->getId() ?? 0);
+        });
+
+        /** @var array<int, Menu> $targetBySourceId */
+        $targetBySourceId = [];
         $created = 0;
-        usort($menus, static fn (Menu $a, Menu $b): int => $a->getDepth() <=> $b->getDepth());
 
         foreach ($menus as $menu) {
-            $menu->syncReferenceName();
-            $this->entityManager->persist($menu);
+            $sourceId = $menu->getId();
+            if ($sourceId === null) {
+                continue;
+            }
 
-            if ($this->menuRepository->findOneByLocaleAndReferenceName($targetLocale, $menu->getReferenceName()) !== null) {
+            $referenceName = $this->resolveStableReferenceName($menu);
+            $existing = $this->menuRepository->findOneByLocaleAndReferenceName($targetLocale, $referenceName);
+            if ($existing !== null) {
+                $targetBySourceId[$sourceId] = $existing;
                 continue;
             }
 
@@ -136,25 +156,47 @@ final class LocaleCopyService
             $clone->setName($menu->getName() . '-' . $targetLocale);
             $clone->setPosition($menu->getPosition());
             $clone->setLocale($targetLocale);
-            $clone->setReferenceName($menu->getReferenceName());
+            $clone->setReferenceName($referenceName);
 
             $parent = $menu->getParent();
             if ($parent !== null) {
-                $parent->syncReferenceName();
-                $targetParent = $this->menuRepository->findOneByLocaleAndReferenceName(
-                    $targetLocale,
-                    $parent->getReferenceName(),
-                );
-                if ($targetParent !== null) {
-                    $clone->setParent($targetParent);
+                $parentId = $parent->getId();
+                if ($parentId !== null && isset($targetBySourceId[$parentId])) {
+                    $clone->setParent($targetBySourceId[$parentId]);
                 }
             }
 
             $this->entityManager->persist($clone);
+            $targetBySourceId[$sourceId] = $clone;
             ++$created;
         }
 
         return $created;
+    }
+
+    private function resolveStableReferenceName(Menu $menu): string
+    {
+        $referenceName = strtolower(trim($menu->getReferenceName()));
+        if ($referenceName !== '' && $referenceName !== 'ref') {
+            return $referenceName;
+        }
+
+        $code = strtolower(trim((string) ($menu->getCode() ?? '')));
+        if ($code !== '') {
+            return $code;
+        }
+
+        $slug = strtolower(trim((string) ($menu->getSlug() ?? '')));
+        if ($slug !== '') {
+            return $slug;
+        }
+
+        $name = strtolower(trim((string) preg_replace('/[^a-z0-9]+/', '-', (string) $menu->getName()), '-'));
+        if ($name !== '') {
+            return $name;
+        }
+
+        return 'menu-' . ($menu->getId() ?? uniqid());
     }
 
     /**
@@ -172,7 +214,7 @@ final class LocaleCopyService
 
             $targetMenu = $this->menuRepository->findOneByLocaleAndReferenceName(
                 $targetLocale,
-                $sourceMenu->getReferenceName(),
+                $this->resolveStableReferenceName($sourceMenu),
             );
             if ($targetMenu === null) {
                 continue;
