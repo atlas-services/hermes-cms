@@ -41,7 +41,7 @@ final class FrontLocaleSwitcherService
 
             $links[] = [
                 'locale' => $locale,
-                'label' => $this->appLocaleService->formatLabel($locale),
+                'label' => $this->appLocaleService->formatFrontLabel($locale),
                 'url' => $this->buildMenuUrl($targetMenu, $locale),
                 'active' => $locale === $currentLocale,
             ];

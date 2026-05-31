@@ -1,20 +1,46 @@
 {% set localeLinks = front_locale_switcher(menu|default(null)) %}
+{% set placement = placement|default(configs.nav_locale_switcher_position|default('below')) %}
+{% if placement not in ['below', 'inline'] %}
+    {% set placement = 'below' %}
+{% endif %}
+
 {% if localeLinks|length > 1 %}
-    <nav class="hermes-locale-switcher border-bottom"
-         aria-label="{{ 'front.locale_switcher.label'|trans }}"
-         style="background-color: {{ configs.nav_li_bgcolor|default(configs.nav_bgcolor|default('#ffffff')) }};">
-        <div class="container-fluid">
-            <ul class="nav nav-pills justify-content-center flex-wrap gap-1 py-2 mb-0 {{ configs.nav_sub_menu_text_size|default('small') }}">
+    {% if placement == 'inline' %}
+        <ul class="navbar-nav hermes-locale-switcher hermes-locale-switcher--inline mb-2 mb-lg-0 ms-lg-auto align-items-lg-center flex-row gap-1 {{ configs.nav_menu_text_size|default('h6') }}"
+            aria-label="{{ 'front.locale_switcher.label'|trans }}">
+            {% for link in localeLinks %}
+                <li class="nav-item">
+                    <a class="nav-link px-2 py-1 rounded-{{ configs.nav_link_rounded|default(0) }} {{ link.active ? 'active fw-semibold' : '' }}"
+                       href="{{ link.url }}"
+                       hreflang="{{ link.locale }}"
+                       lang="{{ link.locale }}"
+                       {% if link.active %}aria-current="page"{% endif %}
+                       style="{% if link.active %}
+                           background-color: {{ configs.nav_bgcolor_active|default('transparent') }};
+                           color: {{ configs.nav_color_active|default(configs.nav_link_color|default('#000000')) }};
+                       {% else %}
+                           color: {{ configs.nav_link_color|default('#000000') }};
+                           background-color: {{ configs.nav_bgcolor_link|default('transparent') }};
+                       {% endif %}">
+                        {{ link.label }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <nav class="hermes-locale-switcher hermes-locale-switcher--below border-top w-100"
+             aria-label="{{ 'front.locale_switcher.label'|trans }}"
+             style="background-color: {{ configs.nav_bgcolor|default('#ffffff') }};">
+            <ul class="nav justify-content-center flex-wrap gap-2 py-1 mb-0 {{ configs.nav_sub_menu_text_size|default('small') }}">
                 {% for link in localeLinks %}
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-1 rounded-pill {{ link.active ? 'active' : '' }}"
+                        <a class="nav-link px-2 py-0 {{ link.active ? 'active fw-semibold' : '' }}"
                            href="{{ link.url }}"
                            hreflang="{{ link.locale }}"
                            lang="{{ link.locale }}"
                            {% if link.active %}aria-current="page"{% endif %}
                            style="{% if link.active %}
-                               background-color: {{ configs.nav_bgcolor_active|default('#0d6efd') }};
-                               color: {{ configs.nav_color_active|default('#ffffff') }};
+                               color: {{ configs.nav_color_active|default(configs.nav_link_color|default('#000000')) }};
                            {% else %}
                                color: {{ configs.nav_link_color|default('#000000') }};
                            {% endif %}">
@@ -23,6 +49,6 @@
                     </li>
                 {% endfor %}
             </ul>
-        </div>
-    </nav>
+        </nav>
+    {% endif %}
 {% endif %}

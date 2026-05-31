@@ -27,6 +27,7 @@ final class AppLocaleServiceTest extends BaseKernelTestCase
     {
         self::assertSame('fr', $this->appLocaleService->getDefaultLocale());
         self::assertSame('France (FR)', $this->appLocaleService->formatLabel('fr'));
+        self::assertSame('FR', $this->appLocaleService->formatFrontLabel('fr'));
     }
 
     public function testContentLocalesIncludeFrFromFixtures(): void

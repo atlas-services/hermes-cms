@@ -369,6 +369,10 @@ parameters:
         summary: "Durée Effet data aos"
         value: 1000
         position: 25
+      nav_locale_switcher_position:
+        summary: "Position du sélecteur de langues (below = sous le menu, inline = à droite du menu)"
+        value: below
+        position: 26
     content:
       content_bgcolor:
         summary: Couleur de fond du contenu

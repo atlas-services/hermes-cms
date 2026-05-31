@@ -80,6 +80,12 @@ final class AppLocaleService
         return sprintf('%s (%s)', $this->resolveCountryOrLanguageName($locale), $code);
     }
 
+    /** Libellé court front (ex. FR, EN). */
+    public function formatFrontLabel(string $locale): string
+    {
+        return strtoupper($this->normalize($locale));
+    }
+
     /**
      * Langues ayant déjà du contenu (menus et/ou posts).
      *

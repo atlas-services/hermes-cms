@@ -69,13 +69,26 @@
                             </div>
                         {% endif %}
                         <div class="col {{ navOffset > 0 ? 'offset-lg-' ~ navOffset : '' }}">
-                            <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center"
-                                style="
-                                    min-height: {{ navHeight }};
-                                    background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
-                                ">
-                                {{ nav.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, true) }}
-                            </ul>
+                            {% set navLocaleSwitcherPosition = configs.nav_locale_switcher_position|default('below') %}
+                            {% if navLocaleSwitcherPosition not in ['below', 'inline'] %}
+                                {% set navLocaleSwitcherPosition = 'below' %}
+                            {% endif %}
+                            <div class="d-lg-flex align-items-lg-center w-100">
+                                <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center{{ navLocaleSwitcherPosition == 'inline' ? ' flex-grow-1' : '' }}"
+                                    style="
+                                        min-height: {{ navHeight }};
+                                        background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
+                                    ">
+                                    {{ nav.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, true) }}
+                                </ul>
+                                {% if navLocaleSwitcherPosition == 'inline' %}
+                                    {% include 'front/navbar/_locale_switcher.html.twig' with {
+                                        placement: 'inline',
+                                        menu: menu|default(null),
+                                        configs: configs,
+                                    } %}
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>

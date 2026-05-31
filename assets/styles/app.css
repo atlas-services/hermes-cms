@@ -171,6 +171,28 @@ body {
     flex-shrink: 0;
 }
 
+.hermes-locale-switcher--below {
+    flex-shrink: 0;
+}
+
+.hermes-locale-switcher--below .nav-link {
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+}
+
+.hermes-locale-switcher--inline .nav-link.active {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+@media (max-width: 991.98px) {
+    .hermes-locale-switcher--inline {
+        width: 100%;
+        justify-content: center;
+        padding-top: 0.25rem;
+    }
+}
+
 /* Séparateur animé (AOS) sous l’entrée active du menu base (Hermes 2.2.7) */
 .aos-nav-hr {
     opacity: 1;
