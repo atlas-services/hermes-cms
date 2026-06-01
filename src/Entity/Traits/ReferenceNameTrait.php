@@ -33,7 +33,8 @@ trait ReferenceNameTrait
             return $this;
         }
 
-        $slug = strtolower(trim((string) preg_replace('/[^a-z0-9]+/', '-', (string) $label), '-'));
+        $slug = strtolower(trim((string) $label));
+        $slug = trim((string) preg_replace('/[^a-z0-9]+/', '-', $slug), '-');
         $this->referenceName = $slug !== '' ? $slug : 'menu-' . bin2hex(random_bytes(4));
 
         return $this;

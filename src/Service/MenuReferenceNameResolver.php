@@ -23,14 +23,15 @@ final class MenuReferenceNameResolver
             return $code;
         }
 
+        $name = strtolower(trim((string) $menu->getName()));
+        $name = trim((string) preg_replace('/[^a-z0-9]+/', '-', $name), '-');
+        if ($name !== '') {
+            return $name;
+        }
+
         $slug = strtolower(trim((string) ($menu->getSlug() ?? '')));
         if ($slug !== '') {
             return $slug;
-        }
-
-        $name = strtolower(trim((string) preg_replace('/[^a-z0-9]+/', '-', (string) $menu->getName()), '-'));
-        if ($name !== '') {
-            return $name;
         }
 
         return 'menu-' . ($menu->getId() ?? uniqid());
