@@ -21,6 +21,7 @@ final class LocaleCopyService
         private readonly MenuRepository $menuRepository,
         private readonly SectionRepository $sectionRepository,
         private readonly AppLocaleService $appLocaleService,
+        private readonly MenuReferenceNameResolver $referenceNameResolver,
     ) {
     }
 
@@ -176,27 +177,7 @@ final class LocaleCopyService
 
     private function resolveStableReferenceName(Menu $menu): string
     {
-        $referenceName = strtolower(trim($menu->getReferenceName()));
-        if ($referenceName !== '' && $referenceName !== 'ref') {
-            return $referenceName;
-        }
-
-        $code = strtolower(trim((string) ($menu->getCode() ?? '')));
-        if ($code !== '') {
-            return $code;
-        }
-
-        $slug = strtolower(trim((string) ($menu->getSlug() ?? '')));
-        if ($slug !== '') {
-            return $slug;
-        }
-
-        $name = strtolower(trim((string) preg_replace('/[^a-z0-9]+/', '-', (string) $menu->getName()), '-'));
-        if ($name !== '') {
-            return $name;
-        }
-
-        return 'menu-' . ($menu->getId() ?? uniqid());
+        return $this->referenceNameResolver->resolve($menu);
     }
 
     /**

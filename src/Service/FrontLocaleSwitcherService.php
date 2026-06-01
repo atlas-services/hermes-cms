@@ -17,6 +17,7 @@ final class FrontLocaleSwitcherService
         private readonly MenuRepository $menuRepository,
         private readonly FrontMenuService $frontMenuService,
         private readonly MenuContactProvisioner $contactProvisioner,
+        private readonly MenuReferenceNameResolver $referenceNameResolver,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly AppLocaleService $appLocaleService,
     ) {
@@ -77,13 +78,17 @@ final class FrontLocaleSwitcherService
             return $contact ?? $this->findFirstPageWithDisplayableContent($targetLocale);
         }
 
-        $referenceName = $currentMenu->getReferenceName();
-        if ($referenceName !== '' && $referenceName !== 'ref') {
-            $equivalent = $this->menuRepository->findOneByLocaleAndReferenceName($targetLocale, $referenceName);
-            if ($equivalent instanceof Menu
-                && $equivalent->isPage()
-                && $this->frontMenuService->isMenuHierarchyFullyActive($equivalent)) {
-                return $equivalent;
+        $referenceName = $this->referenceNameResolver->resolve($currentMenu);
+        $equivalent = $this->findMenuByResolvedReference($targetLocale, $referenceName);
+        if ($this->isValidTargetPage($equivalent, $targetLocale)) {
+            return $equivalent;
+        }
+
+        $slugParts = array_values(array_filter(explode('/', $this->buildSlugPath($currentMenu))));
+        if ($slugParts !== []) {
+            $bySlug = $this->menuRepository->findOneBySlugPath($targetLocale, $slugParts);
+            if ($this->isValidTargetPage($bySlug, $targetLocale)) {
+                return $bySlug;
             }
         }
 
@@ -133,6 +138,35 @@ final class FrontLocaleSwitcherService
     private function menuHasDisplayableContent(Menu $menu, string $locale): bool
     {
         return $this->frontMenuService->getVisibleFrontSections($menu, $locale) !== [];
+    }
+
+    private function isValidTargetPage(?Menu $menu, string $locale): bool
+    {
+        return $menu instanceof Menu
+            && $menu->isPage()
+            && $this->frontMenuService->isMenuHierarchyFullyActive($menu)
+            && $this->menuHasDisplayableContent($menu, $locale);
+    }
+
+    private function findMenuByResolvedReference(string $targetLocale, string $resolvedReference): ?Menu
+    {
+        $resolvedReference = strtolower(trim($resolvedReference));
+        if ($resolvedReference === '') {
+            return null;
+        }
+
+        $byColumn = $this->menuRepository->findOneByLocaleAndReferenceName($targetLocale, $resolvedReference);
+        if ($byColumn instanceof Menu) {
+            return $byColumn;
+        }
+
+        foreach ($this->menuRepository->findByLocale($targetLocale) as $candidate) {
+            if ($this->referenceNameResolver->resolve($candidate) === $resolvedReference) {
+                return $candidate;
+            }
+        }
+
+        return null;
     }
 
     private function isContactMenu(Menu $menu): bool

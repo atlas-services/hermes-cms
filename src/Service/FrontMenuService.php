@@ -20,22 +20,7 @@ final class FrontMenuService
 
     public function findMenuBySlugs(array $slugs, string $locale): ?Menu
     {
-        $currentMenu = null;
-
-        foreach ($slugs as $slug) {
-            $criteria = ['slug' => $slug, 'locale' => $locale, 'active' => true, 'parent' => $currentMenu];
-            if ($currentMenu === null) {
-                $criteria['parent'] = null;
-            }
-
-            $currentMenu = $this->menuRepository->findOneBy($criteria);
-
-            if (!$currentMenu) {
-                return null;
-            }
-        }
-
-        return $currentMenu;
+        return $this->menuRepository->findOneBySlugPath($locale, $slugs);
     }
 
     public function findFirstAccessiblePage(string $locale): ?Menu

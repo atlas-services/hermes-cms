@@ -50,10 +50,55 @@ class MenuRepository extends ServiceEntityRepository
 
     public function findOneByLocaleAndReferenceName(string $locale, string $referenceName): ?Menu
     {
-        return $this->findOneBy([
-            'locale' => $locale,
-            'referenceName' => strtolower(trim($referenceName)),
-        ]);
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.referenceName = :ref')
+            ->andWhere('m.locale = :locale OR (m.locale IS NULL AND :locale = :default)')
+            ->setParameter('ref', strtolower(trim($referenceName)))
+            ->setParameter('locale', $locale)
+            ->setParameter('default', 'fr')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * Résout un menu par chemin de slugs (racine → feuille), avec locale NULL = fr par défaut.
+     *
+     * @param list<string> $slugs
+     */
+    public function findOneBySlugPath(string $locale, array $slugs): ?Menu
+    {
+        $current = null;
+
+        foreach ($slugs as $slug) {
+            $slug = trim($slug);
+            if ($slug === '') {
+                continue;
+            }
+
+            $qb = $this->createQueryBuilder('m')
+                ->andWhere('m.slug = :slug')
+                ->andWhere('m.active = :active')
+                ->andWhere('m.locale = :locale OR (m.locale IS NULL AND :locale = :default)')
+                ->setParameter('slug', $slug)
+                ->setParameter('active', true)
+                ->setParameter('locale', $locale)
+                ->setParameter('default', 'fr')
+                ->setMaxResults(1);
+
+            if ($current === null) {
+                $qb->andWhere('m.parent IS NULL');
+            } else {
+                $qb->andWhere('m.parent = :parent')->setParameter('parent', $current);
+            }
+
+            $current = $qb->getQuery()->getOneOrNullResult();
+            if ($current === null) {
+                return null;
+            }
+        }
+
+        return $current;
     }
 
     public function findChildren(Menu $menu): array
