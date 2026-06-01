@@ -214,6 +214,28 @@ body {
     }
 }
 
+/* Navbar base : barre mobile (logo + hamburger sur une ligne) */
+.hermes-nav-mobile-bar {
+    min-height: 2.75rem;
+}
+
+.hermes-nav-mobile-logo-link {
+    min-width: 0;
+}
+
+.hermes-nav-mobile-logo {
+    max-height: 2.75rem;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.hermes-nav-left-toggler-mobile {
+    z-index: 1045;
+    margin-top: 0 !important;
+}
+
 /* Navbar menu gauche (offcanvas persistant desktop, Hermes 2.2.7 left / left_nav) */
 @media (min-width: 992px) {
     body:has(#offcanvasDarkNavbar.show) .hermes-nav-menu-left-main {

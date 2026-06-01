@@ -154,6 +154,11 @@ class ConfigType extends AbstractType
         'À droite du menu' => 'inline',
     ];
 
+    const NAV_TOGGLER_SIDE = [
+        'Gauche' => 'left',
+        'Droite' => 'right',
+    ];
+
     const NAV_DATA_AOS_ACTION =[
         true => true,
         false => false,
@@ -412,6 +417,10 @@ class ConfigType extends AbstractType
                 case 'nav_locale_switcher_position':
                     $choice = true;
                     $options = self::NAV_LOCALE_SWITCHER_POSITION;
+                    break;
+                case 'nav_toggler_side':
+                    $choice = true;
+                    $options = self::NAV_TOGGLER_SIDE;
                     break;
             }
             if ($choice) {

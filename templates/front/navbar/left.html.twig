@@ -20,6 +20,11 @@
 {% set navOffcanvasPct = (configs.nav_offcanvas_pct|default(15) + 0)|round(0, 'floor') %}
 {% set navOffcanvasPct = navOffcanvasPct < 5 ? 5 : (navOffcanvasPct > 100 ? 100 : navOffcanvasPct) %}
 {% set navHeaderColor = configs.nav_header_color|default('#000000') %}
+{% set navTogglerSide = configs.nav_toggler_side|default('right') %}
+{% if navTogglerSide not in ['left', 'right'] %}
+    {% set navTogglerSide = 'right' %}
+{% endif %}
+{% set togglerEdgeClass = navTogglerSide == 'left' ? 'start-0' : 'end-0' %}
 {% set offcanvasEdgeClass = navOffcanvasPosition == 'end' ? 'end-0' : (navOffcanvasPosition == 'top' ? 'top-0' : (navOffcanvasPosition == 'bottom' ? 'bottom-0' : 'start-0')) %}
 {% set mtBtn = logoUrl and not logoTop ? 'mt-5 mt-lg-0' : 'mt-5 pt-lg-4' %}
 
@@ -38,10 +43,10 @@
         {% endif %}
     </div>
 
-    <div class="d-block d-lg-none position-absolute {{ offcanvasEdgeClass }} {{ mtBtn }}">
+    <div class="d-block d-lg-none position-fixed {{ togglerEdgeClass }} top-0 p-2 hermes-nav-left-toggler-mobile">
         <button id="btnOffcanvasDarkNavbarSmall"
                 type="button"
-                class="navbar-toggler collapsed float-end border-0 shadow-none"
+                class="navbar-toggler collapsed border-0 shadow-none p-0"
                 style="background-color: {{ configs.nav_header_bgcolor|default('transparent') }}"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasDarkNavbarSmall"

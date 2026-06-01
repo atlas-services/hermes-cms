@@ -273,6 +273,10 @@ parameters:
         summary: "Largeur menu offcanvas (en %)"
         value: 15
         position: 3
+      nav_toggler_side:
+        summary: "Position du bouton hamburger en mode responsive (gauche ou droite)"
+        value: right
+        position: 27
       nav_height:
         summary: Hauteur du sous menu (en px)
         value: '90px'

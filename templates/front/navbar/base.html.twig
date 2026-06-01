@@ -25,6 +25,10 @@
 {% set navAosActive = navAosCfg is same as(true) or navAosCfg in [1, '1', 'true', 'on'] %}
 {% set navAosEffect = configs.nav_data_aos|default('fade-up') %}
 {% set navAosDuration = (configs.nav_data_aos_duration|default(1000) + 0)|round(0, 'floor') %}
+{% set navTogglerSide = configs.nav_toggler_side|default('right') %}
+{% if navTogglerSide not in ['left', 'right'] %}
+    {% set navTogglerSide = 'right' %}
+{% endif %}
 
 <nav class="navbar navbar-expand-lg rounded w-100"
      style="
@@ -35,14 +39,28 @@
     <div class="container-fluid px-0">
         <div class="row w-100 g-0">
             <div class="col-12 col-lg-{{ navContainerWidth }}">
-                {% if logoUrl %}
-                    <div class="w-100 text-center d-lg-none mb-2">
-                        <img src="{{ asset(logoUrl) }}"
-                             alt="Logo"
-                             class="img-fluid"
-                             style="max-width: 100%; height: auto;">
-                    </div>
-                {% endif %}
+                {# Mobile : hamburger et logo sur une seule ligne en haut #}
+                <div class="d-flex d-lg-none w-100 align-items-center mb-2 gap-2 hermes-nav-mobile-bar">
+                    {% if navTogglerSide == 'left' %}
+                        <button class="navbar-toggler flex-shrink-0 border-0 shadow-none p-1" type="button" data-bs-toggle="collapse" data-bs-target="#frontNavbarNav" aria-controls="frontNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    {% endif %}
+                    {% if logoUrl %}
+                        <a class="hermes-nav-mobile-logo-link flex-grow-1 text-center text-decoration-none {{ navTogglerSide == 'right' ? 'me-1' : 'ms-1' }}" href="{{ path('front_root') }}">
+                            <img src="{{ asset(logoUrl) }}"
+                                 alt="Logo"
+                                 class="hermes-nav-mobile-logo img-fluid">
+                        </a>
+                    {% elseif navTogglerSide == 'right' %}
+                        <div class="flex-grow-1" aria-hidden="true"></div>
+                    {% endif %}
+                    {% if navTogglerSide == 'right' %}
+                        <button class="navbar-toggler flex-shrink-0 border-0 shadow-none p-1" type="button" data-bs-toggle="collapse" data-bs-target="#frontNavbarNav" aria-controls="frontNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    {% endif %}
+                </div>
 
                 {% if logoUrl and logoTop %}
                     <div class="w-100 text-start d-none d-lg-block mb-2">
@@ -52,10 +70,6 @@
                              style="max-width: 100%; height: auto; margin-left: {{ logoLeftOffset }};">
                     </div>
                 {% endif %}
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#frontNavbarNav" aria-controls="frontNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div class="collapse navbar-collapse" id="frontNavbarNav">
                     <div class="row gx-0 align-items-lg-center w-100 mx-0">
                         {% if logoUrl and not logoTop %}
