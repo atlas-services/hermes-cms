@@ -123,6 +123,7 @@ menu:
   contact_section_created: Une section formulaire de contact a été ajoutée automatiquement.
   filter_locale: Langue des menus
   toggle_submenu: 'Afficher ou masquer le sous-menu « %name% »'
+  confirm_delete: 'Supprimer « %name% » et tout son contenu (sous-menus, sections et posts) ? Cette action est irréversible.'
 
 user:
   newsletter: Liste des abonnés newsletter

@@ -62,10 +62,12 @@
                     {{ ux_icon('fa:edit', {height: '16px'}) }}
                 </a>
 
-                <form method="post" action="{{ path('post_delete', {id: post.id}) }}" class="d-inline-block ms-2" onsubmit="return confirm('{{ 'global.confirm_delete'|trans() }}');">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ post.id) }}">
-                    <button type="submit" class="btn btn-outline-danger">{{ ux_icon('fa:trash', {height: '16px'}) }}</button>
-                </form>
+                {{ include('admin/_delete_icon_form.html.twig', {
+                    action: path('post_delete', { id: post.id }),
+                    csrf_token: csrf_token('delete_' ~ post.id),
+                    confirm_message: 'global.confirm_delete'|trans,
+                    form_class: ' ms-2',
+                }) }}
             </td>
         </tr>
     {% else %}

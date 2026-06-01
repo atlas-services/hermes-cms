@@ -130,16 +130,19 @@ final class MenuController extends AbstractController
         Menu $menu,
         EntityManagerInterface $em
     ): Response {
-        $menuLocale = $this->resolveMenuFilterLocale($request);
+        $requestedLocale = $request->request->getString('menu_locale');
+        $menuLocale = $requestedLocale !== ''
+            ? $this->appLocaleService->resolveAdminFilterLocale($requestedLocale)
+            : ($menu->getLocale() ?? $this->appLocaleService->getDefaultLocale());
 
         if ($this->isCsrfTokenValid('delete_' . (string) $menu->getId(), $request->request->get('_token'))) {
-
+            $menuName = $menu->getName();
             $em->remove($menu);
             $em->flush();
 
             $this->addFlash('info', sprintf(
-                'Menu "%s" supprimé !',
-                $menu->getName()
+                'Menu « %s » supprimé (sous-menus, sections et posts inclus).',
+                $menuName
             ));
         }
 

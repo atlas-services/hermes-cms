@@ -149,6 +149,11 @@ class ConfigType extends AbstractType
         'bottom' => 'bottom',
     ];
 
+    const NAV_LOCALE_SWITCHER_POSITION = [
+        'Sous le menu' => 'below',
+        'À droite du menu' => 'inline',
+    ];
+
     const NAV_DATA_AOS_ACTION =[
         true => true,
         false => false,
@@ -403,6 +408,10 @@ class ConfigType extends AbstractType
                 case 'nav_data_aos_duration':
                     $choice = true;
                     $options = self::NAV_DATA_AOS_DURATION;
+                    break;
+                case 'nav_locale_switcher_position':
+                    $choice = true;
+                    $options = self::NAV_LOCALE_SWITCHER_POSITION;
                     break;
             }
             if ($choice) {

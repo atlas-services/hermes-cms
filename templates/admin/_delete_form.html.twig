@@ -6,7 +6,7 @@
         data-bs-toggle="modal"
         data-bs-target="#{{ modal_id }}"
         title="{{ 'form.label.delete'|trans }}">
-    <i class="fa fa-trash" aria-hidden="true"></i>
+    {{ ux_icon('fa:trash', {height: '16px'}) }}
     <span class="visually-hidden">{{ 'form.label.delete'|trans }}</span>
 </button>
 
@@ -18,7 +18,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'global.close'|trans|default('Fermer') }}"></button>
             </div>
             <div class="modal-body">
-                {{ 'global.confirm_delete_question'|trans }} {{ objet }}
+                {% if confirm_message is defined and confirm_message %}
+                    {{ confirm_message }}
+                {% else %}
+                    {{ 'global.confirm_delete_question'|trans }} {{ objet }}
+                {% endif %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

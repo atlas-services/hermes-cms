@@ -119,6 +119,7 @@ menu:
   filter_locale: Menu language
   contact_section_created: A contact form section was added automatically.
   toggle_submenu: 'Show or hide submenu “%name%”'
+  confirm_delete: 'Delete “%name%” and all its content (submenus, sections and posts)? This cannot be undone.'
 
 user:
   newsletter: Newsletter subscribers

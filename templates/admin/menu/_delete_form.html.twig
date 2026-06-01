@@ -1,6 +1,5 @@
-<form method="post" action="{{ path('menu_delete', {'id': menu.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    {# <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ menu.id) }}"> #}
-    <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ menu.id|e) }}">
-    {# <input type="hidden" name="_token" value="{{ csrf_token('delete') }}"> #}
-    <button class="btn btn-danger">{{ 'form.label.delete'|trans() }}</button>
-</form>
+{{ include('admin/_delete_form.html.twig', {
+    action: path('menu_delete', { id: menu.id }),
+    csrf_token_delete: csrf_token('delete_' ~ menu.id),
+    confirm_message: 'menu.confirm_delete'|trans({ '%name%': menu.name }),
+}) }}

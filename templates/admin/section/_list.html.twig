@@ -189,10 +189,12 @@
                             <button type="submit" class="btn btn-outline-danger btn-sm ms-1">{{ 'admin.section.clear_all_images'|trans }}</button>
                         </form>
                     {% endif %}
-                    <form method="post" action="{{ path('section_delete', { id: section.id }) }}" class="d-inline" data-confirm="{{ 'admin.section.confirm_delete_section'|trans|e('html_attr') }}" onsubmit="return confirm(this.getAttribute('data-confirm'));">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete_section_' ~ section.id) }}">
-                        <button type="submit" class="btn btn-outline-danger btn-sm ms-1">{{ 'form.label.delete'|trans }}</button>
-                    </form>
+                    {{ include('admin/_delete_icon_form.html.twig', {
+                        action: path('section_delete', { id: section.id }),
+                        csrf_token: csrf_token('delete_section_' ~ section.id),
+                        confirm_message: 'admin.section.confirm_delete_section'|trans,
+                        form_class: ' ms-1',
+                    }) }}
                 </td>
             </tr>
         {% else %}

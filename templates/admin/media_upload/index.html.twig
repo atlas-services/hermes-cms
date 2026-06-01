@@ -168,12 +168,16 @@
                                         <input type="text" name="new_name" value="{{ d.name }}" required maxlength="120" class="form-control form-control-sm flex-grow-1" aria-label="{{ 'admin.media_upload.rename_folder'|trans }}">
                                         <button type="submit" class="btn btn-sm btn-outline-secondary text-nowrap">{{ 'admin.media_upload.rename_submit'|trans }}</button>
                                     </form>
-                                    <form method="post" action="{{ path('admin_media_upload_delete_folder', {_locale: app.request.locale}) }}" class="flex-shrink-0" data-confirm="{{ 'admin.media_upload.confirm_delete_folder'|trans({'%name%': d.name})|e('html_attr') }}" onsubmit="return confirm(this.getAttribute('data-confirm'));">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('media_upload') }}">
-                                        <input type="hidden" name="path" value="{{ d.path }}">
-                                        <input type="hidden" name="browse_path" value="{{ current_path }}">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger text-nowrap">{{ 'admin.media_upload.delete_folder'|trans }}</button>
-                                    </form>
+                                    {{ include('admin/_delete_icon_form.html.twig', {
+                                        action: path('admin_media_upload_delete_folder', { _locale: app.request.locale }),
+                                        csrf_token: csrf_token('media_upload'),
+                                        confirm_message: 'admin.media_upload.confirm_delete_folder'|trans({ '%name%': d.name }),
+                                        btn_class: 'btn btn-sm btn-outline-danger text-nowrap',
+                                        hidden_fields: [
+                                            { name: 'path', value: d.path },
+                                            { name: 'browse_path', value: current_path },
+                                        ],
+                                    }) }}
                                 </div>
                             </td>
                         </tr>
@@ -196,12 +200,16 @@
                                 <a href="{{ app.request.basePath ~ '/' ~ web_base ~ '/' ~ f.path }}" target="_blank" rel="noopener">{{ 'admin.media_upload.open_file'|trans }}</a>
                             </td>
                             <td class="align-middle">
-                                <form method="post" action="{{ path('admin_media_upload_delete_file', {_locale: app.request.locale}) }}" class="d-inline" data-confirm="{{ ('admin.media_upload.confirm_delete_file'|trans)|replace({'__NAME__': f.name})|e('html_attr') }}" onsubmit="return confirm(this.getAttribute('data-confirm'));">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('media_upload') }}">
-                                    <input type="hidden" name="path" value="{{ f.path }}">
-                                    <input type="hidden" name="browse_path" value="{{ current_path }}">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger text-nowrap">{{ 'admin.media_upload.delete_file'|trans }}</button>
-                                </form>
+                                {{ include('admin/_delete_icon_form.html.twig', {
+                                    action: path('admin_media_upload_delete_file', { _locale: app.request.locale }),
+                                    csrf_token: csrf_token('media_upload'),
+                                    confirm_message: ('admin.media_upload.confirm_delete_file'|trans)|replace({'__NAME__': f.name}),
+                                    btn_class: 'btn btn-sm btn-outline-danger text-nowrap',
+                                    hidden_fields: [
+                                        { name: 'path', value: f.path },
+                                        { name: 'browse_path', value: current_path },
+                                    ],
+                                }) }}
                             </td>
                         </tr>
                     {% endfor %}
