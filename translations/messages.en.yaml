@@ -185,6 +185,22 @@ admin:
     add_section: New footer section
     post_create_context: Adding a post to the site footer (global footer section).
     back_to_list: Back to footer sections
+  content_transfer:
+    title: Copy / move
+    operation: Action
+    copy: Copy
+    move: Move
+    submit: Apply
+    choose_page: Choose a page…
+    target_section: Target section
+    new_section_on_copy: New section (on copy)
+    target_section_help: Leave empty when copying to create a section with the same template. Required for move.
+    source_section: Source section
+    source_post: Source post
+    flash_section_copied: Section and posts copied to the target page.
+    flash_section_moved: Section and posts moved to the target page.
+    flash_post_copied: Post copied to the target page.
+    flash_post_moved: Post moved to the target section.
   post:
     create_in_menu: "Adding a post to the menu:"
   section:

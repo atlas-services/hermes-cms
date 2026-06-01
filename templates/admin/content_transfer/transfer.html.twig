@@ -1,0 +1,81 @@
+{% extends '/admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.content_transfer.title'|trans }}{% endblock %}
+
+{% block content %}
+    <a class="btn btn-info mb-3" href="{{ path('post_index', backParams) }}">{{ 'form.label.back_to_list'|trans }}</a>
+
+    <h1 class="text-success">{{ 'admin.content_transfer.title'|trans }}</h1>
+
+    <div class="alert alert-secondary">
+        {% if kind == 'post' and sourcePost %}
+            <strong>{{ 'admin.content_transfer.source_post'|trans }} :</strong> {{ sourcePost.name }}
+            <span class="text-muted">({{ 'admin.content_transfer.source_section'|trans }} {{ sourceSection.position }})</span>
+        {% else %}
+            <strong>{{ 'admin.content_transfer.source_section'|trans }} :</strong>
+            {{ sourceSection.template ? sourceSection.template.name : '—' }}
+            <span class="text-muted">({{ 'form.label.position'|trans }} {{ sourceSection.position }})</span>
+        {% endif %}
+    </div>
+
+    <div
+        data-controller="content-transfer-targets"
+        data-content-transfer-targets-default-locale-value="{{ defaultLocale }}"
+        data-content-transfer-targets-show-section-value="{{ kind == 'post' ? 'true' : 'false' }}"
+    >
+        <script type="application/json" data-content-transfer-targets-target="pagesJson">{{ pagesPayload|json_encode|raw }}</script>
+
+        {{ form_start(form, { attr: { class: 'needs-validation' } }) }}
+
+        {{ form_row(form.operation) }}
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-4">
+                <label class="form-label" for="target_locale">{{ 'global.locale'|trans }}</label>
+                <select id="target_locale" class="form-select" data-content-transfer-targets-target="locale" data-action="change->content-transfer-targets#refresh">
+                    {% for label, code in localeChoices %}
+                        <option value="{{ code }}" {{ code == defaultLocale ? 'selected' : '' }}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-8">
+                <label class="form-label" for="target_menu_id">{{ 'global.page'|trans }}</label>
+                <select
+                    id="target_menu_id"
+                    name="target_menu_id"
+                    class="form-select"
+                    required
+                    data-content-transfer-targets-target="menu"
+                    data-placeholder="{{ 'admin.content_transfer.choose_page'|trans|e('html_attr') }}"
+                    data-action="change->content-transfer-targets#refresh"
+                >
+                    <option value="">{{ 'admin.content_transfer.choose_page'|trans }}</option>
+                    {% for page in pagesPayload %}
+                        {% if page.locale == defaultLocale %}
+                            <option value="{{ page.id }}">{{ page.displayLabel|default(page.label) }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        {% if kind == 'post' %}
+            <div class="mb-3" data-content-transfer-targets-target="sectionWrap">
+                <label class="form-label" for="target_section_id">{{ 'admin.content_transfer.target_section'|trans }}</label>
+                <select
+                    id="target_section_id"
+                    name="target_section_id"
+                    class="form-select"
+                    data-content-transfer-targets-target="section"
+                    data-new-section-label="{{ 'admin.content_transfer.new_section_on_copy'|trans|e('html_attr') }}"
+                >
+                    <option value="">{{ 'admin.content_transfer.new_section_on_copy'|trans }}</option>
+                </select>
+                <div class="form-text">{{ 'admin.content_transfer.target_section_help'|trans }}</div>
+            </div>
+        {% endif %}
+
+        {{ form_row(form.submit) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

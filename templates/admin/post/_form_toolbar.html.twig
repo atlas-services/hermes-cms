@@ -40,6 +40,14 @@
             {{ ux_icon('fa:trash', {height: '16px'}) }}
             <span class="visually-hidden">{{ 'form.label.delete'|trans }}</span>
         </button>
+        {% if post %}
+            <a class="btn btn-outline-secondary"
+               href="{{ path('admin_content_transfer_post', { id: post.id }) }}"
+               title="{{ 'admin.content_transfer.title'|trans }}">
+                {{ ux_icon('fa:copy', {height: '16px'}) }}
+                <span class="visually-hidden">{{ 'admin.content_transfer.title'|trans }}</span>
+            </a>
+        {% endif %}
     {% elseif isFooterSection|default(false) or (section and section.footerSection) %}
         <a class="btn btn-info" href="{{ path('admin_footer_sections_index', { _locale: app.request.locale }) }}">
             {{ 'admin.footer_sections.back_to_list'|trans }}

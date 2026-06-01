@@ -195,6 +195,13 @@
                         confirm_message: 'admin.section.confirm_delete_section'|trans,
                         form_class: ' ms-1',
                     }) }}
+                    <a class="btn btn-outline-secondary btn-sm ms-1"
+                       href="{{ path('admin_content_transfer_section', { id: section.id, page: selectedPage.id|default(null), menu_locale: menu_locale|default(app.request.query.get('menu_locale')) }) }}"
+                       title="{{ 'admin.content_transfer.title'|trans }}"
+                       data-bs-toggle="tooltip">
+                        {{ ux_icon('fa:copy', {height: '16px'}) }}
+                        <span class="visually-hidden">{{ 'admin.content_transfer.title'|trans }}</span>
+                    </a>
                 </td>
             </tr>
         {% else %}

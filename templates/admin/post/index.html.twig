@@ -53,6 +53,8 @@
                 sections: selectedPage.sections|filter(section => not section.footerSection),
                 sectionModaleChoices: sectionModaleChoices|default([]),
                 sectionListeTemplateChoices: sectionListeTemplateChoices|default({}),
+                selectedPage: selectedPage,
+                menu_locale: menu_locale,
             }) }}
         {% endif %}
     {% endif %}

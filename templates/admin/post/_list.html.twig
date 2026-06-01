@@ -68,6 +68,13 @@
                     confirm_message: 'global.confirm_delete'|trans,
                     form_class: ' ms-2',
                 }) }}
+                <a class="btn btn-outline-secondary btn-sm ms-1"
+                   href="{{ path('admin_content_transfer_post', { id: post.id }) }}"
+                   title="{{ 'admin.content_transfer.title'|trans }}"
+                   data-bs-toggle="tooltip">
+                    {{ ux_icon('fa:copy', {height: '16px'}) }}
+                    <span class="visually-hidden">{{ 'admin.content_transfer.title'|trans }}</span>
+                </a>
             </td>
         </tr>
     {% else %}

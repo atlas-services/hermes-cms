@@ -191,6 +191,22 @@ admin:
   locale_copy:
     help: 'Copie les menus, sections et posts depuis la langue « %source% » vers la langue choisie.'
     back_to_list: Retour aux sections footer
+  content_transfer:
+    title: Copier / déplacer
+    operation: Action
+    copy: Copier
+    move: Déplacer
+    submit: Valider
+    choose_page: Choisir une page…
+    target_section: Section cible
+    new_section_on_copy: Nouvelle section (lors d’une copie)
+    target_section_help: Pour une copie, laissez vide pour créer une section avec le même gabarit. Obligatoire pour un déplacement.
+    source_section: Section source
+    source_post: Post source
+    flash_section_copied: Section et posts copiés vers la page cible.
+    flash_section_moved: Section et posts déplacés vers la page cible.
+    flash_post_copied: Post copié vers la page cible.
+    flash_post_moved: Post déplacé vers la section cible.
   post:
     create_in_menu: "Ajout d’un post dans le menu :"
   section:
