@@ -2,6 +2,9 @@
     <thead>
         <tr>
             <th>{{ 'form.label.active'|trans }}</th>
+            {% if footerSectionList|default(false) %}
+                <th>{{ 'global.locale'|trans }}</th>
+            {% endif %}
             <th>{{ 'form.label.section_width_1_to_12'|trans }}</th>
             <th>{{ 'form.label.section_liste_template'|trans }}</th>
             <th>{{ 'form.label.section_modal'|trans }}</th>
@@ -31,6 +34,22 @@
                         >
                     </div>
                 </td>
+                {% if footerSectionList|default(false) %}
+                    <td>
+                        <select
+                            class="form-select form-select-sm w-auto"
+                            aria-label="{{ 'global.locale'|trans }}"
+                            data-controller="active-item"
+                            data-action="change->active-item#persistSectionLocale"
+                        >
+                            {% for localeCode in menu_locales|default([]) %}
+                                <option value="{{ localeCode }}" {{ section.locale == localeCode ? 'selected' : '' }}>
+                                    {{ localeCode|upper }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                {% endif %}
                 <td>
                     {% set sectionWidth = section.templateWidth ?? 10 %}
                     <select
@@ -206,7 +225,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">{{ 'Aucune section trouvée pour cette page.' }}</td>
+                <td colspan="{{ footerSectionList|default(false) ? 10 : 9 }}">{{ 'Aucune section trouvée pour cette page.' }}</td>
             </tr>
         {% endfor %}
     </tbody>

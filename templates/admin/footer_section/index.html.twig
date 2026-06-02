@@ -13,6 +13,13 @@
                 {{ 'config.affiche_list_footer'|trans }}
             </a>
             <form method="post" action="{{ path('admin_footer_sections_new', { _locale: app.request.locale }) }}">
+                <select class="form-select d-inline-block w-auto me-2" name="locale" aria-label="{{ 'global.locale'|trans }}">
+                    {% for localeCode in availableLocales|default([app.request.locale]) %}
+                        <option value="{{ localeCode }}" {{ localeCode == app.request.locale ? 'selected' : '' }}>
+                            {{ localeCode|upper }}
+                        </option>
+                    {% endfor %}
+                </select>
                 <button type="submit" class="btn btn-success">{{ 'admin.footer_sections.add_section'|trans }}</button>
             </form>
         </div>
@@ -20,6 +27,7 @@
 
     {{ include('admin/section/_list.html.twig', {
         sections: sections,
+        menu_locales: availableLocales|default([]),
         sectionModaleChoices: [],
         sectionListeTemplateChoices: {},
         footerSectionList: true,

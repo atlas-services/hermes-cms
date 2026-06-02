@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Repository\SectionRepository;
+use App\Service\AppLocaleService;
 use App\Service\FooterSectionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,17 +18,31 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class FooterSectionController extends AbstractController
 {
     #[Route('', name: 'index', methods: ['GET'])]
-    public function index(SectionRepository $sectionRepository, Request $request): Response
+    public function index(
+        SectionRepository $sectionRepository,
+        AppLocaleService $appLocaleService,
+        Request $request,
+    ): Response
     {
         return $this->render('admin/footer_section/index.html.twig', [
             'sections' => $sectionRepository->findFooterSections($request->getLocale()),
+            'availableLocales' => $appLocaleService->getContentLocales(),
         ]);
     }
 
     #[Route('/new', name: 'new', methods: ['POST'])]
-    public function new(Request $request, FooterSectionService $footerSectionService): Response
+    public function new(
+        Request $request,
+        AppLocaleService $appLocaleService,
+        FooterSectionService $footerSectionService,
+    ): Response
     {
-        $section = $footerSectionService->createSection($request->getLocale());
+        $locale = strtolower(trim((string) $request->request->get('locale', $request->getLocale())));
+        if (!\in_array($locale, $appLocaleService->getContentLocales(), true)) {
+            $locale = $request->getLocale();
+        }
+
+        $section = $footerSectionService->createSection($locale);
 
         return $this->redirectToRoute('post_new_section', [
             'id' => $section->getId(),

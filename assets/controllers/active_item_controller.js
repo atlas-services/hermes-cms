@@ -241,4 +241,12 @@ export default class extends Controller {
         }
         select.dataset.previousValue = String(v);
     }
+
+    async persistSectionLocale(event) {
+        const locale = String(event.currentTarget.value || '').trim().toLowerCase();
+        if (!locale) {
+            return;
+        }
+        await this._postSectionField('update-section-locale', event, { locale });
+    }
 }

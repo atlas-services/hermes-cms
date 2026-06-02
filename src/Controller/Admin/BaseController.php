@@ -8,6 +8,7 @@ use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
 use App\Entity\Template;
+use App\Service\AppLocaleService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -391,6 +392,38 @@ class BaseController extends AbstractController
             $section->setTemplateImageFilter($filter);
         }
 
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
+    #[Route('/update-section-locale', name: 'app_update_section_locale', methods: ['POST'])]
+    public function updateSectionLocale(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        AppLocaleService $appLocaleService,
+    ): JsonResponse {
+        $section = $this->resolveSectionFromJson($request, $entityManager);
+        if ($section instanceof JsonResponse) {
+            return $section;
+        }
+        if (!$section->isFooterSection()) {
+            return new JsonResponse(['status' => 'section is not footer'], 400);
+        }
+
+        try {
+            /** @var array{locale?: mixed} $data */
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        $locale = strtolower(trim((string) ($data['locale'] ?? '')));
+        if (!\in_array($locale, $appLocaleService->getContentLocales(), true)) {
+            return new JsonResponse(['status' => 'invalid locale'], 400);
+        }
+
+        $section->setLocale($locale);
         $entityManager->flush();
 
         return new JsonResponse(['status' => 'success']);
