@@ -20,7 +20,8 @@ final class FrontMenuService
 
     public function findMenuBySlugs(array $slugs, string $locale): ?Menu
     {
-        return $this->menuRepository->findOneBySlugPath($locale, $slugs);
+        // L’accès direct au contenu reste possible même si le menu est désactivé.
+        return $this->menuRepository->findOneBySlugPath($locale, $slugs, false);
     }
 
     public function findFirstAccessiblePage(string $locale): ?Menu
@@ -167,10 +168,9 @@ final class FrontMenuService
         $menu = $this->menuRepository->findOneBy([
             'slug' => MenuContactProvisioner::CONTACT_MENU_NAME,
             'locale' => $locale,
-            'active' => true,
         ]);
 
-        if ($menu === null || !$menu->isPage() || !$this->isMenuHierarchyFullyActive($menu)) {
+        if ($menu === null || !$menu->isPage()) {
             return null;
         }
 

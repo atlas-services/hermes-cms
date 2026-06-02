@@ -98,7 +98,7 @@ final class FrontController extends AbstractController
         $locale = $request->getLocale();
         $menu = $frontMenuService->findMenuBySlugs($slugParts, $locale);
 
-        if (!$menu || !$menu->isPage() || !$frontMenuService->isMenuHierarchyFullyActive($menu)) {
+        if (!$menu || !$menu->isPage()) {
             throw $this->createNotFoundException('Menu not found');
         }
 

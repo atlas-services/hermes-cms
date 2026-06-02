@@ -66,7 +66,7 @@ class MenuRepository extends ServiceEntityRepository
      *
      * @param list<string> $slugs
      */
-    public function findOneBySlugPath(string $locale, array $slugs): ?Menu
+    public function findOneBySlugPath(string $locale, array $slugs, bool $onlyActive = true): ?Menu
     {
         $current = null;
 
@@ -78,13 +78,15 @@ class MenuRepository extends ServiceEntityRepository
 
             $qb = $this->createQueryBuilder('m')
                 ->andWhere('m.slug = :slug')
-                ->andWhere('m.active = :active')
                 ->andWhere('m.locale = :locale OR (m.locale IS NULL AND :locale = :default)')
                 ->setParameter('slug', $slug)
-                ->setParameter('active', true)
                 ->setParameter('locale', $locale)
                 ->setParameter('default', 'fr')
                 ->setMaxResults(1);
+
+            if ($onlyActive) {
+                $qb->andWhere('m.active = :active')->setParameter('active', true);
+            }
 
             if ($current === null) {
                 $qb->andWhere('m.parent IS NULL');

@@ -92,12 +92,12 @@ function repairCarouselMarkup(carouselEl) {
         }
     });
 
-    /* Pas de défilement auto : navigation manuelle (évite aller-retour parasite). */
-    carouselEl.removeAttribute('data-bs-ride');
-
     const items = carouselEl.querySelectorAll('.carousel-inner > .carousel-item');
+    const hasActive = Array.from(items).some((item) => item.classList.contains('active'));
     items.forEach((item, index) => {
-        item.classList.toggle('active', index === 0);
+        if (!hasActive) {
+            item.classList.toggle('active', index === 0);
+        }
     });
 }
 
@@ -129,9 +129,12 @@ function initPostContentCarousels() {
             existing.dispose();
         }
 
+        const intervalAttr = parseInt(carouselEl.getAttribute('data-bs-interval') || '', 10);
+        const rideAttr = (carouselEl.getAttribute('data-bs-ride') || '').toLowerCase();
+
         Carousel.getOrCreateInstance(carouselEl, {
-            interval: false,
-            ride: false,
+            interval: Number.isFinite(intervalAttr) && intervalAttr > 0 ? intervalAttr : false,
+            ride: rideAttr === 'carousel' ? 'carousel' : false,
             wrap: true,
         });
     });
