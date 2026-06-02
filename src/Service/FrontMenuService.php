@@ -141,6 +141,9 @@ final class FrontMenuService
     {
         $blocks = [];
         foreach ($this->sectionRepository->findFooterSectionsForLocale($locale) as $section) {
+            if (($section->getLocale() ?? 'fr') !== $locale) {
+                continue;
+            }
             if (!$section->isActive()) {
                 continue;
             }

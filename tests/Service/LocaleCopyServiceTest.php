@@ -125,4 +125,56 @@ final class LocaleCopyServiceTest extends BaseKernelTestCase
         $this->assertSame(1, $enNiveau2->getPosition());
         $this->assertSame(1, $enNiveau3->getPosition());
     }
+
+    public function testCopyLocaleAlsoCopiesFooterPostsIntoExistingTargetFooterSection(): void
+    {
+        $em = $this->em;
+        /** @var LocaleCopyService $copy */
+        $copy = static::getContainer()->get(LocaleCopyService::class);
+
+        $footerTpl = $em->getRepository(Template::class)->findOneBy(['code' => FooterSectionService::TEMPLATE_CODE]);
+        $this->assertInstanceOf(Template::class, $footerTpl);
+
+        $sourceFooter = new Section();
+        $sourceFooter->setMenu(null);
+        $sourceFooter->setLocale('fr');
+        $sourceFooter->setReferenceName('footer-shared');
+        $sourceFooter->setTemplate($footerTpl);
+        $sourceFooter->setPosition(1);
+        $sourceFooter->setActive(true);
+        $em->persist($sourceFooter);
+
+        $sourcePost = new Post();
+        $sourcePost->setName('Footer FR');
+        $sourcePost->setLocale('fr');
+        $sourcePost->setContent('<p>FR Footer</p>');
+        $sourcePost->setActive(true);
+        $sourcePost->setPosition(1);
+        $sourceFooter->addPost($sourcePost);
+        $em->persist($sourcePost);
+
+        $targetFooter = new Section();
+        $targetFooter->setMenu(null);
+        $targetFooter->setLocale('en');
+        $targetFooter->setReferenceName('footer-shared');
+        $targetFooter->setTemplate($footerTpl);
+        $targetFooter->setPosition(1);
+        $targetFooter->setActive(true);
+        $em->persist($targetFooter);
+        $em->flush();
+
+        $result = $copy->copyLocale('en', 'fr');
+        $this->assertArrayHasKey('success', $result, $result['warning'] ?? json_encode($result));
+
+        $em->clear();
+        $targetFooter = $em->getRepository(Section::class)->findOneBy([
+            'locale' => 'en',
+            'referenceName' => 'footer-shared',
+        ]);
+        $this->assertInstanceOf(Section::class, $targetFooter);
+        $posts = $em->getRepository(Post::class)->findBy(['section' => $targetFooter], ['position' => 'ASC']);
+        $this->assertCount(1, $posts);
+        $this->assertSame('en', $posts[0]->getLocale());
+        $this->assertSame('Footer FR', $posts[0]->getName());
+    }
 }

@@ -228,22 +228,20 @@ final class LocaleCopyService
         $sectionsCreated = 0;
         $postsCreated = 0;
         foreach ($this->sectionRepository->findFooterSectionsForLocale($sourceLocale) as $sourceSection) {
-            $ref = $sourceSection->getReferenceName();
             $sourceSection->ensureFooterReferenceName();
-            $ref ??= $sourceSection->getReferenceName();
+            $ref = $sourceSection->getReferenceName();
             if ($ref === null) {
                 continue;
             }
 
-            if ($this->sectionRepository->findOneFooterByLocaleAndReference($targetLocale, $ref) !== null) {
-                continue;
+            $targetSection = $this->sectionRepository->findOneFooterByLocaleAndReference($targetLocale, $ref);
+            if ($targetSection === null) {
+                $targetSection = $this->cloneSectionShell($sourceSection, null, $targetLocale);
+                $targetSection->setReferenceName($ref);
+                $this->entityManager->persist($targetSection);
+                ++$sectionsCreated;
+                $this->entityManager->flush();
             }
-
-            $targetSection = $this->cloneSectionShell($sourceSection, null, $targetLocale);
-            $targetSection->setReferenceName($ref);
-            $this->entityManager->persist($targetSection);
-            ++$sectionsCreated;
-            $this->entityManager->flush();
             $postsCreated += $this->copyPosts($sourceSection, $targetSection, $targetLocale);
         }
 
@@ -288,6 +286,9 @@ final class LocaleCopyService
     {
         $created = 0;
         foreach ($sourceSection->getPosts() as $sourcePost) {
+            if ($this->hasEquivalentPostOnSection($targetSection, $sourcePost)) {
+                continue;
+            }
             $post = new Post();
             $post->setName($sourcePost->getName());
             $post->setContent($sourcePost->getContent());
@@ -302,5 +303,22 @@ final class LocaleCopyService
         }
 
         return $created;
+    }
+
+    private function hasEquivalentPostOnSection(Section $targetSection, Post $sourcePost): bool
+    {
+        foreach ($targetSection->getPosts() as $existing) {
+            if ($existing->getPosition() !== $sourcePost->getPosition()) {
+                continue;
+            }
+
+            if (trim((string) $existing->getName()) !== trim((string) $sourcePost->getName())) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }
