@@ -99,28 +99,41 @@ final class Hermes227MediaMigrator
             $fileName = (string) $row['file_name'];
             $safeFileName = $this->mediaStorage->sanitizeFileName($fileName);
             $sectionId = (int) $row['section_id'];
-            $menuId = (int) $row['menu_id'];
-            $menuCode = (string) $row['menu_code'];
+            $menuId = isset($row['menu_id']) && $row['menu_id'] !== null ? (int) $row['menu_id'] : null;
+            $menuCode = trim((string) ($row['menu_code'] ?? ''));
+            $sectionLocale = strtolower(trim((string) ($row['section_locale'] ?? 'fr')));
+            $isFooter = (string) ($row['template_code'] ?? '') === 'footer_template';
 
-            $legacyRelative = sprintf('section%d/%s/%s', $sectionId, $menuCode, $fileName);
-            $targetRelative = sprintf(
-                'menu%d/%s/section%d/post/%s',
-                $menuId,
-                $menuCode,
-                $sectionId,
-                $safeFileName,
-            );
+            $targetRelative = $isFooter
+                ? sprintf('footer/section%d/post/%s', $sectionId, $safeFileName)
+                : sprintf(
+                    'menu%d/%s/section%d/post/%s',
+                    $menuId,
+                    $menuCode,
+                    $sectionId,
+                    $safeFileName,
+                );
+            $legacyCandidates = $this->legacyPostMediaCandidates($sectionId, $menuCode, $fileName, $isFooter, $sectionLocale);
 
             if ($fileName !== $safeFileName) {
-                $pathRenames['entity/' . $legacyRelative] = 'entity/' . $targetRelative;
+                foreach ($legacyCandidates as $candidate) {
+                    $pathRenames['entity/' . $candidate] = 'entity/' . $targetRelative;
+                }
             }
 
-            $source = $from['entity'] . '/' . $legacyRelative;
+            $source = null;
+            foreach ($legacyCandidates as $candidate) {
+                $candidatePath = $from['entity'] . '/' . $candidate;
+                if (is_file($candidatePath)) {
+                    $source = $candidatePath;
+                    break;
+                }
+            }
             $dest = $to['entity'] . '/' . $targetRelative;
 
-            if (!is_file($source)) {
+            if ($source === null) {
                 ++$stats['postsMissing'];
-                $log(sprintf('Post id=%d : fichier source absent (%s).', $row['id'], $legacyRelative));
+                $log(sprintf('Post id=%d : fichier source absent (%s).', $row['id'], implode(' | ', $legacyCandidates)));
                 continue;
             }
 
@@ -381,15 +394,43 @@ final class Hermes227MediaMigrator
         }
 
         $sql = <<<'SQL'
-SELECT p.id, p.file_name, s.id AS section_id, m.id AS menu_id, m.code AS menu_code
+SELECT p.id, p.file_name, s.id AS section_id, s.locale AS section_locale, t.code AS template_code, m.id AS menu_id, m.code AS menu_code
 FROM post p
 INNER JOIN section s ON s.id = p.section_id
-INNER JOIN menu m ON m.id = s.menu_id
+LEFT JOIN menu m ON m.id = s.menu_id
+LEFT JOIN template t ON t.id = s.template_id
 WHERE p.file_name IS NOT NULL AND TRIM(p.file_name) != ''
 ORDER BY p.id ASC
 SQL;
 
         return $pdo->query($sql)->fetchAll();
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function legacyPostMediaCandidates(
+        int $sectionId,
+        string $menuCode,
+        string $fileName,
+        bool $isFooter,
+        string $sectionLocale,
+    ): array {
+        $candidates = [];
+
+        if ($isFooter) {
+            $candidates[] = sprintf('section%d/footer/%s', $sectionId, $fileName);
+            $candidates[] = sprintf('section%d/footer_template/%s', $sectionId, $fileName);
+            $candidates[] = sprintf('section%d/%s', $sectionId, $fileName);
+            $candidates[] = sprintf('footer/section%d/post/%s', $sectionId, $fileName);
+            if ($sectionLocale !== '') {
+                $candidates[] = sprintf('footer/%s/section%d/post/%s', $sectionLocale, $sectionId, $fileName);
+            }
+        } else {
+            $candidates[] = sprintf('section%d/%s/%s', $sectionId, $menuCode, $fileName);
+        }
+
+        return array_values(array_unique(array_filter($candidates, static fn (string $p): bool => trim($p) !== '')));
     }
 
     private function tableExists(PDO $pdo, string $table): bool

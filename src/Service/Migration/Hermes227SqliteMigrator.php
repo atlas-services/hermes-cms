@@ -155,7 +155,7 @@ final class Hermes227SqliteMigrator
         $postResult = $this->migratePosts(
             $source,
             $target,
-            $sectionResult['insertedSectionIds'],
+            $sectionResult['insertedSectionLocales'],
             $legacyMediaSite,
             $targetMediaSite,
         );
@@ -584,39 +584,58 @@ final class Hermes227SqliteMigrator
     /**
      * @param array<int, int> $menuIdMap
      *
-     * @return array{inserted: int, skipped: int, insertedSectionIds: array<int, true>}
+     * @return array{inserted: int, skipped: int, insertedSectionLocales: array<int, string>}
      */
     private function migrateSections(PDO $source, PDO $target, array $menuIdMap): array
     {
         $sectionCols = $this->getTableColumns($source, 'section');
         $menuFkCol = \in_array('menu_id', $sectionCols, true) ? 'menu_id' : (\in_array('menu', $sectionCols, true) ? 'menu' : null);
-        if ($menuFkCol === null) {
-            throw new \InvalidArgumentException('La table section de la source n’a ni colonne « menu_id » ni « menu ».');
-        }
+        $hasSectionLocale = \in_array('locale', $sectionCols, true);
+        $hasSectionReferenceName = \in_array('reference_name', $sectionCols, true);
 
         $rows = $source->query('SELECT * FROM section ORDER BY id ASC')->fetchAll(PDO::FETCH_ASSOC);
         $stmt = $target->prepare(
             'INSERT INTO section (id, active, position, menu_id, template_id, template_width, template2_id, template2_width,
-                transparent, template_bgcolor, template_nb_col, template_image_filter)
+                transparent, template_bgcolor, template_nb_col, template_image_filter, locale, reference_name)
              VALUES (:id, :active, :position, :menu_id, :template_id, :template_width, :template2_id, :template2_width,
-                :transparent, :template_bgcolor, :template_nb_col, :template_image_filter)',
+                :transparent, :template_bgcolor, :template_nb_col, :template_image_filter, :locale, :reference_name)',
         );
         $inserted = 0;
         $skipped = 0;
-        /** @var array<int, true> $insertedSectionIds */
-        $insertedSectionIds = [];
+        /** @var array<int, string> $insertedSectionLocales */
+        $insertedSectionLocales = [];
         foreach ($rows as $r) {
-            $rawMenu = $r[$menuFkCol] ?? null;
-            if ($rawMenu === null || $rawMenu === '') {
-                ++$skipped;
-                continue;
+            $newMenuId = null;
+            if ($menuFkCol !== null) {
+                $rawMenu = $r[$menuFkCol] ?? null;
+                if ($rawMenu !== null && $rawMenu !== '') {
+                    $oldMenuId = (int) $rawMenu;
+                    $newMenuId = $menuIdMap[$oldMenuId] ?? null;
+                    if ($newMenuId === null) {
+                        ++$skipped;
+                        continue;
+                    }
+                }
             }
-            $oldMenuId = (int) $rawMenu;
-            $newMenuId = $menuIdMap[$oldMenuId] ?? null;
-            if ($newMenuId === null) {
-                ++$skipped;
-                continue;
+
+            $sectionLocale = null;
+            if ($hasSectionLocale) {
+                $rawLocale = strtolower(trim((string) ($r['locale'] ?? '')));
+                $sectionLocale = $rawLocale !== '' ? $rawLocale : null;
             }
+            if ($sectionLocale === null && $newMenuId !== null) {
+                $menuLocaleStmt = $target->prepare('SELECT locale FROM menu WHERE id = ?');
+                $menuLocaleStmt->execute([$newMenuId]);
+                $menuLocale = strtolower(trim((string) ($menuLocaleStmt->fetchColumn() ?? '')));
+                $sectionLocale = $menuLocale !== '' ? $menuLocale : null;
+            }
+
+            $sectionReferenceName = null;
+            if ($hasSectionReferenceName) {
+                $ref = strtolower(trim((string) ($r['reference_name'] ?? '')));
+                $sectionReferenceName = $ref !== '' ? $this->clipString($ref, 100) : null;
+            }
+
             $stmt->execute([
                 'id' => (int) $r['id'],
                 'active' => (int) ($r['active'] ?? 1),
@@ -630,24 +649,26 @@ final class Hermes227SqliteMigrator
                 'template_bgcolor' => $r['template_bgcolor'] ?? null,
                 'template_nb_col' => $r['template_nb_col'] !== null && $r['template_nb_col'] !== '' ? (int) $r['template_nb_col'] : null,
                 'template_image_filter' => $r['template_image_filter'] ?? null,
+                'locale' => $sectionLocale,
+                'reference_name' => $sectionReferenceName,
             ]);
-            $insertedSectionIds[(int) $r['id']] = true;
+            $insertedSectionLocales[(int) $r['id']] = $sectionLocale ?? 'fr';
             ++$inserted;
         }
         $this->syncSqliteSequence($target, 'section');
 
-        return ['inserted' => $inserted, 'skipped' => $skipped, 'insertedSectionIds' => $insertedSectionIds];
+        return ['inserted' => $inserted, 'skipped' => $skipped, 'insertedSectionLocales' => $insertedSectionLocales];
     }
 
     /**
-     * @param array<int, true> $insertedSectionIds
+     * @param array<int, string> $insertedSectionLocales
      *
      * @return array{inserted: int, skipped: int, urlsRewritten: int}
      */
     private function migratePosts(
         PDO $source,
         PDO $target,
-        array $insertedSectionIds,
+        array $insertedSectionLocales,
         string $legacyMediaSite,
         string $targetMediaSite,
     ): array {
@@ -673,7 +694,7 @@ final class Hermes227SqliteMigrator
                 continue;
             }
             $sectionId = (int) $rawSec;
-            if (!isset($insertedSectionIds[$sectionId])) {
+            if (!isset($insertedSectionLocales[$sectionId])) {
                 ++$skipped;
                 continue;
             }
@@ -682,6 +703,13 @@ final class Hermes227SqliteMigrator
             if ($rawContent !== null && $content !== $rawContent) {
                 ++$urlsRewritten;
             }
+            $postLocale = 'fr';
+            if ($hasLocale) {
+                $rawPostLocale = strtolower(trim((string) ($r['locale'] ?? '')));
+                $postLocale = $rawPostLocale !== '' ? $rawPostLocale : ($insertedSectionLocales[$sectionId] ?? 'fr');
+            } else {
+                $postLocale = $insertedSectionLocales[$sectionId] ?? 'fr';
+            }
             $stmt->execute([
                 'id' => (int) $r['id'],
                 'active' => (int) ($r['active'] ?? 1),
@@ -689,7 +717,7 @@ final class Hermes227SqliteMigrator
                 'end_published_at' => $this->normalizeDateTime($r['end_published_at'] ?? null),
                 'position' => (int) ($r['position'] ?? 0),
                 'name' => $this->clipString((string) ($r['name'] ?? ''), self::STR_NAME_MAX),
-                'locale' => $hasLocale ? (string) ($r['locale'] ?? 'fr') : 'fr',
+                'locale' => $postLocale,
                 'section_id' => $sectionId,
                 'content' => $content,
                 'file_name' => $r['file_name'] ?? null,
