@@ -3,9 +3,14 @@
 {% block title %}{{ 'admin.footer_sections.title'|trans }}{% endblock %}
 
 {% block content %}
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
         <div>
-            <h1>{{ 'admin.footer_sections.title'|trans }}</h1>
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <h1 class="mb-0">{{ 'admin.footer_sections.title'|trans }}</h1>
+                <form method="get" class="d-flex align-items-center gap-2">
+                    {{ include('admin/_menu_locale_filter.html.twig') }}
+                </form>
+            </div>
             <p class="text-muted mb-0">{{ 'admin.footer_sections.help'|trans }}</p>
         </div>
         <div class="d-flex gap-2">
@@ -15,7 +20,7 @@
             <form method="post" action="{{ path('admin_footer_sections_new', { _locale: app.request.locale }) }}">
                 <select class="form-select d-inline-block w-auto me-2" name="locale" aria-label="{{ 'global.locale'|trans }}">
                     {% for localeCode in availableLocales|default([app.request.locale]) %}
-                        <option value="{{ localeCode }}" {{ localeCode == app.request.locale ? 'selected' : '' }}>
+                        <option value="{{ localeCode }}" {{ localeCode == menu_locale ? 'selected' : '' }}>
                             {{ localeCode|upper }}
                         </option>
                     {% endfor %}
@@ -28,6 +33,7 @@
     {{ include('admin/section/_list.html.twig', {
         sections: sections,
         menu_locales: availableLocales|default([]),
+        menu_locale: menu_locale,
         sectionModaleChoices: [],
         sectionListeTemplateChoices: {},
         footerSectionList: true,

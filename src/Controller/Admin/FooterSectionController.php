@@ -24,9 +24,13 @@ final class FooterSectionController extends AbstractController
         Request $request,
     ): Response
     {
+        $menuLocale = $appLocaleService->resolveAdminFilterLocaleFromRequest($request);
+
         return $this->render('admin/footer_section/index.html.twig', [
-            'sections' => $sectionRepository->findFooterSections($request->getLocale()),
+            'sections' => $sectionRepository->findFooterSections($menuLocale),
             'availableLocales' => $appLocaleService->getContentLocales(),
+            'menu_locale' => $menuLocale,
+            'menu_locales' => $appLocaleService->getContentLocales(),
         ]);
     }
 
