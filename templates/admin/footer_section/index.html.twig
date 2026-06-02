@@ -18,13 +18,7 @@
                 {{ 'config.affiche_list_footer'|trans }}
             </a>
             <form method="post" action="{{ path('admin_footer_sections_new', { _locale: app.request.locale }) }}">
-                <select class="form-select d-inline-block w-auto me-2" name="locale" aria-label="{{ 'global.locale'|trans }}">
-                    {% for localeCode in availableLocales|default([app.request.locale]) %}
-                        <option value="{{ localeCode }}" {{ localeCode == menu_locale ? 'selected' : '' }}>
-                            {{ localeCode|upper }}
-                        </option>
-                    {% endfor %}
-                </select>
+                <input type="hidden" name="locale" value="{{ menu_locale }}">
                 <button type="submit" class="btn btn-success">{{ 'admin.footer_sections.add_section'|trans }}</button>
             </form>
         </div>
