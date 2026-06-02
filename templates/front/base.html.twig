@@ -32,7 +32,7 @@
         <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
         {% endif %}
     </head>
-    <body>
+    <body{% include '_site_body_style.html.twig' %}>
         {% block body %}{% endblock %}
     </body>
 </html>

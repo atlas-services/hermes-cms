@@ -372,10 +372,6 @@ section[id] .carousel-multi-item .card-img-top {
     right: 0.25rem;
 }
 
-.post-content .h-oswald {
-    font-family: 'Oswald', Helvetica, Arial, Lucida, sans-serif;
-}
-
 .carousel-caption {
     bottom: 3rem;
     z-index: 10;

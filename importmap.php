@@ -949,4 +949,32 @@ return [
     'querystringify' => [
         'version' => '2.2.0',
     ],
+    '@fontsource/bai-jamjuree/400.css' => [
+        'version' => '5.2.8',
+        'type' => 'css',
+    ],
+    '@fontsource/oswald/400.css' => [
+        'version' => '5.2.8',
+        'type' => 'css',
+    ],
+    '@fontsource/oswald/700.css' => [
+        'version' => '5.2.8',
+        'type' => 'css',
+    ],
+    '@fontsource/sofia/400.css' => [
+        'version' => '5.2.8',
+        'type' => 'css',
+    ],
+    '@fontsource/snowburst-one/400.css' => [
+        'version' => '5.2.8',
+        'type' => 'css',
+    ],
+    '@fontsource/alfa-slab-one/400.css' => [
+        'version' => '5.2.8',
+        'type' => 'css',
+    ],
+    '@fontsource/bai-jamjuree/700.css' => [
+        'version' => '5.2.8',
+        'type' => 'css',
+    ],
 ];

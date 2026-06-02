@@ -55,7 +55,7 @@ composer require --dev symfony/web-profiler-bundle
 
 ### Asset Mapper (importmap) — sans elFinder : Uppy pour l’upload, puis le reste du front
 
-**elFinder** n’est plus dans le projet. Les envois de fichiers (et dossiers) côté administration passent par **Uppy** (`importmap.php`, entrée `admin_media_upload`, script `assets/admin_media_upload.js`). Les autres dépendances front (Bootstrap, Font Awesome, AOS, **CKEditor 5**, Tom Select, etc.) suivent le même mécanisme.
+**elFinder** n’est plus dans le projet. Les envois de fichiers (et dossiers) côté administration passent par **Uppy** (`importmap.php`, entrée `admin_media_upload`, script `assets/admin_media_upload.js`). Les autres dépendances front (Bootstrap, Font Awesome, AOS, **CKEditor 5**, Tom Select, polices **@fontsource**, etc.) suivent le même mécanisme. La police du contenu (`font_family`) et celle du menu (`nav_font_family`) se règlent en admin ; le rendu passe par `configs` sur le `<body>` (sans classes utilitaires `.h-*` de l’ancienne version).
 
 Après un `git clone` ou si les paquets ne sont pas encore présents localement, télécharger les fichiers dans `assets/vendor/` (non versionné) :
 
@@ -105,6 +105,20 @@ php bin/console importmap:require ckeditor5/translations/fr.js
 php bin/console importmap:require tom-select
 php bin/console importmap:require tom-select/dist/css/tom-select.bootstrap5.css
 ```
+
+**Polices du site** (choix admin `font_family` / `nav_font_family` ; chargement via `@fontsource/*`, pas de classes `.h-*` comme en Hermes 2.2.7) — fichiers importés dans `assets/styles/site-fonts.js`, appliqués sur `<body>` via `templates/_site_body_style.html.twig` :
+
+```
+php bin/console importmap:require @fontsource/bai-jamjuree/400.css
+php bin/console importmap:require @fontsource/bai-jamjuree/700.css
+php bin/console importmap:require @fontsource/oswald/400.css
+php bin/console importmap:require @fontsource/oswald/700.css
+php bin/console importmap:require @fontsource/sofia/400.css
+php bin/console importmap:require @fontsource/snowburst-one/400.css
+php bin/console importmap:require @fontsource/alfa-slab-one/400.css
+```
+
+Les polices système (Verdana, Comic Sans, Palatino, Impact, etc.) ne nécessitent pas d’entrée importmap. Pour en ajouter une webfont, l’inscrire dans `src/Form/ConfigType::FONT_FAMILY`, l’importer dans `assets/styles/site-fonts.js`, puis `importmap:install`.
 
 ## Prérequis techniques
 
@@ -230,9 +244,9 @@ Install assets (Importmap : Uppy à la place d’elFinder, Bootstrap, CKEditor 5
 php bin/console importmap:install
 ```
 
-Pour la liste complète des `importmap:require` (Uppy à la place d’elFinder, CKEditor 5, Tom Select, etc.), voir la section **Asset Mapper (importmap) — sans elFinder** plus haut.
+Pour la liste complète des `importmap:require` (Uppy à la place d’elFinder, CKEditor 5, Tom Select, polices @fontsource, etc.), voir la section **Asset Mapper (importmap) — sans elFinder** plus haut.
 
-For the full `importmap:require` list (Uppy instead of elFinder, CKEditor 5, Tom Select, etc.), see the **Asset Mapper (importmap)** section above.
+For the full `importmap:require` list (Uppy instead of elFinder, CKEditor 5, Tom Select, @fontsource fonts, etc.), see the **Asset Mapper (importmap)** section above.
 
 Start Server on a terminal
 
