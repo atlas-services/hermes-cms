@@ -285,24 +285,36 @@ body {
 
 
 
-/* Carrousels gabarits section plein écran (carousel1/2) — slide active uniquement */
-section[id] .carousel:not(.carousel-multi-item) .carousel-inner > .carousel-item.active {
+/*
+ * Carrousels plein écran (Hermes 2.2.7 : .carousel-item height + background-size).
+ * Ne pas utiliser le raccourci « background: » ici : il remet background-image à none
+ * et masque les url() définies en inline sur le slide (contenu libre migré).
+ */
+section[id] .carousel:not(.carousel-multi-item) .carousel-inner > .carousel-item,
+.post-content .carousel:not(.carousel-multi-item) .carousel-inner > .carousel-item,
+.carousel-item[style*="background-image"] {
     height: 100vh;
     min-height: 300px;
-    background: no-repeat center center scroll;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+section[id] .carousel:not(.carousel-multi-item) .carousel-inner > .carousel-item.active,
+.post-content .carousel:not(.carousel-multi-item) .carousel-inner > .carousel-item.active,
+.carousel-item.active[style*="background-image"] {
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
 
-/* Carrousel multi-item (carousel3 + contenu libre) : cartes, hauteur auto.
-   Ne pas forcer display — Bootstrap masque les .carousel-item inactifs (display:none). */
-.post-content .carousel-multi-item .carousel-item,
-section[id] .carousel-multi-item .carousel-item {
+/* Carrousel multi-item (cartes) : hauteur auto — sauf slides avec fond image inline */
+.post-content .carousel-multi-item .carousel-item:not([style*="background-image"]),
+section[id] .carousel-multi-item .carousel-item:not([style*="background-image"]) {
     height: auto;
     min-height: 0;
     background: none;
