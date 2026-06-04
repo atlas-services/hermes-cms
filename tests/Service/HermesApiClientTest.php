@@ -189,15 +189,53 @@ final class HermesApiClientTest extends TestCase
         self::assertSame('X', $items[0]['label']);
     }
 
-    public function testNoSessionReturnsEmptyCatalog(): void
+    public function testNoSessionReturnsEmptyCatalogWhenCredentialsMissing(): void
     {
         $http = new MockHttpClient([
             new MockResponse(json_encode(['hydra:member' => []], JSON_THROW_ON_ERROR), ['http_code' => 200]),
         ]);
         $stack = new RequestStack();
-        $stack->push(Request::create('/'));
-        $svc = self::client($http, $stack, 'https://api.example.com');
+        $svc = self::client(
+            $http,
+            $stack,
+            'https://api.example.com',
+            '',
+            '',
+            '',
+            '',
+            false,
+        );
 
         self::assertSame([], $svc->fetchLibreTemplateSummaries());
+        self::assertSame(0, $http->getRequestsCount());
+    }
+
+    public function testCliLoginWithoutSessionFetchesCatalog(): void
+    {
+        $catalogPayload = [
+            'hydra:member' => [
+                ['@id' => '/api/templates/1', 'name' => 'Mentions'],
+            ],
+        ];
+        $http = new MockHttpClient([
+            new MockResponse(json_encode(['token' => 'cli-jwt'], JSON_THROW_ON_ERROR), ['http_code' => 200]),
+            new MockResponse(json_encode($catalogPayload, JSON_THROW_ON_ERROR), ['http_code' => 200]),
+        ]);
+        $stack = new RequestStack();
+        $svc = self::client(
+            $http,
+            $stack,
+            'https://api.example.com',
+            '',
+            '',
+            'u@example.com',
+            'secret',
+            false,
+        );
+        $items = $svc->fetchLibreTemplateSummaries();
+
+        self::assertCount(1, $items);
+        self::assertSame('Mentions', $items[0]['label']);
+        self::assertSame(2, $http->getRequestsCount());
     }
 }

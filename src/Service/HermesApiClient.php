@@ -34,6 +34,9 @@ final class HermesApiClient
     /** Comme getEntities(..., $itemsPerPage) en 2.2.7 ; valeur large pour l’admin. */
     private const CATALOG_ITEMS_PER_PAGE = 50;
 
+    /** JWT en mémoire pour les commandes console (sans session HTTP). */
+    private ?string $cliBearerToken = null;
+
     public function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly RequestStack $requestStack,
@@ -236,35 +239,60 @@ final class HermesApiClient
 
     private function clearJwt(): void
     {
+        $this->cliBearerToken = null;
         $this->session()?->remove(self::SESSION_JWT_KEY);
     }
 
     private function ensureJwt(): ?string
     {
+        if (\is_string($this->cliBearerToken) && $this->cliBearerToken !== '') {
+            return $this->cliBearerToken;
+        }
+
         $session = $this->session();
-        if ($session === null) {
-            $this->setAuthDiagnostic('hermes_api.ensure_jwt_blocked', 'no_http_session');
-            $this->logger->notice('Hermes API : pas de session HTTP — impossible de stocker le JWT (contexte CLI ?).');
+        if ($session !== null) {
+            $existing = $session->get(self::SESSION_JWT_KEY);
+            if (\is_string($existing) && $existing !== '') {
+                return $existing;
+            }
 
-            return null;
+            return $this->login($session);
         }
 
-        $existing = $session->get(self::SESSION_JWT_KEY);
-        if (\is_string($existing) && $existing !== '') {
-            return $existing;
-        }
-
-        return $this->login($session);
+        return $this->loginCli();
     }
 
     private function login(SessionInterface $session): ?string
     {
+        $jwt = $this->obtainJwtToken();
+        if ($jwt === null) {
+            return null;
+        }
+
+        $this->removeAuthDiagnostic('hermes_api.ensure_jwt_blocked');
+        $session->set(self::SESSION_JWT_KEY, $jwt);
+
+        return $jwt;
+    }
+
+    private function loginCli(): ?string
+    {
+        $jwt = $this->obtainJwtToken();
+        if ($jwt === null) {
+            return null;
+        }
+
+        $this->cliBearerToken = $jwt;
+        $this->removeAuthDiagnostic('hermes_api.ensure_jwt_blocked');
+
+        return $jwt;
+    }
+
+    private function obtainJwtToken(): ?string
+    {
         $this->clearLoginDiagnostics();
 
         if ($this->hermesApiNotJwtVersion) {
-            $this->removeAuthDiagnostic('hermes_api.ensure_jwt_blocked');
-            $session->set(self::SESSION_JWT_KEY, self::FAKE_JWT_PLACEHOLDER);
-
             return self::FAKE_JWT_PLACEHOLDER;
         }
 
@@ -332,10 +360,9 @@ final class HermesApiClient
 
                 return null;
             }
+
             $this->setAuthDiagnostic('hermes_api.login_token_missing', false);
             $this->removeAuthDiagnostic('hermes_api.login_response_preview');
-            $this->removeAuthDiagnostic('hermes_api.ensure_jwt_blocked');
-            $session->set(self::SESSION_JWT_KEY, $jwt);
 
             return $jwt;
         } catch (\Throwable $e) {
@@ -362,8 +389,13 @@ final class HermesApiClient
 
     private function authorizedRequestOptions(): array
     {
-        $token = $this->session()?->get(self::SESSION_JWT_KEY);
-        $bearer = \is_string($token) && $token !== '' ? $token : '';
+        $bearer = '';
+        if (\is_string($this->cliBearerToken) && $this->cliBearerToken !== '') {
+            $bearer = $this->cliBearerToken;
+        } else {
+            $token = $this->session()?->get(self::SESSION_JWT_KEY);
+            $bearer = \is_string($token) && $token !== '' ? $token : '';
+        }
 
         return [
             'timeout' => 20,
@@ -383,10 +415,11 @@ final class HermesApiClient
             return $response;
         }
         $this->clearJwt();
-        if ($session === null) {
-            return $response;
-        }
-        if ($this->login($session) !== null) {
+        if ($session !== null) {
+            if ($this->login($session) !== null) {
+                return $this->httpClient->request($method, $url, $this->authorizedRequestOptions());
+            }
+        } elseif ($this->loginCli() !== null) {
             return $this->httpClient->request($method, $url, $this->authorizedRequestOptions());
         }
 

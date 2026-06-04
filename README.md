@@ -150,7 +150,14 @@ php bin/console app:migrate \
   data/db/envolarchi.sqlite --force
 ```
 
-Puis `DATABASE_URL` vers `data/db/envolarchi.sqlite`. Optionnel : `php bin/console app:init-hermes`.
+Puis `DATABASE_URL` vers `data/db/envolarchi.sqlite`. Optionnel :
+
+```bash
+php bin/console app:init-hermes
+php bin/console app:init-mentions-legales
+```
+
+`app:init-mentions-legales` crée trois menus **inactifs** (non affichés dans la navbar) : `/fr/mentions-legales`, `/fr/confidentialite`, `/fr/cgu-cgv`, chacun avec une section **libre** et un post dont le HTML provient de l’[API Hermes](https://api.hermes-cms.org) (`API_HERMES_*` dans `.env`) : le **premier** modèle du catalogue dont le libellé, la description ou l’IRI correspond à `mentions-legales`, `confidentialite` ou `cgu-cgv` (un modèle distinct par page).
 
 Les dossiers `content/` et `entity/Config/` se recopient sous `public/uploads/<nom>/` — `app:migrate-media` avec la base migrée, l’ancienne racine uploads et la cible :
 
