@@ -427,3 +427,117 @@ section[id] .carousel-multi-item .card-img-top {
     display: block;
     margin: 0 auto;
 }
+
+/* Page vitrine Hermes CMS (contenu libre .hermes-cms-home — ex. hermes-cms.org) */
+.hermes-cms-home {
+    --hermes-grad-hero: linear-gradient(135deg, #0d6efd 0%, #6610f2 55%, #20c997 100%);
+    --hermes-grad-soft: linear-gradient(160deg, #e8f1ff 0%, #ede9fe 42%, #d1fae5 100%);
+    --hermes-grad-card-1: linear-gradient(145deg, #2563eb 0%, #7c3aed 100%);
+    --hermes-grad-card-2: linear-gradient(145deg, #7c3aed 0%, #db2777 100%);
+    --hermes-grad-card-3: linear-gradient(145deg, #0891b2 0%, #059669 100%);
+    --hermes-grad-api: linear-gradient(135deg, #1e40af 0%, #6d28d9 48%, #0d9488 100%);
+    --hermes-grad-why: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #14b8a6 100%);
+    --hermes-grad-roadmap: linear-gradient(135deg, rgba(13, 110, 253, 0.12) 0%, rgba(102, 16, 242, 0.14) 50%, rgba(32, 201, 151, 0.12) 100%);
+    padding: 0.25rem 0 1rem;
+    background: var(--hermes-grad-soft);
+    border-radius: 0.75rem;
+}
+
+.hermes-cms-home .hermes-home-hero {
+    background: var(--hermes-grad-hero);
+}
+
+.hermes-cms-home .hermes-home-pillar {
+    color: #fff;
+    border: 0;
+    box-shadow: 0 0.5rem 1.5rem rgba(30, 64, 175, 0.25);
+}
+
+.hermes-cms-home .hermes-home-pillar .card-text,
+.hermes-cms-home .hermes-home-pillar .card-title {
+    color: #fff;
+}
+
+.hermes-cms-home .hermes-home-pillar code {
+    color: #e0e7ff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.hermes-cms-home .hermes-home-pillar-1 {
+    background: var(--hermes-grad-card-1);
+}
+
+.hermes-cms-home .hermes-home-pillar-2 {
+    background: var(--hermes-grad-card-2);
+}
+
+.hermes-cms-home .hermes-home-pillar-3 {
+    background: var(--hermes-grad-card-3);
+}
+
+.hermes-cms-home .hermes-home-features-wrap {
+    background: linear-gradient(120deg, rgba(37, 99, 235, 0.08) 0%, rgba(124, 58, 237, 0.1) 50%, rgba(5, 150, 105, 0.08) 100%);
+    border-radius: 1rem;
+    padding: 1.5rem 1rem;
+}
+
+.hermes-cms-home .hermes-home-features-wrap h2 {
+    color: #1e3a8a;
+}
+
+.hermes-cms-home .hermes-home-feature-list {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 252, 0.88) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    backdrop-filter: blur(6px);
+}
+
+.hermes-cms-home .hermes-home-feature-list .list-group-item {
+    background: transparent;
+    border-color: rgba(99, 102, 241, 0.12);
+}
+
+.hermes-cms-home .hermes-home-api {
+    background: var(--hermes-grad-api);
+    color: #f8fafc;
+}
+
+.hermes-cms-home .hermes-home-api .text-muted,
+.hermes-cms-home .hermes-home-api p {
+    color: rgba(248, 250, 252, 0.92) !important;
+}
+
+.hermes-cms-home .hermes-home-api code {
+    color: #e0e7ff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.hermes-cms-home .hermes-home-api-box {
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    color: #fff;
+}
+
+.hermes-cms-home .hermes-home-why-title {
+    color: #312e81;
+}
+
+.hermes-cms-home .hermes-home-why-card {
+    background: var(--hermes-grad-why);
+    color: #fff;
+    border: 0;
+    box-shadow: 0 0.35rem 1rem rgba(79, 70, 229, 0.2);
+}
+
+.hermes-cms-home .hermes-home-why-card strong {
+    color: #fff;
+}
+
+.hermes-cms-home .hermes-home-roadmap {
+    background: var(--hermes-grad-roadmap);
+    border: 1px solid rgba(99, 102, 241, 0.25) !important;
+}
+
+.hermes-cms-home .hermes-home-roadmap h2 {
+    color: #3730a3;
+}

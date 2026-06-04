@@ -159,6 +159,8 @@ php bin/console app:init-mentions-legales
 
 `app:init-mentions-legales` crée trois menus **inactifs** (non affichés dans la navbar) : `/fr/mentions-legales`, `/fr/confidentialite`, `/fr/cgu-cgv`, chacun avec une section **libre** et un post dont le HTML provient de l’[API Hermes](https://api.hermes-cms.org) (`API_HERMES_*` dans `.env`) : le **premier** modèle du catalogue dont le champ **`type`** vaut `mentions-legales`, `confidentialite` ou `cgu-cgv` (un modèle par page).
 
+Modèle HTML pour la page d’accueil vitrine du site [hermes-cms.org](https://hermes-cms.org) : `templates/exemple/hermes_cms_accueil.html` (section libre ; styles dans `assets/styles/app.css`, préfixe `.hermes-cms-home`).
+
 Les dossiers `content/` et `entity/Config/` se recopient sous `public/uploads/<nom>/` — `app:migrate-media` avec la base migrée, l’ancienne racine uploads et la cible :
 
 ```bash
