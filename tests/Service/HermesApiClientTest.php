@@ -132,6 +132,24 @@ final class HermesApiClientTest extends TestCase
         self::assertSame('https://api.example.com/api/templates/2', $items[0]['iri']);
     }
 
+    public function testCatalogExtractsTypeField(): void
+    {
+        $payload = [
+            'hydra:member' => [
+                ['@id' => '/api/templates/1', 'name' => 'ML', 'type' => 'mentions-legales'],
+                ['@id' => '/api/templates/2', 'name' => 'Enum', 'type' => ['value' => 'confidentialite']],
+            ],
+        ];
+        $http = new MockHttpClient([
+            new MockResponse(json_encode($payload, JSON_THROW_ON_ERROR), ['http_code' => 200]),
+        ]);
+        $svc = self::client($http, self::requestStackWithSession(), 'https://api.example.com');
+        $items = $svc->fetchLibreTemplateSummaries();
+
+        self::assertSame('mentions-legales', $items[0]['type']);
+        self::assertSame('confidentialite', $items[1]['type']);
+    }
+
     public function testCatalogParsesHydraMemberWithExplicitOverride(): void
     {
         $payload = [

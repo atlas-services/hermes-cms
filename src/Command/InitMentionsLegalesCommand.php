@@ -73,7 +73,7 @@ final class InitMentionsLegalesCommand extends Command
         }
 
         if ($result['created'] > 0 && !$anyApi) {
-            $io->warning('Catalogue API Hermes vide ou sans entrées mentions-legales / confidentialite / cgu-cgv. Vérifiez API_HERMES_* dans .env.');
+            $io->warning('Catalogue API Hermes vide ou sans modèles type=mentions-legales, confidentialite ou cgu-cgv. Vérifiez API_HERMES_* dans .env.');
         }
 
         return Command::SUCCESS;

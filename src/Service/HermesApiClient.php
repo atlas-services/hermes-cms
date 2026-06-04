@@ -100,7 +100,7 @@ final class HermesApiClient
     }
 
     /**
-     * @return list<array{iri: string, label: string, description: string}>
+     * @return list<array{iri: string, label: string, description: string, type: string|null}>
      */
     public function fetchLibreTemplateSummaries(): array
     {
@@ -497,7 +497,7 @@ final class HermesApiClient
     /**
      * @param array<string, mixed> $data
      *
-     * @return list<array{iri: string, label: string, description: string}>
+     * @return list<array{iri: string, label: string, description: string, type: string|null}>
      */
     private function normalizeSummaries(array $data): array
     {
@@ -550,10 +550,36 @@ final class HermesApiClient
                 'iri' => $iri,
                 'label' => $label,
                 'description' => $description,
+                'type' => $this->extractCatalogType($row),
             ];
         }
 
         return $out;
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     */
+    private function extractCatalogType(array $row): ?string
+    {
+        if (!isset($row['type'])) {
+            return null;
+        }
+
+        $type = $row['type'];
+        if (\is_string($type)) {
+            $normalized = strtolower(trim($type));
+
+            return $normalized !== '' ? $normalized : null;
+        }
+
+        if (\is_array($type) && isset($type['value']) && \is_string($type['value'])) {
+            $normalized = strtolower(trim($type['value']));
+
+            return $normalized !== '' ? $normalized : null;
+        }
+
+        return null;
     }
 
     /**
