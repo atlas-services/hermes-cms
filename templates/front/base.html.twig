@@ -10,10 +10,13 @@
         <meta name="author" content="{{ configs.author|default('')|e('html_attr') }}">
         <meta name="robots" content="{{ configs.robots|default('index, follow')|e('html_attr') }}">
 
-        {# Favicon : config site.favicon, sinon logo (Hermes 2.2.7 head.html.twig) #}
         {% set faviconConfig = configs.favicon|default(configs.logo|default(null)) %}
         {% if faviconConfig %}
+            {% set host = app.request.headers.get('host') %}
             {% set faviconPath = vich_uploader_asset(faviconConfig, 'imageFile') %}
+            <meta property="og:image" content="{{ host }}{{ faviconPath ? asset(faviconPath) : asset('favicon.ico') }}">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630">
             <link rel="icon" href="{{ faviconPath ? asset(faviconPath) : asset('favicon.ico') }}" />
         {% endif %}
 
