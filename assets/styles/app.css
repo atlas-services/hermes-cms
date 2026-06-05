@@ -541,3 +541,120 @@ section[id] .carousel-multi-item .card-img-top {
 .hermes-cms-home .hermes-home-roadmap h2 {
     color: #3730a3;
 }
+
+/* Ateliers du Web (contenu libre .ateliers-du-web — les-ateliers-du-web.fr) */
+.ateliers-du-web {
+    --ateliers-grad-soft: linear-gradient(160deg, #ffe4ff 0%, #fae8ff 38%, #ede9fe 68%, #cffafe 100%);
+    --ateliers-grad-1: linear-gradient(145deg, #ff00ff 0%, #c026d3 48%, #7c3aed 100%);
+    --ateliers-grad-2: linear-gradient(145deg, #ec4899 0%, #ff00ff 55%, #a855f7 100%);
+    --ateliers-grad-3: linear-gradient(145deg, #7c3aed 0%, #6366f1 50%, #06b6d4 100%);
+    --ateliers-grad-4: linear-gradient(145deg, #0891b2 0%, #d946ef 52%, #ff00ff 100%);
+    padding: 0.35rem 0.25rem 0.75rem;
+    background: var(--ateliers-grad-soft);
+    border-radius: 0.75rem;
+}
+
+.ateliers-du-web .ateliers-du-web-card {
+    color: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(192, 38, 211, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ateliers-du-web .ateliers-du-web-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75rem 2rem rgba(192, 38, 211, 0.38);
+}
+
+.ateliers-du-web .ateliers-du-web-card-1 {
+    background: var(--ateliers-grad-1);
+}
+
+.ateliers-du-web .ateliers-du-web-card-2 {
+    background: var(--ateliers-grad-2);
+}
+
+.ateliers-du-web .ateliers-du-web-card-3 {
+    background: var(--ateliers-grad-3);
+}
+
+.ateliers-du-web .ateliers-du-web-card-4 {
+    background: var(--ateliers-grad-4);
+}
+
+.ateliers-du-web .ateliers-du-web-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.85rem;
+    height: 2.85rem;
+    margin: 0;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.ateliers-du-web .ateliers-du-web-title {
+    margin: 0 0 0.85rem;
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #fff;
+    line-height: 1.35;
+}
+
+.ateliers-du-web .ateliers-highlight {
+    color: #fff;
+    font-weight: 700;
+}
+
+.ateliers-du-web .card-text,
+.ateliers-du-web .ateliers-du-web-list {
+    color: rgba(255, 255, 255, 0.94);
+    line-height: 1.55;
+}
+
+.ateliers-du-web .ateliers-du-web-list {
+    padding-left: 1.15rem;
+    margin-bottom: 0;
+}
+
+.ateliers-du-web .ateliers-du-web-list li + li {
+    margin-top: 0.65rem;
+}
+
+.ateliers-du-web .ateliers-du-web-link {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.ateliers-du-web .ateliers-du-web-link:hover {
+    color: #fde68a;
+}
+
+.ateliers-du-web .ateliers-du-web-note {
+    opacity: 0.88;
+    font-size: 0.9rem;
+}
+
+.ateliers-du-web .ateliers-du-web-apres {
+    background: linear-gradient(135deg, #ff00ff 0%, #9333ea 38%, #4f46e5 62%, #06b6d4 100%);
+    color: #fff;
+    box-shadow: 0 0.65rem 2rem rgba(192, 38, 211, 0.35);
+}
+
+.ateliers-du-web .ateliers-du-web-apres .ateliers-du-web-title {
+    font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+    letter-spacing: 0.04em;
+}
+
+.ateliers-du-web .ateliers-du-web-apres-item {
+    padding: 1rem 1.1rem;
+    border-radius: 0.65rem;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(6px);
+}
