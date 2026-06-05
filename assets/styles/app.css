@@ -658,3 +658,58 @@ section[id] .carousel-multi-item .card-img-top {
     border: 1px solid rgba(255, 255, 255, 0.22);
     backdrop-filter: blur(6px);
 }
+
+.ateliers-du-web-temoignages {
+    --ateliers-temoignages-title: linear-gradient(90deg, #074591 0%, #7c3aed 45%, #ff00ff 100%);
+}
+
+.ateliers-du-web-temoignages .ateliers-du-web-temoignages-title {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: var(--ateliers-temoignages-title);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.ateliers-du-web-temoignages .ateliers-du-web-temoignages-title i {
+    -webkit-text-fill-color: #074591;
+    color: #074591;
+}
+
+.ateliers-du-web .ateliers-du-web-testimonial .card-body {
+    padding: 1.35rem 1.5rem;
+}
+
+.ateliers-du-web .ateliers-du-web-avatar {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+}
+
+.ateliers-du-web .ateliers-du-web-name {
+    color: #fff;
+    font-weight: 700;
+}
+
+.ateliers-du-web .ateliers-du-web-role {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.92rem;
+}
+
+.ateliers-du-web .ateliers-du-web-stars {
+    color: #fde047;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+}
+
+.ateliers-du-web .ateliers-du-web-quote {
+    color: rgba(255, 255, 255, 0.95);
+    font-style: italic;
+    line-height: 1.6;
+    font-size: 1.02rem;
+}
