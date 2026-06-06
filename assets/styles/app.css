@@ -428,161 +428,98 @@ section[id] .carousel-multi-item .card-img-top {
     margin: 0 auto;
 }
 
-/* Page vitrine Hermes CMS (contenu libre .hermes-cms-home — ex. hermes-cms.org) */
-.hermes-cms-home {
-    --hermes-grad-hero: linear-gradient(135deg, #0d6efd 0%, #6610f2 55%, #20c997 100%);
-    --hermes-grad-soft: linear-gradient(160deg, #e8f1ff 0%, #ede9fe 42%, #d1fae5 100%);
-    --hermes-grad-card-1: linear-gradient(145deg, #2563eb 0%, #7c3aed 100%);
-    --hermes-grad-card-2: linear-gradient(145deg, #7c3aed 0%, #db2777 100%);
-    --hermes-grad-card-3: linear-gradient(145deg, #0891b2 0%, #059669 100%);
-    --hermes-grad-api: linear-gradient(135deg, #1e40af 0%, #6d28d9 48%, #0d9488 100%);
-    --hermes-grad-why: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #14b8a6 100%);
-    --hermes-grad-roadmap: linear-gradient(135deg, rgba(13, 110, 253, 0.12) 0%, rgba(102, 16, 242, 0.14) 50%, rgba(32, 201, 151, 0.12) 100%);
-    padding: 0.25rem 0 1rem;
-    background: var(--hermes-grad-soft);
+/* Contenu libre — vitrine marketing (.content-showcase + modificateur de palette) */
+.content-showcase {
+    padding: 0.35rem 0.25rem 0.75rem;
     border-radius: 0.75rem;
 }
 
-.hermes-cms-home .hermes-home-hero {
-    background: var(--hermes-grad-hero);
+.content-showcase--palette-cool {
+    --showcase-bg-soft: linear-gradient(160deg, #e8f1ff 0%, #ede9fe 42%, #d1fae5 100%);
+    --showcase-grad-hero: linear-gradient(135deg, #0d6efd 0%, #6610f2 55%, #20c997 100%);
+    --showcase-grad-card-1: linear-gradient(145deg, #2563eb 0%, #7c3aed 100%);
+    --showcase-grad-card-2: linear-gradient(145deg, #7c3aed 0%, #db2777 100%);
+    --showcase-grad-card-3: linear-gradient(145deg, #0891b2 0%, #059669 100%);
+    --showcase-grad-card-4: linear-gradient(145deg, #0891b2 0%, #059669 100%);
+    --showcase-grad-band: linear-gradient(135deg, #1e40af 0%, #6d28d9 48%, #0d9488 100%);
+    --showcase-grad-highlight: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #14b8a6 100%);
+    --showcase-grad-roadmap: linear-gradient(135deg, rgba(13, 110, 253, 0.12) 0%, rgba(102, 16, 242, 0.14) 50%, rgba(32, 201, 151, 0.12) 100%);
+    --showcase-features-bg: linear-gradient(120deg, rgba(37, 99, 235, 0.08) 0%, rgba(124, 58, 237, 0.1) 50%, rgba(5, 150, 105, 0.08) 100%);
+    --showcase-section-title: #312e81;
+    --showcase-section-title-alt: #1e3a8a;
+    --showcase-roadmap-title: #3730a3;
+    --showcase-feature-list-border: rgba(99, 102, 241, 0.2);
+    --showcase-feature-list-item-border: rgba(99, 102, 241, 0.12);
+    --showcase-roadmap-border: rgba(99, 102, 241, 0.25);
+    --showcase-card-shadow: rgba(30, 64, 175, 0.25);
+    --showcase-card-shadow-hover: rgba(30, 64, 175, 0.38);
+    --showcase-highlight-shadow: rgba(79, 70, 229, 0.2);
+    --showcase-band-shadow: rgba(30, 64, 175, 0.35);
+    background: var(--showcase-bg-soft);
 }
 
-.hermes-cms-home .hermes-home-pillar {
+.content-showcase--palette-vivid {
+    --showcase-bg-soft: linear-gradient(160deg, #ffe4ff 0%, #fae8ff 38%, #ede9fe 68%, #cffafe 100%);
+    --showcase-grad-hero: linear-gradient(135deg, #ff00ff 0%, #9333ea 38%, #4f46e5 62%, #06b6d4 100%);
+    --showcase-grad-card-1: linear-gradient(145deg, #ff00ff 0%, #c026d3 48%, #7c3aed 100%);
+    --showcase-grad-card-2: linear-gradient(145deg, #ec4899 0%, #ff00ff 55%, #a855f7 100%);
+    --showcase-grad-card-3: linear-gradient(145deg, #7c3aed 0%, #6366f1 50%, #06b6d4 100%);
+    --showcase-grad-card-4: linear-gradient(145deg, #0891b2 0%, #d946ef 52%, #ff00ff 100%);
+    --showcase-grad-band: linear-gradient(135deg, #ff00ff 0%, #9333ea 38%, #4f46e5 62%, #06b6d4 100%);
+    --showcase-grad-highlight: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #14b8a6 100%);
+    --showcase-grad-roadmap: linear-gradient(135deg, rgba(13, 110, 253, 0.12) 0%, rgba(102, 16, 242, 0.14) 50%, rgba(32, 201, 151, 0.12) 100%);
+    --showcase-features-bg: linear-gradient(120deg, rgba(37, 99, 235, 0.08) 0%, rgba(124, 58, 237, 0.1) 50%, rgba(5, 150, 105, 0.08) 100%);
+    --showcase-section-title: #312e81;
+    --showcase-section-title-alt: #1e3a8a;
+    --showcase-roadmap-title: #3730a3;
+    --showcase-feature-list-border: rgba(99, 102, 241, 0.2);
+    --showcase-feature-list-item-border: rgba(99, 102, 241, 0.12);
+    --showcase-roadmap-border: rgba(99, 102, 241, 0.25);
+    --showcase-card-shadow: rgba(192, 38, 211, 0.28);
+    --showcase-card-shadow-hover: rgba(192, 38, 211, 0.38);
+    --showcase-highlight-shadow: rgba(79, 70, 229, 0.2);
+    --showcase-band-shadow: rgba(192, 38, 211, 0.35);
+    background: var(--showcase-bg-soft);
+}
+
+.content-showcase--testimonials {
+    --showcase-title-gradient: linear-gradient(90deg, #074591 0%, #7c3aed 45%, #ff00ff 100%);
+    --showcase-title-gradient-icon: #074591;
+}
+
+.content-showcase-hero {
+    background: var(--showcase-grad-hero);
+}
+
+.content-showcase-card {
     color: #fff;
     border: 0;
-    box-shadow: 0 0.5rem 1.5rem rgba(30, 64, 175, 0.25);
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1.5rem var(--showcase-card-shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.hermes-cms-home .hermes-home-pillar .card-text,
-.hermes-cms-home .hermes-home-pillar .card-title {
+.content-showcase-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75rem 2rem var(--showcase-card-shadow-hover);
+}
+
+.content-showcase-card .card-text,
+.content-showcase-card .card-title {
     color: #fff;
 }
 
-.hermes-cms-home .hermes-home-pillar code {
+.content-showcase-card code {
     color: #e0e7ff;
     background: rgba(255, 255, 255, 0.15);
 }
 
-.hermes-cms-home .hermes-home-pillar-1 {
-    background: var(--hermes-grad-card-1);
-}
+.content-showcase-card-1 { background: var(--showcase-grad-card-1); }
+.content-showcase-card-2 { background: var(--showcase-grad-card-2); }
+.content-showcase-card-3 { background: var(--showcase-grad-card-3); }
+.content-showcase-card-4 { background: var(--showcase-grad-card-4); }
 
-.hermes-cms-home .hermes-home-pillar-2 {
-    background: var(--hermes-grad-card-2);
-}
-
-.hermes-cms-home .hermes-home-pillar-3 {
-    background: var(--hermes-grad-card-3);
-}
-
-.hermes-cms-home .hermes-home-features-wrap {
-    background: linear-gradient(120deg, rgba(37, 99, 235, 0.08) 0%, rgba(124, 58, 237, 0.1) 50%, rgba(5, 150, 105, 0.08) 100%);
-    border-radius: 1rem;
-    padding: 1.5rem 1rem;
-}
-
-.hermes-cms-home .hermes-home-features-wrap h2 {
-    color: #1e3a8a;
-}
-
-.hermes-cms-home .hermes-home-feature-list {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 252, 0.88) 100%);
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    backdrop-filter: blur(6px);
-}
-
-.hermes-cms-home .hermes-home-feature-list .list-group-item {
-    background: transparent;
-    border-color: rgba(99, 102, 241, 0.12);
-}
-
-.hermes-cms-home .hermes-home-api {
-    background: var(--hermes-grad-api);
-    color: #f8fafc;
-}
-
-.hermes-cms-home .hermes-home-api .text-muted,
-.hermes-cms-home .hermes-home-api p {
-    color: rgba(248, 250, 252, 0.92) !important;
-}
-
-.hermes-cms-home .hermes-home-api code {
-    color: #e0e7ff;
-    background: rgba(255, 255, 255, 0.12);
-}
-
-.hermes-cms-home .hermes-home-api-box {
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(8px);
-    color: #fff;
-}
-
-.hermes-cms-home .hermes-home-why-title {
-    color: #312e81;
-}
-
-.hermes-cms-home .hermes-home-why-card {
-    background: var(--hermes-grad-why);
-    color: #fff;
-    border: 0;
-    box-shadow: 0 0.35rem 1rem rgba(79, 70, 229, 0.2);
-}
-
-.hermes-cms-home .hermes-home-why-card strong {
-    color: #fff;
-}
-
-.hermes-cms-home .hermes-home-roadmap {
-    background: var(--hermes-grad-roadmap);
-    border: 1px solid rgba(99, 102, 241, 0.25) !important;
-}
-
-.hermes-cms-home .hermes-home-roadmap h2 {
-    color: #3730a3;
-}
-
-/* Ateliers du Web (contenu libre .ateliers-du-web — les-ateliers-du-web.fr) */
-.ateliers-du-web {
-    --ateliers-grad-soft: linear-gradient(160deg, #ffe4ff 0%, #fae8ff 38%, #ede9fe 68%, #cffafe 100%);
-    --ateliers-grad-1: linear-gradient(145deg, #ff00ff 0%, #c026d3 48%, #7c3aed 100%);
-    --ateliers-grad-2: linear-gradient(145deg, #ec4899 0%, #ff00ff 55%, #a855f7 100%);
-    --ateliers-grad-3: linear-gradient(145deg, #7c3aed 0%, #6366f1 50%, #06b6d4 100%);
-    --ateliers-grad-4: linear-gradient(145deg, #0891b2 0%, #d946ef 52%, #ff00ff 100%);
-    padding: 0.35rem 0.25rem 0.75rem;
-    background: var(--ateliers-grad-soft);
-    border-radius: 0.75rem;
-}
-
-.ateliers-du-web .ateliers-du-web-card {
-    color: #fff;
-    border-radius: 0.75rem;
-    box-shadow: 0 0.5rem 1.5rem rgba(192, 38, 211, 0.28);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.ateliers-du-web .ateliers-du-web-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0.75rem 2rem rgba(192, 38, 211, 0.38);
-}
-
-.ateliers-du-web .ateliers-du-web-card-1 {
-    background: var(--ateliers-grad-1);
-}
-
-.ateliers-du-web .ateliers-du-web-card-2 {
-    background: var(--ateliers-grad-2);
-}
-
-.ateliers-du-web .ateliers-du-web-card-3 {
-    background: var(--ateliers-grad-3);
-}
-
-.ateliers-du-web .ateliers-du-web-card-4 {
-    background: var(--ateliers-grad-4);
-}
-
-.ateliers-du-web .ateliers-du-web-icon {
+.content-showcase-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -595,7 +532,7 @@ section[id] .carousel-multi-item .card-img-top {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.ateliers-du-web .ateliers-du-web-title {
+.content-showcase-card-title {
     margin: 0 0 0.85rem;
     font-size: 1.08rem;
     font-weight: 700;
@@ -604,86 +541,143 @@ section[id] .carousel-multi-item .card-img-top {
     line-height: 1.35;
 }
 
-.ateliers-du-web .ateliers-highlight {
+.content-showcase-emphasis {
     color: #fff;
     font-weight: 700;
 }
 
-.ateliers-du-web .card-text,
-.ateliers-du-web .ateliers-du-web-list {
+.content-showcase .card-text,
+.content-showcase-list {
     color: rgba(255, 255, 255, 0.94);
     line-height: 1.55;
 }
 
-.ateliers-du-web .ateliers-du-web-list {
+.content-showcase-list {
     padding-left: 1.15rem;
     margin-bottom: 0;
 }
 
-.ateliers-du-web .ateliers-du-web-list li + li {
+.content-showcase-list li + li {
     margin-top: 0.65rem;
 }
 
-.ateliers-du-web .ateliers-du-web-link {
+.content-showcase-link {
     color: #fff;
     font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 0.15em;
 }
 
-.ateliers-du-web .ateliers-du-web-link:hover {
+.content-showcase-link:hover {
     color: #fde68a;
 }
 
-.ateliers-du-web .ateliers-du-web-note {
+.content-showcase-note {
     opacity: 0.88;
     font-size: 0.9rem;
 }
 
-.ateliers-du-web .ateliers-du-web-apres {
-    background: linear-gradient(135deg, #ff00ff 0%, #9333ea 38%, #4f46e5 62%, #06b6d4 100%);
-    color: #fff;
-    box-shadow: 0 0.65rem 2rem rgba(192, 38, 211, 0.35);
+.content-showcase-features {
+    background: var(--showcase-features-bg);
+    border-radius: 1rem;
+    padding: 1.5rem 1rem;
 }
 
-.ateliers-du-web .ateliers-du-web-apres .ateliers-du-web-title {
+.content-showcase-features h2 {
+    color: var(--showcase-section-title-alt);
+}
+
+.content-showcase-feature-list {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 252, 0.88) 100%);
+    border: 1px solid var(--showcase-feature-list-border);
+    backdrop-filter: blur(6px);
+}
+
+.content-showcase-feature-list .list-group-item {
+    background: transparent;
+    border-color: var(--showcase-feature-list-item-border);
+}
+
+.content-showcase-section-title {
+    color: var(--showcase-section-title);
+}
+
+.content-showcase-band {
+    background: var(--showcase-grad-band);
+    color: #f8fafc;
+    box-shadow: 0 0.65rem 2rem var(--showcase-band-shadow);
+}
+
+.content-showcase-band .content-showcase-card-title {
     font-size: clamp(1.35rem, 2.5vw, 1.85rem);
     letter-spacing: 0.04em;
 }
 
-.ateliers-du-web .ateliers-du-web-apres-item {
+.content-showcase-band .text-muted,
+.content-showcase-band p {
+    color: rgba(248, 250, 252, 0.92) !important;
+}
+
+.content-showcase-band code {
+    color: #e0e7ff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.content-showcase-band-box,
+.content-showcase-band-item {
     padding: 1rem 1.1rem;
     border-radius: 0.65rem;
     background: rgba(255, 255, 255, 0.14);
     border: 1px solid rgba(255, 255, 255, 0.22);
     backdrop-filter: blur(6px);
+    color: #fff;
 }
 
-.ateliers-du-web-temoignages {
-    --ateliers-temoignages-title: linear-gradient(90deg, #074591 0%, #7c3aed 45%, #ff00ff 100%);
+.content-showcase-band-box {
+    padding: 1.5rem;
 }
 
-.ateliers-du-web-temoignages .ateliers-du-web-temoignages-title {
+.content-showcase-highlight-card {
+    background: var(--showcase-grad-highlight);
+    color: #fff;
+    border: 0;
+    box-shadow: 0 0.35rem 1rem var(--showcase-highlight-shadow);
+}
+
+.content-showcase-highlight-card strong {
+    color: #fff;
+}
+
+.content-showcase-roadmap {
+    background: var(--showcase-grad-roadmap);
+    border: 1px solid var(--showcase-roadmap-border) !important;
+}
+
+.content-showcase-roadmap h2 {
+    color: var(--showcase-roadmap-title);
+}
+
+.content-showcase-title-gradient {
     margin: 0;
     font-size: clamp(1.4rem, 2.8vw, 1.9rem);
     font-weight: 700;
     letter-spacing: 0.08em;
-    background: var(--ateliers-temoignages-title);
+    background: var(--showcase-title-gradient);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
 
-.ateliers-du-web-temoignages .ateliers-du-web-temoignages-title i {
-    -webkit-text-fill-color: #074591;
-    color: #074591;
+.content-showcase-title-gradient i {
+    -webkit-text-fill-color: var(--showcase-title-gradient-icon);
+    color: var(--showcase-title-gradient-icon);
 }
 
-.ateliers-du-web .ateliers-du-web-testimonial .card-body {
+.content-showcase-testimonial .card-body {
     padding: 1.35rem 1.5rem;
 }
 
-.ateliers-du-web .ateliers-du-web-avatar {
+.content-showcase-avatar {
     width: 5rem;
     height: 5rem;
     object-fit: cover;
@@ -691,25 +685,110 @@ section[id] .carousel-multi-item .card-img-top {
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
 }
 
-.ateliers-du-web .ateliers-du-web-name {
+.content-showcase-author {
     color: #fff;
     font-weight: 700;
 }
 
-.ateliers-du-web .ateliers-du-web-role {
+.content-showcase-author-role {
     color: rgba(255, 255, 255, 0.82);
     font-size: 0.92rem;
 }
 
-.ateliers-du-web .ateliers-du-web-stars {
+.content-showcase-rating {
     color: #fde047;
     font-size: 1rem;
     letter-spacing: 0.12em;
 }
 
-.ateliers-du-web .ateliers-du-web-quote {
+.content-showcase-quote {
     color: rgba(255, 255, 255, 0.95);
     font-style: italic;
     line-height: 1.6;
     font-size: 1.02rem;
+}
+
+/* Contenu libre — pages légales (.legal-document + modificateur d’accent) */
+.legal-document {
+    padding: 0.35rem 0.5rem 1rem;
+    border-radius: 0.75rem;
+}
+
+.legal-document--accent-red {
+    --legal-accent: #e7393b;
+    --legal-accent-dark: #b91c1c;
+    --legal-accent-text: #7f1d1d;
+    --legal-bg-soft: linear-gradient(165deg, #fff8f8 0%, #ffecec 42%, #fff5f5 100%);
+    --legal-hero-bg: linear-gradient(135deg, #e7393b 0%, #c42f32 45%, #991b1b 100%);
+    background: var(--legal-bg-soft);
+}
+
+.legal-document-hero {
+    padding: 1.5rem 1.25rem;
+    color: #fff;
+    background: var(--legal-hero-bg);
+}
+
+.legal-document-hero h1 {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.legal-document-lead {
+    opacity: 0.95;
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+
+.legal-document-intro {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+}
+
+.legal-document-accordion .accordion-button {
+    font-weight: 600;
+    color: var(--legal-accent-text);
+}
+
+.legal-document-accordion .accordion-button:not(.collapsed) {
+    color: var(--legal-accent-text);
+    background-color: color-mix(in srgb, var(--legal-accent) 10%, transparent);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--legal-accent) 12%, transparent);
+}
+
+.legal-document-accordion .accordion-button:focus {
+    border-color: color-mix(in srgb, var(--legal-accent) 35%, transparent);
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--legal-accent) 20%, transparent);
+}
+
+.legal-document-accordion .accordion-body {
+    color: #374151;
+    line-height: 1.6;
+}
+
+.legal-document-table th {
+    width: 38%;
+    color: var(--legal-accent-text);
+    font-weight: 600;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.legal-document-table td {
+    vertical-align: top;
+}
+
+.legal-document a {
+    color: var(--legal-accent);
+    font-weight: 600;
+}
+
+.legal-document a:hover {
+    color: var(--legal-accent-dark);
+}
+
+.legal-document-footer {
+    color: #6b7280;
 }
