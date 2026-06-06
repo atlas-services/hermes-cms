@@ -171,7 +171,7 @@ Modèles HTML de contenu libre dans `templates/exemple/` ; styles partagés dans
 
 **GSAP dans un post (section libre)** : coller le HTML **et** le `<script>` final via **Source editing** dans CKEditor. Le script écoute `hermes:gsap-ready` (ou `window.gsap`) car le module `app.js` peut se charger après le HTML du post. Exemples complets : `templates/exemple/gsap_demo_accueil.html`, `gsap_demo_chiffres.html`.
 
-**Apparition texte (Animate Text, [démo GSAP](https://demos.gsap.com/demo/animate-text/) / [CodePen xxmaNYj](https://codepen.io/GreenSock/pen/xxmaNYj))** : classe `.gsap-text-reveal` — modes caractères, mots, lignes. Paramètres GSAP optionnels par mode (`data-gsap-text-reveal-chars-x-value`, `data-gsap-text-reveal-words-duration-value`, etc.) avec défauts si absents. Init dans `.post-content` via `js-front.js`. Exemple : `gsap_text_reveal_hermes.html`.
+**Apparition texte (Animate Text, [démo GSAP](https://demos.gsap.com/demo/animate-text/) / [CodePen xxmaNYj](https://codepen.io/GreenSock/pen/xxmaNYj))** : `.gsap-text-reveal` sur **n’importe quelle balise** (`div`, `p`, `h2`…) + `.gsap-text-reveal__body` ; pas de classes d’affichage GSAP (Bootstrap / vos classes sur `__body`). Modes `chars`, `words`, `lines` via `data-gsap-text-reveal-*` (défauts si absents). Init `.post-content` via `js-front.js`. Exemple : `gsap_text_reveal_hermes.html`.
 
 Les dossiers `content/` et `entity/Config/` se recopient sous `public/uploads/<nom>/` — `app:migrate-media` avec la base migrée, l’ancienne racine uploads et la cible :
 

@@ -239,7 +239,8 @@ export function playGsapTextReveal(gsap, root, mode) {
 
     gsap.killTweensOf(body.querySelectorAll('.gsap-text-reveal__char, .gsap-text-reveal__word, .gsap-text-reveal__line'));
 
-    body.className = `gsap-text-reveal__body gsap-text-reveal__body--${resolvedMode}`;
+    body.classList.remove('gsap-text-reveal__body--chars', 'gsap-text-reveal__body--words', 'gsap-text-reveal__body--lines');
+    body.classList.add('gsap-text-reveal__body', `gsap-text-reveal__body--${resolvedMode}`);
 
     let targets = [];
     if (resolvedMode === 'chars') {
