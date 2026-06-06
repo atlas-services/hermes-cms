@@ -1,0 +1,147 @@
+<div id="gsap-demo-accueil" class="content-showcase content-showcase--palette-cool gsap-demo text-body">
+    <section class="content-showcase-hero rounded-3 overflow-hidden mb-5 shadow">
+        <div class="px-4 py-5 py-lg-6 text-center text-white">
+            <p class="gsap-hero-kicker text-uppercase small fw-semibold mb-2 opacity-75">Animation GSAP · contenu libre</p>
+            <h1 class="gsap-hero-title display-4 fw-bold mb-3">Vitrine animée</h1>
+            <p class="gsap-hero-lead lead col-lg-9 mx-auto mb-4">
+                Collez ce HTML dans un <strong>post</strong> d’une section <strong>libre</strong>.
+                Les entrées sont pilotées par <code>window.gsap</code> (chargé via l’importmap du site).
+            </p>
+            <div class="gsap-hero-actions d-flex flex-wrap gap-2 justify-content-center">
+                <a class="btn btn-light btn-lg px-4 shadow-sm" href="#gsap-demo-cards">
+                    <i class="fa-solid fa-arrow-down me-2" aria-hidden="true"></i>Voir les cartes
+                </a>
+                <button type="button" class="btn btn-outline-light btn-lg px-4 gsap-replay-btn">
+                    <i class="fa-solid fa-rotate-right me-2" aria-hidden="true"></i>Rejouer l’animation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div id="gsap-demo-cards" class="row g-4 mb-5 px-1">
+        <div class="col-md-4">
+            <article class="card content-showcase-card content-showcase-card-1 h-100 gsap-demo-hover-card gsap-demo-card">
+                <div class="card-body">
+                    <div class="mb-3 fs-2 opacity-90"><i class="fa-solid fa-bolt" aria-hidden="true"></i></div>
+                    <h2 class="h5 card-title">Entrée en scène</h2>
+                    <p class="card-text mb-0 opacity-90">
+                        <code>gsap.from()</code> sur le hero, puis <code>stagger</code> sur les cartes — timeline au chargement.
+                    </p>
+                </div>
+            </article>
+        </div>
+        <div class="col-md-4">
+            <article class="card content-showcase-card content-showcase-card-2 h-100 gsap-demo-hover-card gsap-demo-card">
+                <div class="card-body">
+                    <div class="mb-3 fs-2 opacity-90"><i class="fa-solid fa-hand-pointer" aria-hidden="true"></i></div>
+                    <h2 class="h5 card-title">Survol</h2>
+                    <p class="card-text mb-0 opacity-90">
+                        Chaque carte réagit au survis avec une micro-animation <code>scale</code> + ombre.
+                    </p>
+                </div>
+            </article>
+        </div>
+        <div class="col-md-4">
+            <article class="card content-showcase-card content-showcase-card-3 h-100 gsap-demo-hover-card gsap-demo-card">
+                <div class="card-body">
+                    <div class="mb-3 fs-2 opacity-90"><i class="fa-solid fa-code" aria-hidden="true"></i></div>
+                    <h2 class="h5 card-title">Script en bas du post</h2>
+                    <p class="card-text mb-0 opacity-90">
+                        Le bloc <code>&lt;script&gt;</code> attend l’événement <code>hermes:gsap-ready</code> avant d’animer.
+                    </p>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <section class="content-showcase-band rounded-3 p-4 p-lg-5 mb-0 shadow">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7 gsap-band-text">
+                <h2 class="h3 content-showcase-card-title mb-3">Mode d’emploi admin</h2>
+                <ol class="content-showcase-list mb-0">
+                    <li>Page → section gabarit <strong>libre</strong> → créer ou éditer un post.</li>
+                    <li>CKEditor&nbsp;5 → bouton <strong>Source editing</strong> → coller tout ce fichier.</li>
+                    <li>Enregistrer. Déployer <code>assets/styles/app.css</code> si besoin (classes <code>.gsap-demo-*</code>).</li>
+                </ol>
+            </div>
+            <div class="col-lg-5 text-center gsap-band-icon">
+                <p class="display-1 mb-0 opacity-75" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+(function () {
+    var ROOT = '#gsap-demo-accueil';
+
+    function playIntro(gsap) {
+        var root = document.querySelector(ROOT);
+        if (!root) {
+            return;
+        }
+
+        var tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+        tl.from(root.querySelectorAll('.gsap-hero-kicker, .gsap-hero-title, .gsap-hero-lead, .gsap-hero-actions > *'), {
+            y: 36,
+            opacity: 0,
+            duration: 0.75,
+            stagger: 0.12,
+        })
+        .from(root.querySelectorAll('.gsap-demo-card'), {
+            y: 48,
+            opacity: 0,
+            duration: 0.65,
+            stagger: 0.15,
+        }, '-=0.35')
+        .from(root.querySelectorAll('.gsap-band-text, .gsap-band-icon'), {
+            x: function (i) { return i === 0 ? -24 : 24; },
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.1,
+        }, '-=0.2');
+    }
+
+    function bindHover(gsap) {
+        document.querySelectorAll(ROOT + ' .gsap-demo-hover-card').forEach(function (card) {
+            card.addEventListener('mouseenter', function () {
+                card.classList.add('is-gsap-active');
+                gsap.to(card, { scale: 1.03, duration: 0.35, ease: 'power2.out' });
+            });
+            card.addEventListener('mouseleave', function () {
+                card.classList.remove('is-gsap-active');
+                gsap.to(card, { scale: 1, duration: 0.4, ease: 'power2.inOut' });
+            });
+        });
+    }
+
+    function init(gsap) {
+        playIntro(gsap);
+        bindHover(gsap);
+
+        var replay = document.querySelector(ROOT + ' .gsap-replay-btn');
+        if (replay) {
+            replay.addEventListener('click', function () {
+                playIntro(gsap);
+            });
+        }
+    }
+
+    function boot() {
+        if (window.gsap) {
+            init(window.gsap);
+            return;
+        }
+        window.addEventListener('hermes:gsap-ready', function (event) {
+            init(event.detail.gsap);
+        }, { once: true });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+})();
+</script>

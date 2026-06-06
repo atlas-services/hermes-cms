@@ -1,0 +1,183 @@
+<div id="gsap-demo-chiffres" class="content-showcase content-showcase--palette-vivid gsap-demo text-body">
+    <section class="content-showcase-hero rounded-3 overflow-hidden mb-5 shadow">
+        <div class="px-4 py-5 text-center text-white">
+            <h1 class="gsap-chiffres-title h2 fw-bold mb-3">Chiffres &amp; barres de progression</h1>
+            <p class="gsap-chiffres-lead lead col-lg-8 mx-auto mb-0">
+                Compteurs et jauges déclenchés à l’affichage (IntersectionObserver + GSAP).
+                Idéal pour une section « résultats » ou « impact ».
+            </p>
+        </div>
+    </section>
+
+    <div class="row g-4 mb-5 px-1 gsap-chiffres-stats">
+        <div class="col-6 col-lg-3">
+            <div class="content-showcase-highlight-card h-100 gsap-demo-stat">
+                <span class="gsap-demo-stat-value" data-gsap-count="128">0</span>
+                <span class="gsap-demo-stat-label">Sites accompagnés</span>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="content-showcase-highlight-card h-100 gsap-demo-stat">
+                <span class="gsap-demo-stat-value" data-gsap-count="96">0</span>
+                <span class="gsap-demo-stat-label">% clients satisfaits</span>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="content-showcase-highlight-card h-100 gsap-demo-stat">
+                <span class="gsap-demo-stat-value" data-gsap-count="12">0</span>
+                <span class="gsap-demo-stat-label">Années d’expérience</span>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="content-showcase-highlight-card h-100 gsap-demo-stat">
+                <span class="gsap-demo-stat-value" data-gsap-count="4">0</span>
+                <span class="gsap-demo-stat-label">Ateliers par mois</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="content-showcase-features mb-0 px-1 gsap-chiffres-bars">
+        <h2 class="h4 text-center mb-4 gsap-bars-title">Compétences mises en avant</h2>
+        <div class="row g-4 col-lg-10 mx-auto">
+            <div class="col-md-6 gsap-bar-item">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-semibold">Symfony &amp; Hermes</span>
+                    <span class="text-muted small">90&nbsp;%</span>
+                </div>
+                <div class="gsap-demo-bar" aria-hidden="true">
+                    <span class="gsap-demo-bar-fill" data-gsap-width="90"></span>
+                </div>
+            </div>
+            <div class="col-md-6 gsap-bar-item">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-semibold">Design &amp; UX</span>
+                    <span class="text-muted small">85&nbsp;%</span>
+                </div>
+                <div class="gsap-demo-bar" aria-hidden="true">
+                    <span class="gsap-demo-bar-fill" data-gsap-width="85"></span>
+                </div>
+            </div>
+            <div class="col-md-6 gsap-bar-item">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-semibold">Contenu &amp; SEO</span>
+                    <span class="text-muted small">75&nbsp;%</span>
+                </div>
+                <div class="gsap-demo-bar" aria-hidden="true">
+                    <span class="gsap-demo-bar-fill" data-gsap-width="75"></span>
+                </div>
+            </div>
+            <div class="col-md-6 gsap-bar-item">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-semibold">Formation ateliers</span>
+                    <span class="text-muted small">95&nbsp;%</span>
+                </div>
+                <div class="gsap-demo-bar" aria-hidden="true">
+                    <span class="gsap-demo-bar-fill" data-gsap-width="95"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+(function () {
+    var ROOT = '#gsap-demo-chiffres';
+    var played = false;
+
+    function animateCounters(gsap, root) {
+        root.querySelectorAll('[data-gsap-count]').forEach(function (el) {
+            var target = parseFloat(el.getAttribute('data-gsap-count')) || 0;
+            var counter = { value: 0 };
+            gsap.to(counter, {
+                value: target,
+                duration: 1.6,
+                ease: 'power1.out',
+                onUpdate: function () {
+                    el.textContent = Math.round(counter.value);
+                },
+            });
+        });
+    }
+
+    function animateBars(gsap, root) {
+        root.querySelectorAll('[data-gsap-width]').forEach(function (bar, index) {
+            var width = parseFloat(bar.getAttribute('data-gsap-width')) || 0;
+            gsap.to(bar, {
+                width: width + '%',
+                duration: 1.2,
+                delay: index * 0.08,
+                ease: 'power2.out',
+            });
+        });
+    }
+
+    function playScrollReveal(gsap) {
+        var root = document.querySelector(ROOT);
+        if (!root || played) {
+            return;
+        }
+        played = true;
+
+        gsap.from(root.querySelectorAll('.gsap-chiffres-title, .gsap-chiffres-lead'), {
+            y: 28,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.1,
+        });
+
+        animateCounters(gsap, root);
+        animateBars(gsap, root);
+
+        gsap.from(root.querySelectorAll('.gsap-demo-stat, .gsap-bar-item'), {
+            y: 32,
+            opacity: 0,
+            duration: 0.55,
+            stagger: 0.06,
+            delay: 0.15,
+        });
+    }
+
+    function observe(gsap) {
+        var root = document.querySelector(ROOT);
+        if (!root) {
+            return;
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            playScrollReveal(gsap);
+            return;
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    playScrollReveal(gsap);
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.2 });
+
+        observer.observe(root);
+    }
+
+    function init(gsap) {
+        observe(gsap);
+    }
+
+    function boot() {
+        if (window.gsap) {
+            init(window.gsap);
+            return;
+        }
+        window.addEventListener('hermes:gsap-ready', function (event) {
+            init(event.detail.gsap);
+        }, { once: true });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+})();
+</script>

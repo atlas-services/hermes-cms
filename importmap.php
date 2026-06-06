@@ -977,4 +977,7 @@ return [
         'version' => '5.2.8',
         'type' => 'css',
     ],
+    'gsap' => [
+        'version' => '3.15.0',
+    ],
 ];

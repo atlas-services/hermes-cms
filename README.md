@@ -55,7 +55,7 @@ composer require --dev symfony/web-profiler-bundle
 
 ### Asset Mapper (importmap) — sans elFinder : Uppy pour l’upload, puis le reste du front
 
-**elFinder** n’est plus dans le projet. Les envois de fichiers (et dossiers) côté administration passent par **Uppy** (`importmap.php`, entrée `admin_media_upload`, script `assets/admin_media_upload.js`). Les autres dépendances front (Bootstrap, Font Awesome, AOS, **CKEditor 5**, Tom Select, polices **@fontsource**, etc.) suivent le même mécanisme. La police du contenu (`font_family`) et celle du menu (`nav_font_family`) se règlent en admin ; le rendu passe par `configs` sur le `<body>` (sans classes utilitaires `.h-*` de l’ancienne version).
+**elFinder** n’est plus dans le projet. Les envois de fichiers (et dossiers) côté administration passent par **Uppy** (`importmap.php`, entrée `admin_media_upload`, script `assets/admin_media_upload.js`). Les autres dépendances front (Bootstrap, Font Awesome, AOS, **GSAP**, **CKEditor 5**, Tom Select, polices **@fontsource**, etc.) suivent le même mécanisme. La police du contenu (`font_family`) et celle du menu (`nav_font_family`) se règlent en admin ; le rendu passe par `configs` sur le `<body>` (sans classes utilitaires `.h-*` de l’ancienne version).
 
 Après un `git clone` ou si les paquets ne sont pas encore présents localement, télécharger les fichiers dans `assets/vendor/` (non versionné) :
 
@@ -90,6 +90,14 @@ php bin/console importmap:require @fortawesome/fontawesome-free/css/all.css
 php bin/console importmap:require aos
 php bin/console importmap:require aos/dist/aos.css
 ```
+
+**GSAP** (animations, chargé via `assets/gsap.js` dans l’entrée `app` — front et admin) :
+
+```
+php bin/console importmap:require gsap
+```
+
+Disponible globalement (`window.gsap`) et importable dans un module (`import gsap from 'gsap'` ou `import { gsap } from './gsap.js'`). Plugins optionnels (ex. ScrollTrigger) : `php bin/console importmap:require gsap/ScrollTrigger` puis enregistrement avec `gsap.registerPlugin(ScrollTrigger)` dans le module concerné.
 
 **CKEditor 5** (contenu libre, `assets/ckeditor5.js` + contrôleur Stimulus `ckeditor5`) :
 
@@ -159,7 +167,11 @@ php bin/console app:init-mentions-legales
 
 `app:init-mentions-legales` crée trois menus **inactifs** (non affichés dans la navbar) : `/fr/mentions-legales`, `/fr/confidentialite`, `/fr/cgu-cgv`, chacun avec une section **libre** et un post dont le HTML provient de l’[API Hermes](https://api.hermes-cms.org) (`API_HERMES_*` dans `.env`) : le **premier** modèle du catalogue dont le champ **`type`** vaut `mentions-legales`, `confidentialite` ou `cgu-cgv` (un modèle par page).
 
-Modèles HTML de contenu libre dans `templates/exemple/` ; styles partagés dans `assets/styles/app.css` (`.content-showcase` pour les vitrines marketing, `.legal-document` pour les pages légales).
+Modèles HTML de contenu libre dans `templates/exemple/` ; styles partagés dans `assets/styles/app.css` (`.content-showcase` pour les vitrines marketing, `.legal-document` pour les pages légales, `.gsap-demo` pour les animations GSAP).
+
+**GSAP dans un post (section libre)** : coller le HTML **et** le `<script>` final via **Source editing** dans CKEditor. Le script écoute `hermes:gsap-ready` (ou `window.gsap`) car le module `app.js` peut se charger après le HTML du post. Exemples complets : `templates/exemple/gsap_demo_accueil.html`, `gsap_demo_chiffres.html`.
+
+**Apparition texte (Animate Text, [démo GSAP](https://demos.gsap.com/demo/animate-text/) / [CodePen xxmaNYj](https://codepen.io/GreenSock/pen/xxmaNYj))** : classe `.gsap-text-reveal` — modes caractères, mots, lignes. Paramètres GSAP optionnels par mode (`data-gsap-text-reveal-chars-x-value`, `data-gsap-text-reveal-words-duration-value`, etc.) avec défauts si absents. Init dans `.post-content` via `js-front.js`. Exemple : `gsap_text_reveal_hermes.html`.
 
 Les dossiers `content/` et `entity/Config/` se recopient sous `public/uploads/<nom>/` — `app:migrate-media` avec la base migrée, l’ancienne racine uploads et la cible :
 

@@ -4,6 +4,7 @@
  */
 
 import { Carousel } from 'bootstrap';
+import { initPostContentGsapTextReveal } from '../../../utils/gsap_text_reveal.js';
 
 function colorLink() {
     const libreLinks = document.getElementsByClassName('link');
@@ -158,9 +159,11 @@ function initModalImage() {
 export function initHermesJsFront() {
     initPostContentCarousels();
     initModalImage();
+    initPostContentGsapTextReveal();
 
     window.addEventListener('load', () => {
         colorLink();
         initPostContentCarousels();
+        initPostContentGsapTextReveal();
     });
 }
