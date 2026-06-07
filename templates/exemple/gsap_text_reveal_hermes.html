@@ -1,102 +1,115 @@
 <div class="content-showcase content-showcase--palette-cool text-body">
-    <div class="container-fluid px-2 py-3">
-        <div class="row justify-content-center">
-            <div class="col-12 col-xl-10">
-                <p class="text-center text-muted small mb-4">
-                    <code>.gsap-text-reveal</code> sur <strong>n’importe quelle balise</strong> (<code>div</code>, <code>p</code>, <code>h2</code>…).
-                    Aucun style d’affichage imposé — seulement l’animation. Typo et mise en page : vos classes Bootstrap.
-                </p>
+    <section class="content-showcase-hero rounded-3 overflow-hidden mb-5 shadow" data-aos="fade-down" data-aos-duration="900">
+        <div class="px-4 py-5 py-lg-6 text-center text-white">
+            <p class="text-uppercase small fw-semibold mb-2 opacity-75" data-aos="fade-up" data-aos-delay="80">
+                GSAP · apparition de texte
+            </p>
+            <h1 class="display-5 fw-bold mb-3" data-aos="fade-up" data-aos-delay="160">
+                Text reveal sans SplitText
+            </h1>
+            <p class="lead col-lg-9 mx-auto mb-0" data-aos="fade-up" data-aos-delay="240">
+                Classe fonctionnelle <code class="text-white-50">.gsap-text-reveal</code> sur <strong>n’importe quelle balise</strong>
+                (<code>div</code>, <code>p</code>, <code>section</code>…). Typo et mise en page : vos classes Bootstrap sur
+                <code>.gsap-text-reveal__body</code>. Init automatique dans <code>js-front.js</code>.
+            </p>
+        </div>
+    </section>
 
-                <!-- 1. Lettres -->
-                <div
-                    class="gsap-text-reveal content-showcase-band rounded-3 shadow p-4 p-lg-5 mb-4 text-center"
-                    data-gsap-text-reveal-text-value="Composez votre site vitrine avec menus, pages, sections et contenus riches."
-                    data-gsap-text-reveal-mode-value="chars"
-                    data-gsap-text-reveal-chars-x-value="120"
-                    data-gsap-text-reveal-chars-opacity-value="0"
-                    data-gsap-text-reveal-chars-duration-value="0.8"
-                    data-gsap-text-reveal-chars-stagger-value="0.05"
-                    data-gsap-text-reveal-chars-ease-value="power4.out"
-                >
-                    <p class="small text-white-50 mb-2">Lettres</p>
-                    <span class="visually-hidden gsap-text-reveal__label">Composez votre site vitrine avec menus, pages, sections et contenus riches.</span>
-                    <p class="gsap-text-reveal__body display-5 fw-bold text-white mb-0" aria-label="Composez votre site vitrine avec menus, pages, sections et contenus riches.">&nbsp;</p>
+    <!-- 1. Lettres -->
+    <div
+        class="gsap-text-reveal content-showcase-band rounded-3 shadow p-4 p-lg-5 mb-4 text-center"
+        data-aos="fade-up"
+        data-aos-duration="750"
+        data-gsap-text-reveal-text-value="Composez votre site vitrine avec menus, pages, sections et contenus riches."
+        data-gsap-text-reveal-mode-value="chars"
+        data-gsap-text-reveal-chars-x-value="120"
+        data-gsap-text-reveal-chars-opacity-value="0"
+        data-gsap-text-reveal-chars-duration-value="0.8"
+        data-gsap-text-reveal-chars-stagger-value="0.05"
+        data-gsap-text-reveal-chars-ease-value="power4.out"
+    >
+        <p class="small opacity-75 mb-2">Lettres</p>
+        <span class="visually-hidden gsap-text-reveal__label">Composez votre site vitrine avec menus, pages, sections et contenus riches.</span>
+        <p class="gsap-text-reveal__body display-5 fw-bold mb-0" aria-label="Composez votre site vitrine avec menus, pages, sections et contenus riches.">&nbsp;</p>
+    </div>
+
+    <!-- 2. Mots -->
+    <div
+        class="gsap-text-reveal content-showcase-band rounded-3 shadow p-4 p-lg-5 mb-4 text-center"
+        data-aos="fade-up"
+        data-aos-delay="80"
+        data-aos-duration="750"
+        data-gsap-text-reveal-text-value="Composez votre site vitrine avec menus, pages, sections et contenus riches."
+        data-gsap-text-reveal-mode-value="words"
+        data-gsap-text-reveal-words-y-value="-80"
+        data-gsap-text-reveal-words-opacity-value="0"
+        data-gsap-text-reveal-words-rotation-min-value="-60"
+        data-gsap-text-reveal-words-rotation-max-value="60"
+        data-gsap-text-reveal-words-duration-value="0.75"
+        data-gsap-text-reveal-words-stagger-value="0.12"
+        data-gsap-text-reveal-words-ease-value="back.out(1.7)"
+    >
+        <p class="small opacity-75 mb-2">Mots</p>
+        <span class="visually-hidden gsap-text-reveal__label">Composez votre site vitrine avec menus, pages, sections et contenus riches.</span>
+        <p class="gsap-text-reveal__body h2 fw-semibold mb-0" aria-label="Composez votre site vitrine avec menus, pages, sections et contenus riches.">&nbsp;</p>
+    </div>
+
+    <!-- 3. Lignes -->
+    <div
+        class="gsap-text-reveal content-showcase-band rounded-3 shadow p-4 p-lg-5 mb-5 text-center"
+        data-aos="fade-up"
+        data-aos-delay="160"
+        data-aos-duration="750"
+        data-gsap-text-reveal-lines-value="Sites vitrines élégants et responsives|Hermes CMS open source|Symfony 8 · Bootstrap 5 · GSAP"
+        data-gsap-text-reveal-mode-value="lines"
+        data-gsap-text-reveal-lines-rotation-x-value="-90"
+        data-gsap-text-reveal-lines-opacity-value="0"
+        data-gsap-text-reveal-lines-duration-value="0.85"
+        data-gsap-text-reveal-lines-stagger-value="0.22"
+        data-gsap-text-reveal-lines-ease-value="power3.out"
+    >
+        <p class="small opacity-75 mb-2">Lignes</p>
+        <span
+            class="visually-hidden gsap-text-reveal__label"
+            data-lines="Sites vitrines élégants et responsives|Hermes CMS open source|Symfony 8 · Bootstrap 5 · GSAP"
+        >Sites vitrines élégants et responsives</span>
+        <div class="gsap-text-reveal__body fs-4 fw-bold mb-0" aria-label="Sites vitrines élégants et responsives. Hermes CMS open source. Symfony 8 · Bootstrap 5 · GSAP.">&nbsp;</div>
+    </div>
+
+    <div class="row g-4 mb-0 px-1">
+        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="0" data-aos-duration="700">
+            <div class="card content-showcase-card content-showcase-card-1 h-100">
+                <div class="card-body small">
+                    <h2 class="h6 content-showcase-card-title">Structure minimale</h2>
+                    <ul class="content-showcase-list mb-0">
+                        <li>Parent : <code>class="gsap-text-reveal"</code> + <code>data-gsap-text-reveal-mode-value</code></li>
+                        <li>Cible : <code>class="gsap-text-reveal__body"</code> (vide ou <code>&amp;nbsp;</code>)</li>
+                        <li>Repli CKEditor : <code>class="gsap-text-reveal__label"</code></li>
+                    </ul>
                 </div>
-
-                <!-- 2. Mots -->
-                <div
-                    class="gsap-text-reveal content-showcase-band rounded-3 shadow p-4 p-lg-5 mb-4 text-center"
-                    data-gsap-text-reveal-text-value="Composez votre site vitrine avec menus, pages, sections et contenus riches."
-                    data-gsap-text-reveal-mode-value="words"
-                    data-gsap-text-reveal-words-y-value="-80"
-                    data-gsap-text-reveal-words-opacity-value="0"
-                    data-gsap-text-reveal-words-rotation-min-value="-60"
-                    data-gsap-text-reveal-words-rotation-max-value="60"
-                    data-gsap-text-reveal-words-duration-value="0.75"
-                    data-gsap-text-reveal-words-stagger-value="0.12"
-                    data-gsap-text-reveal-words-ease-value="back.out(1.7)"
-                >
-                    <p class="small text-white-50 mb-2">Mots</p>
-                    <span class="visually-hidden gsap-text-reveal__label">Composez votre site vitrine avec menus, pages, sections et contenus riches.</span>
-                    <p class="gsap-text-reveal__body h2 fw-semibold text-white mb-0" aria-label="Composez votre site vitrine avec menus, pages, sections et contenus riches.">&nbsp;</p>
+            </div>
+        </div>
+        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="120" data-aos-duration="700">
+            <div class="card content-showcase-card content-showcase-card-2 h-100">
+                <div class="card-body small">
+                    <h2 class="h6 content-showcase-card-title">Caractères / mots</h2>
+                    <ul class="content-showcase-list mb-0">
+                        <li><code>data-gsap-text-reveal-text-value</code></li>
+                        <li><code>data-gsap-text-reveal-chars-*-value</code></li>
+                        <li><code>data-gsap-text-reveal-words-*-value</code></li>
+                    </ul>
                 </div>
-
-                <!-- 3. Lignes -->
-                <div
-                    class="gsap-text-reveal content-showcase-band rounded-3 shadow p-4 p-lg-5 mb-4 text-center"
-                    data-gsap-text-reveal-lines-value="Sites vitrines élégants et responsives|Hermes CMS open source|Symfony 8 · Bootstrap 5 · GSAP"
-                    data-gsap-text-reveal-mode-value="lines"
-                    data-gsap-text-reveal-lines-rotation-x-value="-90"
-                    data-gsap-text-reveal-lines-opacity-value="0"
-                    data-gsap-text-reveal-lines-duration-value="0.85"
-                    data-gsap-text-reveal-lines-stagger-value="0.22"
-                    data-gsap-text-reveal-lines-ease-value="power3.out"
-                >
-                    <p class="small text-white-50 mb-2">Lignes</p>
-                    <span
-                        class="visually-hidden gsap-text-reveal__label"
-                        data-lines="Sites vitrines élégants et responsives|Hermes CMS open source|Symfony 8 · Bootstrap 5 · GSAP"
-                    >Sites vitrines élégants et responsives</span>
-                    <div class="gsap-text-reveal__body fs-4 fw-bold text-white mb-0" aria-label="Sites vitrines élégants et responsives. Hermes CMS open source. Symfony 8 · Bootstrap 5 · GSAP.">&nbsp;</div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-lg-4">
-                        <div class="card content-showcase-card content-showcase-card-1 h-100 border-0">
-                            <div class="card-body small">
-                                <h2 class="h6 content-showcase-card-title">Structure minimale</h2>
-                                <ul class="content-showcase-list mb-0">
-                                    <li>Parent : <code>class="gsap-text-reveal"</code> + <code>data-gsap-text-reveal-mode-value</code></li>
-                                    <li>Cible : <code>class="gsap-text-reveal__body"</code> (vide ou <code>&amp;nbsp;</code>)</li>
-                                    <li>Repli : <code>class="gsap-text-reveal__label"</code></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card content-showcase-card content-showcase-card-2 h-100 border-0">
-                            <div class="card-body small">
-                                <h2 class="h6 content-showcase-card-title">Caractères / mots</h2>
-                                <ul class="content-showcase-list mb-0">
-                                    <li><code>data-gsap-text-reveal-text-value</code></li>
-                                    <li><code>data-gsap-text-reveal-chars-*-value</code></li>
-                                    <li><code>data-gsap-text-reveal-words-*-value</code></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card content-showcase-card content-showcase-card-3 h-100 border-0">
-                            <div class="card-body small">
-                                <h2 class="h6 content-showcase-card-title">Lignes</h2>
-                                <ul class="content-showcase-list mb-0">
-                                    <li><code>data-gsap-text-reveal-lines-value="A|B|C"</code></li>
-                                    <li><code>data-gsap-text-reveal-lines-*-value</code></li>
-                                    <li>Typo sur <code>__body</code> : <code>display-1</code>, <code>lead</code>, etc.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="240" data-aos-duration="700">
+            <div class="card content-showcase-card content-showcase-card-3 h-100">
+                <div class="card-body small">
+                    <h2 class="h6 content-showcase-card-title">Lignes</h2>
+                    <ul class="content-showcase-list mb-0">
+                        <li><code>data-gsap-text-reveal-lines-value="A|B|C"</code></li>
+                        <li><code>data-gsap-text-reveal-lines-*-value</code></li>
+                        <li>Typo sur <code>__body</code> : <code>display-1</code>, <code>lead</code>, etc.</li>
+                    </ul>
                 </div>
             </div>
         </div>
