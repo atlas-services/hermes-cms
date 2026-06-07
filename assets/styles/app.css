@@ -866,8 +866,7 @@ section[id] .carousel-multi-item .card-img-top {
 }
 
 /* Paire GSAP : forme + texte côte à côte (responsive, espacement réduit) */
-.gsap-hero-split .legal-document {
-    padding: 0.15rem 0.25rem;
+.gsap-hero-split {
     margin-bottom: 0;
 }
 
