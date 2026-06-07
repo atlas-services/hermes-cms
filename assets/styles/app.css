@@ -777,6 +777,139 @@ section[id] .carousel-multi-item .card-img-top {
     display: block;
 }
 
+/* Contenu libre — GSAP letter reveal (lettres alternées haut / bas) */
+.gsap-letter-reveal__stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: min(88vh, 720px);
+    padding: 2rem 1rem;
+    overflow: hidden;
+}
+
+.gsap-letter-reveal__char {
+    display: inline-block;
+    opacity: 0;
+    color: var(--gsap-letter-reveal-color, var(--legal-accent, currentColor));
+    will-change: transform, opacity;
+}
+
+.gsap-letter-reveal__line {
+    display: block;
+    margin: 0;
+    min-height: 1.1em;
+    text-align: center;
+    line-height: 1.08;
+    letter-spacing: 0.14em;
+    color: transparent;
+    user-select: none;
+}
+
+/* Contenu libre — GSAP shape build (blocs + contour SVG) */
+.gsap-shape-build__stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: min(72vh, 560px);
+    padding: 2rem 1rem;
+    overflow: hidden;
+}
+
+.gsap-shape-build__grid-wrap {
+    position: relative;
+    width: min(280px, 72vw);
+    margin: 0 auto;
+    aspect-ratio: 5 / 7;
+}
+
+.gsap-shape-build__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+}
+
+.gsap-shape-build__block {
+    opacity: 0;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--gsap-shape-build-color, var(--legal-accent, #e7393b)) 12%, #f3f4f6);
+    border: 1px solid color-mix(in srgb, var(--gsap-shape-build-color, var(--legal-accent, #e7393b)) 22%, #e5e7eb);
+    will-change: transform, opacity;
+}
+
+.gsap-shape-build__block.is-window {
+    background: color-mix(in srgb, var(--gsap-shape-build-color, var(--legal-accent, #e7393b)) 35%, #fff);
+}
+
+.gsap-shape-build__block.is-structure {
+    background: var(--gsap-shape-build-color, var(--legal-accent, #e7393b));
+    border-color: var(--gsap-shape-build-color, var(--legal-accent, #e7393b));
+}
+
+.gsap-shape-build__svg {
+    display: block;
+    width: min(340px, 82vw);
+    height: auto;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.gsap-shape-build__path {
+    fill: none;
+    stroke: var(--gsap-shape-build-color, var(--legal-accent, #e7393b));
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    visibility: hidden;
+}
+
+/* Paire GSAP : forme + texte côte à côte (responsive, espacement réduit) */
+.gsap-hero-split .legal-document {
+    padding: 0.15rem 0.25rem;
+    margin-bottom: 0;
+}
+
+.gsap-hero-split .gsap-letter-reveal__stage,
+.gsap-hero-split .gsap-shape-build__stage {
+    min-height: min(26vh, 200px);
+    padding: 0.4rem 0.35rem;
+}
+
+.gsap-hero-split .gsap-shape-build__svg {
+    width: min(240px, 88%);
+}
+
+.gsap-hero-split .gsap-letter-reveal__line.display-2 {
+    font-size: clamp(1.65rem, 7vw, 2.5rem);
+}
+
+.gsap-hero-split .gsap-letter-reveal__line.display-6 {
+    font-size: clamp(0.95rem, 3.6vw, 1.3rem);
+    letter-spacing: 0.1em;
+}
+
+@media (min-width: 576px) {
+    .gsap-hero-split .gsap-letter-reveal__stage,
+    .gsap-hero-split .gsap-shape-build__stage {
+        min-height: min(32vh, 280px);
+        padding: 0.5rem 0.4rem;
+    }
+
+    .gsap-hero-split .gsap-shape-build__svg {
+        width: min(220px, 95%);
+    }
+}
+
+@media (min-width: 768px) {
+    .gsap-hero-split .gsap-letter-reveal__stage,
+    .gsap-hero-split .gsap-shape-build__stage {
+        min-height: min(38vh, 320px);
+        padding: 0.6rem 0.5rem;
+    }
+}
+
 /* Contenu libre — pages légales (.legal-document + modificateur d’accent) */
 .legal-document {
     padding: 0.35rem 0.5rem 1rem;
