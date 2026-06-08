@@ -20,6 +20,7 @@ class TemplateRepository extends ServiceEntityRepository
     public const TEMPLATES_BASE = [
         'libre' => 'libre',
         'folio1' => 'folio1',
+        'carousel1' => 'carousel1',
         'contact' => 'contact',
         'newsletter' => 'newsletter',
         'livredor' => 'livredor',

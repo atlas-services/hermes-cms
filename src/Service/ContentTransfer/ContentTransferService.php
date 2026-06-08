@@ -176,8 +176,7 @@ final class ContentTransferService
 
     private function duplicatePostImage(Post $source, Post $target): void
     {
-        $mapping = 'content_images';
-        $resolved = $this->vichStorage->resolveUri($source, $mapping);
+        $resolved = $this->vichStorage->resolveUri($source, 'imageFile');
         if ($resolved === null || $resolved === '') {
             return;
         }
