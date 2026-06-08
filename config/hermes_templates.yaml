@@ -45,6 +45,7 @@ parameters:
       summary: Folio effet survol (+)
       code: folio2
       name: Folio effet survol (+)
+      active: false
     folio3:
       type: liste 
       summary: Folio gallery
@@ -60,6 +61,7 @@ parameters:
       summary: Folio gallery 2
       code: folio5
       name:  Folio gallery 2
+      active: false
     folio_video1:
       type: liste 
       summary: Folio video classique
@@ -85,6 +87,7 @@ parameters:
       summary: Présentation carousel fade
       code: carousel2
       name: Carousel fade
+      active: false
     carousel3:
       type: liste 
       summary: Présentation carousel par groupe de 3 images
@@ -95,8 +98,10 @@ parameters:
       summary: Cartes affichée par 2 avec fichier à télécharger
       code: card1
       name: Cartes avec pdf à télécharger
+      active: false
     card2:
       type: liste 
       summary: Carte de présentation avec photo
       code: card2
       name: Carte de présentation avec photo
+      active: false

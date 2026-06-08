@@ -47,19 +47,24 @@ class InitHermesTemplatesAndConfigCommand extends Command
             throw new InvalidArgumentException('No templates configured.');
         }
 
-        foreach($templates as $template){
+        foreach ($templates as $template) {
             $db_template = $this->entityManager->getRepository(Template::class)->findOneBy(['code' => $template['code']]);
-            if(is_null($db_template)){
-                // Créer  template
+            $active = (bool) ($template['active'] ?? true);
+
+            if ($db_template === null) {
                 $newTemplate = new Template();
                 $newTemplate->setType($template['type']);
                 $newTemplate->setCode($template['code']);
                 $newTemplate->setName($template['name']);
                 $newTemplate->setSummary($template['summary']);
+                $newTemplate->setActive($active);
 
                 $this->entityManager->persist($newTemplate);
                 $nb++;
+                continue;
             }
+
+            $db_template->setActive($active);
         }
 
         $this->entityManager->flush();

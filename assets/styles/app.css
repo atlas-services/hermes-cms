@@ -284,6 +284,28 @@ body {
     object-fit: cover;
 }
 
+/* Folio serré (folio4) — images collées, sans gouttière */
+.folio-serre {
+    --bs-gutter-x: 0;
+    --bs-gutter-y: 0;
+    margin: 0;
+}
+
+.folio-serre > [class*='col-'] {
+    padding: 0;
+    line-height: 0;
+}
+
+.folio-serre__img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+    border: 0;
+    vertical-align: bottom;
+}
+
 
 
 /*

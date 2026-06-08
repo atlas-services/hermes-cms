@@ -11,7 +11,7 @@
             {% set sectionBg = section.isTransparent ? 'transparent' : section.templateBgcolor %}
             {% set isListeSectionTemplate = mainType == 'liste' and mainCode != '' %}
             <section class="mx-auto px-0 my-0" style="background-color: {{ sectionBg }}"{% if not isListeSectionTemplate %} id="{{ section.id }}"{% endif %}>
-                <div class="section-content col-sm-{{ effW }} mx-auto">
+                <div class="section-content mx-auto">
                     {% if mainType == 'liste' and mainCode != '' %}
                         {% include 'front/section/' ~ mainCode ~ '.html.twig' %}
                     {% elseif mainType == 'libre' %}
