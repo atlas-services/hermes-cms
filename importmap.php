@@ -980,4 +980,13 @@ return [
     'gsap' => [
         'version' => '3.15.0',
     ],
+    '@splidejs/splide' => [
+        'version' => '4.1.4',
+    ],
+    '@splidejs/splide/css/core' => [
+        'version' => '4.1.4',
+    ],
+    '@splidejs/splide/css' => [
+        'version' => '4.1.4',
+    ],
 ];

@@ -7,6 +7,8 @@ import { Carousel } from 'bootstrap';
 import { initPostContentGsapTextReveal } from '../../../utils/gsap_text_reveal.js';
 import { initPostContentGsapLetterReveal } from '../../../utils/gsap_letter_reveal.js';
 import { initPostContentGsapShapeBuild } from '../../../utils/gsap_shape_build.js';
+import { initPostContentGsapCarousel } from '../../../utils/gsap_carousel.js';
+import { initPostContentSplideCarousel } from '../../../utils/splide_carousel.js';
 
 function colorLink() {
     const libreLinks = document.getElementsByClassName('link');
@@ -164,6 +166,8 @@ export function initHermesJsFront() {
     initPostContentGsapTextReveal();
     initPostContentGsapLetterReveal();
     initPostContentGsapShapeBuild();
+    initPostContentGsapCarousel();
+    initPostContentSplideCarousel();
 
     window.addEventListener('load', () => {
         colorLink();
@@ -171,5 +175,7 @@ export function initHermesJsFront() {
         initPostContentGsapTextReveal();
         initPostContentGsapLetterReveal();
         initPostContentGsapShapeBuild();
+        initPostContentGsapCarousel();
+        initPostContentSplideCarousel();
     });
 }

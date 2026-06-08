@@ -1,0 +1,88 @@
+<div class="content-showcase content-showcase--palette-cool text-body py-3 px-0 px-lg-2">
+    <p class="text-center text-muted small mb-4 px-3">
+        <code>.splide-carousel</code> — effets configurables (<code>slide</code>, <code>fade</code>, <code>focus</code>, <code>peek</code>),
+        <strong>multi-images desktop</strong> / <strong>plein écran mobile</strong>.
+        Init <code>js-front.js</code>.
+    </p>
+
+    <p class="text-center fw-semibold small text-uppercase text-muted mb-2 px-3">Effet focus — 3 visibles (lg+), plein écran en mobile</p>
+    <div class="row g-0 justify-content-center mb-5">
+        <div class="col-12 col-lg-10 px-0 position-relative">
+            <section
+                class="splide splide-carousel splide-carousel--ratio w-100 position-relative overflow-hidden rounded-0 rounded-lg-3 shadow-sm"
+                style="--splide-carousel-accent: #0d6efd;"
+                data-splide-carousel-effect-value="focus"
+                data-splide-carousel-per-page-value="3"
+                data-splide-carousel-per-page-mobile-value="1"
+                data-splide-carousel-breakpoint-value="992"
+                data-splide-carousel-gap-value="1rem"
+                data-splide-carousel-gap-mobile-value="0"
+                data-splide-carousel-autoplay-value="true"
+                data-splide-carousel-interval-value="4200"
+                data-splide-carousel-speed-value="750"
+                aria-label="Galerie focus"
+            >
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-focus-1/900/600" alt="Projet 1" loading="lazy" width="900" height="600"></li>
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-focus-2/900/600" alt="Projet 2" loading="lazy" width="900" height="600"></li>
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-focus-3/900/600" alt="Projet 3" loading="lazy" width="900" height="600"></li>
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-focus-4/900/600" alt="Projet 4" loading="lazy" width="900" height="600"></li>
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-focus-5/900/600" alt="Projet 5" loading="lazy" width="900" height="600"></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <p class="text-center fw-semibold small text-uppercase text-muted mb-2 px-3">Effet peek — aperçu latéral</p>
+    <div class="row g-0 justify-content-center mb-5">
+        <div class="col-12 col-lg-8 px-0 position-relative">
+            <section
+                class="splide splide-carousel splide-carousel--ratio w-100 position-relative overflow-hidden rounded-0 rounded-lg-3 shadow-sm"
+                style="--splide-carousel-accent: #198754;"
+                data-splide-carousel-effect-value="peek"
+                data-splide-carousel-per-page-value="1"
+                data-splide-carousel-padding-value="15%"
+                data-splide-carousel-gap-value="1rem"
+                data-splide-carousel-speed-value="650"
+                aria-label="Galerie peek"
+            >
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-peek-1/1200/750" alt="Vue 1" loading="lazy" width="1200" height="750"></li>
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-peek-2/1200/750" alt="Vue 2" loading="lazy" width="1200" height="750"></li>
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-peek-3/1200/750" alt="Vue 3" loading="lazy" width="1200" height="750"></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <p class="text-center fw-semibold small text-uppercase text-muted mb-2 px-3">Effet fade — fondu enchaîné</p>
+    <div class="row g-0 justify-content-center">
+        <div class="col-12 col-lg-8 px-0 position-relative">
+            <section
+                class="splide splide-carousel splide-carousel--ratio w-100 position-relative overflow-hidden rounded-0 rounded-lg-3 shadow-sm"
+                style="--splide-carousel-accent: #6f42c1;"
+                data-splide-carousel-effect-value="fade"
+                data-splide-carousel-autoplay-value="true"
+                data-splide-carousel-interval-value="3800"
+                data-splide-carousel-speed-value="900"
+                aria-label="Galerie fade"
+            >
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-fade-1/1200/800" alt="Ambiance 1" loading="lazy" width="1200" height="800"></li>
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-fade-2/1200/800" alt="Ambiance 2" loading="lazy" width="1200" height="800"></li>
+                        <li class="splide__slide"><img class="img-fluid w-100" src="https://picsum.photos/seed/splide-fade-3/1200/800" alt="Ambiance 3" loading="lazy" width="1200" height="800"></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <p class="text-center text-muted small mt-4 mb-0 px-3">
+        Desktop : <code>col-lg-*</code> + <code>per-page-value</code> · Mobile : plein écran (<code>--fullwidth</code>) · Effet : <code>effect-value</code>
+    </p>
+</div>

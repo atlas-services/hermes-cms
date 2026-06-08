@@ -150,6 +150,7 @@ body {
     margin-bottom: 0;
 }
 
+
 @media (min-width: 576px) {
   /* Contenu libre : annule my-sm-* en bordure entre deux sections (ex. my-sm-5 = 3rem). */
   .hermes-front-sections > .row:not(:last-child) .post-content > *:last-child[class*='my-sm-'] {
@@ -775,6 +776,297 @@ section[id] .carousel-multi-item .card-img-top {
 
 .gsap-text-reveal__line {
     display: block;
+}
+
+/* Contenu libre — GSAP carousel (slide / fade + swipe) */
+.gsap-carousel {
+    position: relative;
+}
+
+.gsap-carousel__viewport {
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y;
+    cursor: grab;
+    user-select: none;
+}
+
+.gsap-carousel__viewport.is-dragging {
+    cursor: grabbing;
+}
+
+.gsap-carousel__track {
+    will-change: transform;
+}
+
+.gsap-carousel--slide .gsap-carousel__track {
+    display: flex;
+}
+
+.gsap-carousel--slide .gsap-carousel__slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+}
+
+.gsap-carousel--fade .gsap-carousel__track {
+    position: relative;
+}
+
+.gsap-carousel--fade .gsap-carousel__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.gsap-carousel--fade .gsap-carousel__slide.is-active {
+    z-index: 2;
+}
+
+.gsap-carousel__viewport--fixed {
+    min-height: min(52vw, 400px);
+}
+
+.gsap-carousel--fade .gsap-carousel__viewport--fixed .gsap-carousel__track {
+    position: absolute;
+    inset: 0;
+}
+
+.gsap-carousel__slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.gsap-carousel__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.gsap-carousel__dots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.gsap-carousel__dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--gsap-carousel-accent, #6c757d) 35%, transparent);
+    cursor: pointer;
+}
+
+.gsap-carousel__dot.is-active {
+    background: var(--gsap-carousel-accent, #0d6efd);
+    transform: scale(1.15);
+}
+
+/* Contenu libre — Splide carousel (lib @splidejs/splide) */
+.splide-carousel {
+    --splide-carousel-arrow-size: 2.5rem;
+    --splide-carousel-breakpoint: 992px;
+    max-width: 100%;
+}
+
+/* Plein écran mobile : breakout symétrique du conteneur parent */
+@media (max-width: 991.98px) {
+    .splide-carousel--fullwidth {
+        width: 100vw;
+        max-width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+
+    .splide-carousel--ratio {
+        --splide-carousel-height: min(62vw, 420px);
+    }
+
+    .splide-carousel .splide__track {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .splide-carousel .splide__slide {
+        box-sizing: border-box;
+        width: 100% !important;
+        margin-right: 0 !important;
+    }
+
+    .splide-carousel--ratio .splide__slide img {
+        border-radius: 0;
+        box-shadow: none;
+        width: 100%;
+        max-width: none;
+    }
+
+    .post-content .splide-carousel img {
+        margin-left: 0;
+        margin-right: 0;
+        max-width: none;
+    }
+
+    .splide-carousel--effect-focus .splide__slide:not(.is-active) img,
+    .splide-carousel--effect-focus .splide__slide.is-active img {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@media (min-width: 992px) {
+    .splide-carousel .splide__slide {
+        box-sizing: border-box;
+    }
+
+    .splide-carousel--effect-focus .splide__slide img {
+        width: 100%;
+        max-width: 100%;
+        opacity: 1;
+    }
+}
+
+.splide-carousel .splide__track {
+    overflow: hidden;
+}
+
+.splide-carousel .splide__list {
+    align-items: stretch;
+}
+
+.splide-carousel .splide__slide {
+    display: flex;
+    align-items: stretch;
+}
+
+/* Hauteur naturelle : image entière, sans recadrage (sections carousel1, etc.) */
+.splide-carousel--natural .splide__list {
+    align-items: center;
+}
+
+.splide-carousel--natural .splide__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splide-carousel--natural .splide__slide a {
+    display: block;
+    width: 100%;
+}
+
+.splide-carousel--natural .splide__slide img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+@media (min-width: 992px) {
+    .splide-carousel--natural .splide__track,
+    .splide-carousel--natural .splide__list {
+        height: auto !important;
+    }
+
+    .splide-carousel--natural .splide__list {
+        align-items: center;
+    }
+}
+
+.splide-carousel--ratio {
+    --splide-carousel-height: min(56vw, 360px);
+}
+
+@media (min-width: 992px) {
+    .splide-carousel--ratio {
+        --splide-carousel-height: min(20vw, 260px);
+    }
+}
+
+.splide-carousel--ratio .splide__slide img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: var(--splide-carousel-height);
+    object-fit: cover;
+    transition: opacity var(--splide-carousel-speed, 700ms) cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (min-width: 992px) {
+    .splide-carousel--ratio:not(.splide-carousel--effect-fade) .splide__slide img {
+        border-radius: var(--bs-border-radius);
+    }
+}
+
+.splide-carousel--effect-focus .splide__slide:not(.is-active) img {
+    opacity: 0.72;
+}
+
+.splide-carousel--effect-focus .splide__slide.is-active img {
+    opacity: 1;
+}
+
+.splide-carousel--effect-peek .splide__slide:not(.is-active) img {
+    opacity: 0.78;
+}
+
+.splide-carousel--effect-peek .splide__slide.is-active img {
+    opacity: 1;
+}
+
+.splide-carousel .splide__arrow {
+    top: 50%;
+    width: var(--splide-carousel-arrow-size);
+    height: var(--splide-carousel-arrow-size);
+    background: color-mix(in srgb, var(--splide-carousel-accent, #0d6efd) 90%, #fff);
+    opacity: 0.94;
+    transform: translateY(-50%);
+    transition: opacity 0.2s ease;
+    z-index: 3;
+    box-shadow: 0 0.15rem 0.65rem rgb(0 0 0 / 22%);
+}
+
+.splide-carousel .splide__arrow:hover:not(:disabled),
+.splide-carousel .splide__arrow:focus-visible {
+    opacity: 1;
+    transform: translateY(-50%);
+}
+
+.splide-carousel .splide__arrow--prev {
+    left: 0.75rem;
+}
+
+.splide-carousel .splide__arrow--next {
+    right: 0.75rem;
+}
+
+.splide-carousel .splide__arrow svg {
+    fill: #fff;
+}
+
+.splide-carousel .splide__pagination {
+    bottom: -2.25rem;
+    left: 0;
+    right: 0;
+    padding: 0;
+}
+
+.splide-carousel .splide__pagination__page {
+    background: color-mix(in srgb, var(--splide-carousel-accent, #6c757d) 35%, transparent);
+    transition: background 0.25s ease;
+}
+
+.splide-carousel .splide__pagination__page.is-active {
+    background: var(--splide-carousel-accent, #0d6efd);
+    transform: none;
 }
 
 /* Contenu libre — GSAP letter reveal (lettres alternées haut / bas) */

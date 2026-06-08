@@ -95,9 +95,11 @@ php bin/console importmap:require aos/dist/aos.css
 
 ```
 php bin/console importmap:require gsap
+php bin/console importmap:require @splidejs/splide
+php bin/console importmap:require @splidejs/splide/css
 ```
 
-Disponible globalement (`window.gsap`) et importable dans un module (`import gsap from 'gsap'` ou `import { gsap } from './gsap.js'`). Plugins optionnels (ex. ScrollTrigger) : `php bin/console importmap:require gsap/ScrollTrigger` puis enregistrement avec `gsap.registerPlugin(ScrollTrigger)` dans le module concerné.
+Disponible globalement (`window.gsap`) et importable dans un module (`import gsap from 'gsap'` ou `import { gsap } from './gsap.js'`).
 
 **CKEditor 5** (contenu libre, `assets/ckeditor5.js` + contrôleur Stimulus `ckeditor5`) :
 
@@ -178,6 +180,10 @@ Modèles HTML de contenu libre dans `templates/exemple/` ; styles partagés dans
 **Formes (blocs + contour SVG)** : `.gsap-shape-build` + `.gsap-shape-build__block` / `__path`. Couleur via `--gsap-shape-build-color`. Init `js-front.js`. Exemple : `gsap_shape_build_envol.html`.
 
 **Paire forme + texte (responsive)** : wrapper `.gsap-hero-split` pour réduire hauteurs / marges quand `.gsap-shape-build` et `.gsap-letter-reveal` sont côte à côte. Exemple : `gsap_hero_split_envol.html`.
+
+**Carrousel GSAP** : `.gsap-carousel` — modes `slide` ou `fade`, prev/next, pastilles, **swipe** tactile/souris, autoplay optionnel (`data-gsap-carousel-*`). Init `js-front.js`. Exemple : `gsap_carousel.html`.
+
+**Carrousel Splide** (recommandé pour les galeries) : `.splide-carousel` + structure Splide (`splide__track` / `splide__list` / `splide__slide`). Effets `slide`, `fade`, `focus` (multi-images centrées + scale), `peek` (aperçu latéral) via `data-splide-carousel-effect-value`. Desktop multi-images : `data-splide-carousel-per-page-value` ; mobile une image : `data-splide-carousel-per-page-mobile-value` + `data-splide-carousel-breakpoint-value` (défaut 992). Flèches, pastilles, drag/swipe, autoplay, easing. Couleur `--splide-carousel-accent`. Init `js-front.js`. Exemple : `splide_carousel.html`.
 
 Les dossiers `content/` et `entity/Config/` se recopient sous `public/uploads/<nom>/` — `app:migrate-media` avec la base migrée, l’ancienne racine uploads et la cible :
 

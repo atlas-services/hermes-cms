@@ -11,6 +11,7 @@ export function whenGsapReady(callback) {
         callback(window.gsap);
         return;
     }
+
     const onReady = (event) => {
         window.removeEventListener('hermes:gsap-ready', onReady);
         callback(event.detail?.gsap ?? window.gsap);
