@@ -175,7 +175,7 @@ Modèles HTML de contenu libre dans `templates/exemple/` ; styles partagés dans
 
 **Apparition texte (Animate Text, [démo GSAP](https://demos.gsap.com/demo/animate-text/) / [CodePen xxmaNYj](https://codepen.io/GreenSock/pen/xxmaNYj))** : `.gsap-text-reveal` sur **n’importe quelle balise** (`div`, `p`, `h2`…) + `.gsap-text-reveal__body` ; pas de classes d’affichage GSAP (Bootstrap / vos classes sur `__body`). Modes `chars`, `words`, `lines` via `data-gsap-text-reveal-*` (défauts si absents). Init `.post-content` via `js-front.js`. Exemple : `gsap_text_reveal_hermes.html`.
 
-**Lettres alternées (haut / bas)** : `.gsap-letter-reveal` + `.gsap-letter-reveal__line` (`data-gsap-letter-reveal-text-value`) ; découpage lettre par lettre au runtime (CKEditor). Couleur via `--gsap-letter-reveal-color`. Init `js-front.js`. Exemple : `gsap_letter_reveal_envol.html`.
+**Lettres alternées (haut / bas)** : `.gsap-letter-reveal` + `.gsap-letter-reveal__line` (`data-gsap-letter-reveal-text-value`) ; découpage lettre par lettre au runtime. **Important CKEditor** : le texte doit aussi être présent *dans* le `<p>` (pas seulement en `data-*`), sinon l’éditeur supprime les paragraphes vides et le post est enregistré sans contenu. Couleur via `--gsap-letter-reveal-color`. Init `js-front.js`. Exemple : `gsap_letter_reveal_envol.html`.
 
 **Formes (blocs + contour SVG)** : `.gsap-shape-build` + `.gsap-shape-build__block` / `__path`. Couleur via `--gsap-shape-build-color`. Init `js-front.js`. Exemple : `gsap_shape_build_envol.html`.
 
