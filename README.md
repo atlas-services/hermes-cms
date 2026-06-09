@@ -169,17 +169,19 @@ php bin/console app:init-mentions-legales
 
 `app:init-mentions-legales` crée trois menus **inactifs** (non affichés dans la navbar) : `/fr/mentions-legales`, `/fr/confidentialite`, `/fr/cgu-cgv`, chacun avec une section **libre** et un post dont le HTML provient de l’[API Hermes](https://api.hermes-cms.org) (`API_HERMES_*` dans `.env`) : le **premier** modèle du catalogue dont le champ **`type`** vaut `mentions-legales`, `confidentialite` ou `cgu-cgv` (un modèle par page).
 
-Modèles HTML de contenu libre dans `templates/exemple/` ; styles partagés dans `assets/styles/app.css` (`.content-showcase` pour les vitrines marketing, `.legal-document` pour les pages légales, `.gsap-demo` pour les animations GSAP).
+Modèles HTML de contenu libre dans `templates/exemple/` ; styles dans `assets/styles/app.css` (`.content-showcase`, `.legal-document`) et `assets/styles/gsap.css` (`.gsap-demo`, carrousels, letter-reveal, shape-build, hero-split).
 
 **GSAP dans un post (section libre)** : coller le HTML **et** le `<script>` final via **Source editing** dans CKEditor. Le script écoute `hermes:gsap-ready` (ou `window.gsap`) car le module `app.js` peut se charger après le HTML du post. Exemples complets : `templates/exemple/gsap_demo_accueil.html`, `gsap_demo_chiffres.html`.
 
 **Apparition texte (Animate Text, [démo GSAP](https://demos.gsap.com/demo/animate-text/) / [CodePen xxmaNYj](https://codepen.io/GreenSock/pen/xxmaNYj))** : `.gsap-text-reveal` sur **n’importe quelle balise** (`div`, `p`, `h2`…) + `.gsap-text-reveal__body` ; pas de classes d’affichage GSAP (Bootstrap / vos classes sur `__body`). Modes `chars`, `words`, `lines` via `data-gsap-text-reveal-*` (défauts si absents). Init `.post-content` via `js-front.js`. Exemple : `gsap_text_reveal_hermes.html`.
 
-**Lettres alternées (haut / bas)** : `.gsap-letter-reveal` + `.gsap-letter-reveal__line` (`data-gsap-letter-reveal-text-value`) ; découpage lettre par lettre au runtime. **Important CKEditor** : le texte doit aussi être présent *dans* le `<p>` (pas seulement en `data-*`), sinon l’éditeur supprime les paragraphes vides et le post est enregistré sans contenu. Couleur via `--gsap-letter-reveal-color`. Init `js-front.js`. Exemple : `gsap_letter_reveal_envol.html`.
+**Lettres alternées (haut / bas)** : `.gsap-letter-reveal` + `.gsap-letter-reveal__line` (`data-gsap-letter-reveal-text-value`) ; découpage lettre par lettre au runtime (espaces conservés, ex. `ENVOL ARCHITECTURE`). **Important CKEditor** : le texte doit aussi être présent *dans* le `<p>` (pas seulement en `data-*`), sinon l’éditeur supprime les paragraphes vides et le post est enregistré sans contenu. Couleur via `--gsap-letter-reveal-color`. Init `js-front.js`. Exemple : `gsap_letter_reveal_envol.html`.
 
 **Formes (blocs + contour SVG)** : `.gsap-shape-build` + `.gsap-shape-build__block` / `__path`. Couleur via `--gsap-shape-build-color`. Init `js-front.js`. Exemple : `gsap_shape_build_envol.html`.
 
-**Paire forme + texte (responsive)** : wrapper `.gsap-hero-split` pour réduire hauteurs / marges quand `.gsap-shape-build` et `.gsap-letter-reveal` sont côte à côte. Exemple : `gsap_hero_split_envol.html`.
+**Immeuble (contours SVG légers)** : mêmes classes `__path` uniquement (pas de grille de blocs). Mode d’animation via `data-gsap-shape-build-mode` : `sync` (tout en même temps), `bottom-up` (bas → haut), `sequential` (ordre du HTML). Classes `gsap-shape-build--sync` / `--bottom-up` restent supportées. Durée : **4 s par défaut** (`--gsap-shape-build-duration`). Exemples : `gsap_building_5etages.html` (`bottom-up`), `gsap_building_quartier.html` (`sync`).
+
+**Paire forme + texte (responsive)** : wrapper `.gsap-hero-split` + `.gsap-hero-split--flush` (sans marge entre colonnes) + `.gsap-hero-split--h-5` … `--h-100` par pas de 5 (hauteur viewport sur desktop, ex. `--h-50` = 50vh) ; deux blocs `--h-50` à la suite couvrent la page. Exemples : `gsap_hero_split_envol.html` (maison), `gsap_hero_split_building.html` (immeuble bottom-up + lettres).
 
 **Carrousel GSAP** : `.gsap-carousel` — modes `slide` ou `fade`, prev/next, pastilles, **swipe** tactile/souris, autoplay optionnel (`data-gsap-carousel-*`). Init `js-front.js`. Exemple : `gsap_carousel.html`.
 

@@ -9,6 +9,7 @@ import AOS from 'aos';
 // css
 import './styles/site-fonts.js';
 import './styles/app.css';
+import './styles/gsap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'aos/dist/aos.css';

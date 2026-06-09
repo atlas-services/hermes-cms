@@ -9,7 +9,7 @@ function readLineText(line) {
         || line.textContent
         || '')
         .trim()
-        .replace(/\s+/g, '');
+        .replace(/\s+/g, ' ');
 }
 
 /**
@@ -31,7 +31,12 @@ export function mountGsapLetterRevealLines(root) {
             const span = document.createElement('span');
             span.className = 'gsap-letter-reveal__char';
             span.setAttribute('aria-hidden', 'true');
-            span.textContent = char;
+            if (char === ' ') {
+                span.classList.add('is-space');
+                span.textContent = '\u00a0';
+            } else {
+                span.textContent = char;
+            }
             span.dataset.gsapLetterRevealIndex = String(globalIndex);
             span.style.opacity = '0';
             globalIndex += 1;
