@@ -112,9 +112,10 @@ export function playGsapShapeBuild(gsap, root) {
         };
 
         if (!sync) {
+            const blockStagger = (root.dataset.gsapShapeBuildBlockStagger || '').trim().toLowerCase();
             blockTween.stagger = {
                 each: 0.045,
-                from: 'random',
+                from: blockStagger === 'top-down' || blockStagger === 'sequential' ? 'start' : 'random',
             };
         }
 

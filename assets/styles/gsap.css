@@ -234,6 +234,31 @@
     border-color: var(--gsap-shape-build-color, var(--legal-accent, #e7393b));
 }
 
+.gsap-shape-build__block.is-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--gsap-shape-build-color, var(--legal-accent, #e7393b)) 8%, #fff);
+    border-color: color-mix(in srgb, var(--gsap-shape-build-color, var(--legal-accent, #e7393b)) 18%, #e5e7eb);
+}
+
+.gsap-shape-build__block-letter {
+    font-weight: 700;
+    font-size: clamp(0.7rem, 4.2vw, 1rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--gsap-shape-build-letter-color, var(--gsap-shape-build-color, #e7393b));
+    user-select: none;
+}
+
+.gsap-shape-build__block.is-letter-line .gsap-shape-build__block-letter,
+.gsap-shape-build__block.is-letter-bar .gsap-shape-build__block-letter {
+    font-size: clamp(0.5rem, 2.8vw, 0.72rem);
+    font-weight: 300;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
 .gsap-shape-build__svg {
     display: block;
     width: min(340px, 82vw);
