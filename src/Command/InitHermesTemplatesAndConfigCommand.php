@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Config;
 use App\Entity\Template;
+use App\Service\WelcomeSiteInitializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -15,7 +16,11 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 #[AsCommand(name: 'app:init-hermes')]
 class InitHermesTemplatesAndConfigCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, private ParameterBagInterface $params,)
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private ParameterBagInterface $params,
+        private WelcomeSiteInitializer $welcomeSiteInitializer,
+    )
     {
         parent::__construct();
     }
@@ -34,6 +39,13 @@ class InitHermesTemplatesAndConfigCommand extends Command
 
         $nb = $this->initConfig();
         $output->writeln(sprintf(" %s Configs created successfully ", $nb));
+
+        $welcome = $this->welcomeSiteInitializer->initializeIfEmpty();
+        if ($welcome['created']) {
+            $output->writeln(sprintf(' Welcome home ACCUEIL created (menu id %s) ', $welcome['menu_id']));
+        } else {
+            $output->writeln(' Welcome home skipped (menus already exist) ');
+        }
 
         return Command::SUCCESS;
     }

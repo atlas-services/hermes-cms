@@ -78,7 +78,7 @@ function mountHeroLetterLine(line, text, globalIndex) {
  */
 export function mountGsapLetterRevealLines(root) {
     const globalIndex = { current: 0 };
-    const heroPresent = root.closest('.splide-carousel--hero-present') !== null;
+    const heroPresent = root.closest('.splide-carousel--hero-present, .hermes-hero-present') !== null;
 
     root.querySelectorAll('.gsap-letter-reveal__line').forEach((line) => {
         const text = readLineText(line);
@@ -148,7 +148,7 @@ function bindReplay(gsap, root) {
 }
 
 function initGsapLetterRevealBlock(gsap, root) {
-    if (root.closest('.splide-carousel--hero-present')) {
+    if (root.closest('.hermes-hero-present')) {
         if (root.dataset.gsapLetterRevealPrepared !== '1') {
             root.dataset.gsapLetterRevealPrepared = '1';
             mountGsapLetterRevealLines(root);

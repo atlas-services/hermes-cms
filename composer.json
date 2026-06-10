@@ -90,7 +90,7 @@
         ],
         "deploy-assets": [
             "@php bin/console importmap:install",
-            "@php bin/console asset-map:compile --env=prod"
+            "@php bin/console asset-map:compile"
         ],
         "post-install-cmd": [
             "@prepare-var-dirs",

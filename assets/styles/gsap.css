@@ -432,6 +432,17 @@
     padding: 0;
 }
 
+.hermes-hero-present--static .hermes-hero-present__screen {
+    display: flex;
+    align-items: stretch;
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+}
+
 .splide-carousel--hero-present {
     width: 100vw;
     max-width: 100vw;
@@ -525,12 +536,14 @@
     text-align: center;
 }
 
-.splide-carousel--hero-present .gsap-letter-reveal {
+.splide-carousel--hero-present .gsap-letter-reveal,
+.hermes-hero-present--static .gsap-letter-reveal {
     width: 100%;
     max-width: 100%;
 }
 
-.splide-carousel--hero-present .gsap-letter-reveal__stage.hermes-hero-present__letter-stage {
+.splide-carousel--hero-present .gsap-letter-reveal__stage.hermes-hero-present__letter-stage,
+.hermes-hero-present--static .gsap-letter-reveal__stage.hermes-hero-present__letter-stage {
     width: 100%;
     max-width: 100%;
 }
@@ -550,7 +563,8 @@
     overflow: visible;
 }
 
-.splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__letter-line {
+.splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__letter-line,
+.hermes-hero-present--static .gsap-letter-reveal__line.hermes-hero-present__letter-line {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -561,13 +575,15 @@
     row-gap: 0.15em;
 }
 
-.splide-carousel--hero-present .hermes-hero-present__word {
+.splide-carousel--hero-present .hermes-hero-present__word,
+.hermes-hero-present--static .hermes-hero-present__word {
     display: inline-flex;
     flex-wrap: nowrap;
     white-space: nowrap;
 }
 
-.splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__title {
+.splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__title,
+.hermes-hero-present--static .gsap-letter-reveal__line.hermes-hero-present__title {
     font-size: clamp(1.35rem, 6.5vw, 4.5rem);
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -575,7 +591,8 @@
     color: transparent;
 }
 
-.splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__subtitle {
+.splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__subtitle,
+.hermes-hero-present--static .gsap-letter-reveal__line.hermes-hero-present__subtitle {
     margin-top: 0.35rem;
     font-size: clamp(0.78rem, 2.8vw, 1.45rem);
     font-weight: 300;
@@ -584,11 +601,13 @@
     color: transparent;
 }
 
-.splide-carousel--hero-present .gsap-letter-reveal__char {
+.splide-carousel--hero-present .gsap-letter-reveal__char,
+.hermes-hero-present--static .gsap-letter-reveal__char {
     color: var(--gsap-letter-reveal-color, var(--hermes-hero-text, #f4f6f8));
 }
 
-.splide-carousel--hero-present .gsap-letter-reveal__char.is-accent {
+.splide-carousel--hero-present .gsap-letter-reveal__char.is-accent,
+.hermes-hero-present--static .gsap-letter-reveal__char.is-accent {
     color: var(--hermes-hero-letter-accent, #e7393b);
 }
 
@@ -675,12 +694,14 @@
         line-height: 1.45;
     }
 
-    .splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__title {
+    .splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__title,
+    .hermes-hero-present--static .gsap-letter-reveal__line.hermes-hero-present__title {
         font-size: clamp(1.2rem, 5.8vw, 2.1rem);
         letter-spacing: 0.04em;
     }
 
-    .splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__subtitle {
+    .splide-carousel--hero-present .gsap-letter-reveal__line.hermes-hero-present__subtitle,
+    .hermes-hero-present--static .gsap-letter-reveal__line.hermes-hero-present__subtitle {
         font-size: clamp(0.7rem, 2.6vw, 0.95rem);
         letter-spacing: 0.1em;
     }

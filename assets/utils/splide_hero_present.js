@@ -3,6 +3,7 @@ import { whenGsapReady } from '../gsap.js';
 import { mountGsapLetterRevealLines, playGsapLetterReveal } from './gsap_letter_reveal.js';
 
 const ROOT_SELECTOR = '.hermes-front-sections .post-content .splide-carousel--hero-present';
+const STATIC_SELECTOR = '.hermes-front-sections .post-content .hermes-hero-present--static';
 const RESPONSIVE_MAX_WIDTH = 991.98;
 
 function readBool(dataset, key, fallback) {
@@ -271,5 +272,31 @@ function initSplideHeroPresentBlock(root) {
 export function initPostContentSplideHeroPresent(root = document) {
     root.querySelectorAll(ROOT_SELECTOR).forEach((block) => {
         initSplideHeroPresentBlock(block);
+    });
+}
+
+function initHeroPresentStaticBlock(hero) {
+    if (hero.dataset.heroPresentStaticMounted === '1') {
+        return;
+    }
+
+    const slide = hero.querySelector('.hermes-hero-present__slide, .hermes-hero-present__screen');
+    if (!slide) {
+        return;
+    }
+
+    hero.dataset.heroPresentStaticMounted = '1';
+
+    whenGsapReady((gsap) => {
+        prepareSlideLetterReveals(slide);
+        resetSlideMotion(slide, gsap);
+        hero.classList.add('is-ready');
+        playSlideMotion(gsap, slide);
+    });
+}
+
+export function initPostContentHeroPresentStatic(root = document) {
+    root.querySelectorAll(STATIC_SELECTOR).forEach((hero) => {
+        initHeroPresentStaticBlock(hero);
     });
 }
