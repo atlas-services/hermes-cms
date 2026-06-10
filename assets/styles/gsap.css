@@ -439,6 +439,7 @@
     margin-right: calc(50% - 50vw);
     height: 100vh;
     max-height: 100vh;
+    overflow: hidden;
     --splide-carousel-accent: var(--hermes-hero-accent, #6b9fd4);
 }
 
@@ -699,10 +700,10 @@
 
 @media (max-width: 991.98px) {
     .splide-carousel--hero-present {
-        height: 100svh;
-        height: 100dvh;
-        max-height: 100svh;
-        max-height: 100dvh;
+        height: 100svh !important;
+        height: 100dvh !important;
+        max-height: 100svh !important;
+        max-height: 100dvh !important;
     }
 
     .splide-carousel--hero-present .splide__pagination {

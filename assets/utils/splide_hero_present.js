@@ -238,7 +238,6 @@ function initSplideHeroPresentBlock(root) {
             arrows: true,
             pagination: true,
             keyboard: 'global',
-            height: '100vh',
             cover: false,
             trimSpace: false,
         });
