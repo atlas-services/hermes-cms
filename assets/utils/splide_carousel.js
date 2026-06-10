@@ -235,6 +235,10 @@ function applyEffectPresentation(root, config) {
 }
 
 function initSplideCarouselBlock(root) {
+    if (root.classList.contains('splide-carousel--hero-present')) {
+        return;
+    }
+
     if (root.dataset.splideCarouselMounted === '1') {
         return;
     }

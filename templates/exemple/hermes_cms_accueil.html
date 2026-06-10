@@ -1,200 +1,156 @@
-<div class="content-showcase content-showcase--palette-cool text-body">
-    <section class="content-showcase-hero rounded-3 overflow-hidden mb-5 shadow" data-aos="fade-down" data-aos-duration="900">
-        <div class="px-4 py-5 py-lg-6 text-center text-white">
-            <p class="text-uppercase small fw-semibold mb-2 opacity-75" data-aos="fade-up" data-aos-delay="80">CMS open source · sites vitrines</p>
-            <h1 class="display-4 fw-bold mb-3" data-aos="fade-up" data-aos-delay="160">Hermes CMS</h1>
-            <p class="lead col-lg-9 mx-auto mb-4" data-aos="fade-up" data-aos-delay="240">
-                Créez des sites vitrines élégants et responsives : menus, pages, galeries, formulaires et contenus riches —
-                sans dépendre d’un éditeur de page propriétaire. Hermes s’appuie sur <strong>Symfony&nbsp;8</strong>,
-                <strong>Bootstrap&nbsp;5</strong> et les standards du web moderne.
-            </p>
-            <div class="d-flex flex-wrap gap-2 justify-content-center" data-aos="fade-up" data-aos-delay="320">
-                <a class="btn btn-light btn-lg px-4 shadow-sm" href="#hermes-fonctionnalites">
-                    <i class="fa-solid fa-arrow-down me-2" aria-hidden="true"></i>Découvrir les fonctionnalités
-                </a>
-                <a class="btn btn-outline-light btn-lg px-4" href="https://github.com/atlas-services/hermes-cms" target="_blank" rel="noopener">
-                    <i class="fa-brands fa-github me-2" aria-hidden="true"></i>Code source (MIT)
-                </a>
-            </div>
-        </div>
-    </section>
+<!-- Présentation plein écran Hermes CMS — Splide (fade, autoplay) + titres GSAP letter-reveal. Intervalle : data-splide-carousel-interval-value (défaut 2000 ms). -->
+<!-- Lettre accentuée par titre : data-gsap-letter-reveal-accent-letter-value (1re occurrence) + data-gsap-letter-reveal-accent-color-value -->
+<div class="hermes-hero-present" style="--hermes-hero-accent: #6b9fd4; --gsap-letter-reveal-color: #f4f6f8;">
+    <section
+        class="splide splide-carousel splide-carousel--hero-present"
+        aria-label="Présentation Hermes CMS"
+        data-splide-carousel-effect-value="fade"
+        data-splide-carousel-autoplay-value="true"
+        data-splide-carousel-interval-value="2000"
+        data-splide-carousel-speed-value="900"
+        data-splide-carousel-pause-on-hover-value="true"
+    >
+        <div class="splide__track">
+            <ul class="splide__list">
+                <li class="splide__slide hermes-hero-present__slide hermes-hero-present__slide--tone-a">
+                    <div class="hermes-hero-present__inner">
+                        <p class="hermes-hero-present__kicker">CMS open source · sites vitrines</p>
+                        <div class="gsap-letter-reveal">
+                            <div class="gsap-letter-reveal__stage hermes-hero-present__letter-stage">
+                                <p class="gsap-letter-reveal__line hermes-hero-present__title mb-0" data-gsap-letter-reveal-text-value="HERMES CMS" data-gsap-letter-reveal-accent-letter-value="M" data-gsap-letter-reveal-accent-color-value="#e7393b" aria-label="HERMES CMS">HERMES CMS</p>
+                            </div>
+                        </div>
+                        <p class="hermes-hero-present__body">
+                            Créez des sites vitrines élégants et responsives : menus, pages, galeries, formulaires et contenus riches —
+                            sans éditeur de page propriétaire. Basé sur <strong>Symfony&nbsp;8</strong>, <strong>Bootstrap&nbsp;5</strong> et les standards du web moderne.
+                        </p>
+                        <div class="hermes-hero-present__actions">
+                            <a class="hermes-hero-present__btn hermes-hero-present__btn--primary" href="https://github.com/atlas-services/hermes-cms" target="_blank" rel="noopener">
+                                <i class="fa-brands fa-github" aria-hidden="true"></i> Code source (MIT)
+                            </a>
+                            <a class="hermes-hero-present__btn hermes-hero-present__btn--ghost" href="https://api.hermes-cms.org" target="_blank" rel="noopener">
+                                <i class="fa-solid fa-plug" aria-hidden="true"></i> Catalogue API
+                            </a>
+                        </div>
+                    </div>
+                </li>
 
-    <div class="row g-4 mb-5 px-1">
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="0" data-aos-duration="700">
-            <div class="card content-showcase-card content-showcase-card-1 h-100">
-                <div class="card-body">
-                    <div class="mb-3 fs-2 opacity-90"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
-                    <h2 class="h5 card-title">Pensé pour les vitrines</h2>
-                    <p class="card-text mb-0 opacity-90">
-                        Portfolios, carrousels, cartes, pages institutionnelles, contact et pied de page : tout est structuré
-                        en <strong>menus → pages → sections → posts</strong>, avec activation fine de chaque bloc.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="120" data-aos-duration="700">
-            <div class="card content-showcase-card content-showcase-card-2 h-100">
-                <div class="card-body">
-                    <div class="mb-3 fs-2 opacity-90"><i class="fa-solid fa-palette" aria-hidden="true"></i></div>
-                    <h2 class="h5 card-title">Identité visuelle maîtrisée</h2>
-                    <p class="card-text mb-0 opacity-90">
-                        Couleurs, largeurs, fonds, typographies (polices web <code>@fontsource</code>), navbar (base, latérale, pleine largeur),
-                        footer global et liens du contenu : l’administration centralise l’apparence du site.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="240" data-aos-duration="700">
-            <div class="card content-showcase-card content-showcase-card-3 h-100">
-                <div class="card-body">
-                    <div class="mb-3 fs-2 opacity-90"><i class="fa-solid fa-code-branch" aria-hidden="true"></i></div>
-                    <h2 class="h5 card-title">Stack actuelle, sans Node obligatoire</h2>
-                    <p class="card-text mb-0 opacity-90">
-                        <strong>Asset Mapper</strong> et importmap pour Bootstrap, CKEditor&nbsp;5, Uppy, Stimulus et Symfony&nbsp;UX —
-                        déploiement simple, évolutif, aligné sur PHP&nbsp;8.4+.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+                <li class="splide__slide hermes-hero-present__slide hermes-hero-present__slide--tone-b">
+                    <div class="hermes-hero-present__inner">
+                        <p class="hermes-hero-present__icon" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></p>
+                        <div class="gsap-letter-reveal">
+                            <div class="gsap-letter-reveal__stage hermes-hero-present__letter-stage">
+                                <p class="gsap-letter-reveal__line hermes-hero-present__title mb-0" data-gsap-letter-reveal-text-value="SITES VITRINES SUR MESURE" data-gsap-letter-reveal-accent-letter-value="R" data-gsap-letter-reveal-accent-color-value="#e7393b" aria-label="VITRINES">VITRINES</p>
+                              </div>
+                        </div>
+                        <p class="hermes-hero-present__body">
+                            Portfolios, carrousels, cartes, pages institutionnelles, contact et pied de page : tout est structuré en
+                            <strong>menus → pages → sections → posts</strong>, avec activation fine de chaque bloc.
+                        </p>
+                    </div>
+                </li>
 
-    <div class="content-showcase-features mb-5" data-aos="fade-up" data-aos-duration="800">
-        <h2 id="hermes-fonctionnalites" class="h3 text-center mb-4 content-showcase-section-title">Ce que vous pouvez faire dès aujourd’hui</h2>
-        <div class="row g-3">
-            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="80" data-aos-duration="750">
-                <ul class="list-group list-group-flush shadow rounded-3 content-showcase-feature-list">
-                    <li class="list-group-item d-flex gap-3 align-items-start">
-                        <i class="fa-solid fa-images text-primary mt-1" aria-hidden="true"></i>
-                        <div>
-                            <strong>Gabarits « liste »</strong> — folios (plusieurs variantes), carrousels, cartes avec téléchargement,
-                            galeries modales, colonnes et filtres image configurables par section.
+                <li class="splide__slide hermes-hero-present__slide hermes-hero-present__slide--tone-c">
+                    <div class="hermes-hero-present__inner">
+                        <p class="hermes-hero-present__icon" aria-hidden="true"><i class="fa-solid fa-palette"></i></p>
+                        <div class="gsap-letter-reveal">
+                            <div class="gsap-letter-reveal__stage hermes-hero-present__letter-stage">
+                                <p class="gsap-letter-reveal__line hermes-hero-present__title mb-0" data-gsap-letter-reveal-text-value="IDENTITÉ VISUELLE" data-gsap-letter-reveal-accent-letter-value="U" data-gsap-letter-reveal-accent-color-value="#e7393b"  aria-label="IDENTITÉ">IDENTITÉ</p>
+                            </div>
                         </div>
-                    </li>
-                    <li class="list-group-item d-flex gap-3 align-items-start">
-                        <i class="fa-solid fa-pen-to-square text-primary mt-1" aria-hidden="true"></i>
-                        <div>
-                            <strong>Contenu libre</strong> — édition riche avec <strong>CKEditor&nbsp;5</strong> (HTML, médias intégrés au site).
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex gap-3 align-items-start">
-                        <i class="fa-solid fa-cloud-arrow-down text-primary mt-1" aria-hidden="true"></i>
-                        <div>
-                            <strong>Catalogue API Hermes</strong> — importez des modèles prêts à l’emploi depuis
-                            <a href="https://api.hermes-cms.org" target="_blank" rel="noopener">api.hermes-cms.org</a>
-                            (mentions légales, blocs libres, pages types…).
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex gap-3 align-items-start">
-                        <i class="fa-solid fa-sitemap text-primary mt-1" aria-hidden="true"></i>
-                        <div>
-                            <strong>Menus hiérarchiques</strong> — pages et sous-pages, ordre, activation / désactivation,
-                            programmation possible, copie et déplacement de contenu.
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="160" data-aos-duration="750">
-                <ul class="list-group list-group-flush shadow rounded-3 content-showcase-feature-list">
-                    <li class="list-group-item d-flex gap-3 align-items-start">
-                        <i class="fa-solid fa-language text-primary mt-1" aria-hidden="true"></i>
-                        <div>
-                            <strong>Multilingue</strong> — duplication d’une locale vers une autre (menus, sections, posts, footer)
-                            pour lancer rapidement une version EN / FR.
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex gap-3 align-items-start">
-                        <i class="fa-solid fa-envelope text-primary mt-1" aria-hidden="true"></i>
-                        <div>
-                            <strong>Formulaires intégrés</strong> — contact, newsletter, livre d’or (styles et textes configurables).
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex gap-3 align-items-start">
-                        <i class="fa-solid fa-shoe-prints text-primary mt-1" aria-hidden="true"></i>
-                        <div>
-                            <strong>Pied de page dédié</strong> — sections footer globales + plan du site en modale.
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex gap-3 align-items-start">
-                        <i class="fa-solid fa-upload text-primary mt-1" aria-hidden="true"></i>
-                        <div>
-                            <strong>Médias</strong> — arborescence admin, upload <strong>Uppy</strong>, redimensionnement Liip Imagine,
-                            import en masse sur les listes.
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+                        <p class="hermes-hero-present__body">
+                            Couleurs, largeurs, fonds, typographies <code>@fontsource</code>, navbar, footer global et liens du contenu :
+                            l’administration centralise l’apparence du site.
+                        </p>
+                    </div>
+                </li>
 
-    <section id="hermes-api" class="content-showcase-band rounded-3 p-4 p-lg-5 mb-5 shadow" data-aos="zoom-in" data-aos-duration="850">
-        <div class="row align-items-center g-4">
-            <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700">
-                <h2 class="h3 mb-3"><i class="fa-solid fa-plug-circle-bolt me-2" aria-hidden="true"></i>L’API Hermes, votre bibliothèque de modèles</h2>
-                <p class="mb-3">
-                    Le catalogue centralise des gabarits HTML maintenus pour Hermes : pages légales, blocs de présentation,
-                    structures Bootstrap testées. Dans l’administration, sélectionnez un modèle, prévisualisez, injectez le contenu
-                    dans une section libre — sans repartir de zéro à chaque site.
-                </p>
-                <p class="mb-0 small opacity-90">
-                    Exemples fournis côté API : modèles <code>mentions-legales</code>, <code>confidentialite</code>, <code>cgu-cgv</code>
-                    pour constituer rapidement le socle juridique d’un site vitrine.
-                </p>
-            </div>
-            <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-delay="200" data-aos-duration="700">
-                <div class="p-4 rounded-3 shadow-sm content-showcase-band-box">
-                    <p class="fw-semibold mb-2">Show-room des gabarits liste</p>
-                    <a class="btn btn-light" href="http://modeles.atlas-services.fr" target="_blank" rel="noopener">Voir les modèles</a>
-                </div>
-            </div>
-        </div>
-    </section>
+                <li class="splide__slide hermes-hero-present__slide hermes-hero-present__slide--tone-a">
+                    <div class="hermes-hero-present__inner">
+                        <p class="hermes-hero-present__icon" aria-hidden="true"><i class="fa-solid fa-code-branch"></i></p>
+                        <div class="gsap-letter-reveal">
+                            <div class="gsap-letter-reveal__stage hermes-hero-present__letter-stage">
+                                <p class="gsap-letter-reveal__line hermes-hero-present__title mb-0" data-gsap-letter-reveal-text-value="STACK MODERNE" data-gsap-letter-reveal-accent-letter-value="K" data-gsap-letter-reveal-accent-color-value="#e7393b" aria-label="STACK MODERNE">STACK MODERNE</p>
+                            </div>
+                        </div>
+                        <p class="hermes-hero-present__body">
+                            <strong>Asset Mapper</strong> et importmap pour Bootstrap, CKEditor&nbsp;5, Uppy, Stimulus et Symfony&nbsp;UX —
+                            déploiement simple, sans Node obligatoire, aligné sur <strong>PHP&nbsp;8.4+</strong>.
+                        </p>
+                    </div>
+                </li>
 
-    <h2 id="hermes-pourquoi" class="h3 text-center mb-3 content-showcase-section-title" data-aos="fade-up" data-aos-duration="700">Pourquoi choisir Hermes pour votre prochain site vitrine ?</h2>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-3 mb-5 text-center">
-        <div class="col" data-aos="flip-left" data-aos-delay="0" data-aos-duration="650">
-            <div class="p-3 rounded-3 h-100 content-showcase-highlight-card">
-                <p class="display-6 mb-1"><i class="fa-solid fa-bolt" aria-hidden="true"></i></p>
-                <p class="small mb-0"><strong>Rapide à prendre en main</strong><br>Interface admin claire, logique pages/sections familière aux intégrateurs.</p>
-            </div>
-        </div>
-        <div class="col" data-aos="flip-left" data-aos-delay="100" data-aos-duration="650">
-            <div class="p-3 rounded-3 h-100 content-showcase-highlight-card">
-                <p class="display-6 mb-1"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i></p>
-                <p class="small mb-0"><strong>Responsive natif</strong><br>Gabarits Bootstrap&nbsp;5, largeurs de colonnes réglables (grille 12).</p>
-            </div>
-        </div>
-        <div class="col" data-aos="flip-left" data-aos-delay="200" data-aos-duration="650">
-            <div class="p-3 rounded-3 h-100 content-showcase-highlight-card">
-                <p class="display-6 mb-1"><i class="fa-solid fa-lock-open" aria-hidden="true"></i></p>
-                <p class="small mb-0"><strong>Open source MIT</strong><br>Hébergez où vous voulez, adaptez le code, contribuez sur GitHub.</p>
-            </div>
-        </div>
-        <div class="col" data-aos="flip-left" data-aos-delay="300" data-aos-duration="650">
-            <div class="p-3 rounded-3 h-100 content-showcase-highlight-card">
-                <p class="display-6 mb-1"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></p>
-                <p class="small mb-0"><strong>Modulaire</strong><br>Gabarits liste, libre, formulaires et footer : composez chaque page à votre rythme.</p>
-            </div>
-        </div>
-    </div>
+                <li class="splide__slide hermes-hero-present__slide hermes-hero-present__slide--tone-b">
+                    <div class="hermes-hero-present__inner">
+                        <p class="hermes-hero-present__kicker">Fonctionnalités</p>
+                        <div class="gsap-letter-reveal">
+                            <div class="gsap-letter-reveal__stage hermes-hero-present__letter-stage">
+                                <p class="gsap-letter-reveal__line hermes-hero-present__title mb-0" data-gsap-letter-reveal-text-value="AU QUOTIDIEN" data-gsap-letter-reveal-accent-letter-value="Q" data-gsap-letter-reveal-accent-color-value="#e7393b" aria-label="AU QUOTIDIEN">AU QUOTIDIEN</p>
+                            </div>
+                        </div>
+                        <ul class="hermes-hero-present__body hermes-hero-present__list">
+                            <li><strong>Gabarits liste</strong> — folios, carrousels, cartes, galeries modales.</li>
+                            <li><strong>Contenu libre</strong> — édition riche CKEditor&nbsp;5.</li>
+                            <li><strong>Multilingue</strong> — duplication FR / EN en un clic.</li>
+                            <li><strong>Médias</strong> — arborescence admin, upload Uppy, Liip Imagine.</li>
+                        </ul>
+                    </div>
+                </li>
 
-    <section id="hermes-prochainement" class="content-showcase-roadmap rounded-3 p-4 mb-0 shadow-sm" data-aos="fade-up" data-aos-duration="800">
-        <h2 class="h4 mb-3"><i class="fa-solid fa-road text-primary me-2" aria-hidden="true"></i>Prochainement</h2>
-        <p class="text-muted">Pistes d’évolution pour enrichir encore l’écosystème (sans engagement de calendrier) :</p>
-        <div class="row g-3">
-            <div class="col-md-6" data-aos="fade-up" data-aos-delay="80">
-                <ul class="small mb-0">
-                    <li>Parcours guidé « premier site » et assistant de choix de gabarit API</li>
-                    <li>Synchronisation / abonnement à de nouveaux packs de modèles API (secteurs, métiers)</li>
-                    <li>Prévisualisation live des modèles API avant import dans une section</li>
-                </ul>
-            </div>
-            <div class="col-md-6" data-aos="fade-up" data-aos-delay="160">
-                <ul class="small mb-0">
-                    <li>Thèmes front prédéfinis (jeux de couleurs + typo en un clic)</li>
-                    <li>SEO avancé par page (Open Graph, schémas structurés)</li>
-                    <li>Statistiques d’audience légères et respectueuses de la vie privée</li>
-                </ul>
-            </div>
+                <li class="splide__slide hermes-hero-present__slide hermes-hero-present__slide--tone-c">
+                    <div class="hermes-hero-present__inner">
+                        <p class="hermes-hero-present__icon" aria-hidden="true"><i class="fa-solid fa-plug-circle-bolt"></i></p>
+                        <div class="gsap-letter-reveal">
+                            <div class="gsap-letter-reveal__stage hermes-hero-present__letter-stage">
+                                <p class="gsap-letter-reveal__line hermes-hero-present__title mb-0" data-gsap-letter-reveal-text-value="API HERMES" data-gsap-letter-reveal-accent-letter-value="I" data-gsap-letter-reveal-accent-color-value="#e7393b" aria-label="API HERMES">API HERMES</p>
+                            </div>
+                        </div>
+                        <p class="hermes-hero-present__body">
+                            Importez des modèles prêts à l’emploi depuis
+                            <a class="hermes-hero-present__btn hermes-hero-present__btn--ghost d-inline-flex py-1 px-2" href="https://api.hermes-cms.org" target="_blank" rel="noopener">api.hermes-cms.org</a>
+                            : mentions légales, blocs libres, pages types — sans repartir de zéro.
+                        </p>
+                    </div>
+                </li>
+
+                <li class="splide__slide hermes-hero-present__slide hermes-hero-present__slide--tone-a">
+                    <div class="hermes-hero-present__inner">
+                        <p class="hermes-hero-present__kicker">Pourquoi Hermes</p>
+                        <div class="gsap-letter-reveal">
+                            <div class="gsap-letter-reveal__stage hermes-hero-present__letter-stage">
+                                <p class="gsap-letter-reveal__line hermes-hero-present__title mb-0" data-gsap-letter-reveal-text-value="OPEN SOURCE" data-gsap-letter-reveal-accent-letter-value="O" data-gsap-letter-reveal-accent-color-value="#e7393b" aria-label="OPEN SOURCE">OPEN SOURCE</p>
+                            </div>
+                        </div>
+                        <ul class="hermes-hero-present__body hermes-hero-present__list">
+                            <li><strong>Rapide</strong> — interface admin claire, logique pages / sections.</li>
+                            <li><strong>Responsive</strong> — Bootstrap&nbsp;5, grille 12 colonnes.</li>
+                            <li><strong>MIT</strong> — hébergez où vous voulez, adaptez le code.</li>
+                            <li><strong>Modulaire</strong> — liste, libre, formulaires, footer.</li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="splide__slide hermes-hero-present__slide hermes-hero-present__slide--tone-b">
+                    <div class="hermes-hero-present__inner">
+                        <div class="gsap-letter-reveal">
+                            <div class="gsap-letter-reveal__stage hermes-hero-present__letter-stage">
+                                <p class="gsap-letter-reveal__line hermes-hero-present__title mb-0" data-gsap-letter-reveal-text-value="DÉMARREZ MAINTENANT" data-gsap-letter-reveal-accent-letter-value="Z" data-gsap-letter-reveal-accent-color-value="#e7393b" aria-label="DÉMARREZ">DÉMARREZ</p>
+                             </div>
+                        </div>
+                        <p class="hermes-hero-present__body">
+                            Consultez le dépôt, explorez les gabarits API et composez votre prochain site vitrine avec Hermes.
+                        </p>
+                        <div class="hermes-hero-present__actions">
+                            <a class="hermes-hero-present__btn hermes-hero-present__btn--primary" href="https://github.com/atlas-services/hermes-cms" target="_blank" rel="noopener">
+                                <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+                            </a>
+                            <a class="hermes-hero-present__btn hermes-hero-present__btn--ghost" href="http://modeles.atlas-services.fr" target="_blank" rel="noopener">
+                                <i class="fa-solid fa-images" aria-hidden="true"></i> Show-room gabarits
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </section>
 </div>

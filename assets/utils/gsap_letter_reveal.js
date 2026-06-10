@@ -12,11 +12,73 @@ function readLineText(line) {
         .replace(/\s+/g, ' ');
 }
 
+function appendLetterChar(line, char, globalIndex) {
+    const span = document.createElement('span');
+    span.className = 'gsap-letter-reveal__char';
+    span.setAttribute('aria-hidden', 'true');
+    if (char === ' ') {
+        span.classList.add('is-space');
+        span.textContent = '\u00a0';
+    } else {
+        span.textContent = char;
+    }
+    span.dataset.gsapLetterRevealIndex = String(globalIndex.current);
+    span.style.opacity = '0';
+    line.appendChild(span);
+    globalIndex.current += 1;
+}
+
+function readLineAccent(line) {
+    return {
+        letter: (line.dataset.gsapLetterRevealAccentLetterValue || '').trim(),
+        color: (line.dataset.gsapLetterRevealAccentColorValue || '').trim(),
+    };
+}
+
+function mountHeroLetterLine(line, text, globalIndex) {
+    const accent = readLineAccent(line);
+    let accentApplied = false;
+    const words = text.split(' ').filter(Boolean);
+
+    words.forEach((word, wordIndex) => {
+        const wordWrap = document.createElement('span');
+        wordWrap.className = 'gsap-letter-reveal__word hermes-hero-present__word';
+        wordWrap.setAttribute('aria-hidden', 'true');
+
+        [...word].forEach((char) => {
+            const span = document.createElement('span');
+            span.className = 'gsap-letter-reveal__char';
+            span.setAttribute('aria-hidden', 'true');
+            span.textContent = char;
+            span.dataset.gsapLetterRevealIndex = String(globalIndex.current);
+            span.style.opacity = '0';
+
+            if (!accentApplied && accent.letter && char === accent.letter) {
+                span.classList.add('is-accent');
+                if (accent.color) {
+                    span.style.color = accent.color;
+                }
+                accentApplied = true;
+            }
+
+            wordWrap.appendChild(span);
+            globalIndex.current += 1;
+        });
+
+        line.appendChild(wordWrap);
+
+        if (wordIndex < words.length - 1) {
+            appendLetterChar(line, ' ', globalIndex);
+        }
+    });
+}
+
 /**
  * CKEditor regroupe souvent les lettres en mots entiers : on (re)découpe au runtime.
  */
 export function mountGsapLetterRevealLines(root) {
-    let globalIndex = 0;
+    const globalIndex = { current: 0 };
+    const heroPresent = root.closest('.splide-carousel--hero-present') !== null;
 
     root.querySelectorAll('.gsap-letter-reveal__line').forEach((line) => {
         const text = readLineText(line);
@@ -27,20 +89,14 @@ export function mountGsapLetterRevealLines(root) {
         line.textContent = '';
         line.setAttribute('aria-label', text);
 
+        if (heroPresent) {
+            line.classList.add('hermes-hero-present__letter-line');
+            mountHeroLetterLine(line, text, globalIndex);
+            return;
+        }
+
         [...text].forEach((char) => {
-            const span = document.createElement('span');
-            span.className = 'gsap-letter-reveal__char';
-            span.setAttribute('aria-hidden', 'true');
-            if (char === ' ') {
-                span.classList.add('is-space');
-                span.textContent = '\u00a0';
-            } else {
-                span.textContent = char;
-            }
-            span.dataset.gsapLetterRevealIndex = String(globalIndex);
-            span.style.opacity = '0';
-            globalIndex += 1;
-            line.appendChild(span);
+            appendLetterChar(line, char, globalIndex);
         });
     });
 }
@@ -92,7 +148,19 @@ function bindReplay(gsap, root) {
 }
 
 function initGsapLetterRevealBlock(gsap, root) {
-    prepareGsapLetterRevealBlocks(root);
+    if (root.closest('.splide-carousel--hero-present')) {
+        if (root.dataset.gsapLetterRevealPrepared !== '1') {
+            root.dataset.gsapLetterRevealPrepared = '1';
+            mountGsapLetterRevealLines(root);
+        }
+
+        return;
+    }
+
+    if (root.dataset.gsapLetterRevealPrepared !== '1') {
+        root.dataset.gsapLetterRevealPrepared = '1';
+        mountGsapLetterRevealLines(root);
+    }
 
     if (root.dataset.gsapLetterRevealMounted === '1') {
         playGsapLetterReveal(gsap, root);
@@ -105,8 +173,6 @@ function initGsapLetterRevealBlock(gsap, root) {
 }
 
 export function initPostContentGsapLetterReveal(root = document) {
-    prepareGsapLetterRevealBlocks(root);
-
     whenGsapReady((gsap) => {
         root.querySelectorAll(ROOT_SELECTOR).forEach((block) => {
             initGsapLetterRevealBlock(gsap, block);

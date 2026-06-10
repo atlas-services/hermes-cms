@@ -187,6 +187,8 @@ Modèles HTML de contenu libre dans `templates/exemple/` ; styles dans `assets/s
 
 **Carrousel Splide** (recommandé pour les galeries) : `.splide-carousel` + structure Splide (`splide__track` / `splide__list` / `splide__slide`). Effets `slide`, `fade`, `focus` (multi-images centrées + scale), `peek` (aperçu latéral) via `data-splide-carousel-effect-value`. Desktop multi-images : `data-splide-carousel-per-page-value` ; mobile une image : `data-splide-carousel-per-page-mobile-value` + `data-splide-carousel-breakpoint-value` (défaut 992). Flèches, pastilles, drag/swipe, autoplay, easing. Couleur `--splide-carousel-accent`. Init `js-front.js`. Exemple : `splide_carousel.html`.
 
+**Présentation plein écran (Splide + GSAP)** : `.splide-carousel--hero-present` + `.hermes-hero-present` — diaporama **100vh**, fondu, autoplay (**2 s par défaut** via `data-splide-carousel-interval-value`), titres en **letter-reveal** à chaque slide, texte en fondu. Couleurs sobres : `--hermes-hero-accent`, `--hermes-hero-text`. Init `splide_hero_present.js` via `js-front.js`. Exemple page d’accueil : `hermes_cms_accueil.html`.
+
 Les dossiers `content/` et `entity/Config/` se recopient sous `public/uploads/<nom>/` — `app:migrate-media` avec la base migrée, l’ancienne racine uploads et la cible :
 
 ```bash
