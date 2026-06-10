@@ -1,6 +1,6 @@
 import { whenGsapReady } from '../gsap.js';
 
-const ROOT_SELECTOR = '.post-content .gsap-shape-build, .gsap-shape-build';
+const ROOT_SELECTOR = '.hermes-front-sections .post-content .gsap-shape-build';
 
 function preparePaths(paths) {
     paths.forEach((path) => {

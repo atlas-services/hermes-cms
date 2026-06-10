@@ -1,7 +1,7 @@
 import Splide from '@splidejs/splide';
 import '@splidejs/splide/css';
 
-const ROOT_SELECTOR = '.post-content .splide-carousel, .splide-carousel';
+const ROOT_SELECTOR = '.hermes-front-sections .post-content .splide-carousel';
 
 const EFFECTS = ['slide', 'fade', 'focus', 'peek'];
 

@@ -1,6 +1,6 @@
 import { whenGsapReady } from '../gsap.js';
 
-const ROOT_SELECTOR = '.post-content .gsap-letter-reveal, .gsap-letter-reveal';
+const ROOT_SELECTOR = '.hermes-front-sections .post-content .gsap-letter-reveal';
 
 function readLineText(line) {
     return (line.dataset.gsapLetterRevealTextValue

@@ -15,7 +15,9 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'aos/dist/aos.css';
 
 document.addEventListener('DOMContentLoaded', () => {
-    initHermesJsFront();
+    if (!document.body.classList.contains('hermes-admin')) {
+        initHermesJsFront();
+    }
 
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     [...tooltipTriggerList].forEach(el => {

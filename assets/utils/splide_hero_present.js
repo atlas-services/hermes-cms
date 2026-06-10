@@ -2,7 +2,7 @@ import Splide from '@splidejs/splide';
 import { whenGsapReady } from '../gsap.js';
 import { mountGsapLetterRevealLines, playGsapLetterReveal } from './gsap_letter_reveal.js';
 
-const ROOT_SELECTOR = '.post-content .splide-carousel--hero-present, .splide-carousel--hero-present';
+const ROOT_SELECTOR = '.hermes-front-sections .post-content .splide-carousel--hero-present';
 const RESPONSIVE_MAX_WIDTH = 991.98;
 
 function readBool(dataset, key, fallback) {

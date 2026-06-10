@@ -289,7 +289,7 @@ function bindRevealControls(gsap, root) {
 
 export function initPostContentGsapTextReveal(root = document) {
     whenGsapReady((gsap) => {
-        root.querySelectorAll('.post-content .gsap-text-reveal').forEach((element) => {
+        root.querySelectorAll('.hermes-front-sections .post-content .gsap-text-reveal').forEach((element) => {
             if (element.dataset.gsapTextRevealMounted === '1') {
                 return;
             }

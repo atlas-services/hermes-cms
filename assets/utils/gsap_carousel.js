@@ -1,6 +1,6 @@
 import { whenGsapReady } from '../gsap.js';
 
-const ROOT_SELECTOR = '.post-content .gsap-carousel, .gsap-carousel';
+const ROOT_SELECTOR = '.hermes-front-sections .post-content .gsap-carousel';
 
 const DEFAULTS = {
     mode: 'slide',

@@ -697,6 +697,39 @@
     }
 }
 
+@media (max-width: 991.98px) {
+    .hermes-hero-present__inner {
+        align-items: stretch;
+        justify-content: flex-start;
+        padding-top: clamp(1.35rem, 5vh, 2.5rem);
+    }
+
+    .hermes-hero-present__kicker,
+    .hermes-hero-present__icon {
+        margin-bottom: 0.5rem;
+        align-self: center;
+    }
+
+    .splide-carousel--hero-present .gsap-letter-reveal {
+        align-self: center;
+    }
+
+    .hermes-hero-present__body {
+        margin-top: 0.75rem;
+    }
+
+    .hermes-hero-present__body.hermes-hero-present__list,
+    .hermes-hero-present__list {
+        text-align: left;
+        align-self: stretch;
+    }
+
+    .hermes-hero-present__list li {
+        text-align: left;
+        padding-inline: 0.15rem 0.35rem;
+    }
+}
+
 .hermes-hero-present__list li strong {
     color: var(--hermes-hero-text, #f4f6f8);
 }
