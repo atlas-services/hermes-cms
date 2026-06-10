@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Déploiement Hermes3 : dépendances, base, schéma, assets, cache, admin, init métier.
-# Usage : ./deploy.sh [dev|prod|test]
-#         APP_ENV=dev ./deploy.sh
-# Défaut : prod
+# Usage : ./deploy.sh prod
+#         ./deploy.sh dev
+#         ./deploy.sh test
+#         APP_ENV=prod ./deploy.sh
+# Défaut si aucun argument : prod
 # Prérequis : .env / .env.local (APP_DB, ADMIN_EMAIL, ADMIN_PASSWORD, APP_NAME, …).
 if [ -z "${BASH_VERSION:-}" ]; then
     exec /usr/bin/env bash "$0" "$@"
@@ -14,8 +16,10 @@ cd "$(dirname "$0")"
 HERMES_ENV="${1:-${APP_ENV:-prod}}"
 
 usage() {
-    echo "Usage: $0 [dev|prod|test]" >&2
-    echo "       APP_ENV=dev $0" >&2
+    echo "Usage: $0 prod" >&2
+    echo "       $0 dev" >&2
+    echo "       $0 test" >&2
+    echo "       APP_ENV=prod $0" >&2
     exit 1
 }
 
@@ -25,6 +29,8 @@ case "${HERMES_ENV}" in
 esac
 
 export APP_ENV="${HERMES_ENV}"
+echo "→ Déploiement Hermes3 (env=${HERMES_ENV})"
+
 case "${HERMES_ENV}" in
     prod) export APP_DEBUG=0 ;;
     dev|test) export APP_DEBUG=1 ;;
