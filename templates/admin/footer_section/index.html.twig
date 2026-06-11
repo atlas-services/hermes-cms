@@ -19,7 +19,10 @@
             </a>
             <form method="post" action="{{ path('admin_footer_sections_new', { _locale: app.request.locale }) }}">
                 <input type="hidden" name="locale" value="{{ menu_locale }}">
-                <button type="submit" class="btn btn-success">{{ 'admin.footer_sections.add_section'|trans }}</button>
+                {{ include('admin/_btn_add_icon.html.twig', {
+                    label: 'admin.footer_sections.add_section'|trans,
+                    btn_class: 'btn btn-success',
+                }) }}
             </form>
         </div>
     </div>

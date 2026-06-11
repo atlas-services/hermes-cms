@@ -2,6 +2,16 @@ body {
     background-color: skyblue;
 }
 
+/* Admin — contenu pleine largeur avec marges/padding symétriques */
+.hermes-admin {
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.hermes-admin .table {
+    width: 100%;
+}
+
 /* Admin — édition configuration */
 .hermes-admin-config-page .card {
     border-radius: 0.5rem;
@@ -816,6 +826,28 @@ section[id] .carousel-multi-item .card-img-top {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Gabarit section « Carousel slide » (carousel1) : pas d’espace vertical autour des images */
+.hermes-front-sections .splide-carousel--natural {
+    margin-block: 0;
+    padding-block: 0;
+}
+
+.hermes-front-sections .splide-carousel--natural .splide__track,
+.hermes-front-sections .splide-carousel--natural .splide__list,
+.hermes-front-sections .splide-carousel--natural .splide__slide {
+    margin-block: 0;
+    padding-block: 0;
+}
+
+.hermes-front-sections .splide-carousel--natural .splide__list,
+.hermes-front-sections .splide-carousel--natural .splide__slide {
+    align-items: center;
+}
+
+.hermes-front-sections .splide-carousel--natural .splide__slide img {
+    margin-block: 0;
 }
 
 .splide-carousel--natural .splide__slide a {

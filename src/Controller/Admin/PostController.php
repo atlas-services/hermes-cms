@@ -13,6 +13,7 @@ use App\Form\PostType;
 use App\Repository\MenuRepository;
 use App\Repository\TemplateRepository;
 use App\Service\AdminMediaStorage;
+use App\Service\AdminMediaUploadLimits;
 use App\Service\AppLocaleService;
 use App\Service\MenuTreeBuilder;
 use App\Service\PostBulkImagesFromMediaService;
@@ -103,6 +104,7 @@ class PostController extends AbstractController
             'isFooterSection' => false,
             'post_template_field_toggle' => true,
             'post_template_types' => $this->buildPostTemplateTypeMeta(),
+            'liste_import_section' => null,
         ]);
     }
 
@@ -166,11 +168,15 @@ class PostController extends AbstractController
             }
         }
 
+        $isListeSection = $sectionTpl instanceof Template
+            && strtolower(trim((string) $sectionTpl->getType())) === PostType::TEMPLATE_TYPE_LISTE;
+
         return $this->render('admin/post/new.html.twig', [
             'form' => $form->createView(),
             'menu' => $menu,
             'section' => $section,
             'isFooterSection' => $isFooter,
+            'liste_import_section' => $isListeSection ? $section : null,
         ]);
     }
 
@@ -187,13 +193,19 @@ class PostController extends AbstractController
         }
 
         $tpl = $section->getTemplate();
-        if ($tpl === null || $tpl->getType() !== PostType::TEMPLATE_TYPE_LISTE) {
+        if ($tpl === null || strtolower(trim((string) $tpl->getType())) !== PostType::TEMPLATE_TYPE_LISTE) {
             $this->addFlash('warning', $this->translator->trans('admin.post_bulk.section_not_liste'));
 
             return $this->redirectToRoute('post_index', $this->postIndexParams($request, $menu));
         }
 
         $redirectBack = fn (): Response => $this->redirectToRoute('post_index', $this->postIndexParams($request, $menu));
+        $rootFs = $mediaStorage->getRootFs();
+        if (!is_dir($rootFs) && !@mkdir($rootFs, 0775, true) && !is_dir($rootFs)) {
+            $this->addFlash('danger', $this->translator->trans('admin.post_bulk.upload_dir_missing'));
+
+            return $redirectBack();
+        }
 
         if ($request->isMethod('POST')) {
             $tokenId = 'post_bulk_import_images_' . $section->getId();
@@ -234,20 +246,32 @@ class PostController extends AbstractController
             ]);
         }
 
-        try {
-            $listing = $mediaStorage->listDirectory($currentPath);
-        } catch (\Throwable) {
-            $this->addFlash('danger', $this->translator->trans('admin.post_bulk.list_failed'));
-            $parent = $mediaStorage->parentRelativePath($currentPath);
-            $params = ['_locale' => $request->getLocale(), 'id' => $section->getId()];
-            if ($parent !== '') {
-                $params['path'] = $parent;
-            }
+        $listing = ['directories' => [], 'files' => []];
+        $uploadDirReadable = is_dir($rootFs) && is_readable($rootFs);
+        if ($uploadDirReadable) {
+            try {
+                $listing = $mediaStorage->listDirectory($currentPath);
+            } catch (\Throwable) {
+                $this->addFlash('danger', $this->translator->trans('admin.post_bulk.list_failed'));
+                if ($currentPath === '') {
+                    return $redirectBack();
+                }
 
-            return $this->redirectToRoute('post_bulk_import_media_images', $params);
+                $parent = $mediaStorage->parentRelativePath($currentPath);
+                $params = ['_locale' => $request->getLocale(), 'id' => $section->getId()];
+                if ($parent !== '' && $parent !== $currentPath) {
+                    $params['path'] = $parent;
+                }
+
+                return $this->redirectToRoute('post_bulk_import_media_images', $params);
+            }
+        } else {
+            $this->addFlash('danger', $this->translator->trans('admin.post_bulk.upload_dir_missing'));
         }
 
-        $imageFiles = $bulkImagesFromMediaService->listFlatImageFilesInDirectory($currentPath);
+        $imageFiles = $uploadDirReadable
+            ? $bulkImagesFromMediaService->listFlatImageFilesInDirectory($currentPath)
+            : [];
 
         return $this->render('admin/post/bulk_import_media_images.html.twig', [
             'section' => $section,
@@ -258,6 +282,10 @@ class PostController extends AbstractController
             'image_files' => $imageFiles,
             'web_base' => $mediaStorage->getWebBasePath(),
             'parent_path' => $mediaStorage->parentRelativePath($currentPath),
+            'upload_dir_readable' => $uploadDirReadable,
+            'upload_enabled' => $uploadDirReadable,
+            'max_upload_bytes' => AdminMediaUploadLimits::effectiveMaxBytes($this->getParameter('app.upload_max_size')),
+            'allowed_mime_types' => AdminMediaUploadLimits::IMAGE_MIME_TYPES,
         ]);
     }
 
@@ -341,9 +369,15 @@ class PostController extends AbstractController
     #[Route('/{id}/edit', name: 'post_edit')]
     public function edit(Request $request, Post $post): Response
     {
+        $section = $post->getSection();
+        $sectionTpl = $section?->getTemplate();
+        $isListeSection = $sectionTpl instanceof Template
+            && strtolower(trim((string) $sectionTpl->getType())) === PostType::TEMPLATE_TYPE_LISTE;
+
         $form = $this->createForm(PostType::class, $post, [
-            'template_type' => $post->getSection()?->getTemplate()?->getType(),
+            'template_type' => $sectionTpl?->getType(),
             'post_edit_mode' => true,
+            'liste_bulk_import_save' => $isListeSection,
         ]);
         $form->handleRequest($request);
 
@@ -360,7 +394,8 @@ class PostController extends AbstractController
 
         return $this->render('admin/post/form.html.twig', [
             'form' => $form->createView(),
-            'post' => $post
+            'post' => $post,
+            'liste_import_section' => $isListeSection ? $section : null,
         ]);
     }
 

@@ -11,16 +11,20 @@
             </form>
         </div>
 
-        <a class="btn btn-success mb-3" href="{{ path('menu_new', menu_index_query) }}">
-            {{ 'form.label.create'|trans() }}
-        </a>
+        {{ include('admin/_btn_add_icon.html.twig', {
+            href: path('menu_new', menu_index_query),
+            label: 'form.label.create'|trans(),
+            btn_class: 'btn btn-success mb-3',
+        }) }}
 
         {{ component('Menu', { menus: menus, menu_locale: menu_locale }) }}
 
         {% if menus|length > 0 %}
-            <a class="btn btn-success mt-3" href="{{ path('menu_new', menu_index_query) }}">
-                {{ 'form.label.create'|trans() }}
-            </a>
+            {{ include('admin/_btn_add_icon.html.twig', {
+                href: path('menu_new', menu_index_query),
+                label: 'form.label.create'|trans(),
+                btn_class: 'btn btn-success mt-3',
+            }) }}
         {% endif %}
     </div>
 {% endblock %}

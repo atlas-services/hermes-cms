@@ -1,0 +1,20 @@
+{# Import médias pour gabarits type « liste » (folio, carousel liste, …) — remplace l’upload fichier unique. #}
+<div class="mb-3 js-post-field-liste-import{{ extra_class|default('') }}">
+    {% if post is defined and post and post.fileName and vich_uploader_asset(post, 'imageFile') %}
+        <p class="text-muted small mb-2">{{ 'admin.post_bulk.current_image'|trans }}</p>
+        <p class="mb-3">
+            <img src="{{ asset(vich_uploader_asset(post, 'imageFile')) }}" alt="" class="img-thumbnail" style="max-height: 120px; object-fit: cover;">
+        </p>
+    {% endif %}
+
+    {% if liste_import_section %}
+        {{ include('admin/_btn_add_icon.html.twig', {
+            href: path('post_bulk_import_media_images', { _locale: app.request.locale, id: liste_import_section.id }),
+            label: 'admin.post_bulk.add_images'|trans,
+            btn_class: 'btn btn-outline-primary',
+        }) }}
+        <p class="text-muted small mt-2 mb-0">{{ 'admin.post_bulk.form_import_hint'|trans }}</p>
+    {% else %}
+        <p class="text-muted small mb-0">{{ 'admin.post_bulk.save_then_import_hint'|trans }}</p>
+    {% endif %}
+</div>

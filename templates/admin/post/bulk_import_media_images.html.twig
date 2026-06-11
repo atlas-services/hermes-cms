@@ -2,6 +2,22 @@
 
 {% block title %}{{ 'admin.post_bulk.title'|trans }}{% endblock %}
 
+{% block importmap %}
+    {{ importmap(['app', 'admin_media_upload']) }}
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+.admin-media-uppy-wrap .uppy-Dashboard-inner { padding-top: 0.2rem; padding-bottom: 0.2rem; }
+.admin-media-uppy-wrap .uppy-Dashboard-AddFiles-title {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.22rem;
+    white-space: normal; max-width: 100%;
+    font-size: clamp(0.62rem, 0.45rem + 0.9vw, 0.78rem); line-height: 1.35;
+}
+.admin-media-uppy-wrap .uppy-Dashboard-browse.btn { flex-shrink: 0; white-space: nowrap; }
+</style>
+{% endblock %}
+
 {% block content %}
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
         <h1 class="h3 mb-0">{{ 'admin.post_bulk.title'|trans }}</h1>
@@ -11,6 +27,27 @@
     </div>
 
     <p class="text-muted">{{ 'admin.post_bulk.help'|trans }}</p>
+
+    {% if upload_dir_readable is defined and not upload_dir_readable %}
+        <div class="alert alert-warning">{{ 'admin.post_bulk.upload_dir_missing'|trans }}</div>
+    {% endif %}
+
+    {% if app.request.query.get('media_upload_success') %}
+        <div class="alert alert-success alert-dismissible fade show mb-3" role="status">
+            {{ 'admin.media_upload.alert_upload_after_refresh'|trans }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ 'admin.media_upload.close_alert'|trans }}"></button>
+        </div>
+        <script>
+            (function () {
+                const u = new URL(window.location.href);
+                if (u.searchParams.has('media_upload_success')) {
+                    u.searchParams.delete('media_upload_success');
+                    const q = u.searchParams.toString();
+                    window.history.replaceState(null, '', u.pathname + (q ? '?' + q : '') + u.hash);
+                }
+            })();
+        </script>
+    {% endif %}
 
     <div class="alert alert-light border mb-3 small">
         <strong>{{ 'global.page'|trans }}</strong> : {{ menu.name }}
@@ -47,6 +84,17 @@
                 {{ 'admin.post_bulk.back_parent'|trans }}
             </a>
         </p>
+    {% endif %}
+
+    {% if upload_enabled|default(false) %}
+        {{ include('admin/media_upload/_uppy_panel.html.twig', {
+            current_path: current_path,
+            max_upload_bytes: max_upload_bytes,
+            allowed_mime_types: allowed_mime_types,
+            upload_enabled: true,
+            reload_on_success: true,
+            uppy_title: 'admin.post_bulk.upload_section'|trans,
+        }) }}
     {% endif %}
 
     <h2 class="h6">{{ 'admin.post_bulk.subfolders'|trans }}</h2>

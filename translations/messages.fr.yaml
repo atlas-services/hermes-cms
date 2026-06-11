@@ -155,8 +155,12 @@ admin:
   title: admin
   post_bulk:
     add_images: Ajouter des images
+    upload_section: Envoyer des images ou un dossier
+    current_image: Image actuelle du post
+    form_import_hint: "Parcourez les médias déjà envoyés et importez un dossier : un post sera créé par image (JPEG, PNG, GIF, WebP)."
+    save_then_import_hint: "Enregistrez avec le bouton « Ajouter des images » pour ouvrir l’import depuis les médias."
     title: Importer des images (médias)
-    help: "Parcourez les répertoires sous la zone d’envoi de fichiers médias, ouvrez le dossier qui contient vos images, puis importez : un post « liste » sera créé par fichier (JPEG, PNG, GIF, WebP), nommé d’après le dossier et numéroté 1, 2, 3…"
+    help: "Envoyez des images ou un dossier (zone ci-dessous), parcourez les répertoires médias, ouvrez le dossier qui contient vos images, puis importez dans la section : un post « liste » sera créé par fichier (JPEG, PNG, GIF, WebP), nommé d’après le dossier et numéroté 1, 2, 3…"
     current_folder: Dossier courant
     subfolders: Sous-dossiers
     images_here: Images dans ce dossier (import)
@@ -170,6 +174,7 @@ admin:
     after_create_redirect_hint: "Vous pouvez importer un lot d’images pour remplir la section ; le post que vous venez de créer reste le premier (vous pouvez l’éditer depuis la liste des pages)."
     invalid_path: Chemin média invalide.
     list_failed: Impossible de lire ce répertoire.
+    upload_dir_missing: Le répertoire des médias est introuvable ou illisible. Vérifiez APP_PATH_CONTENT_IMAGES_POSTS et les droits sur public/uploads, ou lancez composer run create-upload-dir.
     section_not_liste: Cette section n’utilise pas un template de type « liste » ; l’import d’images n’est pas disponible.
     duplicate_name: Un conflit de nom a empêché l’import (nom de post déjà utilisé).
     import_error: Une erreur est survenue pendant l’import.

@@ -1,8 +1,10 @@
 {# Porté depuis atlas-services/hermes release/2.2.7 (templates/front/base/hermes/template/carousel3.html.twig) — chemins & configs Hermes3. #}
 <!-- Section carousel -->
 <section id="{{ section.id }}" class="pb-0  px-0">
-    {% set filter = 'bd' %}
-    {% set col_xx = (12/section.templateNbCol)|round %}
+    {% set nbCol = section.templateNbCol|default(3) %}
+    {% if nbCol < 1 %}{% set nbCol = 3 %}{% endif %}
+    {% set col_xx = (12 / nbCol)|round(0, 'ceil') %}
+    {% set carouselPosts = posts|sort((a, b) => a.position <=> b.position)|filter(post => vich_uploader_asset(post, 'imageFile') is not null) %}
 
     <div class="container col-12 col-lg-{{ (section.templateWidth ?? configs.carousel_multiple_container_width|default(10))|col_lg   }}" style="background-color:{{ section.templateBgcolor ?? configs.content_bgcolor|default('#ffffff') }}" >
         <!--Carousel Wrapper-->
@@ -17,52 +19,45 @@
             <!--/.Controls-->
                 <!--Slides-->
                 <div class="carousel-inner" role="listbox">
-                    {% for post in posts|sort((a, b) => a.position <=> b.position) %}
-                        {% set card_class = 'clearfix d-none d-md-block' %}
-                        {% if ((loop.index  - 1) is divisible by(section.templateNbCol)) %}
-                            {% set card_class = '' %}
-                        {% endif %}
-                    <!--begin 3 slide-->
-                        {% if ((loop.index  - 1) is divisible by(section.templateNbCol)) %}
-                            <div class="carousel-item col-12 px-0{{ loop.index == 1 ? ' active' : '' }}">
+                    {% for slidePosts in carouselPosts|batch(nbCol) %}
+                        <div class="carousel-item col-12 px-0{{ loop.first ? ' active' : '' }}">
                             <div class="row">
-                        {% endif %}
-                        <div class="col-md-{{col_xx}} mx-auto {{ card_class }}">
-                            <div class="card mb-2">
-                                <img  class="card-img-top" src="{{ asset(vich_uploader_asset(post, 'imageFile')) }}"
-                                     alt="{{ (post.fileName ?? post.name) }}">
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        {% if( not section.template2) %}
-                                            {{ post.name }}
-                                        {% else %}
-                                        {% if section.template2 and section.template2.code in ['modale1', 'modale3' ] %}
-                                            <!-- Modale1  -->
-                                             <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="thumbnail portfolio-link" href="#" data-image-id="" data-name="{{ post.name }}" data-content="{{ post.content }}"  data-bs-toggle="modal"
-                                               data-image ="{{ asset(vich_uploader_asset(post, 'imageFile')) }}"
-                                               data-bs-target="#image-gallery-{{ section.id }}">
-                                                {{ post.name }}
-                                            </a>
-                                            {% endif %}
-                                            {% if section.template2 and 'modale2' == section.template2.code %}
-                                            <!-- Modale2  -->
-                                             <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="portfolio-link"  data-bs-toggle="modal" href="#portfolioModal{{ post.id }}">
-                                                {{ post.name }}
-                                            </a>
-                                            {% endif %}
-                                        {% endif %}
-                                    </h4>
-                                    <p class="card-text">{{ post.content|striptags|u.truncate(25, '...')|raw }}</p>
-                                </div>
+                                {% for post in slidePosts %}
+                                    {% set imageUrl = asset(vich_uploader_asset(post, 'imageFile')) %}
+                                    {% set card_class = loop.first ? '' : 'clearfix d-none d-md-block' %}
+                                    <div class="col-md-{{ col_xx }} mx-auto {{ card_class }}">
+                                        <div class="card mb-2">
+                                            <img class="card-img-top" src="{{ imageUrl }}"
+                                                 alt="{{ (post.fileName ?? post.name)|e('html_attr') }}">
+                                            <div class="card-body">
+                                                <h4 class="card-title">
+                                                    {% if not section.template2 %}
+                                                        {{ post.name }}
+                                                    {% else %}
+                                                        {% if section.template2.code in ['modale1', 'modale3'] %}
+                                                            <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="thumbnail portfolio-link" href="#" data-image-id="" data-name="{{ post.name|e('html_attr') }}" data-content="{{ post.content|default('')|e('html_attr') }}" data-bs-toggle="modal"
+                                                               data-image="{{ imageUrl }}"
+                                                               data-bs-target="#image-gallery-{{ section.id }}">
+                                                                {{ post.name }}
+                                                            </a>
+                                                        {% elseif section.template2.code == 'modale2' %}
+                                                            <a style="color:{{ configs.content_link_color|default('#000000') }}" onmouseover="this.style.color='{{ configs.content_link_hover_color|default('#ffffff') }}'" onmouseout="this.style.color='{{ configs.content_link_color|default('#000000') }}'" class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal{{ post.id }}">
+                                                                {{ post.name }}
+                                                            </a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </h4>
+                                                <p class="card-text">{{ post.content|default('')|striptags|u.truncate(25, '...') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
-                        {% if ((loop.index ) is divisible by(section.templateNbCol)) %}
-                            </div>
-                            </div>
-                        {% endif %}
-
-                    <!--/.End 3 slide-->
-
+                    {% else %}
+                        <div class="carousel-item active col-12 px-0">
+                            <p class="text-muted text-center py-4 mb-0">{{ 'global.no_record'|trans }}</p>
+                        </div>
                     {% endfor %}
                 </div>
                 <!--/.Slides-->

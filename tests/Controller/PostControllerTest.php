@@ -109,6 +109,67 @@ class PostControllerTest extends AbstractControllerWebTestCase
     // EDIT
     // -------------------------
 
+    public function testBulkImportMediaImagesRendersForListeSection(): void
+    {
+        $this->login();
+
+        $section = $this->em->getRepository(Section::class)->findOneBy(['position' => 1]);
+        $this->assertNotNull($section);
+
+        $folio = $this->em->getRepository(Template::class)->findOneBy(['code' => 'folio1']);
+        if (!$folio instanceof Template) {
+            $folio = (new Template())
+                ->setName('Folio')
+                ->setCode('folio1')
+                ->setType('liste')
+                ->setSummary('Folio')
+                ->setActive(true);
+            $this->em->persist($folio);
+        }
+        $section->setTemplate($folio);
+        $this->em->flush();
+
+        $this->client->request(
+            'GET',
+            '/fr/admin/post/section/' . $section->getId() . '/import-images-from-media',
+        );
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', 'Importer des images');
+        $this->assertSelectorExists('[data-admin-media-upload-root]');
+        $this->assertSelectorExists('[data-uppy-dashboard-mount]');
+    }
+
+    public function testEditListePostShowsAddImagesLink(): void
+    {
+        $this->login();
+
+        $post = $this->em->getRepository(Post::class)->findOneBy(['name' => 'Post 1']);
+        $this->assertNotNull($post);
+
+        $folio = $this->em->getRepository(Template::class)->findOneBy(['code' => 'folio1']);
+        if (!$folio instanceof Template) {
+            $folio = (new Template())
+                ->setName('Folio')
+                ->setCode('folio1')
+                ->setType('liste')
+                ->setSummary('Folio')
+                ->setActive(true);
+            $this->em->persist($folio);
+        }
+
+        $section = $post->getSection();
+        $this->assertNotNull($section);
+        $section->setTemplate($folio);
+        $this->em->flush();
+
+        $this->client->request('GET', '/fr/admin/post/' . $post->getId() . '/edit');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('a[href*="/import-images-from-media"]');
+        $this->assertSelectorNotExists('input[type="file"]');
+    }
+
     public function testEditPost(): void
     {
         $this->login();

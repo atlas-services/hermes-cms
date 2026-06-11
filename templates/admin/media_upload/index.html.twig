@@ -97,8 +97,6 @@
         </script>
     {% endif %}
 
-    <div id="admin-media-upload-banner" class="mb-0"></div>
-
     {% if not upload_dir_exists %}
         <div class="alert alert-warning">{{ 'admin.media_upload.dir_warning'|trans }}</div>
     {% endif %}
@@ -223,37 +221,13 @@
         </div>
     {% endif %}
 
-    <div class="admin-media-uppy-wrap mb-3{% if upload_dir_exists %} admin-media-uppy-after-table{% endif %}">
-        <h2 class="h6 mb-1">{{ 'admin.media_upload.uppy_section'|trans }}</h2>
-        {% set path_label = current_path ? current_path : ('admin.media_upload.root'|trans) %}
-        <div class="vstack gap-1 small text-muted lh-sm mb-1">
-            <p class="mb-0">{{ 'admin.media_upload.uppy_hint'|trans({'%path%': path_label}) }}</p>
-            <p class="mb-0">{{ 'admin.media_upload.uppy_perf_hint'|trans }}</p>
-        </div>
-
-        <div
-            id="admin-media-upload"
-            class="mt-0 pt-0"
-            data-admin-locale="{{ app.request.locale }}"
-            data-upload-url="{{ path('admin_media_upload_api', {_locale: app.request.locale}) }}"
-            data-csrf-token="{{ csrf_token('media_upload') }}"
-            data-max-file-size="{{ max_upload_bytes }}"
-            data-allowed-file-types="{{ allowed_mime_types|json_encode|e('html_attr') }}"
-            data-reject-file-msg="{{ 'admin.media_upload.file_type_rejected'|trans|e('html_attr') }}"
-            data-current-path="{{ current_path|e('html_attr') }}"
-            {% if upload_dir_exists %}
-            data-request-base-path="{{ app.request.basePath|e('html_attr') }}"
-            data-label-open-file="{{ 'admin.media_upload.open_file'|trans|e('html_attr') }}"
-            data-label-type-file="{{ 'admin.media_upload.type_file'|trans|e('html_attr') }}"
-            data-add-more-hint="{{ 'admin.media_upload.uppy_add_more_hint'|trans|e('html_attr') }}"
-            data-delete-file-url="{{ path('admin_media_upload_delete_file', {_locale: app.request.locale})|e('html_attr') }}"
-            data-label-delete-file="{{ 'admin.media_upload.delete_file'|trans|e('html_attr') }}"
-            data-confirm-delete-file="{{ 'admin.media_upload.confirm_delete_file'|trans|e('html_attr') }}"
-            data-msg-upload-files-success="{{ 'admin.media_upload.alert_upload_files_done'|trans|e('html_attr') }}"
-            data-msg-close-alert="{{ 'admin.media_upload.close_alert'|trans|e('html_attr') }}"
-            {% endif %}
-        >
-            <div data-uppy-dashboard-mount class="w-100"></div>
-        </div>
+    <div class="{% if upload_dir_exists %}admin-media-uppy-after-table{% endif %}">
+        {{ include('admin/media_upload/_uppy_panel.html.twig', {
+            current_path: current_path,
+            max_upload_bytes: max_upload_bytes,
+            allowed_mime_types: allowed_mime_types,
+            upload_enabled: upload_dir_exists,
+            reload_on_success: false,
+        }) }}
     </div>
 {% endblock %}

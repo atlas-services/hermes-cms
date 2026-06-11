@@ -151,6 +151,10 @@ admin:
   title: admin
   post_bulk:
     add_images: Add images
+    upload_section: Upload images or a folder
+    current_image: Current post image
+    form_import_hint: "Browse uploaded media and import a folder: one post will be created per image (JPEG, PNG, GIF, WebP)."
+    save_then_import_hint: "Use the « Add images » button to save and open media import."
     title: Import images (media library)
     help: "Browse folders under the media upload area, open the folder that contains your images, then import: one list-type post will be created per file (JPEG, PNG, GIF, WebP), named from the folder and numbered 1, 2, 3…"
     current_folder: Current folder
@@ -166,6 +170,7 @@ admin:
     after_create_redirect_hint: "You can bulk-import images into this section; the post you just created remains the first one (edit it from the page list if needed)."
     invalid_path: Invalid media path.
     list_failed: Could not read this directory.
+    upload_dir_missing: Media upload directory is missing or not readable. Check APP_PATH_CONTENT_IMAGES_POSTS and permissions on public/uploads, or run composer run create-upload-dir.
     section_not_liste: This section does not use a « list » template; image import is not available.
     duplicate_name: Import failed because a post name already exists in this section.
     import_error: An error occurred during import.

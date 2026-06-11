@@ -1,7 +1,7 @@
 import Splide from '@splidejs/splide';
 import '@splidejs/splide/css';
 
-const ROOT_SELECTOR = '.hermes-front-sections .post-content .splide-carousel';
+const ROOT_SELECTOR = '.hermes-front-sections .splide-carousel:not(.splide-carousel--hero-present)';
 
 const EFFECTS = ['slide', 'fade', 'focus', 'peek'];
 
@@ -192,7 +192,7 @@ function buildSplideOptions(config, slideCount = 0, natural = false) {
         drag: config.drag,
         rewind: config.effect === 'fade',
         trimSpace: false,
-        autoHeight: false,
+        autoHeight: natural,
         updateOnMove: config.updateOnMove,
         start: 0,
         keyboard: 'global',
@@ -246,11 +246,16 @@ function initSplideCarouselBlock(root) {
     const track = root.querySelector('.splide__track');
     const slides = root.querySelectorAll('.splide__slide');
 
-    if (!track || slides.length < 2) {
+    if (!track || slides.length === 0) {
         return;
     }
 
     const config = readConfig(root);
+    if (slides.length === 1) {
+        config.autoplay = false;
+        config.effect = 'slide';
+        config.type = 'slide';
+    }
     root.dataset.splideCarouselMounted = '1';
     resetInlineLayoutStyles(root);
     applyEffectPresentation(root, config);

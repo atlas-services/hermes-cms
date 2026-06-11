@@ -19,6 +19,8 @@ parameters:
     app.locales: [fr, en] # legacy ; les langues actives viennent de la base (AppLocaleService)
     app.default_locale_fallback: fr
     app.default_locale: '%env(default:app.default_locale_fallback:APP_DEFAULT_LOCALE)%'
+    app.upload_max_size_fallback: '10M'
+    app.upload_max_size: '%env(default:app.upload_max_size_fallback:APP_UPLOAD_MAX_SIZE)%'
     app.name: '%env(APP_NAME)%'
     hermes_pages: '%env(APP_PAGES)%'
     hermes_list_templates: '%env(APP_LIST_TEMPLATES)%'

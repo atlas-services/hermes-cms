@@ -6,9 +6,13 @@
     </button>
     {% if form.saveAndImportImages is defined %}
         <span class="js-post-wrap-save-import{{ post_template_field_toggle|default(false) ? ' d-none' : '' }}">
-            <button type="submit" form="admin-post-form" name="post[saveAndImportImages]" class="btn btn-outline-primary">
-                {{ form.saveAndImportImages.vars.label|trans(form.saveAndImportImages.vars.label_translation_parameters, form.saveAndImportImages.vars.translation_domain) }}
-            </button>
+            {% set add_images_label = form.saveAndImportImages.vars.label|trans(form.saveAndImportImages.vars.label_translation_parameters, form.saveAndImportImages.vars.translation_domain) %}
+            {{ include('admin/_btn_add_icon.html.twig', {
+                label: add_images_label,
+                btn_class: 'btn btn-outline-primary',
+                form: 'admin-post-form',
+                name: 'post[saveAndImportImages]',
+            }) }}
         </span>
     {% endif %}
 

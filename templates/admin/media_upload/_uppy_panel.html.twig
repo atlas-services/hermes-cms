@@ -1,0 +1,40 @@
+{# Panneau Uppy (fichiers + dossiers) — réutilisé par médias admin et import liste posts. #}
+{% set path_label = current_path ? current_path : ('admin.media_upload.root'|trans) %}
+{% set panel_enabled = upload_enabled|default(true) %}
+{% set reload_on_success = reload_on_success|default(false) %}
+
+<div class="admin-media-uppy-wrap mb-3">
+    <h2 class="h6 mb-1">{{ uppy_title|default('admin.media_upload.uppy_section'|trans) }}</h2>
+    <div class="vstack gap-1 small text-muted lh-sm mb-1">
+        <p class="mb-0">{{ 'admin.media_upload.uppy_hint'|trans({'%path%': path_label}) }}</p>
+        <p class="mb-0">{{ 'admin.media_upload.uppy_perf_hint'|trans }}</p>
+    </div>
+
+    <div data-admin-media-upload-banner class="mb-2"></div>
+
+    <div
+        data-admin-media-upload-root
+        class="mt-0 pt-0"
+        data-admin-locale="{{ app.request.locale }}"
+        data-upload-url="{{ path('admin_media_upload_api', {_locale: app.request.locale}) }}"
+        data-csrf-token="{{ csrf_token('media_upload') }}"
+        data-max-file-size="{{ max_upload_bytes }}"
+        data-allowed-file-types="{{ allowed_mime_types|json_encode|e('html_attr') }}"
+        data-reject-file-msg="{{ 'admin.media_upload.file_type_rejected'|trans|e('html_attr') }}"
+        data-current-path="{{ current_path|e('html_attr') }}"
+        {% if reload_on_success %}data-reload-on-success="1"{% endif %}
+        {% if panel_enabled %}
+        data-request-base-path="{{ app.request.basePath|e('html_attr') }}"
+        data-label-open-file="{{ 'admin.media_upload.open_file'|trans|e('html_attr') }}"
+        data-label-type-file="{{ 'admin.media_upload.type_file'|trans|e('html_attr') }}"
+        data-add-more-hint="{{ 'admin.media_upload.uppy_add_more_hint'|trans|e('html_attr') }}"
+        data-delete-file-url="{{ path('admin_media_upload_delete_file', {_locale: app.request.locale})|e('html_attr') }}"
+        data-label-delete-file="{{ 'admin.media_upload.delete_file'|trans|e('html_attr') }}"
+        data-confirm-delete-file="{{ 'admin.media_upload.confirm_delete_file'|trans|e('html_attr') }}"
+        data-msg-upload-files-success="{{ 'admin.media_upload.alert_upload_files_done'|trans|e('html_attr') }}"
+        data-msg-close-alert="{{ 'admin.media_upload.close_alert'|trans|e('html_attr') }}"
+        {% endif %}
+    >
+        <div data-uppy-dashboard-mount class="w-100"></div>
+    </div>
+</div>

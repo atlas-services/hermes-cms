@@ -98,12 +98,14 @@ class PostType extends AbstractNameBaseType
                 return;
             }
 
-            // Ne pas retirer imageFile des $data pour le type « liste » : sinon le fichier uploadé est perdu.
             if ($type === self::TEMPLATE_TYPE_LISTE) {
                 if ($form->has('content')) {
                     $form->remove('content');
                 }
-                unset($data['content']);
+                if ($form->has('imageFile')) {
+                    $form->remove('imageFile');
+                }
+                unset($data['content'], $data['imageFile']);
                 $event->setData($data);
 
                 return;
@@ -146,7 +148,7 @@ class PostType extends AbstractNameBaseType
             $event->setData($data);
         });
 
-        if ($options['liste_bulk_import_save']) {
+        if ($options['liste_bulk_import_save'] && !$options['post_edit_mode']) {
             $builder->add('saveAndImportImages', SubmitType::class, [
                 'label' => 'admin.post_bulk.add_images',
                 'translation_domain' => 'messages',
@@ -190,15 +192,7 @@ class PostType extends AbstractNameBaseType
         }
 
         if ($type === self::TEMPLATE_TYPE_LISTE) {
-            if ($form->has('saveAndImportImages') && $form->get('saveAndImportImages')->isClicked()) {
-                return ['Default'];
-            }
-            $groups = ['Default'];
-            if (!$post->getFileName()) {
-                $groups[] = 'image';
-            }
-
-            return $groups;
+            return ['Default'];
         }
 
         return ['Default'];
@@ -222,10 +216,6 @@ class PostType extends AbstractNameBaseType
         $type = self::normalizePostTemplateType($type);
 
         if ($type === self::TEMPLATE_TYPE_LISTE) {
-            if (!$form->has('imageFile')) {
-                $form->add('imageFile', VichImageType::class, $this->vichPostImageFieldOptions());
-            }
-
             return;
         }
 

@@ -29,13 +29,6 @@
                 '%summary%': section.template ? (section.template.summary|default('')) : ''
             }) }}
         </div>
-        {% if section.template and section.template.type == 'liste' %}
-            <div class="mb-3">
-                <a class="btn btn-outline-primary btn-sm" href="{{ path('post_bulk_import_media_images', { id: section.id }) }}">
-                    {{ 'admin.post_bulk.add_images'|trans }}
-                </a>
-            </div>
-        {% endif %}
     {% endif %}
 
     {{ include('admin/post/_form.html.twig', {
@@ -45,6 +38,7 @@
         isFooterSection: isFooterSection,
         post_template_field_toggle: post_template_field_toggle|default(false),
         post_template_types: post_template_types|default({}),
+        liste_import_section: liste_import_section|default(null),
     }) }}
 
     {% if post_template_field_toggle is defined and post_template_field_toggle %}
@@ -64,9 +58,10 @@
 
             var templateSelect = form.querySelector('select[name="post[template]"]');
             var wrapImage = form.querySelector('.js-post-field-image');
+            var wrapListeImport = form.querySelector('.js-post-field-liste-import');
             var wrapContent = form.querySelector('.js-post-field-content');
             var wrapSaveImport = form.querySelector('.js-post-wrap-save-import');
-            if (!wrapImage || !wrapContent) return;
+            if ((!wrapImage && !wrapListeImport) || !wrapContent) return;
 
             var templates = (meta.templates || {});
 
@@ -84,13 +79,28 @@
                 var isLibre = t === 'libre';
 
                 if (isListe) {
-                    wrapImage.classList.remove('d-none');
+                    if (wrapListeImport) {
+                        wrapListeImport.classList.remove('d-none');
+                    }
+                    if (wrapImage) {
+                        wrapImage.classList.add('d-none');
+                    }
                     wrapContent.classList.add('d-none');
                 } else if (isLibre) {
                     wrapContent.classList.remove('d-none');
-                    wrapImage.classList.add('d-none');
+                    if (wrapImage) {
+                        wrapImage.classList.add('d-none');
+                    }
+                    if (wrapListeImport) {
+                        wrapListeImport.classList.add('d-none');
+                    }
                 } else {
-                    wrapImage.classList.remove('d-none');
+                    if (wrapImage) {
+                        wrapImage.classList.remove('d-none');
+                    }
+                    if (wrapListeImport) {
+                        wrapListeImport.classList.add('d-none');
+                    }
                     wrapContent.classList.remove('d-none');
                 }
                 if (wrapSaveImport) {

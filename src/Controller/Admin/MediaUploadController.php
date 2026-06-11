@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Service\AdminMediaStorage;
+use App\Service\AdminMediaUploadLimits;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,17 +24,6 @@ final class MediaUploadController extends AbstractController
         private readonly TranslatorInterface $translator,
     ) {
     }
-
-    /** @var list<string> */
-    private const ALLOWED_MIME_TYPES = [
-        'image/jpeg',
-        'image/png',
-        'image/gif',
-        'image/webp',
-        'image/svg+xml',
-        'application/pdf',
-        'video/mp4',
-    ];
 
     #[Route('/mkdir', name: 'admin_media_upload_mkdir', methods: ['POST'])]
     public function mkdir(Request $request, AdminMediaStorage $storage): Response
@@ -217,8 +207,9 @@ final class MediaUploadController extends AbstractController
         }
 
         return $this->render('admin/media_upload/index.html.twig', [
-            'max_upload_bytes' => self::effectiveMaxBytes($uploadMaxSize),
-            'allowed_mime_types' => self::ALLOWED_MIME_TYPES,
+            'max_upload_bytes' => AdminMediaUploadLimits::effectiveMaxBytes($uploadMaxSize),
+            'allowed_mime_types' => AdminMediaUploadLimits::ALL_MIME_TYPES,
+            'upload_enabled' => $uploadDirExists,
             'upload_dir_exists' => $uploadDirExists,
             'current_path' => $currentPath,
             'web_base' => $storage->getWebBasePath(),
@@ -271,14 +262,14 @@ final class MediaUploadController extends AbstractController
             return new JsonResponse(['message' => $file->getErrorMessage()], Response::HTTP_BAD_REQUEST);
         }
 
-        $maxBytes = self::effectiveMaxBytes($uploadMaxSize);
+        $maxBytes = AdminMediaUploadLimits::effectiveMaxBytes($uploadMaxSize);
         if ($file->getSize() > $maxBytes) {
             return new JsonResponse(['message' => 'File too large'], Response::HTTP_REQUEST_ENTITY_TOO_LARGE);
         }
 
         $mime = strtolower((string) ($file->getMimeType() ?? ''));
         $mime = explode(';', $mime, 2)[0];
-        if (!in_array($mime, self::ALLOWED_MIME_TYPES, true)) {
+        if (!in_array($mime, AdminMediaUploadLimits::ALL_MIME_TYPES, true)) {
             return new JsonResponse(['message' => 'File type not allowed'], Response::HTTP_BAD_REQUEST);
         }
 
@@ -344,42 +335,4 @@ final class MediaUploadController extends AbstractController
         ]);
     }
 
-    private static function effectiveMaxBytes(string $envSpec): int
-    {
-        $parsed = self::parsePhpIniSize(trim($envSpec));
-        $iniUpload = self::parsePhpIniSize((string) ini_get('upload_max_filesize'));
-        $iniPost = self::parsePhpIniSize((string) ini_get('post_max_size'));
-        $candidates = array_filter([$parsed, $iniUpload, $iniPost], static fn (int $v): bool => $v > 0);
-        if ($candidates === []) {
-            return 10 * 1024 * 1024;
-        }
-
-        return min($candidates);
-    }
-
-    private static function parsePhpIniSize(string $value): int
-    {
-        $value = trim($value);
-        if ($value === '') {
-            return 0;
-        }
-
-        if (preg_match('/^(\d+)$/', $value, $m)) {
-            return (int) $m[1];
-        }
-
-        if (!preg_match('/^(\d+)([KMG]?)$/i', $value, $m)) {
-            return 0;
-        }
-
-        $n = (int) $m[1];
-        $unit = strtoupper($m[2] ?? '');
-
-        return match ($unit) {
-            'G' => $n * 1024 * 1024 * 1024,
-            'M' => $n * 1024 * 1024,
-            'K' => $n * 1024,
-            default => $n,
-        };
-    }
 }

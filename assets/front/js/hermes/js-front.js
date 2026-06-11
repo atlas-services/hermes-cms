@@ -126,7 +126,7 @@ function bindCarouselControls(carouselEl) {
 }
 
 function initPostContentCarousels() {
-    document.querySelectorAll('.post-content .carousel.slide, .carousel-multi-item.carousel.slide').forEach((carouselEl) => {
+    document.querySelectorAll('.hermes-front-sections .carousel.slide, .post-content .carousel.slide, .carousel-multi-item.carousel.slide').forEach((carouselEl) => {
         repairCarouselMarkup(carouselEl);
         bindCarouselControls(carouselEl);
 

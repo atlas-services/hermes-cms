@@ -70,7 +70,8 @@ function wireDashboardBrowseAsBootstrapButtons(mount) {
 
 /** Alerte succès après envoi de fichiers seuls (sans rechargement de page). */
 function showFilesUploadSuccessBanner(root) {
-    const host = document.getElementById('admin-media-upload-banner');
+    const host = root.closest('.admin-media-uppy-wrap')?.querySelector('[data-admin-media-upload-banner]')
+        || document.getElementById('admin-media-upload-banner');
     const msg = root.dataset.msgUploadFilesSuccess;
     const closeLabel = root.dataset.msgCloseAlert || '';
     if (!host || !msg) {
@@ -341,12 +342,7 @@ function appendMediaTableRow(root, { filename, url, sizeBytes, relativePath }) {
     tbody.appendChild(tr);
 }
 
-function init() {
-    const root = document.getElementById('admin-media-upload');
-    if (!root) {
-        return;
-    }
-
+function initRoot(root) {
     const endpoint = root.dataset.uploadUrl;
     const csrf = root.dataset.csrfToken || '';
     const maxFileSize = root.dataset.maxFileSize ? Number(root.dataset.maxFileSize) : null;
@@ -471,6 +467,8 @@ function init() {
         });
     });
 
+    const reloadOnSuccess = root.dataset.reloadOnSuccess === '1';
+
     // Après un envoi : dossier (webkitdirectory) → rechargement pour voir toute l’arborescence créée ;
     // fichiers seuls → on vide la file Uppy pour retrouver browse files / browse folders.
     uppy.on('complete', (result) => {
@@ -484,6 +482,12 @@ function init() {
             const wr = folderRelativePath(file);
             return typeof wr === 'string' && wr.length > 0;
         });
+        if (reloadOnSuccess && successful.length > 0) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('media_upload_success', '1');
+            window.location.href = url.toString();
+            return;
+        }
         if (usedFolderPick) {
             const url = new URL(window.location.href);
             url.searchParams.set('media_upload_success', '1');
@@ -495,6 +499,12 @@ function init() {
             showFilesUploadSuccessBanner(root);
         }
         uppy.clear();
+    });
+}
+
+function init() {
+    document.querySelectorAll('[data-admin-media-upload-root]').forEach((root) => {
+        initRoot(root);
     });
 }
 

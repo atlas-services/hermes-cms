@@ -200,9 +200,11 @@
                         {{ 'Ajouter un post' }}
                     </a>
                     {% if isListe %}
-                        <a class="btn btn-outline-primary btn-sm ms-1" href="{{ path('post_bulk_import_media_images', { id: section.id }) }}">
-                            {{ 'admin.post_bulk.add_images'|trans }}
-                        </a>
+                        {{ include('admin/_btn_add_icon.html.twig', {
+                            href: path('post_bulk_import_media_images', { id: section.id }),
+                            label: 'admin.post_bulk.add_images'|trans,
+                            btn_class: 'btn btn-outline-primary btn-sm ms-1',
+                        }) }}
                         <form method="post" action="{{ path('section_clear_liste_images', { id: section.id }) }}" class="d-inline" data-confirm="{{ 'admin.section.confirm_clear_images'|trans|e('html_attr') }}" onsubmit="return confirm(this.getAttribute('data-confirm'));">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete_liste_posts_' ~ section.id) }}">
                             <button type="submit" class="btn btn-outline-danger btn-sm ms-1">{{ 'admin.section.clear_all_images'|trans }}</button>
