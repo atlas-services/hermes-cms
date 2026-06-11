@@ -1,0 +1,188 @@
+<div id="hermes-carte-brasserie" class="hermes-carte hermes-carte--brasserie text-body">
+    <header class="hermes-carte__hero position-relative overflow-hidden">
+        <img
+            class="hermes-carte__hero-img position-absolute top-0 start-0 w-100 h-100"
+            src="https://picsum.photos/seed/brasserie-hero/1920/640"
+            alt=""
+            loading="eager"
+            width="1920"
+            height="640"
+        >
+        <div class="hermes-carte__hero-overlay" aria-hidden="true"></div>
+        <div class="hermes-carte__hero-content position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center px-3">
+            <p class="hermes-carte__hero-kicker text-uppercase small fw-semibold mb-2 mb-lg-3">Brasserie du Parc · depuis 1924</p>
+            <div class="gsap-letter-reveal hermes-carte__hero-title-wrap" style="--gsap-letter-reveal-color: #f4f0e6;">
+                <p class="gsap-letter-reveal__line hermes-carte__hero-title display-1 h-oswald mb-0" data-gsap-letter-reveal-text-value="Brasserie" aria-label="Brasserie">Brasserie</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="hermes-carte__tabs" aria-label="Navigation carte">
+        <button type="button" class="hermes-carte__tab is-active" data-hermes-carte-tab="0" aria-selected="true">
+            <i class="fa-solid fa-utensils" aria-hidden="true"></i>
+            <span>Repas</span>
+        </button>
+        <button type="button" class="hermes-carte__tab" data-hermes-carte-tab="1" aria-selected="false">
+            <i class="fa-solid fa-wine-glass" aria-hidden="true"></i>
+            <span>Boissons</span>
+        </button>
+    </nav>
+
+    <div
+        class="splide hermes-carte__pages-splide w-100"
+        style="--splide-carousel-accent: #8b1e2f;"
+        aria-label="Carte repas et boissons"
+    >
+        <div class="splide__track">
+            <ul class="splide__list">
+                <li class="splide__slide hermes-carte__page hermes-carte__page--food">
+                    <div class="hermes-carte__food-wrap">
+                        <section class="hermes-carte__block hermes-carte__block--light" aria-labelledby="brasserie-entrees">
+                            <header class="hermes-carte__head">
+                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                                <h2 id="brasserie-entrees" class="hermes-carte__head-title h3 mb-0">Entrées</h2>
+                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                            </header>
+                            <ul class="hermes-carte__list list-unstyled mb-0">
+                                <li class="hermes-carte__item">
+                                    <div class="hermes-carte__item-main">
+                                        <p class="hermes-carte__item-name mb-0">Soupe à l'oignon gratinée.</p>
+                                        <p class="hermes-carte__item-desc mb-0">Bouillon de bœuf, croûtons, comté AOP.</p>
+                                    </div>
+                                    <p class="hermes-carte__item-price mb-0">9€</p>
+                                </li>
+                                <li class="hermes-carte__item">
+                                    <div class="hermes-carte__item-main">
+                                        <p class="hermes-carte__item-name mb-0">Terrine de campagne maison.</p>
+                                    </div>
+                                    <p class="hermes-carte__item-price mb-0">10€</p>
+                                </li>
+                                <li class="hermes-carte__item hermes-carte__item--last">
+                                    <div class="hermes-carte__item-main">
+                                        <p class="hermes-carte__item-name mb-0">Œuf mayo &amp; cornichons.</p>
+                                    </div>
+                                    <p class="hermes-carte__item-price mb-0">6€</p>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section class="hermes-carte__block hermes-carte__block--dark" aria-labelledby="brasserie-plats">
+                            <header class="hermes-carte__head">
+                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                                <h2 id="brasserie-plats" class="hermes-carte__head-title h3 mb-0">Plats du jour</h2>
+                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                            </header>
+                            <ul class="hermes-carte__list list-unstyled mb-0">
+                                <li class="hermes-carte__item">
+                                    <div class="hermes-carte__item-main">
+                                        <p class="hermes-carte__item-name mb-0">Steak-frites, sauce béarnaise.</p>
+                                        <p class="hermes-carte__item-desc mb-0">Entrecôte 220 g, frites maison, salade verte.</p>
+                                    </div>
+                                    <p class="hermes-carte__item-price mb-0">22€</p>
+                                </li>
+                                <li class="hermes-carte__item">
+                                    <div class="hermes-carte__item-main">
+                                        <p class="hermes-carte__item-name mb-0">Choucroute garnie d'Alsace.</p>
+                                        <p class="hermes-carte__item-desc mb-0">Saucisses, lard, palette, pommes de terre.</p>
+                                    </div>
+                                    <p class="hermes-carte__item-price mb-0">19€</p>
+                                </li>
+                                <li class="hermes-carte__item hermes-carte__item--last">
+                                    <div class="hermes-carte__item-main">
+                                        <p class="hermes-carte__item-name mb-0">Moules marinières &amp; frites.</p>
+                                    </div>
+                                    <p class="hermes-carte__item-price mb-0">18€</p>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section class="hermes-carte__block hermes-carte__block--light" aria-labelledby="brasserie-desserts">
+                            <header class="hermes-carte__head">
+                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                                <h2 id="brasserie-desserts" class="hermes-carte__head-title h3 mb-0">Desserts</h2>
+                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                            </header>
+                            <ul class="hermes-carte__list list-unstyled mb-0">
+                                <li class="hermes-carte__item">
+                                    <div class="hermes-carte__item-main">
+                                        <p class="hermes-carte__item-name mb-0">Tarte au citron meringuée.</p>
+                                    </div>
+                                    <p class="hermes-carte__item-price mb-0">8€</p>
+                                </li>
+                                <li class="hermes-carte__item hermes-carte__item--last">
+                                    <div class="hermes-carte__item-main">
+                                        <p class="hermes-carte__item-name mb-0">Profiteroles au chocolat chaud.</p>
+                                    </div>
+                                    <p class="hermes-carte__item-price mb-0">9€</p>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                </li>
+
+                <li class="splide__slide hermes-carte__page hermes-carte__page--drinks">
+                    <div class="hermes-carte__drinks-page hermes-carte__block--dark">
+                        <header class="hermes-carte__drinks-banner position-relative overflow-hidden">
+                            <img
+                                class="hermes-carte__drinks-banner-img position-absolute top-0 start-0 w-100 h-100"
+                                src="https://picsum.photos/seed/brasserie-drinks/1600/520"
+                                alt=""
+                                loading="lazy"
+                                width="1600"
+                                height="520"
+                            >
+                            <div class="hermes-carte__drinks-banner-overlay" aria-hidden="true"></div>
+                            <div class="hermes-carte__drinks-banner-content position-relative text-center px-3">
+                                <p class="hermes-carte__drinks-banner-kicker text-uppercase small fw-semibold mb-2">Bar &amp; cave</p>
+                                <h2 id="brasserie-boissons" class="hermes-carte__drinks-banner-title h-oswald mb-0">Carte des boissons</h2>
+                                <p class="hermes-carte__drinks-banner-lead mb-0">Pression, vins au verre &amp; spiritueux</p>
+                            </div>
+                        </header>
+
+                        <div class="hermes-carte__drinks-body">
+                            <div class="hermes-carte__drinks-grid">
+                                <article class="hermes-carte__drink-panel">
+                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                                    <h3 class="hermes-carte__drink-panel-title">Bières pression</h3>
+                                    <ul class="hermes-carte__drink-list">
+                                        <li class="hermes-carte__drink-row"><span>Blonde du Parc (25 cl)</span><span>4€</span></li>
+                                        <li class="hermes-carte__drink-row"><span>Blanche artisanale (25 cl)</span><span>4,50€</span></li>
+                                        <li class="hermes-carte__drink-row"><span>Ambre locale (50 cl)</span><span>7€</span></li>
+                                    </ul>
+                                </article>
+                                <article class="hermes-carte__drink-panel">
+                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-wine-bottle"></i></div>
+                                    <h3 class="hermes-carte__drink-panel-title">Vins au verre</h3>
+                                    <ul class="hermes-carte__drink-list">
+                                        <li class="hermes-carte__drink-row"><span>Chardonnay Bourgogne</span><span>5,50€</span></li>
+                                        <li class="hermes-carte__drink-row"><span>Pinot noir d'Alsace</span><span>5,50€</span></li>
+                                        <li class="hermes-carte__drink-row"><span>Côtes du Rhône rouge</span><span>6€</span></li>
+                                    </ul>
+                                </article>
+                                <article class="hermes-carte__drink-panel">
+                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-mug-hot"></i></div>
+                                    <h3 class="hermes-carte__drink-panel-title">Cafés</h3>
+                                    <ul class="hermes-carte__drink-list">
+                                        <li class="hermes-carte__drink-row"><span>Expresso</span><span>2,20€</span></li>
+                                        <li class="hermes-carte__drink-row"><span>Crème brûlée café</span><span>4€</span></li>
+                                        <li class="hermes-carte__drink-row"><span>Grand crème</span><span>3,20€</span></li>
+                                    </ul>
+                                </article>
+                                <article class="hermes-carte__drink-panel">
+                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-whiskey-glass"></i></div>
+                                    <h3 class="hermes-carte__drink-panel-title">Digestifs</h3>
+                                    <ul class="hermes-carte__drink-list">
+                                        <li class="hermes-carte__drink-row"><span>Calvados AOC</span><span>7€</span></li>
+                                        <li class="hermes-carte__drink-row"><span>Armagnac VSOP</span><span>9€</span></li>
+                                        <li class="hermes-carte__drink-row"><span>Poire Williams</span><span>8€</span></li>
+                                    </ul>
+                                </article>
+                            </div>
+                            <p class="hermes-carte__drinks-note text-center mb-0">Happy hour bières 17h – 19h · service à table</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
