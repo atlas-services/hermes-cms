@@ -4,16 +4,16 @@ import { whenGsapReady } from '../gsap.js';
 const ROOT_SELECTOR = '.hermes-front-sections .post-content .hermes-carte';
 
 function initHero(gsap, root) {
-    const hero = root.querySelector('.hermes-carte__hero');
+    const hero = root.querySelector('[data-hermes-carte-hero]');
     if (!hero || hero.dataset.gsapCarteHeroDone === '1') {
         return;
     }
 
     hero.dataset.gsapCarteHeroDone = '1';
 
-    const img = hero.querySelector('.hermes-carte__hero-img');
-    const overlay = hero.querySelector('.hermes-carte__hero-overlay');
-    const kicker = hero.querySelector('.hermes-carte__hero-kicker');
+    const img = hero.querySelector('img');
+    const overlay = hero.querySelector('.hermes-carte-hero-overlay');
+    const kicker = hero.querySelector('[data-hermes-carte-hero-kicker]');
 
     const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
@@ -38,9 +38,9 @@ function revealBlock(gsap, block) {
 
     block.dataset.gsapCarteRevealed = '1';
 
-    const headLines = block.querySelectorAll('.hermes-carte__head-line');
-    const headTitle = block.querySelector('.hermes-carte__head-title');
-    const items = block.querySelectorAll('.hermes-carte__item');
+    const headLines = block.querySelectorAll('.hermes-carte-head-line');
+    const headTitle = block.querySelector('header h2');
+    const items = block.querySelectorAll('[data-hermes-carte-item]');
 
     const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
@@ -60,7 +60,7 @@ function revealBlock(gsap, block) {
 
     if (items.length) {
         tl.from(items, { y: 26, opacity: 0, duration: 0.5, stagger: 0.07 }, '-=0.2');
-        tl.from(block.querySelectorAll('.hermes-carte__item-price'), {
+        tl.from(block.querySelectorAll('.hermes-carte-price'), {
             scale: 0.85,
             opacity: 0,
             duration: 0.4,
@@ -70,22 +70,22 @@ function revealBlock(gsap, block) {
 }
 
 function revealDrinksPage(gsap, root) {
-    const page = root.querySelector('.hermes-carte__page--drinks');
+    const page = root.querySelector('[data-hermes-carte-page="drinks"]');
     if (!page || page.dataset.gsapCarteDrinksRevealed === '1') {
         return;
     }
 
     page.dataset.gsapCarteDrinksRevealed = '1';
 
-    const banner = page.querySelector('.hermes-carte__drinks-banner');
-    const panels = page.querySelectorAll('.hermes-carte__drink-panel');
-    const note = page.querySelector('.hermes-carte__drinks-note');
+    const banner = page.querySelector('[data-hermes-carte-drinks-banner]');
+    const panels = page.querySelectorAll('[data-hermes-carte-drink-card]');
+    const note = page.querySelector('[data-hermes-carte-drinks-note]');
 
     const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
     if (banner) {
-        const img = banner.querySelector('.hermes-carte__drinks-banner-img');
-        const content = banner.querySelector('.hermes-carte__drinks-banner-content');
+        const img = banner.querySelector('img');
+        const content = banner.querySelector('[data-hermes-carte-drinks-banner-content]');
 
         if (img) {
             gsap.set(img, { scale: 1.08 });
@@ -115,13 +115,13 @@ function updateTabs(root, index) {
     root.querySelectorAll('[data-hermes-carte-tab]').forEach((button) => {
         const tabIndex = parseInt(button.dataset.hermesCarteTab || '0', 10);
         const isActive = tabIndex === index;
-        button.classList.toggle('is-active', isActive);
+        button.classList.toggle('active', isActive);
         button.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
 }
 
 function initPagesSplide(gsap, root) {
-    const pagesEl = root.querySelector('.hermes-carte__pages-splide');
+    const pagesEl = root.querySelector('.hermes-carte-pages');
     if (!pagesEl || pagesEl.dataset.hermesCartePagesMounted === '1') {
         return;
     }
@@ -173,7 +173,7 @@ function initPagesSplide(gsap, root) {
 }
 
 function observeBlocks(gsap, root) {
-    const blocks = root.querySelectorAll('.hermes-carte__food-wrap .hermes-carte__block');
+    const blocks = root.querySelectorAll('[data-hermes-carte-food] [data-hermes-carte-section]');
 
     if (!blocks.length || typeof IntersectionObserver === 'undefined') {
         blocks.forEach((block) => revealBlock(gsap, block));

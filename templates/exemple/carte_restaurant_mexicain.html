@@ -1,19 +1,19 @@
 <div id="hermes-carte-mexicain" class="hermes-carte hermes-carte--mexicain text-body">
-    <header class="hermes-carte__hero position-relative overflow-hidden">
+    <header data-hermes-carte-hero class="position-relative overflow-hidden text-white">
         <img
-            class="hermes-carte__hero-img position-absolute top-0 start-0 w-100 h-100"
+            class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
             src="https://picsum.photos/seed/mexican-hero/1920/640"
             alt=""
             loading="eager"
             width="1920"
             height="640"
         >
-        <div class="hermes-carte__hero-overlay" aria-hidden="true"></div>
-        <div class="hermes-carte__hero-content position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center px-3">
-            <p class="hermes-carte__hero-kicker text-uppercase small fw-semibold mb-2 mb-lg-3">Casa Azteca · cocina mexicana</p>
-            <div class="gsap-letter-reveal hermes-carte__hero-title-wrap" style="--gsap-letter-reveal-color: #fff8ed;">
+        <div class="hermes-carte-hero-overlay position-absolute top-0 start-0 w-100 h-100" aria-hidden="true"></div>
+        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center px-3 z-1">
+            <p data-hermes-carte-hero-kicker class="text-uppercase small fw-semibold mb-2 mb-lg-3">Casa Azteca · cocina mexicana</p>
+            <div class="gsap-letter-reveal" style="--gsap-letter-reveal-color: #fff8ed;">
                 <p
-                    class="gsap-letter-reveal__line hermes-carte__hero-title display-1 h-sofia mb-0"
+                    class="gsap-letter-reveal__line hermes-carte-hero-title display-1 h-sofia mb-0"
                     data-gsap-letter-reveal-text-value="México"
                     aria-label="México"
                 >México</p>
@@ -21,180 +21,186 @@
         </div>
     </header>
 
-    <nav class="hermes-carte__tabs" aria-label="Navigation carte">
+    <nav class="d-flex justify-content-center flex-wrap gap-2 mx-auto my-3 px-3" style="max-width: 64rem;" aria-label="Navigation carte">
         <button
             type="button"
-            class="hermes-carte__tab is-active"
+            class="hermes-carte-tab active"
             data-hermes-carte-tab="0"
             aria-selected="true"
             style="--hermes-carte-tab-fg: #1a1210; --hermes-carte-tab-fill: #f4b942;"
         >
-            <i class="fa-solid fa-pepper-hot" aria-hidden="true"></i>
-            <span>Comida</span>
+            <i class="fa-solid fa-pepper-hot" aria-hidden="true"></i><span>Comida</span>
         </button>
         <button
             type="button"
-            class="hermes-carte__tab"
+            class="hermes-carte-tab"
             data-hermes-carte-tab="1"
             aria-selected="false"
             style="--hermes-carte-tab-fg: #1a1210; --hermes-carte-tab-fill: #f4b942;"
         >
-            <i class="fa-solid fa-martini-glass-citrus" aria-hidden="true"></i>
-            <span>Bebidas</span>
+            <i class="fa-solid fa-martini-glass-citrus" aria-hidden="true"></i><span>Bebidas</span>
         </button>
     </nav>
 
     <div
-        class="splide hermes-carte__pages-splide w-100"
+        class="splide hermes-carte-pages w-100"
         style="--splide-carousel-accent: #f4b942;"
         aria-label="Carte repas et boissons"
     >
         <div class="splide__track">
             <ul class="splide__list">
-                <li class="splide__slide hermes-carte__page hermes-carte__page--food">
-                    <div class="hermes-carte__food-wrap">
-                        <section class="hermes-carte__block hermes-carte__block--light" aria-labelledby="mexicain-antojitos">
-                            <header class="hermes-carte__head">
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
-                                <h2 id="mexicain-antojitos" class="hermes-carte__head-title h3 mb-0">Antojitos</h2>
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                <li class="splide__slide">
+                    <div data-hermes-carte-food>
+                        <section data-hermes-carte-section class="hermes-carte-section-light" aria-labelledby="mexicain-antojitos">
+                            <header class="mb-4">
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                <h2 id="mexicain-antojitos" class="h3 mb-0 text-center">Antojitos</h2>
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
                             </header>
-                            <ul class="hermes-carte__list list-unstyled mb-0">
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Guacamole &amp; totopos maison.</p>
-                                        <p class="hermes-carte__item-desc mb-0">Avocats Hass, citron vert, coriandre, piment jalapeño.</p>
+                            <ul class="list-unstyled mb-0">
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Guacamole &amp; totopos maison.</p>
+                                        <p class="small fst-italic mb-0 mt-1">Avocats Hass, citron vert, coriandre, piment jalapeño.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">8€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">8€</p>
                                 </li>
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Quesadillas au fromage Oaxaca.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Quesadillas au fromage Oaxaca.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">10€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">10€</p>
                                 </li>
-                                <li class="hermes-carte__item hermes-carte__item--last">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Nachos supremos.</p>
-                                        <p class="hermes-carte__item-desc mb-0">Cheddar fondu, haricots noirs, pico de gallo, crème fraîche.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Nachos supremos.</p>
+                                        <p class="small fst-italic mb-0 mt-1">Cheddar fondu, haricots noirs, pico de gallo, crème fraîche.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">11€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">11€</p>
                                 </li>
                             </ul>
                         </section>
 
-                        <section class="hermes-carte__block hermes-carte__block--dark" aria-labelledby="mexicain-plats">
-                            <header class="hermes-carte__head">
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
-                                <h2 id="mexicain-plats" class="hermes-carte__head-title h3 mb-0">Tacos &amp; plats</h2>
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                        <section data-hermes-carte-section class="hermes-carte-section-dark" aria-labelledby="mexicain-plats">
+                            <header class="mb-4">
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                <h2 id="mexicain-plats" class="h3 mb-0 text-center">Tacos &amp; plats</h2>
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
                             </header>
-                            <ul class="hermes-carte__list list-unstyled mb-0">
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Tacos al pastor (×3).</p>
-                                        <p class="hermes-carte__item-desc mb-0">Porc mariné, ananas rôti, oignons, coriandre, salsa roja.</p>
+                            <ul class="list-unstyled mb-0">
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Tacos al pastor (×3).</p>
+                                        <p class="small fst-italic mb-0 mt-1">Porc mariné, ananas rôti, oignons, coriandre, salsa roja.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">14€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">14€</p>
                                 </li>
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Enchiladas au poulet mole.</p>
-                                        <p class="hermes-carte__item-desc mb-0">Sauce chocolatée &amp; épices, crème, fromage gratiné.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Enchiladas au poulet mole.</p>
+                                        <p class="small fst-italic mb-0 mt-1">Sauce chocolatée &amp; épices, crème, fromage gratiné.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">16€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">16€</p>
                                 </li>
-                                <li class="hermes-carte__item hermes-carte__item--last">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Burrito bowl végétarien.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Burrito bowl végétarien.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">13€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">13€</p>
                                 </li>
                             </ul>
                         </section>
 
-                        <section class="hermes-carte__block hermes-carte__block--light" aria-labelledby="mexicain-postres">
-                            <header class="hermes-carte__head">
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
-                                <h2 id="mexicain-postres" class="hermes-carte__head-title h3 mb-0">Postres</h2>
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                        <section data-hermes-carte-section class="hermes-carte-section-light" aria-labelledby="mexicain-postres">
+                            <header class="mb-4">
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                <h2 id="mexicain-postres" class="h3 mb-0 text-center">Postres</h2>
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
                             </header>
-                            <ul class="hermes-carte__list list-unstyled mb-0">
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Churros &amp; chocolat chaud épicé.</p>
+                            <ul class="list-unstyled mb-0">
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Churros &amp; chocolat chaud épicé.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">7€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">7€</p>
                                 </li>
-                                <li class="hermes-carte__item hermes-carte__item--last">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Flan de la abuela.</p>
-                                        <p class="hermes-carte__item-desc mb-0">Caramel maison, vanille de Madagascar.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Flan de la abuela.</p>
+                                        <p class="small fst-italic mb-0 mt-1">Caramel maison, vanille de Madagascar.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">6,50€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">6,50€</p>
                                 </li>
                             </ul>
                         </section>
                     </div>
                 </li>
 
-                <li class="splide__slide hermes-carte__page hermes-carte__page--drinks">
-                    <div class="hermes-carte__drinks-page hermes-carte__block--dark">
-                        <header class="hermes-carte__drinks-banner position-relative overflow-hidden">
+                <li class="splide__slide" data-hermes-carte-page="drinks">
+                    <div class="hermes-carte-drinks-page">
+                        <header data-hermes-carte-drinks-banner class="position-relative overflow-hidden text-white">
                             <img
-                                class="hermes-carte__drinks-banner-img position-absolute top-0 start-0 w-100 h-100"
+                                class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
                                 src="https://picsum.photos/seed/mexican-drinks/1600/520"
                                 alt=""
                                 loading="lazy"
                                 width="1600"
                                 height="520"
                             >
-                            <div class="hermes-carte__drinks-banner-overlay" aria-hidden="true"></div>
-                            <div class="hermes-carte__drinks-banner-content position-relative text-center px-3">
-                                <p class="hermes-carte__drinks-banner-kicker text-uppercase small fw-semibold mb-2">Cantina</p>
-                                <h2 id="mexicain-boissons" class="hermes-carte__drinks-banner-title h-sofia mb-0">Bebidas</h2>
-                                <p class="hermes-carte__drinks-banner-lead mb-0">Margaritas, cervezas &amp; aguas frescas</p>
+                            <div class="hermes-carte-drinks-overlay position-absolute top-0 start-0 w-100 h-100" aria-hidden="true"></div>
+                            <div data-hermes-carte-drinks-banner-content class="position-relative d-flex flex-column justify-content-center align-items-center text-center px-3 py-5 z-1 h-100">
+                                <p data-hermes-carte-drinks-banner-kicker class="text-uppercase small fw-semibold mb-2">Cantina</p>
+                                <h2 id="mexicain-boissons" class="h-sofia mb-0">Bebidas</h2>
+                                <p class="fst-italic mb-0 mt-2">Margaritas, cervezas &amp; aguas frescas</p>
                             </div>
                         </header>
-                        <div class="hermes-carte__drinks-body">
-                            <div class="hermes-carte__drinks-grid">
-                                <article class="hermes-carte__drink-panel">
-                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-martini-glass-citrus"></i></div>
-                                    <h3 class="hermes-carte__drink-panel-title">Margaritas &amp; cocktails</h3>
-                                    <ul class="hermes-carte__drink-list">
-                                        <li class="hermes-carte__drink-row"><span>Margarita classica</span><span>10€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Paloma</span><span>11€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Mezcal sour</span><span>12€</span></li>
-                                    </ul>
-                                </article>
-                                <article class="hermes-carte__drink-panel">
-                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-beer-mug-empty"></i></div>
-                                    <h3 class="hermes-carte__drink-panel-title">Cervezas</h3>
-                                    <ul class="hermes-carte__drink-list">
-                                        <li class="hermes-carte__drink-row"><span>Corona (33 cl)</span><span>5€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Modelo Especial</span><span>5,50€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Michelada maison</span><span>7€</span></li>
-                                    </ul>
-                                </article>
-                                <article class="hermes-carte__drink-panel">
-                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-lemon"></i></div>
-                                    <h3 class="hermes-carte__drink-panel-title">Aguas frescas</h3>
-                                    <ul class="hermes-carte__drink-list">
-                                        <li class="hermes-carte__drink-row"><span>Horchata</span><span>4,50€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Jamaica (hibiscus)</span><span>4,50€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Tamarindo</span><span>4,50€</span></li>
-                                    </ul>
-                                </article>
-                                <article class="hermes-carte__drink-panel">
-                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-bottle-water"></i></div>
-                                    <h3 class="hermes-carte__drink-panel-title">Sans alcool</h3>
-                                    <ul class="hermes-carte__drink-list">
-                                        <li class="hermes-carte__drink-row"><span>Sodas mexicains</span><span>3,50€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Eau minérale</span><span>3€</span></li>
-                                    </ul>
-                                </article>
+                        <div class="p-4 p-lg-5">
+                            <div class="row g-3">
+                                <div class="col-sm-6" data-hermes-carte-drink-card>
+                                    <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                        <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-martini-glass-citrus"></i></div>
+                                        <h3 class="h6 fw-bold text-uppercase mb-3">Margaritas &amp; cocktails</h3>
+                                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Margarita classica</span><span class="hermes-carte-price fw-bold text-nowrap">10€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Paloma</span><span class="hermes-carte-price fw-bold text-nowrap">11€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Mezcal sour</span><span class="hermes-carte-price fw-bold text-nowrap">12€</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
+                                <div class="col-sm-6" data-hermes-carte-drink-card>
+                                    <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                        <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                                        <h3 class="h6 fw-bold text-uppercase mb-3">Cervezas</h3>
+                                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Corona (33 cl)</span><span class="hermes-carte-price fw-bold text-nowrap">5€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Modelo Especial</span><span class="hermes-carte-price fw-bold text-nowrap">5,50€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Michelada maison</span><span class="hermes-carte-price fw-bold text-nowrap">7€</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
+                                <div class="col-sm-6" data-hermes-carte-drink-card>
+                                    <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                        <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-lemon"></i></div>
+                                        <h3 class="h6 fw-bold text-uppercase mb-3">Aguas frescas</h3>
+                                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Horchata</span><span class="hermes-carte-price fw-bold text-nowrap">4,50€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Jamaica (hibiscus)</span><span class="hermes-carte-price fw-bold text-nowrap">4,50€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Tamarindo</span><span class="hermes-carte-price fw-bold text-nowrap">4,50€</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
+                                <div class="col-sm-6" data-hermes-carte-drink-card>
+                                    <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                        <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-bottle-water"></i></div>
+                                        <h3 class="h6 fw-bold text-uppercase mb-3">Sans alcool</h3>
+                                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Sodas mexicains</span><span class="hermes-carte-price fw-bold text-nowrap">3,50€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Eau minérale</span><span class="hermes-carte-price fw-bold text-nowrap">3€</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
                             </div>
-                            <p class="hermes-carte__drinks-note text-center mb-0">Happy hour margaritas 18h – 20h · ¡Salud!</p>
+                            <p data-hermes-carte-drinks-note class="text-center small mt-4 mb-0">Happy hour margaritas 18h – 20h · ¡Salud!</p>
                         </div>
                     </div>
                 </li>

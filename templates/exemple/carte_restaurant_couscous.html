@@ -1,19 +1,19 @@
 <div id="hermes-carte-couscous" class="hermes-carte hermes-carte--couscous text-body">
-    <header class="hermes-carte__hero position-relative overflow-hidden">
+    <header data-hermes-carte-hero class="position-relative overflow-hidden text-white">
         <img
-            class="hermes-carte__hero-img position-absolute top-0 start-0 w-100 h-100"
+            class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
             src="https://picsum.photos/seed/couscous-hero/1920/640"
             alt=""
             loading="eager"
             width="1920"
             height="640"
         >
-        <div class="hermes-carte__hero-overlay" aria-hidden="true"></div>
-        <div class="hermes-carte__hero-content position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center px-3">
-            <p class="hermes-carte__hero-kicker text-uppercase small fw-semibold mb-2 mb-lg-3">Le Souk d'Or · Maison du couscous</p>
-            <div class="gsap-letter-reveal hermes-carte__hero-title-wrap" style="--gsap-letter-reveal-color: #faf3e8;">
+        <div class="hermes-carte-hero-overlay position-absolute top-0 start-0 w-100 h-100" aria-hidden="true"></div>
+        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center px-3 z-1">
+            <p data-hermes-carte-hero-kicker class="text-uppercase small fw-semibold mb-2 mb-lg-3">Le Souk d'Or · 특산 du couscous</p>
+            <div class="gsap-letter-reveal" style="--gsap-letter-reveal-color: #faf3e8;">
                 <p
-                    class="gsap-letter-reveal__line hermes-carte__hero-title display-1 h-oswald mb-0"
+                    class="gsap-letter-reveal__line hermes-carte-hero-title display-1 h-oswald mb-0"
                     data-gsap-letter-reveal-text-value="Couscous"
                     aria-label="Couscous"
                 >Couscous</p>
@@ -21,171 +21,175 @@
         </div>
     </header>
 
-    <nav class="hermes-carte__tabs" aria-label="Navigation carte">
+    <nav class="d-flex justify-content-center flex-wrap gap-2 mx-auto my-3 px-3" style="max-width: 64rem;" aria-label="Navigation carte">
         <button
             type="button"
-            class="hermes-carte__tab is-active"
+            class="hermes-carte-tab active"
             data-hermes-carte-tab="0"
             aria-selected="true"
-            style="--hermes-carte-tab-fg: #ffffff; --hermes-carte-tab-fill: #d4a24c;"
+            style="--hermes-carte-tab-fg: #2a1810; --hermes-carte-tab-fill: #d4a24c;"
         >
-            <i class="fa-solid fa-utensils" aria-hidden="true"></i>
-            <span>Repas</span>
+            <i class="fa-solid fa-utensils" aria-hidden="true"></i><span>Repas</span>
         </button>
         <button
             type="button"
-            class="hermes-carte__tab"
+            class="hermes-carte-tab"
             data-hermes-carte-tab="1"
             aria-selected="false"
-            style="--hermes-carte-tab-fg: #ffffff; --hermes-carte-tab-fill: #d4a24c;"
+            style="--hermes-carte-tab-fg: #2a1810; --hermes-carte-tab-fill: #d4a24c;"
         >
-            <i class="fa-solid fa-mug-saucer" aria-hidden="true"></i>
-            <span>Boissons</span>
+            <i class="fa-solid fa-mug-saucer" aria-hidden="true"></i><span>Boissons</span>
         </button>
     </nav>
 
     <div
-        class="splide hermes-carte__pages-splide w-100"
+        class="splide hermes-carte-pages w-100"
         style="--splide-carousel-accent: #d4a24c;"
         aria-label="Carte repas et boissons"
     >
         <div class="splide__track">
             <ul class="splide__list">
-                <li class="splide__slide hermes-carte__page hermes-carte__page--food">
-                    <div class="hermes-carte__food-wrap">
-                        <section class="hermes-carte__block hermes-carte__block--light" aria-labelledby="couscous-entrees">
-                            <header class="hermes-carte__head">
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
-                                <h2 id="couscous-entrees" class="hermes-carte__head-title h3 mb-0">Pour commencer</h2>
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                <li class="splide__slide">
+                    <div data-hermes-carte-food>
+                        <section data-hermes-carte-section class="hermes-carte-section-light" aria-labelledby="couscous-entrees">
+                            <header class="mb-4">
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                <h2 id="couscous-entrees" class="h3 mb-0 text-center">Pour commencer</h2>
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
                             </header>
-                            <ul class="hermes-carte__list list-unstyled mb-0">
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Harira aux lentilles &amp; coriandre.</p>
-                                        <p class="hermes-carte__item-desc mb-0">Soupe traditionnelle, citron confit &amp; dattes Medjool.</p>
+                            <ul class="list-unstyled mb-0">
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Harira aux lentilles &amp; coriandre.</p>
+                                        <p class="small fst-italic mb-0 mt-1">Soupe traditionnelle, citron confit &amp; dattes Medjool.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">7€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">7€</p>
                                 </li>
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Brick au thon &amp; câpres.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Brick au thon &amp; câpres.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">9€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">9€</p>
                                 </li>
-                                <li class="hermes-carte__item hermes-carte__item--last">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Salade mechouia &amp; merguez grillée.</p>
-                                        <p class="hermes-carte__item-desc mb-0">Poivrons grillés, tomates, ail, huile d'olive &amp; épices douces.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Salade mechouia &amp; merguez grillée.</p>
+                                        <p class="small fst-italic mb-0 mt-1">Poivrons grillés, tomates, ail, huile d'olive &amp; épices douces.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">12€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">12€</p>
                                 </li>
                             </ul>
                         </section>
 
-                        <section class="hermes-carte__block hermes-carte__block--dark" aria-labelledby="couscous-plats">
-                            <header class="hermes-carte__head">
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
-                                <h2 id="couscous-plats" class="hermes-carte__head-title h3 mb-0">Couscous &amp; tajines</h2>
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                        <section data-hermes-carte-section class="hermes-carte-section-dark" aria-labelledby="couscous-plats">
+                            <header class="mb-4">
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                <h2 id="couscous-plats" class="h3 mb-0 text-center">Couscous &amp; tajines</h2>
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
                             </header>
-                            <ul class="hermes-carte__list list-unstyled mb-0">
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Couscous royal agneau, poulet &amp; merguez.</p>
-                                        <p class="hermes-carte__item-desc mb-0">Semoule fine, bouillon parfumé, légumes de saison &amp; harissa maison.</p>
+                            <ul class="list-unstyled mb-0">
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Couscous royal agneau, poulet &amp; merguez.</p>
+                                        <p class="small fst-italic mb-0 mt-1">Semoule fine, bouillon parfumé, légumes de saison &amp; harissa maison.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">24€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">24€</p>
                                 </li>
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Couscous végétarien aux sept légumes.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Couscous végétarien aux sept légumes.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">18€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">18€</p>
                                 </li>
-                                <li class="hermes-carte__item hermes-carte__item--last">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Tajine de lotte, olives &amp; citron confit.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Tajine de lotte, olives &amp; citron confit.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">22€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">22€</p>
                                 </li>
                             </ul>
                         </section>
 
-                        <section class="hermes-carte__block hermes-carte__block--light" aria-labelledby="couscous-desserts">
-                            <header class="hermes-carte__head">
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
-                                <h2 id="couscous-desserts" class="hermes-carte__head-title h3 mb-0">Douceurs</h2>
-                                <span class="hermes-carte__head-line" aria-hidden="true"></span>
+                        <section data-hermes-carte-section class="hermes-carte-section-light" aria-labelledby="couscous-desserts">
+                            <header class="mb-4">
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                <h2 id="couscous-desserts" class="h3 mb-0 text-center">Douceurs</h2>
+                                <span class="hermes-carte-head-line" aria-hidden="true"></span>
                             </header>
-                            <ul class="hermes-carte__list list-unstyled mb-0">
-                                <li class="hermes-carte__item">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Baklava aux pistaches.</p>
+                            <ul class="list-unstyled mb-0">
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Baklava aux pistaches.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">8€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">8€</p>
                                 </li>
-                                <li class="hermes-carte__item hermes-carte__item--last">
-                                    <div class="hermes-carte__item-main">
-                                        <p class="hermes-carte__item-name mb-0">Makroudh au miel d'oranger.</p>
-                                        <p class="hermes-carte__item-desc mb-0">Pâte de semoule, dattes, fleur d'oranger.</p>
+                                <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                    <div class="flex-grow-1 min-w-0">
+                                        <p class="fw-semibold mb-0">Makroudh au miel d'oranger.</p>
+                                        <p class="small fst-italic mb-0 mt-1">Pâte de semoule, dattes, fleur d'oranger.</p>
                                     </div>
-                                    <p class="hermes-carte__item-price mb-0">7€</p>
+                                    <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">7€</p>
                                 </li>
                             </ul>
                         </section>
                     </div>
                 </li>
 
-                <li class="splide__slide hermes-carte__page hermes-carte__page--drinks">
-                    <div class="hermes-carte__drinks-page hermes-carte__block--dark">
-                        <header class="hermes-carte__drinks-banner position-relative overflow-hidden">
+                <li class="splide__slide" data-hermes-carte-page="drinks">
+                    <div class="hermes-carte-drinks-page">
+                        <header data-hermes-carte-drinks-banner class="position-relative overflow-hidden text-white">
                             <img
-                                class="hermes-carte__drinks-banner-img position-absolute top-0 start-0 w-100 h-100"
+                                class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
                                 src="https://picsum.photos/seed/couscous-drinks/1600/520"
                                 alt=""
                                 loading="lazy"
                                 width="1600"
                                 height="520"
                             >
-                            <div class="hermes-carte__drinks-banner-overlay" aria-hidden="true"></div>
-                            <div class="hermes-carte__drinks-banner-content position-relative text-center px-3">
-                                <p class="hermes-carte__drinks-banner-kicker text-uppercase small fw-semibold mb-2">Salon de thé</p>
-                                <h2 id="couscous-boissons" class="hermes-carte__drinks-banner-title h-oswald mb-0">Boissons</h2>
-                                <p class="hermes-carte__drinks-banner-lead mb-0">Thés parfumés, jus frais &amp; vins du Maghreb</p>
+                            <div class="hermes-carte-drinks-overlay position-absolute top-0 start-0 w-100 h-100" aria-hidden="true"></div>
+                            <div data-hermes-carte-drinks-banner-content class="position-relative d-flex flex-column justify-content-center align-items-center text-center px-3 py-5 z-1 h-100">
+                                <p data-hermes-carte-drinks-banner-kicker class="text-uppercase small fw-semibold mb-2">Salon de thé</p>
+                                <h2 id="couscous-boissons" class="h-oswald mb-0">Boissons</h2>
+                                <p class="fst-italic mb-0 mt-2">Thés parfumés, jus frais &amp; vins du Maghreb</p>
                             </div>
                         </header>
-                        <div class="hermes-carte__drinks-body">
-                            <div class="hermes-carte__drinks-grid">
-                                <article class="hermes-carte__drink-panel">
-                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-mug-hot"></i></div>
-                                    <h3 class="hermes-carte__drink-panel-title">Thés &amp; infusions</h3>
-                                    <ul class="hermes-carte__drink-list">
-                                        <li class="hermes-carte__drink-row"><span>Thé à la menthe</span><span>4€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Thé aux amandes</span><span>4,50€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Infusion verveine</span><span>3,50€</span></li>
-                                    </ul>
-                                </article>
-                                <article class="hermes-carte__drink-panel">
-                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-glass-water"></i></div>
-                                    <h3 class="hermes-carte__drink-panel-title">Jus frais</h3>
-                                    <ul class="hermes-carte__drink-list">
-                                        <li class="hermes-carte__drink-row"><span>Jus d'orange pressé</span><span>5€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Citronnade maison</span><span>4,50€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Jus de grenade</span><span>5,50€</span></li>
-                                    </ul>
-                                </article>
-                                <article class="hermes-carte__drink-panel">
-                                    <div class="hermes-carte__drink-panel-icon" aria-hidden="true"><i class="fa-solid fa-wine-glass"></i></div>
-                                    <h3 class="hermes-carte__drink-panel-title">Vins du Maghreb</h3>
-                                    <ul class="hermes-carte__drink-list">
-                                        <li class="hermes-carte__drink-row"><span>Greywacke blanc (verre)</span><span>6€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Cuvée des sables (verre)</span><span>6,50€</span></li>
-                                        <li class="hermes-carte__drink-row"><span>Bouteille sélection</span><span>28€</span></li>
-                                    </ul>
-                                </article>
+                        <div class="p-4 p-lg-5">
+                            <div class="row g-3">
+                                <div class="col-sm-6" data-hermes-carte-drink-card>
+                                    <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                        <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-mug-hot"></i></div>
+                                        <h3 class="h6 fw-bold text-uppercase mb-3">Thés &amp; infusions</h3>
+                                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Thé à la menthe</span><span class="hermes-carte-price fw-bold text-nowrap">4€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Thé aux amandes</span><span class="hermes-carte-price fw-bold text-nowrap">4,50€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Infusion verveine</span><span class="hermes-carte-price fw-bold text-nowrap">3,50€</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
+                                <div class="col-sm-6" data-hermes-carte-drink-card>
+                                    <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                        <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-glass-water"></i></div>
+                                        <h3 class="h6 fw-bold text-uppercase mb-3">Jus frais</h3>
+                                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Jus d'orange pressé</span><span class="hermes-carte-price fw-bold text-nowrap">5€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Citronnade maison</span><span class="hermes-carte-price fw-bold text-nowrap">4,50€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Jus de grenade</span><span class="hermes-carte-price fw-bold text-nowrap">5,50€</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
+                                <div class="col-sm-6" data-hermes-carte-drink-card>
+                                    <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                        <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-wine-glass"></i></div>
+                                        <h3 class="h6 fw-bold text-uppercase mb-3">Vins du Maghreb</h3>
+                                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Greywacke blanc (verre)</span><span class="hermes-carte-price fw-bold text-nowrap">6€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Cuvée des sables (verre)</span><span class="hermes-carte-price fw-bold text-nowrap">6,50€</span></li>
+                                            <li class="d-flex justify-content-between align-items-baseline gap-2"><span>Bouteille sélection</span><span class="hermes-carte-price fw-bold text-nowrap">28€</span></li>
+                                        </ul>
+                                    </article>
+                                </div>
                             </div>
-                            <p class="hermes-carte__drinks-note text-center mb-0">Thé à la menthe offert après le couscous royal</p>
+                            <p data-hermes-carte-drinks-note class="text-center small mt-4 mb-0">Thé à la menthe offert après le couscous royal</p>
                         </div>
                     </div>
                 </li>

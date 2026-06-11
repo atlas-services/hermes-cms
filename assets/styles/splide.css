@@ -299,21 +299,21 @@
 }
 
 /* --- Carte restaurant : slide Repas ↔ Boissons --- */
-.hermes-carte__pages-splide {
+.hermes-carte-pages {
     width: min(100%, var(--hermes-carte-max));
     margin: clamp(0.85rem, 2.5vw, 1.25rem) auto clamp(1.5rem, 4vw, 2.5rem);
     padding: 0 clamp(0.5rem, 2.5vw, 1rem);
 }
 
-.hermes-carte__pages-splide .splide__track {
+.hermes-carte-pages .splide__track {
     overflow: hidden;
 }
 
-.hermes-carte__pages-splide .splide__slide {
+.hermes-carte-pages .splide__slide {
     width: 100% !important;
 }
 
-.hermes-carte__pages-splide .splide__arrow {
+.hermes-carte-pages .splide__arrow {
     width: 2.35rem;
     height: 2.35rem;
     background: color-mix(in srgb, var(--splide-carousel-accent, var(--hermes-carte-accent)) 92%, #fff);
@@ -321,24 +321,24 @@
     box-shadow: 0 0.2rem 0.75rem rgb(0 0 0 / 18%);
 }
 
-.hermes-carte__pages-splide .splide__arrow svg {
+.hermes-carte-pages .splide__arrow svg {
     fill: #fff;
 }
 
-.hermes-carte__pages-splide .splide__arrow--prev {
+.hermes-carte-pages .splide__arrow--prev {
     left: 0.15rem;
 }
 
-.hermes-carte__pages-splide .splide__arrow--next {
+.hermes-carte-pages .splide__arrow--next {
     right: 0.15rem;
 }
 
 @media (min-width: 992px) {
-    .hermes-carte__pages-splide .splide__arrow--prev {
+    .hermes-carte-pages .splide__arrow--prev {
         left: -0.35rem;
     }
 
-    .hermes-carte__pages-splide .splide__arrow--next {
+    .hermes-carte-pages .splide__arrow--next {
         right: -0.35rem;
     }
 }
