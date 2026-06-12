@@ -19,12 +19,12 @@
         --splide-carousel-height: min(62vw, 420px);
     }
 
-    .splide-carousel .splide__track {
+    .splide-carousel:not(.splide-carousel--cards) .splide__track {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
 
-    .splide-carousel .splide__slide {
+    .splide-carousel:not(.splide-carousel--cards) .splide__slide {
         box-sizing: border-box;
         width: 100% !important;
         margin-right: 0 !important;
@@ -195,6 +195,36 @@
 
 .splide-carousel .splide__arrow--next {
     right: 0.75rem;
+}
+
+/* Carrousels de cartes — gouttières CSS (pas padding Splide = pas d’aperçu latéral) */
+.splide-carousel--cards {
+    --splide-carousel-gutter: 3rem;
+    --splide-carousel-arrow-inset: calc((var(--splide-carousel-gutter) - var(--splide-carousel-arrow-size)) / 2);
+    box-sizing: border-box;
+    padding-inline: var(--splide-carousel-gutter);
+}
+
+@media (max-width: 991.98px) {
+    .splide-carousel--cards {
+        --splide-carousel-gutter: 1.5rem;
+    }
+}
+
+.splide-carousel--cards .splide__track {
+    overflow: hidden;
+}
+
+.splide-carousel--cards .splide__arrow--prev {
+    left: var(--splide-carousel-arrow-inset);
+}
+
+.splide-carousel--cards .splide__arrow--next {
+    right: var(--splide-carousel-arrow-inset);
+}
+
+.splide-carousel--cards .splide__slide .card {
+    width: 100%;
 }
 
 .splide-carousel .splide__arrow svg {

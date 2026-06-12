@@ -173,7 +173,7 @@ php bin/console app:init-mentions-legales
 
 Le site show room est géré côté menus / pages Hermes (PORTFOLIOS, RESTAURATION, AVOCATS, …). Les modèles ci-dessous se copient en section **libre** (CKEditor).
 
-**Logos SVG** (upload classique, Configuration → site → `logo`) : `templates/exemple/logos/hermes-modeles-logo-pour-fond-clair.svg` et `…-fond-sombre.svg`.
+**Logos SVG** (upload classique, Configuration → site → `logo`) : `templates/exemple/logos/hermes-modeles-logo-pour-fond-clair.svg` (navbar claire) et `hermes-modeles-logo-pour-fond-sombre.svg` (navbar / hero sombre). Contours en `<path>` uniquement (pas de `<text>`) pour un affichage fiable dans `<img>` côté front.
 
 **Modèles par thématique** :
 

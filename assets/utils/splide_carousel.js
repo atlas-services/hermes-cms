@@ -121,13 +121,17 @@ function isNaturalLayout(root) {
     return root.classList.contains('splide-carousel--natural');
 }
 
-function buildMobileBreakpointOptions(config, natural = false) {
+function isCardsLayout(root) {
+    return root.classList.contains('splide-carousel--cards');
+}
+
+function buildMobileBreakpointOptions(config, natural = false, cardsLayout = false) {
     const mobile = {
         type: config.effect === 'fade' ? 'fade' : 'slide',
         perPage: config.effect === 'fade' ? 1 : config.perPageMobile,
         perMove: 1,
-        gap: 0,
-        focus: 0,
+        gap: cardsLayout ? config.gap : 0,
+        focus: cardsLayout ? 'center' : 0,
         padding: 0,
         arrows: config.arrows,
         pagination: config.pagination,
@@ -136,11 +140,11 @@ function buildMobileBreakpointOptions(config, natural = false) {
         rewind: true,
     };
 
-    if (natural) {
+    if (natural || cardsLayout) {
         mobile.autoHeight = true;
     }
 
-    if (config.paddingMobile) {
+    if (!cardsLayout && config.paddingMobile) {
         mobile.padding = config.paddingMobile;
     }
 
@@ -151,9 +155,9 @@ function buildMobileBreakpointOptions(config, natural = false) {
     return mobile;
 }
 
-function buildBreakpoints(config, natural = false) {
+function buildBreakpoints(config, natural = false, cardsLayout = false) {
     return {
-        [config.breakpoint]: buildMobileBreakpointOptions(config, natural),
+        [config.breakpoint]: buildMobileBreakpointOptions(config, natural, cardsLayout),
     };
 }
 
@@ -170,12 +174,27 @@ function resetInlineLayoutStyles(root) {
     }
 }
 
-function buildSplideOptions(config, slideCount = 0, natural = false) {
+function shouldUseSlideType(config, slideCount, desktopPerPage) {
+    if (config.effect === 'fade' || config.effect === 'focus') {
+        return false;
+    }
+
+    if (config.type === 'slide') {
+        return true;
+    }
+
+    // loop + slides <= perPage décale la piste (ex. 3 cartes / perPage 3)
+    return slideCount <= desktopPerPage;
+}
+
+function buildSplideOptions(config, slideCount = 0, natural = false, cardsLayout = false) {
     const effectType = resolveEffectType(config, slideCount);
     const desktopPerPage = config.effect === 'fade' ? 1 : Math.max(1, config.perPage);
+    const useSlideType = cardsLayout || shouldUseSlideType(config, slideCount, desktopPerPage);
+    const cardsDesktopMulti = cardsLayout && desktopPerPage > 1;
 
     const options = {
-        type: effectType,
+        type: useSlideType ? 'slide' : effectType,
         autoplay: config.autoplay,
         interval: config.interval,
         pauseOnHover: config.pauseOnHover,
@@ -183,21 +202,21 @@ function buildSplideOptions(config, slideCount = 0, natural = false) {
         arrows: config.arrows,
         pagination: config.pagination,
         perPage: desktopPerPage,
-        perMove: 1,
+        perMove: cardsDesktopMulti ? desktopPerPage : 1,
         gap: config.gap,
-        padding: resolveDesktopPadding(config),
-        focus: 0,
+        padding: cardsLayout ? 0 : resolveDesktopPadding(config),
+        focus: cardsLayout && desktopPerPage === 1 ? 'center' : 0,
         speed: config.speed,
         easing: config.easing,
         drag: config.drag,
-        rewind: config.effect === 'fade',
-        trimSpace: false,
-        autoHeight: natural,
+        rewind: config.effect === 'fade' || useSlideType,
+        trimSpace: cardsLayout,
+        autoHeight: natural || config.effect === 'fade' || cardsLayout,
         updateOnMove: config.updateOnMove,
         start: 0,
         keyboard: 'global',
         accessibility: true,
-        breakpoints: buildBreakpoints(config, natural),
+        breakpoints: buildBreakpoints(config, natural, cardsLayout),
     };
 
     if (config.fixedWidth) {
@@ -224,11 +243,14 @@ function applyEffectPresentation(root, config) {
     );
     root.classList.add(
         `splide-carousel--effect-${config.effect}`,
-        'splide-carousel--fullwidth',
         'w-100',
         'position-relative',
         'overflow-hidden',
     );
+
+    if (!root.classList.contains('splide-carousel--cards')) {
+        root.classList.add('splide-carousel--fullwidth');
+    }
 
     root.style.setProperty('--splide-carousel-speed', `${config.speed}ms`);
     root.style.setProperty('--splide-carousel-breakpoint', `${config.breakpoint}px`);
@@ -261,7 +283,8 @@ function initSplideCarouselBlock(root) {
     applyEffectPresentation(root, config);
 
     const natural = isNaturalLayout(root);
-    const splide = new Splide(root, buildSplideOptions(config, slides.length, natural));
+    const cardsLayout = isCardsLayout(root);
+    const splide = new Splide(root, buildSplideOptions(config, slides.length, natural, cardsLayout));
 
     if (natural) {
         const refreshHeight = () => {
