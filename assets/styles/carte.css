@@ -1,0 +1,388 @@
+.hermes-carte {
+    --hermes-carte-accent: #c9a962;
+    --hermes-carte-radius: 0.75rem;
+    --hermes-carte-max: 64rem;
+    line-height: 1.5;
+}
+
+.hermes-carte .h-sofia {
+    font-family: 'Sofia', cursive;
+}
+
+.hermes-carte .h-oswald {
+    font-family: 'Oswald', sans-serif;
+}
+
+.hermes-carte [data-hermes-carte-hero] {
+    min-height: clamp(14rem, 42vw, 22rem);
+    color: #f5f3ef;
+}
+
+.hermes-carte [data-hermes-carte-hero] img {
+    transform-origin: center center;
+}
+
+.hermes-carte-hero-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(8, 8, 8, 0.35) 0%,
+        rgba(8, 8, 8, 0.55) 55%,
+        rgba(8, 8, 8, 0.72) 100%
+    );
+    pointer-events: none;
+}
+
+.hermes-carte [data-hermes-carte-hero-kicker] {
+    letter-spacing: 0.28em;
+    opacity: 0.88;
+}
+
+.hermes-carte-hero-title {
+    font-size: clamp(2.75rem, 11vw, 5.5rem);
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.35);
+}
+
+.hermes-carte-section-light,
+.hermes-carte-section-dark {
+    width: min(100%, var(--hermes-carte-max));
+    margin-inline: auto;
+    padding: clamp(1.75rem, 4vw, 3rem) clamp(1rem, 3.5vw, 2.5rem);
+    background: var(--hermes-carte-bg);
+    color: var(--hermes-carte-text);
+}
+
+.hermes-carte-section-light {
+    --hermes-carte-bg: #f8f6f2;
+    --hermes-carte-text: #1a1a1a;
+    --hermes-carte-text-muted: rgba(26, 26, 26, 0.68);
+    --hermes-carte-border: rgba(26, 26, 26, 0.12);
+}
+
+.hermes-carte-section-dark {
+    --hermes-carte-bg: #141414;
+    --hermes-carte-text: #f5f3ef;
+    --hermes-carte-text-muted: rgba(245, 243, 239, 0.72);
+    --hermes-carte-border: rgba(255, 255, 255, 0.14);
+}
+
+.hermes-carte-section-dark + .hermes-carte-section-light,
+.hermes-carte-section-light + .hermes-carte-section-dark {
+    margin-top: 0;
+}
+
+.hermes-carte-section-light > header,
+.hermes-carte-section-dark > header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.75rem 1rem;
+}
+
+.hermes-carte-section-light > header h2,
+.hermes-carte-section-dark > header h2 {
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--hermes-carte-text);
+}
+
+.hermes-carte-head-line {
+    display: block;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--hermes-carte-accent) 35%,
+        var(--hermes-carte-accent) 65%,
+        transparent
+    );
+    transform-origin: center center;
+}
+
+.hermes-carte-section-light li.border-bottom,
+.hermes-carte-section-dark li.border-bottom {
+    border-color: var(--hermes-carte-border) !important;
+}
+
+.hermes-carte-section-light p.fst-italic,
+.hermes-carte-section-dark p.fst-italic {
+    color: var(--hermes-carte-text-muted);
+}
+
+.hermes-carte-price {
+    color: var(--hermes-carte-accent);
+}
+
+@media (min-width: 992px) {
+    .hermes-carte-section-light,
+    .hermes-carte-section-dark {
+        border-radius: var(--hermes-carte-radius);
+    }
+
+    .hermes-carte-section-light:first-of-type {
+        margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .hermes-carte-section-light + .hermes-carte-section-light,
+    .hermes-carte-section-light + .hermes-carte-section-dark,
+    .hermes-carte-section-dark + .hermes-carte-section-light,
+    .hermes-carte-section-dark + .hermes-carte-section-dark {
+        margin-top: clamp(0.75rem, 2vw, 1.25rem);
+    }
+}
+
+[data-hermes-carte-food] .hermes-carte-section-light:first-child {
+    margin-top: 0;
+}
+
+.hermes-carte-tab {
+    --hermes-carte-tab-fg: #ffffff;
+    --hermes-carte-tab-fill: var(--hermes-carte-accent, #c9a962);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.15rem;
+    border: 1px solid color-mix(in srgb, var(--hermes-carte-tab-fill) 45%, transparent);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--hermes-carte-tab-fill);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.hermes-carte-tab:hover,
+.hermes-carte-tab:focus-visible {
+    border-color: var(--hermes-carte-tab-fill);
+    color: var(--hermes-carte-tab-fill);
+    transform: translateY(-1px);
+}
+
+.hermes-carte-tab.active {
+    background: var(--hermes-carte-tab-fill);
+    border-color: var(--hermes-carte-tab-fill);
+    color: var(--hermes-carte-tab-fg);
+}
+
+.hermes-carte-drinks-page {
+    --hermes-carte-bg: #141414;
+    --hermes-carte-text: #f5f3ef;
+    --hermes-carte-text-muted: rgba(245, 243, 239, 0.72);
+    --hermes-carte-border: rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+    border-radius: var(--hermes-carte-radius);
+    background: var(--hermes-carte-bg);
+    color: var(--hermes-carte-text);
+}
+
+.hermes-carte [data-hermes-carte-drinks-banner] {
+    min-height: clamp(11rem, 32vw, 16rem);
+    color: #fff;
+}
+
+.hermes-carte [data-hermes-carte-drinks-banner] img {
+    transform-origin: center center;
+}
+
+.hermes-carte-drinks-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.25) 0%,
+        rgba(0, 0, 0, 0.55) 55%,
+        rgba(0, 0, 0, 0.82) 100%
+    );
+    pointer-events: none;
+}
+
+.hermes-carte [data-hermes-carte-drinks-banner-content] {
+    min-height: inherit;
+}
+
+.hermes-carte [data-hermes-carte-drinks-banner] [data-hermes-carte-drinks-banner-kicker] {
+    letter-spacing: 0.22em;
+    opacity: 0.9;
+}
+
+.hermes-carte [data-hermes-carte-drinks-banner] h2 {
+    font-size: clamp(2rem, 7vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.35);
+}
+
+.hermes-carte [data-hermes-carte-drinks-banner] .fst-italic {
+    opacity: 0.88;
+}
+
+.hermes-carte-drink-card {
+    border-radius: calc(var(--hermes-carte-radius) * 0.9);
+    border: 1px solid var(--hermes-carte-border);
+    background: linear-gradient(
+        165deg,
+        color-mix(in srgb, var(--hermes-carte-bg) 90%, #fff 10%) 0%,
+        color-mix(in srgb, var(--hermes-carte-bg) 78%, var(--hermes-carte-accent) 22%) 100%
+    );
+    box-shadow: 0 0.35rem 1.25rem rgb(0 0 0 / 12%);
+}
+
+.hermes-carte-drink-icon {
+    width: 2.65rem;
+    height: 2.65rem;
+    background: color-mix(in srgb, var(--hermes-carte-accent) 22%, transparent);
+    color: var(--hermes-carte-accent);
+    font-size: 1.15rem;
+}
+
+.hermes-carte-drink-card h3 {
+    letter-spacing: 0.1em;
+    color: var(--hermes-carte-accent);
+}
+
+[data-hermes-carte-drinks-note] {
+    color: var(--hermes-carte-text-muted);
+    letter-spacing: 0.04em;
+}
+
+.hermes-carte--couscous {
+    --hermes-carte-accent: #d4a24c;
+}
+
+.hermes-carte--couscous .hermes-carte-hero-overlay {
+    background: linear-gradient(
+        135deg,
+        rgba(74, 28, 12, 0.72) 0%,
+        rgba(120, 52, 18, 0.55) 45%,
+        rgba(26, 14, 8, 0.78) 100%
+    );
+}
+
+.hermes-carte--couscous .hermes-carte-section-light {
+    --hermes-carte-bg: #faf3e8;
+    --hermes-carte-text: #2a1810;
+    --hermes-carte-text-muted: rgba(42, 24, 16, 0.7);
+    --hermes-carte-border: rgba(180, 110, 48, 0.22);
+}
+
+.hermes-carte--couscous .hermes-carte-section-dark {
+    --hermes-carte-bg: #2a1810;
+    --hermes-carte-text: #faf3e8;
+    --hermes-carte-text-muted: rgba(250, 243, 232, 0.74);
+    --hermes-carte-border: rgba(212, 162, 76, 0.22);
+}
+
+.hermes-carte--couscous .hermes-carte-hero-title {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.12em;
+}
+
+.hermes-carte--couscous .hermes-carte-drinks-page {
+    --hermes-carte-bg: #2a1810;
+    --hermes-carte-text: #faf3e8;
+    --hermes-carte-text-muted: rgba(250, 243, 232, 0.74);
+    --hermes-carte-border: rgba(212, 162, 76, 0.22);
+}
+
+.hermes-carte--brasserie {
+    --hermes-carte-accent: #8b1e2f;
+}
+
+.hermes-carte--brasserie .hermes-carte-hero-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(18, 32, 22, 0.45) 0%,
+        rgba(18, 32, 22, 0.72) 100%
+    );
+}
+
+.hermes-carte--brasserie .hermes-carte-section-light {
+    --hermes-carte-bg: #f4f0e6;
+    --hermes-carte-text: #1c2420;
+    --hermes-carte-text-muted: rgba(28, 36, 32, 0.68);
+    --hermes-carte-border: rgba(28, 36, 32, 0.14);
+}
+
+.hermes-carte--brasserie .hermes-carte-section-dark {
+    --hermes-carte-bg: #1a2e22;
+    --hermes-carte-text: #f4f0e6;
+    --hermes-carte-text-muted: rgba(244, 240, 230, 0.72);
+    --hermes-carte-border: rgba(244, 240, 230, 0.14);
+}
+
+.hermes-carte--brasserie .hermes-carte-section-light > header h2,
+.hermes-carte--brasserie .hermes-carte-section-dark > header h2 {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.18em;
+}
+
+.hermes-carte--brasserie .hermes-carte-hero-title {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.hermes-carte--brasserie .hermes-carte-drinks-page {
+    --hermes-carte-bg: #1a2e22;
+    --hermes-carte-text: #f4f0e6;
+    --hermes-carte-text-muted: rgba(244, 240, 230, 0.72);
+    --hermes-carte-border: rgba(244, 240, 230, 0.14);
+}
+
+.hermes-carte--mexicain {
+    --hermes-carte-accent: #f4b942;
+}
+
+.hermes-carte--mexicain .hermes-carte-hero-overlay {
+    background: linear-gradient(
+        160deg,
+        rgba(139, 26, 26, 0.55) 0%,
+        rgba(26, 92, 82, 0.5) 50%,
+        rgba(20, 12, 8, 0.75) 100%
+    );
+}
+
+.hermes-carte--mexicain .hermes-carte-section-light {
+    --hermes-carte-bg: #fff8ed;
+    --hermes-carte-text: #1a1210;
+    --hermes-carte-text-muted: rgba(26, 18, 16, 0.68);
+    --hermes-carte-border: rgba(200, 60, 40, 0.18);
+}
+
+.hermes-carte--mexicain .hermes-carte-section-dark {
+    --hermes-carte-bg: #1a5c52;
+    --hermes-carte-text: #fff8ed;
+    --hermes-carte-text-muted: rgba(255, 248, 237, 0.74);
+    --hermes-carte-border: rgba(244, 185, 66, 0.28);
+}
+
+.hermes-carte--mexicain .hermes-carte-hero-title,
+.hermes-carte--mexicain .hermes-carte-section-light > header h2,
+.hermes-carte--mexicain .hermes-carte-section-dark > header h2 {
+    font-family: 'Sofia', cursive;
+    text-transform: none;
+    letter-spacing: 0.04em;
+}
+
+.hermes-carte--mexicain .hermes-carte-section-light > header h2,
+.hermes-carte--mexicain .hermes-carte-section-dark > header h2 {
+    font-size: clamp(1.15rem, 3vw, 1.45rem);
+}
+
+.hermes-carte--mexicain .hermes-carte-drinks-page {
+    --hermes-carte-bg: #1a5c52;
+    --hermes-carte-text: #fff8ed;
+    --hermes-carte-text-muted: rgba(255, 248, 237, 0.74);
+    --hermes-carte-border: rgba(244, 185, 66, 0.28);
+}
+
+.hermes-carte--mexicain [data-hermes-carte-drinks-banner] h2 {
+    font-family: 'Sofia', cursive;
+    text-transform: none;
+    letter-spacing: 0.04em;
+}

@@ -1,0 +1,34 @@
+.hermes-hero-present__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: 0.35rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.hermes-hero-present__btn--primary {
+    color: var(--hermes-hero-bg-a, #0f1419);
+    background: var(--hermes-hero-accent, #6b9fd4);
+    border: 1px solid var(--hermes-hero-accent, #6b9fd4);
+}
+
+.hermes-hero-present__btn--primary:hover {
+    color: var(--hermes-hero-bg-a, #0f1419);
+    background: color-mix(in srgb, var(--hermes-hero-accent, #6b9fd4) 82%, #fff);
+}
+
+.hermes-hero-present__btn--ghost {
+    color: var(--hermes-hero-text, #f4f6f8);
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--hermes-hero-text, #f4f6f8) 28%, transparent);
+}
+
+.hermes-hero-present__btn--ghost:hover {
+    color: var(--hermes-hero-text, #f4f6f8);
+    border-color: var(--hermes-hero-accent, #6b9fd4);
+    background: color-mix(in srgb, var(--hermes-hero-accent, #6b9fd4) 12%, transparent);
+}

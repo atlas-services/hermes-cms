@@ -1,0 +1,269 @@
+.hermes-hero-present {
+    --hermes-hero-accent: #6b9fd4;
+    --hermes-hero-letter-accent: #e7393b;
+    --hermes-hero-bg-a: #0f1419;
+    --hermes-hero-bg-b: #121a22;
+    --hermes-hero-bg-c: #0d1218;
+    --hermes-hero-text: #f4f6f8;
+    --hermes-hero-muted: #9ca8b4;
+    margin: 0;
+    padding: 0;
+}
+
+.hermes-hero-present--static .hermes-hero-present__screen {
+    display: flex;
+    align-items: stretch;
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+}
+
+.hermes-hero-present__slide {
+    color: var(--hermes-hero-text, #f4f6f8);
+    background: var(--hermes-hero-bg-a, #0f1419);
+}
+
+.hermes-hero-present__slide--tone-b {
+    background: var(--hermes-hero-bg-b, #121a22);
+}
+
+.hermes-hero-present__slide--tone-c {
+    background: var(--hermes-hero-bg-c, #0d1218);
+}
+
+.hermes-hero-present__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: clamp(2rem, 6vh, 4rem) clamp(0.85rem, 4vw, 3rem) clamp(3.5rem, 8vh, 5rem);
+    text-align: center;
+}
+
+.hermes-hero-present .gsap-letter-reveal {
+    width: 100%;
+    max-width: 100%;
+}
+
+.hermes-hero-present .gsap-letter-reveal__stage.hermes-hero-present__letter-stage {
+    width: 100%;
+    max-width: 100%;
+}
+
+.hermes-hero-present__kicker {
+    margin: 0 0 1rem;
+    font-size: clamp(0.72rem, 1.8vw, 0.85rem);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hermes-hero-accent, #6b9fd4);
+}
+
+.hermes-hero-present__letter-stage {
+    min-height: auto !important;
+    padding: 0 !important;
+    overflow: visible;
+}
+
+.hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__letter-line {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    column-gap: 0.2em;
+    row-gap: 0.15em;
+}
+
+.hermes-hero-present .hermes-hero-present__word {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__title {
+    font-size: clamp(1.35rem, 6.5vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    color: transparent;
+}
+
+.hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__subtitle {
+    margin-top: 0.35rem;
+    font-size: clamp(0.78rem, 2.8vw, 1.45rem);
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: transparent;
+}
+
+.hermes-hero-present .gsap-letter-reveal__char {
+    color: var(--gsap-letter-reveal-color, var(--hermes-hero-text, #f4f6f8));
+}
+
+.hermes-hero-present .gsap-letter-reveal__char.is-accent {
+    color: var(--hermes-hero-letter-accent, #e7393b);
+}
+
+.hermes-hero-present:not(.is-ready) .gsap-letter-reveal__line {
+    visibility: hidden;
+}
+
+.hermes-hero-present.is-ready .gsap-letter-reveal__line {
+    visibility: visible;
+}
+
+.hermes-hero-present__body {
+    width: 100%;
+    max-width: 42rem;
+    margin: 1.35rem auto 0;
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    line-height: 1.55;
+    text-align: center;
+    color: var(--hermes-hero-muted, #9ca8b4);
+    opacity: 0;
+    transform: translateY(1.35rem);
+    will-change: transform, opacity;
+}
+
+.hermes-hero-present__body strong {
+    color: var(--hermes-hero-text, #f4f6f8);
+    font-weight: 600;
+}
+
+.hermes-hero-present__body code {
+    color: var(--hermes-hero-text, #f4f6f8);
+    background: color-mix(in srgb, var(--hermes-hero-accent, #6b9fd4) 14%, transparent);
+    padding: 0.1em 0.35em;
+    border-radius: 0.2rem;
+    font-size: 0.92em;
+}
+
+.hermes-hero-present__icon {
+    margin-bottom: 1rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--hermes-hero-accent, #6b9fd4);
+    opacity: 0;
+    transform: translateY(1.35rem);
+}
+
+.hermes-hero-present__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 36rem;
+    text-align: center;
+}
+
+.hermes-hero-present__list li {
+    position: relative;
+    padding: 0.45rem 0.5rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--hermes-hero-text, #f4f6f8) 8%, transparent);
+    font-size: clamp(0.92rem, 1.9vw, 1.05rem);
+    line-height: 1.45;
+    color: var(--hermes-hero-muted, #9ca8b4);
+}
+
+.hermes-hero-present__list li::before {
+    content: '';
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-right: 0.45rem;
+    border-radius: 50%;
+    vertical-align: middle;
+    background: var(--hermes-hero-accent, #6b9fd4);
+}
+
+@media (max-width: 767.98px) {
+    .hermes-hero-present__inner {
+        padding-inline: clamp(0.65rem, 3.5vw, 1.25rem);
+    }
+
+    .hermes-hero-present__kicker {
+        width: 100%;
+        max-width: 100%;
+        letter-spacing: 0.14em;
+        line-height: 1.45;
+    }
+
+    .hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__title {
+        font-size: clamp(1.2rem, 5.8vw, 2.1rem);
+        letter-spacing: 0.04em;
+    }
+
+    .hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__subtitle {
+        font-size: clamp(0.7rem, 2.6vw, 0.95rem);
+        letter-spacing: 0.1em;
+    }
+
+    .hermes-hero-present__body,
+    .hermes-hero-present__list {
+        max-width: 100%;
+        width: 100%;
+        padding-inline: 0.15rem;
+    }
+
+    .hermes-hero-present__actions {
+        width: 100%;
+        padding-inline: 0.25rem;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .hermes-hero-present__inner {
+        align-items: stretch;
+        justify-content: center;
+        padding-top: clamp(2rem, 9vh, 3.5rem);
+        padding-bottom: clamp(3.5rem, 11vh, 5rem);
+    }
+
+    .hermes-hero-present__kicker,
+    .hermes-hero-present__icon {
+        margin-bottom: 0.65rem;
+        align-self: center;
+    }
+
+    .hermes-hero-present .gsap-letter-reveal {
+        align-self: center;
+    }
+
+    .hermes-hero-present__body {
+        margin-top: 1rem;
+    }
+
+    .hermes-hero-present__body.hermes-hero-present__list,
+    .hermes-hero-present__list {
+        text-align: left;
+        align-self: stretch;
+    }
+
+    .hermes-hero-present__list li {
+        text-align: left;
+        padding-inline: 0.15rem 0.35rem;
+    }
+}
+
+.hermes-hero-present__list li strong {
+    color: var(--hermes-hero-text, #f4f6f8);
+}
+
+.hermes-hero-present__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+    margin-top: 1.75rem;
+    opacity: 0;
+    transform: translateY(1.35rem);
+}

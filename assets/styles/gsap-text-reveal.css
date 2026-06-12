@@ -1,0 +1,22 @@
+.gsap-text-reveal__body--lines {
+    perspective: 500px;
+}
+
+.gsap-text-reveal__char,
+.gsap-text-reveal__word,
+.gsap-text-reveal__line {
+    display: inline-block;
+    will-change: transform, opacity;
+}
+
+.gsap-text-reveal__char.is-space {
+    min-width: 0.3em;
+}
+
+.gsap-text-reveal__word + .gsap-text-reveal__word {
+    margin-left: 0.28em;
+}
+
+.gsap-text-reveal__line {
+    display: block;
+}

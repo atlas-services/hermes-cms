@@ -7,7 +7,6 @@ import { Carousel } from 'bootstrap';
 import { initPostContentGsapTextReveal } from '../../../utils/gsap_text_reveal.js';
 import { initPostContentGsapLetterReveal } from '../../../utils/gsap_letter_reveal.js';
 import { initPostContentGsapShapeBuild } from '../../../utils/gsap_shape_build.js';
-import { initPostContentGsapCarousel } from '../../../utils/gsap_carousel.js';
 import { initPostContentSplideCarousel } from '../../../utils/splide_carousel.js';
 import { initPostContentHeroPresentStatic, initPostContentSplideHeroPresent } from '../../../utils/splide_hero_present.js';
 import { initPostContentGsapCarte } from '../../../utils/gsap_carte.js';
@@ -168,7 +167,6 @@ export function initHermesJsFront() {
     initPostContentGsapTextReveal();
     initPostContentGsapLetterReveal();
     initPostContentGsapShapeBuild();
-    initPostContentGsapCarousel();
     initPostContentSplideHeroPresent();
     initPostContentHeroPresentStatic();
     initPostContentSplideCarousel();
@@ -180,7 +178,6 @@ export function initHermesJsFront() {
         initPostContentGsapTextReveal();
         initPostContentGsapLetterReveal();
         initPostContentGsapShapeBuild();
-        initPostContentGsapCarousel();
         initPostContentSplideCarousel();
         initPostContentGsapCarte();
     });

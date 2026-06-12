@@ -61,8 +61,30 @@ Ne pas proposer de stack incompatible sans accord explicite de l’utilisateur :
 - **Fond section** : styles appliqués au wrapper **`<section>`** côté front (`templates/front/index.html.twig`) pour couvrir tous les types de section ; logique métier pour ne pas écraser la couleur en base quand « transparent » est actif (`setTemplateBgcolor` / cohérence transparent + couleur).
 - **Twig / JSON** : distinction **`resolveSectionFromJson`** vs **`resolveListeSectionFromJson`** — limiter les réglages « liste » (nb colonnes, filtre image, etc.) aux routes / contextes liste concernés.
 
+## CSS front (contenu libre / exemples)
+
+Styles découpés dans `assets/styles/` (imports dans `assets/app.js`) :
+
+| Fichier | Rôle |
+|---------|------|
+| `showcase.css` | `.content-showcase` (vitrine marketing) |
+| `legal.css` | `.legal-document` (pages légales) |
+| `carte.css` | `.hermes-carte` (cartes restaurant) |
+| `buttons.css` | `.hermes-hero-present__btn` (boutons hero) |
+| `gsap-letter-reveal.css` | primitive letter-reveal |
+| `gsap-shape-build.css` | primitive shape-build |
+| `gsap-text-reveal.css` | primitive text-reveal |
+| `hero-split.css` | `.gsap-hero-split` (forme + texte) |
+| `hero-present.css` | `.hermes-hero-present` (diapo plein écran) |
+| `gsap-demo.css` | `.gsap-demo-*` (exemples démo uniquement) |
+| `splide.css` | carrousels Splide |
+
+Ne pas recréer un fichier `gsap.css` monolithique sans accord explicite.
+
 ## Conventions pour l’agent
 
+- **Bootstrap 5 d’abord** : pour la mise en page, l’espacement, la typo et les composants UI, utiliser les **utilities et composants Bootstrap** (`row`, `col-*`, `d-flex`, `gap-*`, `btn`, `card`, `text-*`, `mb-*`, etc.). **Ne pas ajouter de classes CSS custom** si Bootstrap (ou une utility existante) suffit — réserver les classes Hermes / `gsap-*` aux hooks d’animation, thèmes multi-variantes ou comportements non couverts par Bootstrap.
+- Variables CSS inline (`style="--ma-couleur: #…"`) de préférence aux familles de modificateurs `--variant-a` / `--variant-b` quand seule une valeur change.
 - Réutiliser les patterns existants (Symfony, Twig, Stimulus, Asset Mapper).
 - Après changement d’entité ou de Twig « métier », mettre à jour ou ajouter des **tests** sous `tests/` quand c’est déjà la norme du module.
 - Pour toute procédure longue (install, liste `importmap:require`), **renvoyer vers `README.md`** plutôt que de dupliquer des blocs de commandes ici.

@@ -23,6 +23,7 @@ Pour **« Hermes 2.2.7 »**, **« Hermes v2 »** ou une recherche dans l’ancie
 | UI | **Bootstrap 5** |
 | Interactivité | **Symfony UX** + **Stimulus** — UI dans **`assets/controllers/`** ; entrées `assets/*.js` (voir README) |
 | Assets | **Asset Mapper** + **importmap** (`importmap.php`) — pas de Node/npm/Webpack/Vite par défaut |
+| CSS front | Fichiers ciblés dans `assets/styles/` (`carte.css`, `hero-present.css`, `gsap-letter-reveal.css`, …) — **Bootstrap 5 d’abord**, classes custom seulement si nécessaire |
 | Éditeur | **CKEditor 5** (importmap), pas FOSCKEditorBundle |
 | Médias | **Sans elFinder** : admin Symfony + **Uppy** (XHR) pour l’upload |
 | Persistance | Doctrine, VichUploader, LiipImagine, extensions Stof, etc. (voir `composer.json` / README) |

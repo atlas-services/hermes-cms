@@ -1,0 +1,83 @@
+.legal-document {
+    padding: 0.35rem 0.5rem 1rem;
+    border-radius: 0.75rem;
+}
+
+.legal-document--accent-red {
+    --legal-accent: #e7393b;
+    --legal-accent-dark: #b91c1c;
+    --legal-accent-text: #7f1d1d;
+    --legal-bg-soft: linear-gradient(165deg, #fff8f8 0%, #ffecec 42%, #fff5f5 100%);
+    --legal-hero-bg: linear-gradient(135deg, #e7393b 0%, #c42f32 45%, #991b1b 100%);
+    background: var(--legal-bg-soft);
+}
+
+.legal-document-hero {
+    padding: 1.5rem 1.25rem;
+    color: #fff;
+    background: var(--legal-hero-bg);
+}
+
+.legal-document-hero h1 {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.legal-document-lead {
+    opacity: 0.95;
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+
+.legal-document-intro {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+}
+
+.legal-document-accordion .accordion-button {
+    font-weight: 600;
+    color: var(--legal-accent-text);
+}
+
+.legal-document-accordion .accordion-button:not(.collapsed) {
+    color: var(--legal-accent-text);
+    background-color: color-mix(in srgb, var(--legal-accent) 10%, transparent);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--legal-accent) 12%, transparent);
+}
+
+.legal-document-accordion .accordion-button:focus {
+    border-color: color-mix(in srgb, var(--legal-accent) 35%, transparent);
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--legal-accent) 20%, transparent);
+}
+
+.legal-document-accordion .accordion-body {
+    color: #374151;
+    line-height: 1.6;
+}
+
+.legal-document-table th {
+    width: 38%;
+    color: var(--legal-accent-text);
+    font-weight: 600;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.legal-document-table td {
+    vertical-align: top;
+}
+
+.legal-document a {
+    color: var(--legal-accent);
+    font-weight: 600;
+}
+
+.legal-document a:hover {
+    color: var(--legal-accent-dark);
+}
+
+.legal-document-footer {
+    color: #6b7280;
+}

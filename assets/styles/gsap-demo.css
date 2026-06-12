@@ -1,0 +1,43 @@
+.gsap-demo-stat {
+    text-align: center;
+    padding: 1.25rem 0.75rem;
+}
+
+.gsap-demo-stat-value {
+    display: block;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--showcase-accent, #0d6efd);
+}
+
+.gsap-demo-stat-label {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.gsap-demo-bar {
+    height: 0.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--showcase-accent, #0d6efd) 18%, transparent);
+    overflow: hidden;
+}
+
+.gsap-demo-bar-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--showcase-accent, #0d6efd), color-mix(in srgb, var(--showcase-accent, #0d6efd) 65%, #fff));
+}
+
+.gsap-demo-hover-card {
+    transition: box-shadow 0.2s ease;
+    cursor: default;
+}
+
+.gsap-demo-hover-card.is-gsap-active {
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.18);
+}
