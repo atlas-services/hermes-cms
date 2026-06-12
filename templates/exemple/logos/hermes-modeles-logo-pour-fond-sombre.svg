@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 72" role="img" aria-label="Hermes modeles">
+  <title>Hermes modeles</title>
+  <defs>
+    <linearGradient id="h-grad-sombre" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8bb8e8"/>
+      <stop offset="100%" stop-color="#6b9fd4"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="8" width="56" height="56" rx="12" fill="url(#h-grad-sombre)"/>
+  <path fill="#0f1419" d="M18 22h8v11h16V22h8v28h-8V39H26v11h-8V22z"/>
+  <text x="76" y="34" font-family="Segoe UI, system-ui, sans-serif" font-size="22" font-weight="bold" letter-spacing="2" fill="#f4f6f8">HERMES</text>
+  <text x="76" y="56" font-family="Segoe UI, system-ui, sans-serif" font-size="15" font-weight="600" letter-spacing="4" fill="#8bb8e8">MOD&#232;LES</text>
+  <rect x="76" y="40" width="52" height="3" rx="1.5" fill="#e7393b"/>
+</svg>

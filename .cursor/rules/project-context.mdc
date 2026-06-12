@@ -83,7 +83,8 @@ Ne pas recréer un fichier `gsap.css` monolithique sans accord explicite.
 
 ## Conventions pour l’agent
 
-- **Bootstrap 5 d’abord** : pour la mise en page, l’espacement, la typo et les composants UI, utiliser les **utilities et composants Bootstrap** (`row`, `col-*`, `d-flex`, `gap-*`, `btn`, `card`, `text-*`, `mb-*`, etc.). **Ne pas ajouter de classes CSS custom** si Bootstrap (ou une utility existante) suffit — réserver les classes Hermes / `gsap-*` aux hooks d’animation, thèmes multi-variantes ou comportements non couverts par Bootstrap.
+- **Bootstrap 5 d’abord** : pour la mise en page, l’espacement, la typo et les composants UI, utiliser les **utilities et composants Bootstrap** (`row`, `col-*`, `d-flex`, `gap-*`, `btn`, `card`, `text-*`, `mb-*`, etc.). **Ne pas ajouter de classes CSS custom** si Bootstrap (ou une utility existante) suffit — réserver les classes Hermes / `gsap-*` aux hooks d’animation, thèmes multi-variantes ou comportements non couverts par Bootstrap. Varier les effets GSAP d’un template à l’autre (letter-reveal, text-reveal, shape-build, chiffres…) ; Splide pour les galeries et onglets visuels.
+- **Show room** (`modeles.hermes-cms.org`) : site vitrine existant (menus par thématique) ; modèles HTML dans `templates/exemple/` à coller en section libre. Logos SVG dans `templates/exemple/logos/`.
 - Variables CSS inline (`style="--ma-couleur: #…"`) de préférence aux familles de modificateurs `--variant-a` / `--variant-b` quand seule une valeur change.
 - Réutiliser les patterns existants (Symfony, Twig, Stimulus, Asset Mapper).
 - Après changement d’entité ou de Twig « métier », mettre à jour ou ajouter des **tests** sous `tests/` quand c’est déjà la norme du module.

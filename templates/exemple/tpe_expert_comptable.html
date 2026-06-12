@@ -1,0 +1,99 @@
+<!-- Expert-comptable / cabinet — showcase + chiffres GSAP -->
+<div id="hermes-metier-tpe-comptable" class="content-showcase content-showcase--palette-cool text-body py-2">
+    <section class="container py-5 text-center">
+        <p class="text-uppercase small fw-semibold text-primary mb-2" style="letter-spacing: 0.18em;">Expert-comptable · TPE &amp; PME</p>
+        <h1 class="display-5 fw-bold mb-3">Cabinet Rivaud &amp; Associés</h1>
+        <p class="lead text-muted col-lg-8 mx-auto mb-0">
+            Comptabilité, fiscalité, paie et conseil — un interlocuteur dédié pour piloter votre activité sereinement.
+        </p>
+    </section>
+
+    <section class="container pb-5">
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <article class="card content-showcase-card content-showcase-card-1 h-100 border-0">
+                    <div class="card-body p-4">
+                        <h2 class="content-showcase-card-title h5">Comptabilité</h2>
+                        <p class="card-text small mb-0">Tenue, liasses, tableaux de bord mensuels.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="card content-showcase-card content-showcase-card-2 h-100 border-0">
+                    <div class="card-body p-4">
+                        <h2 class="content-showcase-card-title h5">Fiscalité</h2>
+                        <p class="card-text small mb-0">IS, TVA, optimisation dans le cadre légal.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="card content-showcase-card content-showcase-card-3 h-100 border-0">
+                    <div class="card-body p-4">
+                        <h2 class="content-showcase-card-title h5">Paie &amp; social</h2>
+                        <p class="card-text small mb-0">Bulletins, déclarations, accompagnement embauche.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div class="row g-3 g-md-4 text-center">
+            <div class="col-6 col-md-3">
+                <div class="content-showcase-highlight-card py-4 px-2 h-100 gsap-demo-stat">
+                    <span class="gsap-demo-stat-value" data-gsap-count="22">0</span>
+                    <span class="gsap-demo-stat-label">ans d’expertise</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="content-showcase-highlight-card py-4 px-2 h-100 gsap-demo-stat">
+                    <span class="gsap-demo-stat-value" data-gsap-count="180">0</span>
+                    <span class="gsap-demo-stat-label">clients accompagnés</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="content-showcase-highlight-card py-4 px-2 h-100 gsap-demo-stat">
+                    <span class="gsap-demo-stat-value" data-gsap-count="48">0</span>
+                    <span class="gsap-demo-stat-label">h délai de réponse</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="content-showcase-highlight-card py-4 px-2 h-100 gsap-demo-stat">
+                    <span class="gsap-demo-stat-value" data-gsap-count="100">0</span>
+                    <span class="gsap-demo-stat-label">% dossiers à jour</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-showcase-band rounded-3 shadow mx-3 mx-lg-auto mb-4 p-4 p-lg-5" style="max-width: 64rem;">
+        <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+                <h2 class="h4 content-showcase-card-title mb-2">Premier rendez-vous offert</h2>
+                <p class="mb-0 opacity-90">Faisons le point sur votre structure et vos obligations.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a class="btn btn-light fw-semibold px-4" href="/fr/contact">Prendre contact</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+(function () {
+    var root = document.getElementById('hermes-metier-tpe-comptable');
+    if (!root) return;
+    function run(gsap) {
+        root.querySelectorAll('[data-gsap-count]').forEach(function (el) {
+            var target = parseFloat(el.getAttribute('data-gsap-count')) || 0;
+            gsap.fromTo(el, { innerText: 0 }, {
+                innerText: target,
+                duration: 1.5,
+                ease: 'power2.out',
+                snap: { innerText: 1 },
+                scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+            });
+        });
+    }
+    if (window.gsap) run(window.gsap);
+    else window.addEventListener('hermes:gsap-ready', function (e) { run(e.detail.gsap); }, { once: true });
+})();
+</script>

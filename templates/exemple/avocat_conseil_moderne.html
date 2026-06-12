@@ -1,0 +1,125 @@
+
+<div id="hermes-metier-avocat-moderne" class="content-showcase content-showcase--palette-cool text-body py-3">
+    <section class="container py-5 text-center">
+        <p class="text-uppercase small fw-semibold text-primary mb-2" style="letter-spacing: 0.2em;">Lex &amp; Stratégie · Paris</p>
+        <div
+            class="gsap-text-reveal mx-auto col-lg-10"
+            data-gsap-text-reveal-text-value="Anticiper. Négocier. Trancher."
+            data-gsap-text-reveal-mode-value="words"
+            data-gsap-text-reveal-words-y-value="-40"
+            data-gsap-text-reveal-words-opacity-value="0"
+            data-gsap-text-reveal-words-duration-value="0.7"
+            data-gsap-text-reveal-words-stagger-value="0.14"
+            data-gsap-text-reveal-words-ease-value="power3.out"
+        >
+            <span class="visually-hidden gsap-text-reveal__label">Anticiper. Négocier. Trancher.</span>
+            <h1 class="gsap-text-reveal__body display-4 fw-bold mb-3" aria-label="Anticiper. Négocier. Trancher.">&nbsp;</h1>
+        </div>
+        <p class="lead text-muted col-lg-8 mx-auto mb-4">
+            Cabinet orienté conseil stratégique : conformité, négociations complexes et prévention des litiges pour TPE et associations.
+        </p>
+        <a class="btn btn-primary btn-lg px-4" href="/fr/contact">Échanger sur votre dossier</a>
+    </section>
+
+    <section class="container pb-5">
+        <div
+            class="splide splide-carousel rounded-3 shadow overflow-hidden"
+            style="--splide-carousel-accent: #0d6efd;"
+            aria-label="Domaines d'intervention"
+            data-splide-carousel-effect-value="slide"
+            data-splide-carousel-per-page-value="3"
+            data-splide-carousel-per-page-mobile-value="1"
+            data-splide-carousel-breakpoint-value="992"
+            data-splide-carousel-gap-value="1rem"
+            data-splide-carousel-autoplay-value="true"
+            data-splide-carousel-interval-value="4500"
+        >
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <article class="card border-0 h-100 bg-white shadow-sm">
+                            <div class="card-body p-4">
+                                <h2 class="h5 fw-bold text-primary mb-2">Conseil stratégique</h2>
+                                <p class="card-text text-muted mb-0">Audit juridique, feuille de route, veille réglementaire pour dirigeants.</p>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide">
+                        <article class="card border-0 h-100 bg-white shadow-sm">
+                            <div class="card-body p-4">
+                                <h2 class="h5 fw-bold text-primary mb-2">Médiation</h2>
+                                <p class="card-text text-muted mb-0">Résolution amiable des conflits sociaux, commerciaux et associatifs.</p>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide">
+                        <article class="card border-0 h-100 bg-white shadow-sm">
+                            <div class="card-body p-4">
+                                <h2 class="h5 fw-bold text-primary mb-2">Conformité RGPD</h2>
+                                <p class="card-text text-muted mb-0">Registres, contrats sous-traitants, procédures et formation des équipes.</p>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide">
+                        <article class="card border-0 h-100 bg-white shadow-sm">
+                            <div class="card-body p-4">
+                                <h2 class="h5 fw-bold text-primary mb-2">Propriété intellectuelle</h2>
+                                <p class="card-text text-muted mb-0">Marques, contrats de licence, contentieux en contrefaçon.</p>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="container pb-5">
+        <div class="row g-3 g-md-4 text-center">
+            <div class="col-6 col-md-3">
+                <div class="content-showcase-highlight-card h-100 py-4 px-2 gsap-demo-stat">
+                    <span class="gsap-demo-stat-value" data-gsap-count="18">0</span>
+                    <span class="gsap-demo-stat-label">Années d'exercice</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="content-showcase-highlight-card h-100 py-4 px-2 gsap-demo-stat">
+                    <span class="gsap-demo-stat-value" data-gsap-count="320">0</span>
+                    <span class="gsap-demo-stat-label">Dossiers suivis</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="content-showcase-highlight-card h-100 py-4 px-2 gsap-demo-stat">
+                    <span class="gsap-demo-stat-value" data-gsap-count="94">0</span>
+                    <span class="gsap-demo-stat-label">% accords amiables</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="content-showcase-highlight-card h-100 py-4 px-2 gsap-demo-stat">
+                    <span class="gsap-demo-stat-value" data-gsap-count="48">0</span>
+                    <span class="gsap-demo-stat-label">h pour réponse urgente</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+(function () {
+    var root = document.getElementById('hermes-metier-avocat-moderne');
+    if (!root) return;
+    function run(gsap) {
+        root.querySelectorAll('[data-gsap-count]').forEach(function (el) {
+            var target = parseFloat(el.getAttribute('data-gsap-count')) || 0;
+            gsap.fromTo(el, { innerText: 0 }, {
+                innerText: target,
+                duration: 1.6,
+                ease: 'power2.out',
+                snap: { innerText: 1 },
+                scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+            });
+        });
+    }
+    if (window.gsap) run(window.gsap);
+    else window.addEventListener('hermes:gsap-ready', function (e) { run(e.detail.gsap); }, { once: true });
+})();
+</script>

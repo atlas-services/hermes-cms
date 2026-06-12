@@ -169,6 +169,24 @@ php bin/console app:init-mentions-legales
 
 `app:init-mentions-legales` crée trois menus **inactifs** (non affichés dans la navbar) : `/fr/mentions-legales`, `/fr/confidentialite`, `/fr/cgu-cgv`, chacun avec une section **libre** et un post dont le HTML provient de l’[API Hermes](https://api.hermes-cms.org) (`API_HERMES_*` dans `.env`) : le **premier** modèle du catalogue dont le champ **`type`** vaut `mentions-legales`, `confidentialite` ou `cgu-cgv` (un modèle par page).
 
+### Show room [modeles.hermes-cms.org](http://modeles.hermes-cms.org)
+
+Le site show room est géré côté menus / pages Hermes (PORTFOLIOS, RESTAURATION, AVOCATS, …). Les modèles ci-dessous se copient en section **libre** (CKEditor).
+
+**Logos SVG** (upload classique, Configuration → site → `logo`) : `templates/exemple/logos/hermes-modeles-logo-pour-fond-clair.svg` et `…-fond-sombre.svg`.
+
+**Modèles par thématique** :
+
+| Thématique | Fichiers | Effets |
+|------------|----------|--------|
+| Restauration | `carte_restaurant*.html` | Letter-reveal, Splide onglets |
+| Avocat | `avocat_cabinet_classique.html`, `avocat_conseil_moderne.html` | Letter-reveal / text-reveal + Splide |
+| Musique | `musique_groupe_live.html`, `musique_ecole_cours.html` | Letter-reveal, text-reveal lignes, Splide, **YouTube / Vimeo** (`ratio ratio-16x9`) |
+| Artisan | `artisan_menuisier.html`, `artisan_plombier.html` | Hero-split + shape-build, Splide focus, text-reveal chars |
+| TPE | `tpe_expert_comptable.html`, `tpe_coach_consultant.html` | Showcase, chiffres GSAP, Splide fade |
+| Association | `ateliers_du_web_*.html` | Showcase, témoignages |
+| Portfolio / démo | `hermes_cms_accueil.html`, `splide_carousel.html`, `gsap_*` | Hero, animations variées |
+
 Modèles HTML de contenu libre dans `templates/exemple/` ; styles découpés dans `assets/styles/` : `showcase.css`, `legal.css`, `carte.css`, `buttons.css`, `gsap-letter-reveal.css`, `gsap-shape-build.css`, `gsap-text-reveal.css`, `hero-split.css`, `hero-present.css`, `gsap-demo.css`, `splide.css` (imports dans `assets/app.js`). **Bootstrap 5 en priorité** pour la mise en page ; classes Hermes / GSAP uniquement quand le comportement ou le thème l’exige (animations, composants réutilisables).
 
 **GSAP dans un post (section libre)** : coller le HTML **et** le `<script>` final via **Source editing** dans CKEditor. Le script écoute `hermes:gsap-ready` (ou `window.gsap`) car le module `app.js` peut se charger après le HTML du post. Exemples complets : `templates/exemple/gsap_demo_accueil.html`, `gsap_demo_chiffres.html`.
