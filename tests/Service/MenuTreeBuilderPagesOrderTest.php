@@ -11,6 +11,7 @@ use App\Entity\Template;
 use App\Repository\MenuRepository;
 use App\Service\MenuTreeBuilder;
 use App\Tests\Base\BaseKernelTestCase;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class MenuTreeBuilderPagesOrderTest extends BaseKernelTestCase
 {
@@ -54,7 +55,7 @@ final class MenuTreeBuilderPagesOrderTest extends BaseKernelTestCase
         self::assertSame('Root 2', $ordered[1]['label']);
     }
 
-    private function attachPage(Menu $menu, Template $template, $em): void
+    private function attachPage(Menu $menu, Template $template, EntityManagerInterface $em): void
     {
         $section = new Section();
         $section->setMenu($menu);

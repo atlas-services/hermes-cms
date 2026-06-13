@@ -22,6 +22,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -75,7 +76,7 @@ class PostController extends AbstractController
 
                 $redirectBulk = $template instanceof Template
                     && strtolower(trim((string) $template->getType())) === PostType::TEMPLATE_TYPE_LISTE
-                    && $form->has('saveAndImportImages')
+                    && ($form->get('saveAndImportImages') instanceof SubmitButton)
                     && $form->get('saveAndImportImages')->isClicked();
                 if ($redirectBulk) {
                     $section = $post->getSection();
@@ -149,7 +150,7 @@ class PostController extends AbstractController
 
                 $redirectBulk = $sectionTpl instanceof Template
                     && strtolower(trim((string) $sectionTpl->getType())) === PostType::TEMPLATE_TYPE_LISTE
-                    && $form->has('saveAndImportImages')
+                    && ($form->get('saveAndImportImages') instanceof SubmitButton)
                     && $form->get('saveAndImportImages')->isClicked();
                 if ($redirectBulk) {
                     $this->addFlash('info', $this->translator->trans('admin.post_bulk.after_create_redirect_hint'));
@@ -382,7 +383,7 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $section = $form->has('section') ? $form->get('section')->getData() : $post?->getSection();
+            $section = $form->has('section') ? $form->get('section')->getData() : $post->getSection();
 
             $this->postService->update($post, $section instanceof Section ? $section : null);
             $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));

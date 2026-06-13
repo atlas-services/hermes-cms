@@ -6,6 +6,9 @@ use App\Entity\Menu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Menu>
+ */
 class MenuRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -20,6 +23,9 @@ class MenuRepository extends ServiceEntityRepository
         $em->flush();
     }
 
+    /**
+     * @return Menu[]
+     */
     public function findRoots(): array
     {
         return $this->createQueryBuilder('m')
@@ -103,6 +109,9 @@ class MenuRepository extends ServiceEntityRepository
         return $current;
     }
 
+    /**
+     * @return Menu[]
+     */
     public function findChildren(Menu $menu): array
     {
         return $this->createQueryBuilder('m')

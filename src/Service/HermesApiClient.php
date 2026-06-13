@@ -387,6 +387,9 @@ final class HermesApiClient
         return rtrim($base, '/') . '/api/login';
     }
 
+    /**
+     * @return array{timeout: int, headers: array{Accept: string, Content-Type: string, Authorization: string}}
+     */
     private function authorizedRequestOptions(): array
     {
         $bearer = '';
@@ -495,7 +498,7 @@ final class HermesApiClient
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param array<mixed, mixed> $data
      *
      * @return list<array{iri: string, label: string, description: string, type: string|null}>
      */
@@ -508,7 +511,7 @@ final class HermesApiClient
             $members = $data['member'];
         } elseif (isset($data['@graph']) && \is_array($data['@graph'])) {
             $members = $data['@graph'];
-        } elseif (array_is_list($data)) {
+        } elseif (array_key_exists(0, $data)) {
             $members = $data;
         }
 

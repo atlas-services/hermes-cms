@@ -6,6 +6,7 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 
 final class FrontContactFormTest extends WebTestCase
 {
@@ -26,7 +27,9 @@ final class FrontContactFormTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
 
-        $flashes = $client->getRequest()->getSession()->getFlashBag()->all();
+        $session = $client->getRequest()->getSession();
+        self::assertInstanceOf(FlashBagAwareSessionInterface::class, $session);
+        $flashes = $session->getFlashBag()->all();
         self::assertArrayHasKey('success', $flashes);
 
         $client->followRedirect();

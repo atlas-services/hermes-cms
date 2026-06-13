@@ -33,6 +33,9 @@ class MenuTreeBuilder
         return $nodes;
     }
 
+    /**
+     * @param list<string> $path
+     */
     private function buildNode(Menu $menu, array $path = [], bool $onlyActiveMenus = false, ?string $locale = null): MenuNode
     {
         $node = new MenuNode();
@@ -119,8 +122,6 @@ class MenuTreeBuilder
      * @param array<int, Menu> $pagesById
      * @param list<array{menu: Menu, depth: int, label: string}> $ordered
      * @param array<int, true> $seen
-     */
-    /**
      * @param list<string> $namePath Noms des ancêtres depuis la racine (sans le nœud courant).
      */
     private function collectPagesInTreeOrder(

@@ -298,11 +298,6 @@ class PostType extends AbstractNameBaseType
         return null;
     }
 
-    private function resolveTemplateTypeFromForm(FormInterface $form, Post $post): ?string
-    {
-        return self::staticResolveTemplateTypeFromForm($form, $post);
-    }
-
     private static function staticResolveTemplateTypeFromForm(FormInterface $form, Post $post): ?string
     {
         if ($form->has('template')) {

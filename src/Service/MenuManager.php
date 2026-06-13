@@ -100,7 +100,7 @@ class MenuManager
     // -------------------------
 
     /**
-     * 🌳 Tree complet (racines)
+     * @return Menu[]
      */
     public function getTree(): array
     {

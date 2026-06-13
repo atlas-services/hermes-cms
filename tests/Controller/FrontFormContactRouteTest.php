@@ -6,6 +6,7 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 
 final class FrontFormContactRouteTest extends WebTestCase
 {
@@ -27,7 +28,9 @@ final class FrontFormContactRouteTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         self::assertNotSame(404, $client->getResponse()->getStatusCode());
 
-        $flashes = $client->getRequest()->getSession()->getFlashBag()->all();
+        $session = $client->getRequest()->getSession();
+        self::assertInstanceOf(FlashBagAwareSessionInterface::class, $session);
+        $flashes = $session->getFlashBag()->all();
         self::assertArrayHasKey('success', $flashes, 'Expected mail success flash, got: '.json_encode($flashes));
     }
 }

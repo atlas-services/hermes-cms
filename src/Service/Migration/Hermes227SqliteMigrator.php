@@ -498,6 +498,7 @@ final class Hermes227SqliteMigrator
      * @param list<array<string, mixed>> $rows
      * @param array<int, array<string, mixed>> $rowsByOldId
      *
+     * @param array<int, string> $sheetNames
      * @return array<int, array{kind: 'sheet', sheetId: int}|array{kind: 'menu', menuOldId: int}>
      */
     private function buildMenuSameNameAsParentMergeSpec(
@@ -514,23 +515,29 @@ final class Hermes227SqliteMigrator
             if ($self === '') {
                 continue;
             }
-            if ($hasParentId && isset($r['parent_id']) && $r['parent_id'] !== null && $r['parent_id'] !== '') {
-                $pid = (int) $r['parent_id'];
-                $parentRow = $rowsByOldId[$pid] ?? null;
-                if ($parentRow !== null) {
-                    $pLabel = $this->normalizedMenuLabel((string) ($parentRow['name'] ?? ''));
-                    if ($pLabel !== '' && $self === $pLabel) {
-                        $spec[$oldId] = ['kind' => 'menu', 'menuOldId' => $pid];
+            if ($hasParentId) {
+                $rawParentId = $r['parent_id'] ?? null;
+                if ($rawParentId !== null && $rawParentId !== '') {
+                    $pid = (int) $rawParentId;
+                    $parentRow = $rowsByOldId[$pid] ?? null;
+                    if ($parentRow !== null) {
+                        $pLabel = $this->normalizedMenuLabel((string) ($parentRow['name'] ?? ''));
+                        if ($pLabel !== '' && $self === $pLabel) {
+                            $spec[$oldId] = ['kind' => 'menu', 'menuOldId' => $pid];
 
-                        continue;
+                            continue;
+                        }
                     }
                 }
             }
-            if ($hasSheetId && isset($r['sheet_id']) && $r['sheet_id'] !== null && $r['sheet_id'] !== '') {
-                $sid = (int) $r['sheet_id'];
-                $sheetLabel = $this->normalizedMenuLabel($sheetNames[$sid] ?? '');
-                if ($sheetLabel !== '' && $self === $sheetLabel) {
-                    $spec[$oldId] = ['kind' => 'sheet', 'sheetId' => $sid];
+            if ($hasSheetId) {
+                $rawSheetId = $r['sheet_id'] ?? null;
+                if ($rawSheetId !== null && $rawSheetId !== '') {
+                    $sid = (int) $rawSheetId;
+                    $sheetLabel = $this->normalizedMenuLabel($sheetNames[$sid] ?? '');
+                    if ($sheetLabel !== '' && $self === $sheetLabel) {
+                        $spec[$oldId] = ['kind' => 'sheet', 'sheetId' => $sid];
+                    }
                 }
             }
         }
@@ -552,6 +559,7 @@ final class Hermes227SqliteMigrator
     }
 
     /**
+     * @param array<string, mixed> $r
      * @param array<int, int> $map ancien menu.id => nouveau menu.id
      * @param array<int, int> $sheetToRootMenu
      *
@@ -564,18 +572,24 @@ final class Hermes227SqliteMigrator
         bool $hasParentId,
         bool $hasSheetId,
     ): int|false|null {
-        if ($hasParentId && isset($r['parent_id']) && $r['parent_id'] !== null && $r['parent_id'] !== '') {
-            $pid = (int) $r['parent_id'];
-            if (!isset($map[$pid])) {
-                return false;
+        if ($hasParentId) {
+            $rawParentId = $r['parent_id'] ?? null;
+            if ($rawParentId !== null && $rawParentId !== '') {
+                $pid = (int) $rawParentId;
+                if (!isset($map[$pid])) {
+                    return false;
+                }
+
+                return $map[$pid];
             }
-
-            return $map[$pid];
         }
-        if ($hasSheetId && isset($r['sheet_id']) && $r['sheet_id'] !== null && $r['sheet_id'] !== '') {
-            $sid = (int) $r['sheet_id'];
+        if ($hasSheetId) {
+            $rawSheetId = $r['sheet_id'] ?? null;
+            if ($rawSheetId !== null && $rawSheetId !== '') {
+                $sid = (int) $rawSheetId;
 
-            return $sheetToRootMenu[$sid] ?? null;
+                return $sheetToRootMenu[$sid] ?? null;
+            }
         }
 
         return null;
@@ -706,9 +720,9 @@ final class Hermes227SqliteMigrator
             $postLocale = 'fr';
             if ($hasLocale) {
                 $rawPostLocale = strtolower(trim((string) ($r['locale'] ?? '')));
-                $postLocale = $rawPostLocale !== '' ? $rawPostLocale : ($insertedSectionLocales[$sectionId] ?? 'fr');
+                $postLocale = $rawPostLocale !== '' ? $rawPostLocale : $insertedSectionLocales[$sectionId];
             } else {
-                $postLocale = $insertedSectionLocales[$sectionId] ?? 'fr';
+                $postLocale = $insertedSectionLocales[$sectionId];
             }
             $stmt->execute([
                 'id' => (int) $r['id'],

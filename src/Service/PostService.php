@@ -95,16 +95,25 @@ class PostService
         return $this->postRepository->find($id);
     }
 
+    /**
+     * @return Post[]
+     */
     public function findAll(): array
     {
         return $this->postRepository->findAll();
     }
 
+    /**
+     * @return Post[]
+     */
     public function findAllOrdered(): array
     {
         return $this->postRepository->findAllOrdered();
     }
 
+    /**
+     * @return Post[]
+     */
     public function findBySection(Section $section): array
     {
         return $this->postRepository->findBy(

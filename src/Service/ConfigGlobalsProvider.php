@@ -36,13 +36,7 @@ final class ConfigGlobalsProvider
         $flat = [];
 
         foreach ($this->configDefaults as $configsByCode) {
-            if (!\is_array($configsByCode)) {
-                continue;
-            }
             foreach ($configsByCode as $code => $definition) {
-                if (!\is_array($definition)) {
-                    continue;
-                }
                 $flat[(string) $code] = $definition['value'] ?? null;
             }
         }

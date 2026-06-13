@@ -40,7 +40,7 @@ final class LegalPagesInitializer
      * @return array{
      *     created: int,
      *     skipped: int,
-     *     pages: array<string, array{slug: string, template_iri: string|null, template_label: string|null, api_matched: bool}>
+     *     pages: array<string, array{slug: string, template_iri: string|null, template_label: string|null, api_matched: bool, skipped: bool}>
      * }
      */
     public function initialize(string $locale = 'fr'): array

@@ -54,7 +54,7 @@ final class InitMentionsLegalesCommand extends Command
             $report = $result['pages'][$slug] ?? null;
             $path = sprintf('/%s/%s', $locale, $slug);
 
-            if ($report !== null && ($report['skipped'] ?? false)) {
+            if ($report !== null && !empty($report['skipped'])) {
                 $io->writeln(sprintf('  • %s — déjà existante, ignorée', $path));
                 continue;
             }

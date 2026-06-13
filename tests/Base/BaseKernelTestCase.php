@@ -67,9 +67,7 @@ abstract class BaseKernelTestCase extends KernelTestCase
 
     protected function tearDown(): void
     {
-        if ($this->em !== null) {
-            $this->em->clear();
-        }
+        $this->em->clear();
 
         parent::tearDown();
     }

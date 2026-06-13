@@ -41,9 +41,6 @@ final class HermesApiClientTest extends TestCase
         return implode("\n", $lines);
     }
 
-    /**
-     * @param callable(string, string, array): MockResponse|null $factory
-     */
     private static function client(
         MockHttpClient $http,
         RequestStack $stack,

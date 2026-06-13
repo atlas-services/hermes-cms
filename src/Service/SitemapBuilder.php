@@ -66,6 +66,9 @@ final class SitemapBuilder
         return ['xml' => $xml, 'html' => $html];
     }
 
+    /**
+     * @param Menu[] $pages
+     */
     private function collectPages(Menu $menu, string $locale, array &$pages): void
     {
         if (!$menu->isActive() || $menu->getLocale() !== $locale) {

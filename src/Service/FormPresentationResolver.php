@@ -61,7 +61,7 @@ final class FormPresentationResolver
     public function contactEmailDisplay(array $configs): ?string
     {
         $affiche = $configs['contact_affiche'] ?? false;
-        if (!$affiche || $affiche === 'false' || $affiche === '0') {
+        if (!$this->isConfigFlagEnabled($affiche)) {
             return null;
         }
 
@@ -79,5 +79,16 @@ final class FormPresentationResolver
         $s = trim((string) $value);
 
         return $s === '' || $s === '~' ? null : $s;
+    }
+
+    private function isConfigFlagEnabled(mixed $value): bool
+    {
+        if ($value === false || $value === null) {
+            return false;
+        }
+
+        $s = strtolower(trim((string) $value));
+
+        return $s !== '' && $s !== '0' && $s !== 'false' && $s !== 'no';
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Menu;
+use App\Entity\Post;
 use App\Entity\Section;
 use App\Repository\MenuRepository;
 use App\Repository\SectionRepository;
@@ -18,6 +19,9 @@ final class FrontMenuService
     ) {
     }
 
+    /**
+     * @param list<string> $slugs
+     */
     public function findMenuBySlugs(array $slugs, string $locale): ?Menu
     {
         // L’accès direct au contenu reste possible même si le menu est désactivé.

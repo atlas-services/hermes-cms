@@ -99,7 +99,9 @@ final class Hermes227MediaMigrator
             $fileName = (string) $row['file_name'];
             $safeFileName = $this->mediaStorage->sanitizeFileName($fileName);
             $sectionId = (int) $row['section_id'];
-            $menuId = isset($row['menu_id']) && $row['menu_id'] !== null ? (int) $row['menu_id'] : null;
+            $menuId = array_key_exists('menu_id', $row) && $row['menu_id'] !== null && $row['menu_id'] !== ''
+                ? (int) $row['menu_id']
+                : null;
             $menuCode = trim((string) ($row['menu_code'] ?? ''));
             $sectionLocale = strtolower(trim((string) ($row['section_locale'] ?? 'fr')));
             $isFooter = (string) ($row['template_code'] ?? '') === 'footer_template';

@@ -50,7 +50,7 @@ final class FrontFormSubmissionHandler
         if (!$form->isSubmitted() || !$form->isValid()) {
             $formName = $form->getName();
             $posted = $request->request->all($formName);
-            if (\is_array($posted) && $posted !== []) {
+            if ($posted !== []) {
                 $this->draftStorage->save($kind, $posted);
             }
 
@@ -89,7 +89,7 @@ final class FrontFormSubmissionHandler
 
         try {
             $pageLabel = $request->request->getString('_page_label') ?: null;
-            $this->mailer->send($kind, $fields, $locale, $pageLabel !== '' ? $pageLabel : null);
+            $this->mailer->send($kind, $fields, $locale, $pageLabel);
             if ($kind === FormTemplateKind::Newsletter) {
                 $this->newsletterSubscriberRegistrar->registerFromForm($fields);
             }

@@ -53,8 +53,9 @@ class PostServiceTest extends BaseKernelTestCase
 
         $this->assertSame($menu, $created->getSection()->getMenu());
         $this->assertNotNull($created->getSection()->getTemplate());
-        $this->assertNotNull($created->getSection()->getTemplate2());
-        $code = $created->getSection()->getTemplate2()?->getCode();
+        $template2 = $created->getSection()->getTemplate2();
+        $this->assertNotNull($template2);
+        $code = $template2->getCode();
         $this->assertTrue(\in_array($code, ['modale1', 'modale2'], true));
     }
 

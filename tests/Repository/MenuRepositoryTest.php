@@ -23,7 +23,6 @@ class MenuRepositoryTest extends BaseKernelTestCase
 
         $roots = $repo->findRoots();
 
-        $this->assertIsArray($roots);
         $this->assertNotEmpty($roots);
 
         foreach ($roots as $menu) {
@@ -39,7 +38,6 @@ class MenuRepositoryTest extends BaseKernelTestCase
 
         $pos = $repo->getNextPosition(null);
 
-        $this->assertIsInt($pos);
         $this->assertGreaterThan(0, $pos);
     }
 
@@ -54,7 +52,6 @@ class MenuRepositoryTest extends BaseKernelTestCase
 
         $pos = $repo->getNextPosition($parent);
 
-        $this->assertIsInt($pos);
         $this->assertEquals(3, $pos); // Root 1 has Child 1 and Child 2, next is 3
     }
 
@@ -69,7 +66,6 @@ class MenuRepositoryTest extends BaseKernelTestCase
 
         $children = $repo->findChildren($parent);
 
-        $this->assertIsArray($children);
         $this->assertCount(2, $children);
 
         foreach ($children as $child) {
@@ -89,7 +85,7 @@ class MenuRepositoryTest extends BaseKernelTestCase
 
         $pages = $repo->findPages();
 
-        $this->assertIsArray($pages);
+        $this->assertGreaterThanOrEqual(0, \count($pages));
         // Since MenuFixtures doesn't create posts, this might be empty
         // But in real app, it would have menus with posts
     }

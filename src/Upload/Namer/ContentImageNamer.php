@@ -17,6 +17,9 @@ use Vich\UploaderBundle\Util\Transliterator;
  * - entités avec une propriété {@see CodeTrait::$code} non vide : nom basé sur le code (comportement historique) ;
  * - sinon (ex. {@see Post}) : nom à partir du nom du post + suffixe unique, ou identifiant unique.
  */
+/**
+ * @implements NamerInterface<object>
+ */
 final class ContentImageNamer implements ConfigurableInterface, NamerInterface
 {
     use FileExtensionTrait;
@@ -26,6 +29,9 @@ final class ContentImageNamer implements ConfigurableInterface, NamerInterface
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function configure(array $options): void
     {
     }

@@ -118,11 +118,11 @@ class BaseController extends AbstractController
             return new JsonResponse(['status' => 'not found'], 404);
         }
 
-        $tw = $data['template_width'] ?? 10;
-        if ($tw === '' || $tw === null) {
+        $rawTw = $data['template_width'] ?? null;
+        if ($rawTw === null || $rawTw === '') {
             $section->setTemplateWidth(10);
         } else {
-            $v = filter_var($tw, FILTER_VALIDATE_INT);
+            $v = filter_var($rawTw, FILTER_VALIDATE_INT);
             if (false === $v || $v < 1 || $v > 12) {
                 return new JsonResponse(['status' => 'invalid template_width'], 400);
             }

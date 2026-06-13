@@ -119,7 +119,6 @@ class MenuManagerTest extends BaseKernelTestCase
     {
         $tree = $this->menuManager->getTree();
 
-        $this->assertIsArray($tree);
         $this->assertNotEmpty($tree);
 
         foreach ($tree as $menu) {

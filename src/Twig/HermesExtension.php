@@ -41,7 +41,7 @@ final class HermesExtension extends AbstractExtension
 
         $posts = array_values(array_filter(
             $section->getPosts()->toArray(),
-            static fn ($p): bool => $p instanceof Post && $p->isActive()
+            static fn (Post $p): bool => $p->isActive()
         ));
         if ($posts === []) {
             return [];
@@ -59,15 +59,11 @@ final class HermesExtension extends AbstractExtension
 
         if (isset($pictures[$nbCol])) {
             $lasts = array_pop($pictures);
-            if (\is_array($lasts)) {
-                foreach ($lasts as $key => $picture) {
-                    if (!isset($pictures[$key])) {
-                        $pictures[$key] = [];
-                    }
-                    if ($picture instanceof Post) {
-                        $pictures[$key][] = $picture;
-                    }
+            foreach ($lasts as $key => $picture) {
+                if (!isset($pictures[$key])) {
+                    $pictures[$key] = [];
                 }
+                $pictures[$key][] = $picture;
             }
         }
 

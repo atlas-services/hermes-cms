@@ -57,7 +57,7 @@ final class AdminMediaUploadLimits
         }
 
         $n = (int) $m[1];
-        $unit = strtoupper($m[2] ?? '');
+        $unit = strtoupper($m[2]);
 
         return match ($unit) {
             'G' => $n * 1024 * 1024 * 1024,

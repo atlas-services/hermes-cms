@@ -60,7 +60,9 @@ final class ContentTransferServiceTest extends BaseKernelTestCase
         $newSection = $targetMenu->getSections()->last();
         self::assertInstanceOf(Section::class, $newSection);
         self::assertSame($postsBefore, $newSection->getPosts()->count());
-        self::assertSame('en', $newSection->getPosts()->first()?->getLocale());
+        $firstPost = $newSection->getPosts()->first();
+        self::assertInstanceOf(Post::class, $firstPost);
+        self::assertSame('en', $firstPost->getLocale());
     }
 
     public function testMovePostToAnotherSection(): void

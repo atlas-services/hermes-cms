@@ -148,6 +148,9 @@ class PostRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Post[]
+     */
     public function findAllOrdered(): array
     {
         return $this->createQueryBuilder('p')
