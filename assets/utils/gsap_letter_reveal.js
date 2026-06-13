@@ -164,7 +164,6 @@ function initGsapLetterRevealBlock(gsap, root) {
     }
 
     if (root.dataset.gsapLetterRevealMounted === '1') {
-        playGsapLetterReveal(gsap, root);
         return;
     }
 
