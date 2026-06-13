@@ -127,19 +127,33 @@ function mountChars(body, text) {
     body.setAttribute('aria-label', text);
 
     const chars = [];
-    for (const char of text) {
-        const span = document.createElement('span');
-        span.className = 'gsap-text-reveal__char';
-        span.setAttribute('aria-hidden', 'true');
-        if (char === ' ') {
-            span.classList.add('is-space');
-            span.textContent = '\u00a0';
-        } else {
+    const words = text.split(/\s+/).filter(Boolean);
+
+    words.forEach((word, wordIndex) => {
+        const wordWrap = document.createElement('span');
+        wordWrap.className = 'gsap-text-reveal__word-wrap';
+        wordWrap.setAttribute('aria-hidden', 'true');
+
+        for (const char of word) {
+            const span = document.createElement('span');
+            span.className = 'gsap-text-reveal__char';
+            span.setAttribute('aria-hidden', 'true');
             span.textContent = char;
+            wordWrap.appendChild(span);
+            chars.push(span);
         }
-        body.appendChild(span);
-        chars.push(span);
-    }
+
+        body.appendChild(wordWrap);
+
+        if (wordIndex < words.length - 1) {
+            const space = document.createElement('span');
+            space.className = 'gsap-text-reveal__char is-space';
+            space.setAttribute('aria-hidden', 'true');
+            space.textContent = '\u00a0';
+            body.appendChild(space);
+            chars.push(space);
+        }
+    });
 
     return chars;
 }

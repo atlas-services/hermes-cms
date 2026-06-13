@@ -35,14 +35,22 @@ function readLineAccent(line) {
     };
 }
 
-function mountHeroLetterLine(line, text, globalIndex) {
+function mountWordWrappedLetterLine(line, text, globalIndex, { heroPresent = false } = {}) {
     const accent = readLineAccent(line);
     let accentApplied = false;
     const words = text.split(' ').filter(Boolean);
 
+    line.classList.add('gsap-letter-reveal__line--words');
+    if (heroPresent) {
+        line.classList.add('hermes-hero-present__letter-line');
+    }
+
     words.forEach((word, wordIndex) => {
         const wordWrap = document.createElement('span');
-        wordWrap.className = 'gsap-letter-reveal__word hermes-hero-present__word';
+        wordWrap.className = 'gsap-letter-reveal__word';
+        if (heroPresent) {
+            wordWrap.classList.add('hermes-hero-present__word');
+        }
         wordWrap.setAttribute('aria-hidden', 'true');
 
         [...word].forEach((char) => {
@@ -75,6 +83,7 @@ function mountHeroLetterLine(line, text, globalIndex) {
 
 /**
  * CKEditor regroupe souvent les lettres en mots entiers : on (re)découpe au runtime.
+ * Chaque mot est isolé pour éviter une coupure au milieu lors des retours à la ligne.
  */
 export function mountGsapLetterRevealLines(root) {
     const globalIndex = { current: 0 };
@@ -89,15 +98,7 @@ export function mountGsapLetterRevealLines(root) {
         line.textContent = '';
         line.setAttribute('aria-label', text);
 
-        if (heroPresent) {
-            line.classList.add('hermes-hero-present__letter-line');
-            mountHeroLetterLine(line, text, globalIndex);
-            return;
-        }
-
-        [...text].forEach((char) => {
-            appendLetterChar(line, char, globalIndex);
-        });
+        mountWordWrappedLetterLine(line, text, globalIndex, { heroPresent });
     });
 }
 

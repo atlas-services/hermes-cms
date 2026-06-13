@@ -2,6 +2,21 @@
     perspective: 500px;
 }
 
+.gsap-text-reveal__body--chars {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.2em;
+    row-gap: 0.15em;
+}
+
+.gsap-text-reveal__word-wrap {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
 .gsap-text-reveal__char,
 .gsap-text-reveal__word,
 .gsap-text-reveal__line {
