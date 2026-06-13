@@ -118,8 +118,12 @@ class ConfigType extends AbstractType
     const FONT_FAMILY = [
         'Alfa Slab One' => 'Alfa Slab One',
         '\'Bai Jamjuree\', sans-serif' => '\'Bai Jamjuree\', sans-serif',
+        '\'Bubblegum Sans\', cursive' => '\'Bubblegum Sans\', cursive',
         ' Comic Sans MS, Comic Sans, cursive' => ' Comic Sans MS, Comic Sans, cursive',
+        'Cherry Bomb One' => 'Cherry Bomb One',
+        '\'Fredoka\', sans-serif' => '\'Fredoka\', sans-serif',
         'Impact, fantasy' => 'Impact, fantasy',
+        '\'Mali\', cursive' => '\'Mali\', cursive',
         '\'Oswald\',Helvetica,Arial,Lucida,sans-serif' => '\'Oswald\',Helvetica,Arial,Lucida,sans-serif',
         '\'Palatino Linotype\', \'Book Antiqua\', Palatino, serif' => ' \'Palatino Linotype\', \'Book Antiqua\', Palatino, serif',
         '\'Sofia\', sans-serif' => '\'Sofia\', sans-serif',

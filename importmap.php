@@ -989,4 +989,20 @@ return [
     '@splidejs/splide/css' => [
         'version' => '4.1.4',
     ],
+    '@fontsource/fredoka/400.css' => [
+        'version' => '5.2.10',
+        'type' => 'css',
+    ],
+    '@fontsource/bubblegum-sans/400.css' => [
+        'version' => '5.2.8',
+        'type' => 'css',
+    ],
+    '@fontsource/cherry-bomb-one/400.css' => [
+        'version' => '5.2.7',
+        'type' => 'css',
+    ],
+    '@fontsource/mali/400.css' => [
+        'version' => '5.2.8',
+        'type' => 'css',
+    ],
 ];

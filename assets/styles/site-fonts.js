@@ -9,3 +9,7 @@ import '@fontsource/oswald/700.css';
 import '@fontsource/sofia/400.css';
 import '@fontsource/snowburst-one/400.css';
 import '@fontsource/alfa-slab-one/400.css';
+import '@fontsource/bubblegum-sans/400.css';
+import '@fontsource/cherry-bomb-one/400.css';
+import '@fontsource/fredoka/400.css';
+import '@fontsource/mali/400.css';
