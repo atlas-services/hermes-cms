@@ -59,10 +59,6 @@
 
 .hermes-hero-present__kicker {
     margin: 0 0 1rem;
-    font-size: clamp(0.72rem, 1.8vw, 0.85rem);
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
     color: var(--hermes-hero-accent, #6b9fd4);
 }
 
@@ -89,20 +85,9 @@
     white-space: nowrap;
 }
 
-.hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__title {
-    font-size: clamp(1.35rem, 6.5vw, 4.5rem);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    line-height: 1.1;
-    color: transparent;
-}
-
+/* Typo : classes Bootstrap (display-*, h*, fw-*, …) sur les lignes letter-reveal */
+.hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__title,
 .hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__subtitle {
-    margin-top: 0.35rem;
-    font-size: clamp(0.78rem, 2.8vw, 1.45rem);
-    font-weight: 300;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: transparent;
 }
 
@@ -193,18 +178,6 @@
     .hermes-hero-present__kicker {
         width: 100%;
         max-width: 100%;
-        letter-spacing: 0.14em;
-        line-height: 1.45;
-    }
-
-    .hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__title {
-        font-size: clamp(1.2rem, 5.8vw, 2.1rem);
-        letter-spacing: 0.04em;
-    }
-
-    .hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__subtitle {
-        font-size: clamp(0.7rem, 2.6vw, 0.95rem);
-        letter-spacing: 0.1em;
     }
 
     .hermes-hero-present__body,
@@ -266,4 +239,89 @@
     margin-top: 1.75rem;
     opacity: 0;
     transform: translateY(1.35rem);
+}
+
+/* Pitch consultant 15 min — templates/exemple/presentation_consultant_15min.html */
+.hermes-hero-present--pitch .hermes-hero-present__list,
+.hermes-hero-present--pitch .hermes-hero-present__list li {
+    text-align: left;
+}
+
+.hermes-hero-present--pitch .hermes-hero-present__list {
+    align-self: stretch;
+    margin-inline: auto;
+}
+
+.hermes-hero-present--pitch .hermes-hero-present__stats {
+    max-width: 28rem;
+    margin-inline: auto;
+}
+
+.hermes-hero-present--pitch .hermes-hero-present__stat-value {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--hermes-hero-accent, #6b9fd4);
+    line-height: 1.1;
+}
+
+.hermes-hero-present--pitch .hermes-hero-present__stat-label {
+    color: var(--hermes-hero-muted, #9ca8b4);
+    margin-top: 0.25rem;
+}
+
+.hermes-pitch {
+    position: relative;
+}
+
+.hermes-pitch__tabs {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 30;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: min(100%, 52rem);
+    margin: 0;
+    padding: clamp(0.75rem, 2vh, 1.25rem) clamp(0.85rem, 4vw, 1.5rem);
+    transform: translateX(-50%);
+    background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--hermes-hero-bg-a, #0f1419) 92%, transparent) 0%,
+        color-mix(in srgb, var(--hermes-hero-bg-a, #0f1419) 55%, transparent) 70%,
+        transparent 100%
+    );
+    pointer-events: none;
+}
+
+.hermes-pitch__tabs .hermes-carte-tab {
+    pointer-events: auto;
+}
+
+.hermes-pitch__tabs .hermes-carte-tab {
+    --hermes-carte-tab-fg: #f4f6f8;
+    --hermes-carte-tab-fill: var(--hermes-hero-accent, #6b9fd4);
+    flex: 1 1 14rem;
+    max-width: 100%;
+    line-height: 1.25;
+    text-align: center;
+}
+
+.hermes-pitch__tabs .hermes-carte-tab span {
+    display: block;
+}
+
+.hermes-pitch__tabs .hermes-carte-tab small {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.72em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    opacity: 0.88;
+}
+
+.hermes-pitch-track[hidden] {
+    display: none !important;
 }

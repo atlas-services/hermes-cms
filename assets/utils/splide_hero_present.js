@@ -271,9 +271,15 @@ function initSplideHeroPresentBlock(root) {
 
 export function initPostContentSplideHeroPresent(root = document) {
     root.querySelectorAll(ROOT_SELECTOR).forEach((block) => {
+        if (block.closest('[data-hermes-pitch-track]:not(.is-active)')) {
+            return;
+        }
+
         initSplideHeroPresentBlock(block);
     });
 }
+
+export { initSplideHeroPresentBlock };
 
 function initHeroPresentStaticBlock(hero) {
     if (hero.dataset.heroPresentStaticMounted === '1') {

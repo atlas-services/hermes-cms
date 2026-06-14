@@ -10,6 +10,7 @@ import { initPostContentGsapShapeBuild } from '../../../utils/gsap_shape_build.j
 import { initPostContentSplideCarousel } from '../../../utils/splide_carousel.js';
 import { initPostContentHeroPresentStatic, initPostContentSplideHeroPresent } from '../../../utils/splide_hero_present.js';
 import { initPostContentGsapCarte } from '../../../utils/gsap_carte.js';
+import { initPostContentPitchPresent } from '../../../utils/pitch_present.js';
 
 function colorLink() {
     const libreLinks = document.getElementsByClassName('link');
@@ -167,6 +168,7 @@ export function initHermesJsFront() {
     initPostContentGsapTextReveal();
     initPostContentGsapLetterReveal();
     initPostContentGsapShapeBuild();
+    initPostContentPitchPresent();
     initPostContentSplideHeroPresent();
     initPostContentHeroPresentStatic();
     initPostContentSplideCarousel();
