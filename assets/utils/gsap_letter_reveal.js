@@ -1,6 +1,62 @@
 import { whenGsapReady } from '../gsap.js';
 
 const ROOT_SELECTOR = '.hermes-front-sections .post-content .gsap-letter-reveal';
+const DEFAULT_EFFECT = 'vertical-alt';
+
+function readNumber(dataset, key, fallback) {
+    const raw = dataset[key];
+    if (raw === undefined || raw === '') {
+        return fallback;
+    }
+
+    const value = parseFloat(raw);
+    return Number.isFinite(value) ? value : fallback;
+}
+
+function readRevealConfigOverrides(element) {
+    if (!element) {
+        return {};
+    }
+
+    const dataset = element.dataset ?? {};
+    const overrides = {};
+
+    const effect = (dataset.gsapLetterRevealEffectValue || dataset.gsapLetterRevealEffect || '').trim();
+    if (effect) {
+        overrides.effect = effect;
+    }
+
+    if (dataset.gsapLetterRevealOffsetValue !== undefined && dataset.gsapLetterRevealOffsetValue !== '') {
+        overrides.offset = readNumber(dataset, 'gsapLetterRevealOffsetValue', 150);
+    }
+
+    if (dataset.gsapLetterRevealDurationValue !== undefined && dataset.gsapLetterRevealDurationValue !== '') {
+        overrides.duration = readNumber(dataset, 'gsapLetterRevealDurationValue', 0.72);
+    }
+
+    if (dataset.gsapLetterRevealStaggerValue !== undefined && dataset.gsapLetterRevealStaggerValue !== '') {
+        overrides.stagger = readNumber(dataset, 'gsapLetterRevealStaggerValue', 0.11);
+    }
+
+    const ease = (dataset.gsapLetterRevealEaseValue || dataset.gsapLetterRevealEase || '').trim();
+    if (ease) {
+        overrides.ease = ease;
+    }
+
+    return overrides;
+}
+
+function readRevealConfig(element) {
+    const overrides = readRevealConfigOverrides(element);
+
+    return {
+        effect: (overrides.effect || DEFAULT_EFFECT).trim(),
+        offset: overrides.offset ?? 150,
+        duration: overrides.duration ?? 0.72,
+        stagger: overrides.stagger ?? 0.11,
+        ease: (overrides.ease || 'power4.out').trim(),
+    };
+}
 
 function readLineText(line) {
     return (line.dataset.gsapLetterRevealTextValue
@@ -113,29 +169,129 @@ function prepareGsapLetterRevealBlocks(root = document) {
     });
 }
 
+function resolveEffectName(effect) {
+    const known = new Set([
+        'vertical-alt',
+        'vertical-up',
+        'vertical-down',
+        'horizontal-alt',
+        'horizontal-left',
+        'fade',
+        'scale',
+        'blur',
+        'rotate',
+    ]);
+
+    return known.has(effect) ? effect : DEFAULT_EFFECT;
+}
+
+function letterInitialState(effect, index, config) {
+    const hidden = { opacity: 0 };
+    const neutral = {
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotation: 0,
+        filter: 'none',
+    };
+
+    switch (effect) {
+        case 'vertical-up':
+            return { ...hidden, ...neutral, y: config.offset };
+        case 'vertical-down':
+            return { ...hidden, ...neutral, y: -config.offset };
+        case 'horizontal-alt':
+            return { ...hidden, ...neutral, x: index % 2 === 0 ? -config.offset : config.offset };
+        case 'horizontal-left':
+            return { ...hidden, ...neutral, x: -config.offset };
+        case 'fade':
+            return { ...hidden, ...neutral };
+        case 'scale':
+            return { ...hidden, ...neutral, scale: 0 };
+        case 'blur':
+            return { ...hidden, ...neutral, filter: 'blur(12px)' };
+        case 'rotate':
+            return { ...hidden, ...neutral, scale: 0.35, rotation: index % 2 === 0 ? -18 : 18 };
+        case 'vertical-alt':
+        default:
+            return {
+                ...hidden,
+                ...neutral,
+                y: index % 2 === 0 ? -config.offset : config.offset,
+            };
+    }
+}
+
+function letterFinalState(effect) {
+    const final = {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotation: 0,
+    };
+
+    if (effect === 'blur') {
+        final.filter = 'blur(0px)';
+    }
+
+    return final;
+}
+
+function animateLetters(gsap, letters, config, timeline) {
+    const effect = resolveEffectName(config.effect);
+
+    letters.forEach((letter) => {
+        const index = parseInt(letter.dataset.gsapLetterRevealIndex || '0', 10);
+        gsap.set(letter, letterInitialState(effect, index, config));
+        timeline.to(letter, {
+            ...letterFinalState(effect),
+            duration: config.duration,
+            ease: config.ease,
+        }, index * config.stagger);
+    });
+}
+
+export function resetGsapLetterRevealChars(gsap, chars) {
+    if (!chars?.length) {
+        return;
+    }
+
+    gsap.killTweensOf(chars);
+    gsap.set(chars, {
+        opacity: 0,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotation: 0,
+        filter: 'none',
+    });
+}
+
 export function playGsapLetterReveal(gsap, root) {
     const letters = root.querySelectorAll('.gsap-letter-reveal__char');
     if (!letters.length) {
         return;
     }
 
-    const offset = 150;
+    const blockConfig = readRevealConfig(root);
+    const lines = [...root.querySelectorAll('.gsap-letter-reveal__line')];
     const tl = gsap.timeline();
 
     gsap.killTweensOf(letters);
 
-    letters.forEach((letter) => {
-        const i = parseInt(letter.dataset.gsapLetterRevealIndex || '0', 10);
-        const fromY = i % 2 === 0 ? -offset : offset;
+    if (lines.length) {
+        lines.forEach((line) => {
+            const lineConfig = {
+                ...blockConfig,
+                ...readRevealConfigOverrides(line),
+            };
+            animateLetters(gsap, line.querySelectorAll('.gsap-letter-reveal__char'), lineConfig, tl);
+        });
+        return;
+    }
 
-        gsap.set(letter, { opacity: 0, y: fromY });
-        tl.to(letter, {
-            y: 0,
-            opacity: 1,
-            duration: 0.72,
-            ease: 'power4.out',
-        }, i * 0.11);
-    });
+    animateLetters(gsap, letters, blockConfig, tl);
 }
 
 function bindReplay(gsap, root) {

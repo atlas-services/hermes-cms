@@ -39,3 +39,17 @@
     flex-wrap: nowrap;
     white-space: nowrap;
 }
+
+.gsap-letter-reveal__replay {
+    margin-top: 1rem;
+}
+
+/* Galerie effets — templates/exemple/gsap_letter_reveal_effets.html */
+.gsap-letter-reveal-demo__panel {
+    min-height: 11rem;
+}
+
+.gsap-letter-reveal-demo__stage {
+    min-height: 7.5rem;
+    padding: 1.25rem 0.75rem;
+}

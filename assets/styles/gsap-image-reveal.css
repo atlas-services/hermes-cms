@@ -1,0 +1,15 @@
+.gsap-image-reveal__item {
+    opacity: 0;
+    will-change: transform, opacity, filter;
+}
+
+.gsap-image-reveal__item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gsap-image-reveal__replay {
+    margin-top: 1.25rem;
+}

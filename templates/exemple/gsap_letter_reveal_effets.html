@@ -1,0 +1,302 @@
+<!--
+  Galerie GSAP letter-reveal — effets paramétrables
+  Init auto : initPostContentGsapLetterReveal() dans js-front.js
+
+  Attributs sur .gsap-letter-reveal (défaut du bloc) ou sur .gsap-letter-reveal__line (surcharge ligne) :
+  - data-gsap-letter-reveal-effect-value
+      vertical-alt | vertical-up | vertical-down
+      horizontal-alt | horizontal-left
+      fade | scale | blur | rotate
+  - data-gsap-letter-reveal-offset-value   (px, défaut 150)
+  - data-gsap-letter-reveal-duration-value (s, défaut 0.72)
+  - data-gsap-letter-reveal-stagger-value  (s entre lettres, défaut 0.11)
+  - data-gsap-letter-reveal-ease-value     (défaut power4.out)
+
+  Texte + accent (inchangé) :
+  - data-gsap-letter-reveal-text-value
+  - data-gsap-letter-reveal-accent-letter-value
+  - data-gsap-letter-reveal-accent-color-value
+-->
+<div id="gsap-letter-reveal-effets" class="gsap-letter-reveal-demo content-showcase content-showcase--palette-cool text-body py-4">
+    <header class="text-center mb-5 px-3">
+        <p class="text-uppercase small fw-semibold text-muted mb-2">GSAP · letter-reveal</p>
+        <h1 class="display-5 fw-bold mb-3">Effets d’arrivée des lettres</h1>
+        <p class="lead col-lg-9 mx-auto mb-0">
+            Chaque carte ci-dessous utilise un <code>data-gsap-letter-reveal-effect-value</code> différent.
+            Sans attribut, l’effet par défaut reste <code>vertical-alt</code> (alternance haut / bas).
+        </p>
+    </header>
+
+    <div class="row g-4 px-2">
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm border-0">
+                <div class="card-body gsap-letter-reveal-demo__panel d-flex flex-column">
+                    <h2 class="h6 text-muted text-uppercase mb-2"><code>vertical-alt</code> · défaut</h2>
+                    <div
+                        class="gsap-letter-reveal flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+                        style="--gsap-letter-reveal-color: #0d6efd;"
+                        data-gsap-letter-reveal-effect-value="vertical-alt"
+                    >
+                        <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                            <p
+                                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                                data-gsap-letter-reveal-text-value="HERMES"
+                                data-gsap-letter-reveal-accent-letter-value="M"
+                                data-gsap-letter-reveal-accent-color-value="#e7393b"
+                                aria-label="HERMES"
+                            >HERMES</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-primary gsap-letter-reveal__replay mt-2">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Rejouer
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm border-0">
+                <div class="card-body gsap-letter-reveal-demo__panel d-flex flex-column">
+                    <h2 class="h6 text-muted text-uppercase mb-2"><code>vertical-up</code></h2>
+                    <div
+                        class="gsap-letter-reveal flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+                        style="--gsap-letter-reveal-color: #198754;"
+                        data-gsap-letter-reveal-effect-value="vertical-up"
+                    >
+                        <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                            <p
+                                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                                data-gsap-letter-reveal-text-value="MONTER"
+                                aria-label="MONTER"
+                            >MONTER</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-success gsap-letter-reveal__replay mt-2">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Rejouer
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm border-0">
+                <div class="card-body gsap-letter-reveal-demo__panel d-flex flex-column">
+                    <h2 class="h6 text-muted text-uppercase mb-2"><code>vertical-down</code></h2>
+                    <div
+                        class="gsap-letter-reveal flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+                        style="--gsap-letter-reveal-color: #6f42c1;"
+                        data-gsap-letter-reveal-effect-value="vertical-down"
+                    >
+                        <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                            <p
+                                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                                data-gsap-letter-reveal-text-value="DESCENDRE"
+                                aria-label="DESCENDRE"
+                            >DESCENDRE</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary gsap-letter-reveal__replay mt-2">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Rejouer
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm border-0">
+                <div class="card-body gsap-letter-reveal-demo__panel d-flex flex-column">
+                    <h2 class="h6 text-muted text-uppercase mb-2"><code>horizontal-alt</code></h2>
+                    <div
+                        class="gsap-letter-reveal flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+                        style="--gsap-letter-reveal-color: #fd7e14;"
+                        data-gsap-letter-reveal-effect-value="horizontal-alt"
+                    >
+                        <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                            <p
+                                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                                data-gsap-letter-reveal-text-value="GAUCHE DROITE"
+                                aria-label="GAUCHE DROITE"
+                            >GAUCHE DROITE</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-warning gsap-letter-reveal__replay mt-2">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Rejouer
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm border-0">
+                <div class="card-body gsap-letter-reveal-demo__panel d-flex flex-column">
+                    <h2 class="h6 text-muted text-uppercase mb-2"><code>horizontal-left</code></h2>
+                    <div
+                        class="gsap-letter-reveal flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+                        style="--gsap-letter-reveal-color: #20c997;"
+                        data-gsap-letter-reveal-effect-value="horizontal-left"
+                    >
+                        <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                            <p
+                                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                                data-gsap-letter-reveal-text-value="ENTRÉE"
+                                aria-label="ENTRÉE"
+                            >ENTRÉE</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-success gsap-letter-reveal__replay mt-2">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Rejouer
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm border-0">
+                <div class="card-body gsap-letter-reveal-demo__panel d-flex flex-column">
+                    <h2 class="h6 text-muted text-uppercase mb-2"><code>fade</code></h2>
+                    <div
+                        class="gsap-letter-reveal flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+                        style="--gsap-letter-reveal-color: #6610f2;"
+                        data-gsap-letter-reveal-effect-value="fade"
+                        data-gsap-letter-reveal-stagger-value="0.06"
+                    >
+                        <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                            <p
+                                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                                data-gsap-letter-reveal-text-value="APPARITION"
+                                aria-label="APPARITION"
+                            >APPARITION</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-primary gsap-letter-reveal__replay mt-2">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Rejouer
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm border-0">
+                <div class="card-body gsap-letter-reveal-demo__panel d-flex flex-column">
+                    <h2 class="h6 text-muted text-uppercase mb-2"><code>scale</code></h2>
+                    <div
+                        class="gsap-letter-reveal flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+                        style="--gsap-letter-reveal-color: #dc3545;"
+                        data-gsap-letter-reveal-effect-value="scale"
+                        data-gsap-letter-reveal-duration-value="0.55"
+                    >
+                        <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                            <p
+                                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                                data-gsap-letter-reveal-text-value="ZOOM"
+                                aria-label="ZOOM"
+                            >ZOOM</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger gsap-letter-reveal__replay mt-2">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Rejouer
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm border-0">
+                <div class="card-body gsap-letter-reveal-demo__panel d-flex flex-column">
+                    <h2 class="h6 text-muted text-uppercase mb-2"><code>blur</code></h2>
+                    <div
+                        class="gsap-letter-reveal flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+                        style="--gsap-letter-reveal-color: #0dcaf0;"
+                        data-gsap-letter-reveal-effect-value="blur"
+                        data-gsap-letter-reveal-duration-value="0.85"
+                    >
+                        <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                            <p
+                                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                                data-gsap-letter-reveal-text-value="FOCUS"
+                                aria-label="FOCUS"
+                            >FOCUS</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-info gsap-letter-reveal__replay mt-2">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Rejouer
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card h-100 shadow-sm border-0">
+                <div class="card-body gsap-letter-reveal-demo__panel d-flex flex-column">
+                    <h2 class="h6 text-muted text-uppercase mb-2"><code>rotate</code></h2>
+                    <div
+                        class="gsap-letter-reveal flex-grow-1 d-flex flex-column align-items-center justify-content-center"
+                        style="--gsap-letter-reveal-color: #d63384;"
+                        data-gsap-letter-reveal-effect-value="rotate"
+                    >
+                        <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                            <p
+                                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                                data-gsap-letter-reveal-text-value="TWIST"
+                                aria-label="TWIST"
+                            >TWIST</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger gsap-letter-reveal__replay mt-2">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Rejouer
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <section class="card border-0 shadow-sm mt-5 mx-2">
+        <div class="card-body p-4">
+            <h2 class="h4 fw-bold mb-3">Effet par ligne + paramètres fins</h2>
+            <p class="text-muted mb-4">
+                L’effet peut être défini sur le bloc <code>.gsap-letter-reveal</code> ou sur chaque
+                <code>.gsap-letter-reveal__line</code>. Exemple ci-dessous&nbsp;: première ligne en
+                <code>horizontal-left</code>, seconde en <code>fade</code> avec un stagger plus rapide.
+            </p>
+            <div
+                class="gsap-letter-reveal text-center"
+                style="--gsap-letter-reveal-color: #212529;"
+            >
+                <div class="gsap-letter-reveal__stage gsap-letter-reveal-demo__stage w-100 mb-0">
+                    <p
+                        class="gsap-letter-reveal__line display-4 fw-bold mb-2"
+                        data-gsap-letter-reveal-text-value="ATLAS"
+                        data-gsap-letter-reveal-effect-value="horizontal-left"
+                        data-gsap-letter-reveal-offset-value="120"
+                        data-gsap-letter-reveal-accent-letter-value="L"
+                        data-gsap-letter-reveal-accent-color-value="#e7393b"
+                        aria-label="ATLAS"
+                    >ATLAS</p>
+                    <p
+                        class="gsap-letter-reveal__line h4 fw-light text-uppercase mb-0"
+                        data-gsap-letter-reveal-text-value="SERVICES"
+                        data-gsap-letter-reveal-effect-value="fade"
+                        data-gsap-letter-reveal-stagger-value="0.05"
+                        data-gsap-letter-reveal-duration-value="0.5"
+                        aria-label="SERVICES"
+                    >SERVICES</p>
+                </div>
+                <button type="button" class="btn btn-dark gsap-letter-reveal__replay">
+                    <i class="fa-solid fa-rotate-right me-2" aria-hidden="true"></i>Rejouer les deux lignes
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="card border-0 bg-light mt-4 mx-2">
+        <div class="card-body p-4 small text-muted">
+            <p class="mb-2 fw-semibold text-body">Usage dans un hero Splide</p>
+            <p class="mb-0">
+                Sur une slide <code>hermes-hero-present</code>, ajoutez
+                <code>data-gsap-letter-reveal-effect-value="…"</code> sur le
+                <code>.gsap-letter-reveal</code> de la slide — l’animation est rejouée à chaque changement de slide.
+                Effet par défaut si absent&nbsp;: <code>vertical-alt</code>.
+            </p>
+        </div>
+    </section>
+</div>

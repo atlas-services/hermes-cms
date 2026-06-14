@@ -14,6 +14,7 @@ import './styles/legal.css';
 import './styles/splide.css';
 import './styles/carte.css';
 import './styles/gsap-letter-reveal.css';
+import './styles/gsap-image-reveal.css';
 import './styles/gsap-shape-build.css';
 import './styles/gsap-text-reveal.css';
 import './styles/hero-split.css';

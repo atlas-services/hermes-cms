@@ -1,6 +1,6 @@
 import Splide from '@splidejs/splide';
 import { whenGsapReady } from '../gsap.js';
-import { mountGsapLetterRevealLines, playGsapLetterReveal } from './gsap_letter_reveal.js';
+import { mountGsapLetterRevealLines, playGsapLetterReveal, resetGsapLetterRevealChars } from './gsap_letter_reveal.js';
 
 const ROOT_SELECTOR = '.hermes-front-sections .post-content .splide-carousel--hero-present';
 const STATIC_SELECTOR = '.hermes-front-sections .post-content .hermes-hero-present--static';
@@ -54,7 +54,7 @@ function resetSlideMotion(slide, gsap) {
     if (gsap) {
         gsap.killTweensOf([...bodyEls, ...chars]);
         gsap.set(bodyEls, { opacity: 0, y: 22 });
-        gsap.set(chars, { opacity: 0 });
+        resetGsapLetterRevealChars(gsap, chars);
         return;
     }
 
