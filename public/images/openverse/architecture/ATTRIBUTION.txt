@@ -1,0 +1,30 @@
+Thème : architecture — requête Openverse « modern architecture building »
+25 image(s) — licences CC0 / CC BY / CC BY-SA
+https://openverse.org
+
+fichier	licence	auteur	source	url
+architecture/architecture-01.jpg	cc0	Wonderlane	flickr	https://www.flickr.com/photos/71401718@N00/6239560861
+architecture/architecture-02.jpg	by	minhquanfoto	flickr	https://www.flickr.com/photos/76983781@N07/35113466314
+architecture/architecture-03.jpg	by-sa	Mario De Carli	flickr	https://www.flickr.com/photos/11211852@N00/28655058602
+architecture/architecture-04.jpg	by-sa	Mario De Carli	flickr	https://www.flickr.com/photos/11211852@N00/28142533774
+architecture/architecture-05.jpg	by-sa	Mario De Carli	flickr	https://www.flickr.com/photos/11211852@N00/28728637876
+architecture/architecture-06.jpg	by-sa	Mario De Carli	flickr	https://www.flickr.com/photos/11211852@N00/28682900941
+architecture/architecture-07.jpg	by-sa	Mario De Carli	flickr	https://www.flickr.com/photos/11211852@N00/28655057552
+architecture/architecture-08.jpg	cc0	Unknown	rawpixel	https://www.rawpixel.com/image/6022389/photo-image-public-domain-glass-window
+architecture/architecture-09.jpg	cc0	Unknown	rawpixel	https://www.rawpixel.com/image/3293926/free-photo-image-animal-apartment-building-bird
+architecture/architecture-10.jpg	cc0	Faisal Ahammad	wordpress	https://wordpress.org/photos/photo/578684274e/
+architecture/architecture-11.jpg	cc0	Nick Krastev	wordpress	https://wordpress.org/photos/photo/82063e02aa/
+architecture/architecture-12.jpg	by-sa	Viktor O. Ledenyov	wikimedia	https://commons.wikimedia.org/w/index.php?curid=46535802
+architecture/architecture-13.jpg	by-sa	Steve Kally	wikimedia	https://commons.wikimedia.org/w/index.php?curid=120043653
+architecture/architecture-14.jpg	cc0	Ranu Patel	wordpress	https://wordpress.org/photos/photo/13967ef698/
+architecture/architecture-15.jpg	cc0	luis1gonzalez	wordpress	https://wordpress.org/photos/photo/678675c12d/
+architecture/architecture-16.jpg	by	kevin dooley	flickr	https://www.flickr.com/photos/12836528@N00/6801683380
+architecture/architecture-17.jpg	by	Daveybot	flickr	https://www.flickr.com/photos/12771303@N00/6424956
+architecture/architecture-18.jpg	by	o palsson	flickr	https://www.flickr.com/photos/45713725@N00/8422970825
+architecture/architecture-19.jpg	by-sa	Andrew Dupont	flickr	https://www.flickr.com/photos/95778894@N00/172724622
+architecture/architecture-20.jpg	by	seier+seier	flickr	https://www.flickr.com/photos/94852245@N00/5122476997
+architecture/architecture-21.jpg	by	JeepersMedia	flickr	https://www.flickr.com/photos/39160147@N03/14561958486
+architecture/architecture-22.jpg	by	seier+seier	flickr	https://www.flickr.com/photos/94852245@N00/5427505450
+architecture/architecture-23.jpg	by	The City of Toronto	flickr	https://www.flickr.com/photos/34608255@N08/10056492813
+architecture/architecture-24.jpg	by	MTAPhotos	flickr	https://www.flickr.com/photos/61135621@N03/8134049328
+architecture/architecture-25.jpg	by	The City of Toronto	flickr	https://www.flickr.com/photos/34608255@N08/10056437846

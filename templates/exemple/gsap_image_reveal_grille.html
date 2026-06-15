@@ -11,61 +11,81 @@
   - data-gsap-image-reveal-duration-value (s, défaut 0.75)
   - data-gsap-image-reveal-stagger-value  (s entre images, défaut 0.08)
   - data-gsap-image-reveal-ease-value     (défaut power3.out)
+
+  Sélecteur démo : .gsap-image-reveal__effect-select (rejoue l’animation au changement)
 -->
-<div class="gsap-image-reveal content-showcase content-showcase--palette-cool text-body py-4">
+<div
+    data-gsap-image-reveal-effect-value="horizontal-alt"
+    data-gsap-image-reveal-stagger-value="0.12"
+    class="gsap-image-reveal content-showcase content-showcase--palette-cool text-body py-4">
     <header class="text-center mb-4 px-3">
         <p class="text-uppercase small fw-semibold text-muted mb-2">GSAP · grille d’images</p>
-        <h1 class="display-6 fw-bold mb-2">Portfolio — 9 visuels</h1>
-        <p class="lead col-lg-8 mx-auto mb-0">
-            Arrivée en <strong>alternance gauche / droite</strong> (<code>horizontal-alt</code>).
-            Chaque vignette est un <code>.gsap-image-reveal__item</code>.
-        </p>
+        <h1 class="display-6 fw-bold mb-3">Portfolio — 9 visuels</h1>
+        <div class="d-inline-flex flex-wrap justify-content-center align-items-center gap-2">
+            <label for="gsap-image-reveal-effect-picker" class="form-label mb-0 small fw-semibold">Effet</label>
+            <select
+                id="gsap-image-reveal-effect-picker"
+                class="form-select form-select-sm w-auto gsap-image-reveal__effect-select"
+                aria-label="Effet d’apparition des images"
+            >
+                <option value="horizontal-alt">horizontal-alt · alternance gauche / droite (défaut)</option>
+                <option value="horizontal-left">horizontal-left · depuis la gauche</option>
+                <option value="horizontal-right">horizontal-right · depuis la droite</option>
+                <option value="vertical-alt">vertical-alt · alternance haut / bas</option>
+                <option value="vertical-up">vertical-up · depuis le bas</option>
+                <option value="vertical-down">vertical-down · depuis le haut</option>
+                <option value="fade">fade · fondu</option>
+                <option value="scale">scale · zoom</option>
+                <option value="blur">blur · flou</option>
+                <option value="rotate">rotate · rotation légère</option>
+            </select>
+        </div>
     </header>
 
     <div class="row g-3 g-md-4 px-2">
         <div class="col-4">
             <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
-                <img src="https://picsum.photos/seed/grille-reveal-1/800/600" alt="Projet 1" width="800" height="600" loading="lazy">
+                <img src="/images/openverse/architecture/architecture-01.jpg" alt="Projet 1" width="800" height="600" loading="lazy">
             </figure>
         </div>
         <div class="col-4">
             <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
-                <img src="https://picsum.photos/seed/grille-reveal-2/800/600" alt="Projet 2" width="800" height="600" loading="lazy">
+                <img src="/images/openverse/architecture/architecture-02.jpg" alt="Projet 2" width="800" height="600" loading="lazy">
             </figure>
         </div>
         <div class="col-4">
             <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
-                <img src="https://picsum.photos/seed/grille-reveal-3/800/600" alt="Projet 3" width="800" height="600" loading="lazy">
+                <img src="/images/openverse/architecture/architecture-03.jpg" alt="Projet 3" width="800" height="600" loading="lazy">
             </figure>
         </div>
         <div class="col-4">
             <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
-                <img src="https://picsum.photos/seed/grille-reveal-4/800/600" alt="Projet 4" width="800" height="600" loading="lazy">
+                <img src="/images/openverse/architecture/architecture-04.jpg" alt="Projet 4" width="800" height="600" loading="lazy">
             </figure>
         </div>
         <div class="col-4">
             <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
-                <img src="https://picsum.photos/seed/grille-reveal-5/800/600" alt="Projet 5" width="800" height="600" loading="lazy">
+                <img src="/images/openverse/architecture/architecture-05.jpg" alt="Projet 5" width="800" height="600" loading="lazy">
             </figure>
         </div>
         <div class="col-4">
             <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
-                <img src="https://picsum.photos/seed/grille-reveal-6/800/600" alt="Projet 6" width="800" height="600" loading="lazy">
+                <img src="/images/openverse/architecture/architecture-06.jpg" alt="Projet 6" width="800" height="600" loading="lazy">
             </figure>
         </div>
         <div class="col-4">
             <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
-                <img src="https://picsum.photos/seed/grille-reveal-7/800/600" alt="Projet 7" width="800" height="600" loading="lazy">
+                <img src="/images/openverse/architecture/architecture-07.jpg" alt="Projet 7" width="800" height="600" loading="lazy">
             </figure>
         </div>
         <div class="col-4">
             <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
-                <img src="https://picsum.photos/seed/grille-reveal-8/800/600" alt="Projet 8" width="800" height="600" loading="lazy">
+                <img src="/images/openverse/architecture/architecture-08.jpg" alt="Projet 8" width="800" height="600" loading="lazy">
             </figure>
         </div>
         <div class="col-4">
             <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
-                <img src="https://picsum.photos/seed/grille-reveal-9/800/600" alt="Projet 9" width="800" height="600" loading="lazy">
+                <img src="/images/openverse/architecture/architecture-09.jpg" alt="Projet 9" width="800" height="600" loading="lazy">
             </figure>
         </div>
     </div>

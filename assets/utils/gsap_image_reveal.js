@@ -158,6 +158,22 @@ function bindReplay(gsap, root) {
     replay.addEventListener('click', () => playGsapImageReveal(gsap, root));
 }
 
+function bindEffectSelect(gsap, root) {
+    const select = root.querySelector('.gsap-image-reveal__effect-select');
+    if (!select || select.dataset.gsapImageRevealEffectSelectBound === '1') {
+        return;
+    }
+
+    select.dataset.gsapImageRevealEffectSelectBound = '1';
+    const effect = resolveEffectName(readRevealConfig(root).effect);
+    select.value = effect;
+
+    select.addEventListener('change', () => {
+        root.dataset.gsapImageRevealEffectValue = select.value;
+        playGsapImageReveal(gsap, root);
+    });
+}
+
 function initGsapImageRevealBlock(gsap, root) {
     if (root.dataset.gsapImageRevealMounted === '1') {
         return;
@@ -166,6 +182,7 @@ function initGsapImageRevealBlock(gsap, root) {
     root.dataset.gsapImageRevealMounted = '1';
     playGsapImageReveal(gsap, root);
     bindReplay(gsap, root);
+    bindEffectSelect(gsap, root);
 }
 
 export function initPostContentGsapImageReveal(root = document) {
