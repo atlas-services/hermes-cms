@@ -7,6 +7,7 @@ import { Carousel } from 'bootstrap';
 import { initPostContentGsapTextReveal } from '../../../utils/gsap_text_reveal.js';
 import { initPostContentGsapLetterReveal } from '../../../utils/gsap_letter_reveal.js';
 import { initPostContentGsapImageReveal } from '../../../utils/gsap_image_reveal.js';
+import { initPostContentGsapHeroSplit } from '../../../utils/gsap_hero_split.js';
 import { initPostContentGsapShapeBuild } from '../../../utils/gsap_shape_build.js';
 import { initPostContentSplideCarousel } from '../../../utils/splide_carousel.js';
 import { initPostContentHeroPresentStatic, initPostContentSplideHeroPresent } from '../../../utils/splide_hero_present.js';
@@ -167,6 +168,7 @@ export function initHermesJsFront() {
     initPostContentCarousels();
     initModalImage();
     initPostContentGsapTextReveal();
+    initPostContentGsapHeroSplit();
     initPostContentGsapLetterReveal();
     initPostContentGsapImageReveal();
     initPostContentGsapShapeBuild();
@@ -180,8 +182,9 @@ export function initHermesJsFront() {
         colorLink();
         initPostContentCarousels();
         initPostContentGsapTextReveal();
+        initPostContentGsapHeroSplit();
         initPostContentGsapLetterReveal();
-    initPostContentGsapImageReveal();
+        initPostContentGsapImageReveal();
         initPostContentGsapShapeBuild();
         initPostContentSplideCarousel();
         initPostContentGsapCarte();
