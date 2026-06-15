@@ -240,6 +240,19 @@ export default class extends Controller {
             return;
         }
         select.dataset.previousValue = String(v);
+        const row = select.closest('.list-items');
+        const gsapWrap = row?.querySelector('.js-section-gsap-effect-wrap');
+        const selected = select.options[select.selectedIndex];
+        const code = selected?.dataset?.templateCode ?? '';
+        if (gsapWrap) {
+            gsapWrap.classList.toggle('d-none', code !== 'folio2');
+        }
+    }
+
+    async persistSectionGsapImageEffect(event) {
+        await this._postSectionField('update-section-gsap-image-effect', event, {
+            template_gsap_image_effect: event.currentTarget.value,
+        });
     }
 
     async persistSectionLocale(event) {

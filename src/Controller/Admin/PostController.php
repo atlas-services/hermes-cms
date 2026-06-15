@@ -361,6 +361,7 @@ class PostController extends AbstractController
             'menu_locales' => $this->appLocaleService->getContentLocales(),
             'sectionModaleChoices' => $this->templateRepository->getModaleChoicesForSectionAdmin(),
             'sectionListeTemplateChoices' => $this->buildSectionListeTemplateChoicesBySectionId($selectedPage),
+            'gsapImageRevealEffectChoices' => \App\Enum\GsapImageRevealEffect::choicesForAdmin(),
         ]);
     }
 

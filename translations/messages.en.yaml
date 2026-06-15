@@ -34,6 +34,8 @@ form:
     section_bgcolor: 'Background color'
     section_image_filter: 'Image filter'
     section_liste_template: List layout
+    section_gsap_image_effect: GSAP image effect
+    section_active_width: Active · Width
     section_no_template: No layout
     post_template: Presentation Type
     post_template_help: This template defines the section created for this post.

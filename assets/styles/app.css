@@ -86,6 +86,58 @@ body {
     border-radius: 0.125rem;
 }
 
+/* Admin liste des pages — colonnes compactes + actions sur deux lignes */
+.hermes-admin-section-list .hermes-section-list__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 5.5rem;
+}
+
+.hermes-admin-section-list .hermes-section-list__stack--options {
+    min-width: 6.5rem;
+}
+
+.hermes-admin-section-list .hermes-section-list__col-active-width,
+.hermes-admin-section-list .hermes-section-list__cell-active-width {
+    width: 4.5rem;
+}
+
+.hermes-admin-section-list .hermes-section-list__col-liste,
+.hermes-admin-section-list .hermes-section-list__cell-liste {
+    min-width: 9rem;
+}
+
+.hermes-admin-section-list .hermes-section-list__gsap .form-select {
+    font-size: 0.75rem;
+}
+
+.hermes-admin-section-list .form-select-sm,
+.hermes-admin-section-list .form-control-sm {
+    min-width: 0;
+    width: 100%;
+    max-width: 7rem;
+}
+
+.hermes-admin-section-list .hermes-section-actions {
+    min-width: 11rem;
+}
+
+.hermes-admin-section-list .hermes-section-actions__order {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.hermes-admin-section-list .hermes-section-actions__tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
+}
+
 /* Chevrons navigation page (Hermes 2.2.7) */
 .hermes-chevron {
     margin: 0;

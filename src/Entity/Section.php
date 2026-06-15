@@ -56,6 +56,10 @@ class Section implements PositionableInterface
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $template_image_filter = null;
 
+    /** Effet GSAP image-reveal (folio2) : code effet ou « aucun ». */
+    #[ORM\Column(name: 'template_gsap_image_effect', type: 'string', length: 32, nullable: true)]
+    private ?string $templateGsapImageEffect = null;
+
     /** Locale explicite pour les sections footer (sans menu). */
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
     #[Assert\Locale]
@@ -293,6 +297,24 @@ class Section implements PositionableInterface
         $this->template_image_filter = $template_image_filter;
 
         return $this;
+    }
+
+    public function getTemplateGsapImageEffect(): ?string
+    {
+        return $this->templateGsapImageEffect;
+    }
+
+    public function setTemplateGsapImageEffect(?string $templateGsapImageEffect): self
+    {
+        $normalized = $templateGsapImageEffect !== null ? trim($templateGsapImageEffect) : null;
+        $this->templateGsapImageEffect = $normalized !== '' ? $normalized : null;
+
+        return $this;
+    }
+
+    public function isFolioDynamique(): bool
+    {
+        return 'folio2' === strtolower(trim((string) ($this->template?->getCode() ?? '')));
     }
 
     // -------------------------

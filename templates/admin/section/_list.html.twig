@@ -1,18 +1,17 @@
-<table class="table table-hover hermes-admin-section-list">
+<table class="table table-sm table-hover hermes-admin-section-list">
     <thead>
         <tr>
-            <th>{{ 'form.label.active'|trans }}</th>
+            <th class="hermes-section-list__col-active-width">{{ 'form.label.section_active_width'|trans }}</th>
             {% if footerSectionList|default(false) %}
                 <th>{{ 'global.locale'|trans }}</th>
             {% endif %}
-            <th>{{ 'form.label.section_width_1_to_12'|trans }}</th>
-            <th>{{ 'form.label.section_liste_template'|trans }}</th>
+            <th class="hermes-section-list__col-liste">{{ 'form.label.section_liste_template'|trans }}</th>
             <th>{{ 'form.label.section_modal'|trans }}</th>
             <th>{{ 'form.label.section_modal_width_1_to_12'|trans }}</th>
             <th>{{ 'form.label.section_bgcolor'|trans }}</th>
             <th>{{ 'form.label.section_list_options'|trans }}</th>
             <th>{{ 'Posts' }}</th>
-            <th>{{ 'form.label.actions'|trans() }}</th>
+            <th class="hermes-section-list__col-actions">{{ 'form.label.actions'|trans() }}</th>
         </tr>
     </thead>
     <tbody
@@ -22,22 +21,37 @@
     >
         {% for section in sections %}
             {% set isListe = section.template and section.template.type|trim|lower == 'liste' %}
+            {% set isFolioDynamique = isListe and section.template.code == 'folio2' %}
             <tr class="list-items align-middle" data-move-item-target="item" data-item-id="{{ section.id }}">
-                <td>
-                    <div class="form-check form-switch form-switch-sm my-0">
-                        <input
+                <td class="hermes-section-list__cell-compact">
+                    <div class="hermes-section-list__stack">
+                        <div class="form-check form-switch form-switch-sm my-0">
+                            <input
+                                data-controller="active-item"
+                                type="checkbox"
+                                class="form-check-input bg-success"
+                                data-action="click->active-item#switch"
+                                {{ section.active ? 'checked' : '' }}
+                                aria-label="{{ 'form.label.active'|trans }}"
+                            >
+                        </div>
+                        {% set sectionWidth = section.templateWidth ?? 10 %}
+                        <select
+                            class="form-select form-select-sm"
+                            aria-label="{{ 'form.label.section_width_1_to_12'|trans }}"
                             data-controller="active-item"
-                            type="checkbox"
-                            class="form-check-input bg-success"
-                            data-action="click->active-item#switch"
-                            {{ section.active ? 'checked' : '' }}
+                            data-action="change->active-item#persistTemplateWidth"
                         >
+                            {% for w in 1..12 %}
+                                <option value="{{ w }}" {{ sectionWidth == w ? 'selected' : '' }}>{{ w }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </td>
                 {% if footerSectionList|default(false) %}
                     <td>
                         <select
-                            class="form-select form-select-sm w-auto"
+                            class="form-select form-select-sm"
                             aria-label="{{ 'global.locale'|trans }}"
                             data-controller="active-item"
                             data-action="change->active-item#persistSectionLocale"
@@ -50,39 +64,51 @@
                         </select>
                     </td>
                 {% endif %}
-                <td>
-                    {% set sectionWidth = section.templateWidth ?? 10 %}
-                    <select
-                        class="form-select form-select-sm w-auto"
-                        aria-label="{{ 'form.label.section_width_1_to_12'|trans }}"
-                        data-controller="active-item"
-                        data-action="change->active-item#persistTemplateWidth"
-                    >
-                        {% for w in 1..12 %}
-                            <option value="{{ w }}" {{ sectionWidth == w ? 'selected' : '' }}>{{ w }}</option>
-                        {% endfor %}
-                    </select>
-                </td>
-                <td>
+                <td class="hermes-section-list__cell-liste">
                     {% if isListe %}
-                        {% set listeChoices = sectionListeTemplateChoices[section.id]|default([]) %}
-                        {% if listeChoices|length > 1 %}
-                            <select
-                                class="form-select form-select-sm w-auto"
-                                aria-label="{{ 'form.label.section_liste_template'|trans }}"
-                                data-controller="active-item"
-                                data-action="change->active-item#persistSectionListeTemplate"
-                                data-previous-value="{{ section.template.id }}"
-                            >
-                                {% for choice in listeChoices %}
-                                    <option value="{{ choice.id }}" {{ choice.id == section.template.id ? 'selected' : '' }}>
-                                        {{ choice.name }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        {% else %}
-                            {{ section.template.name }}
-                        {% endif %}
+                        <div class="hermes-section-list__stack">
+                            {% set listeChoices = sectionListeTemplateChoices[section.id]|default([]) %}
+                            {% if listeChoices|length > 1 %}
+                                <select
+                                    class="form-select form-select-sm"
+                                    aria-label="{{ 'form.label.section_liste_template'|trans }}"
+                                    data-controller="active-item"
+                                    data-action="change->active-item#persistSectionListeTemplate"
+                                    data-previous-value="{{ section.template.id }}"
+                                >
+                                    {% for choice in listeChoices %}
+                                        <option
+                                            value="{{ choice.id }}"
+                                            data-template-code="{{ choice.code }}"
+                                            {{ choice.id == section.template.id ? 'selected' : '' }}
+                                        >
+                                            {{ choice.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <span class="small">{{ section.template.name }}</span>
+                            {% endif %}
+                            <div class="js-section-gsap-effect-wrap hermes-section-list__gsap{{ isFolioDynamique ? '' : ' d-none' }}">
+                                <select
+                                    class="form-select form-select-sm"
+                                    aria-label="{{ 'form.label.section_gsap_image_effect'|trans }}"
+                                    data-controller="active-item"
+                                    data-action="change->active-item#persistSectionGsapImageEffect"
+                                >
+                                    {% set currentGsap = section.templateGsapImageEffect %}
+                                    {% for code, label in gsapImageRevealEffectChoices|default([]) %}
+                                        {% set selectedGsap = false %}
+                                        {% if currentGsap == code %}
+                                            {% set selectedGsap = true %}
+                                        {% elseif currentGsap is null and code == 'horizontal-right' %}
+                                            {% set selectedGsap = true %}
+                                        {% endif %}
+                                        <option value="{{ code }}" {{ selectedGsap ? 'selected' : '' }}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
                     {% else %}
                         {{ section.template ? section.template.name : ('form.label.section_no_template'|trans) }}
                     {% endif %}
@@ -91,7 +117,7 @@
                     {% if isListe %}
                         {% set currentModalCode = section.template2 ? section.template2.code : '' %}
                         <select
-                            class="form-select form-select-sm w-auto"
+                            class="form-select form-select-sm"
                             aria-label="{{ 'form.label.section_modal'|trans }}"
                             data-controller="active-item"
                             data-action="change->active-item#persistSectionTemplate2"
@@ -109,7 +135,7 @@
                     {% if isListe %}
                         {% set modal2W = section.rawTemplate2Width ?? 4 %}
                         <select
-                            class="form-select form-select-sm w-auto"
+                            class="form-select form-select-sm"
                             aria-label="{{ 'form.label.section_modal_width_1_to_12'|trans }}"
                             data-controller="active-item"
                             data-action="change->active-item#persistTemplate2Width"
@@ -123,7 +149,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    <div class="hermes-section-appearance d-flex flex-column gap-2 align-items-start">
+                    <div class="hermes-section-appearance d-flex flex-column gap-1 align-items-start">
                         <div class="form-check form-switch form-switch-sm my-0">
                             <input
                                 type="checkbox"
@@ -153,34 +179,35 @@
                 </td>
                 <td>
                     {% if isListe %}
-                        <div class="d-flex flex-column gap-1 align-items-start">
-                            <label class="small text-muted mb-0">{{ 'form.label.section_nb_col'|trans }}</label>
+                        <div class="hermes-section-list__stack hermes-section-list__stack--options">
                             <select
-                                class="form-select form-select-sm w-auto"
+                                class="form-select form-select-sm"
                                 aria-label="{{ 'form.label.section_nb_col'|trans }}"
                                 data-controller="active-item"
                                 data-action="change->active-item#persistSectionTemplateNbCol"
+                                title="{{ 'form.label.section_nb_col'|trans }}"
                             >
                                 {% set nbCol = section.templateNbCol %}
                                 {% for n in 1..8 %}
-                                    <option value="{{ n }}" {{ nbCol == n ? 'selected' : '' }}>{{ n }}</option>
+                                    <option value="{{ n }}" {{ nbCol == n ? 'selected' : '' }}>{{ n }} col.</option>
                                 {% endfor %}
                             </select>
-                            <label class="small text-muted mb-0">{{ 'form.label.section_image_filter'|trans }}</label>
                             <input
                                 type="text"
-                                class="form-control form-control-sm w-auto"
+                                class="form-control form-control-sm"
                                 value="{{ section.templateImageFilter }}"
                                 placeholder="bd_154"
                                 data-controller="active-item"
                                 data-action="change->active-item#persistSectionTemplateImageFilter"
+                                title="{{ 'form.label.section_image_filter'|trans }}"
+                                aria-label="{{ 'form.label.section_image_filter'|trans }}"
                             >
                         </div>
                     {% else %}
                         <span class="text-muted">—</span>
                     {% endif %}
                 </td>
-                <td>
+                <td class="small">
                     {% if section.posts|length > 0 %}
                         <ul class="list-unstyled mb-0">
                             {% for post in section.posts %}
@@ -193,41 +220,45 @@
                         <span class="text-muted">Aucun post</span>
                     {% endif %}
                 </td>
-                <td>
-                    <button class="btn btn-outline-success btn-sm me-1" data-action="click->move-item#moveUp">↑</button>
-                    <button class="btn btn-outline-success btn-sm me-3" data-action="click->move-item#moveDown">↓</button>
-                    <a class="btn btn-success btn-sm" href="{{ path('post_new_section', {id: section.id}) }}">
-                        {{ 'Ajouter un post' }}
-                    </a>
-                    {% if isListe %}
-                        {{ include('admin/_btn_add_icon.html.twig', {
-                            href: path('post_bulk_import_media_images', { id: section.id }),
-                            label: 'admin.post_bulk.add_images'|trans,
-                            btn_class: 'btn btn-outline-primary btn-sm ms-1',
+                <td class="hermes-section-actions">
+                    <div class="hermes-section-actions__order">
+                        <button type="button" class="btn btn-outline-success btn-sm" data-action="click->move-item#moveUp" aria-label="{{ 'form.label.move_up'|trans|default('Monter') }}">↑</button>
+                        <button type="button" class="btn btn-outline-success btn-sm" data-action="click->move-item#moveDown" aria-label="{{ 'form.label.move_down'|trans|default('Descendre') }}">↓</button>
+                    </div>
+                    <div class="hermes-section-actions__tools">
+                        <a class="btn btn-success btn-sm" href="{{ path('post_new_section', {id: section.id}) }}">
+                            {{ 'Ajouter un post' }}
+                        </a>
+                        {% if isListe %}
+                            {{ include('admin/_btn_add_icon.html.twig', {
+                                href: path('post_bulk_import_media_images', { id: section.id }),
+                                label: 'admin.post_bulk.add_images'|trans,
+                                btn_class: 'btn btn-outline-primary btn-sm',
+                            }) }}
+                            <form method="post" action="{{ path('section_clear_liste_images', { id: section.id }) }}" class="d-inline" data-confirm="{{ 'admin.section.confirm_clear_images'|trans|e('html_attr') }}" onsubmit="return confirm(this.getAttribute('data-confirm'));">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete_liste_posts_' ~ section.id) }}">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">{{ 'admin.section.clear_all_images'|trans }}</button>
+                            </form>
+                        {% endif %}
+                        {{ include('admin/_delete_icon_form.html.twig', {
+                            action: path('section_delete', { id: section.id }),
+                            csrf_token: csrf_token('delete_section_' ~ section.id),
+                            confirm_message: 'admin.section.confirm_delete_section'|trans,
+                            form_class: '',
                         }) }}
-                        <form method="post" action="{{ path('section_clear_liste_images', { id: section.id }) }}" class="d-inline" data-confirm="{{ 'admin.section.confirm_clear_images'|trans|e('html_attr') }}" onsubmit="return confirm(this.getAttribute('data-confirm'));">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete_liste_posts_' ~ section.id) }}">
-                            <button type="submit" class="btn btn-outline-danger btn-sm ms-1">{{ 'admin.section.clear_all_images'|trans }}</button>
-                        </form>
-                    {% endif %}
-                    {{ include('admin/_delete_icon_form.html.twig', {
-                        action: path('section_delete', { id: section.id }),
-                        csrf_token: csrf_token('delete_section_' ~ section.id),
-                        confirm_message: 'admin.section.confirm_delete_section'|trans,
-                        form_class: ' ms-1',
-                    }) }}
-                    <a class="btn btn-outline-secondary btn-sm ms-1"
-                       href="{{ path('admin_content_transfer_section', { id: section.id, page: selectedPage.id|default(null), menu_locale: menu_locale|default(app.request.query.get('menu_locale')) }) }}"
-                       title="{{ 'admin.content_transfer.title'|trans }}"
-                       data-bs-toggle="tooltip">
-                        {{ ux_icon('fa:copy', {height: '16px'}) }}
-                        <span class="visually-hidden">{{ 'admin.content_transfer.title'|trans }}</span>
-                    </a>
+                        <a class="btn btn-outline-secondary btn-sm"
+                           href="{{ path('admin_content_transfer_section', { id: section.id, page: selectedPage.id|default(null), menu_locale: menu_locale|default(app.request.query.get('menu_locale')) }) }}"
+                           title="{{ 'admin.content_transfer.title'|trans }}"
+                           data-bs-toggle="tooltip">
+                            {{ ux_icon('fa:copy', {height: '14px'}) }}
+                            <span class="visually-hidden">{{ 'admin.content_transfer.title'|trans }}</span>
+                        </a>
+                    </div>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="{{ footerSectionList|default(false) ? 10 : 9 }}">{{ 'Aucune section trouvée pour cette page.' }}</td>
+                <td colspan="{{ footerSectionList|default(false) ? 9 : 8 }}">{{ 'Aucune section trouvée pour cette page.' }}</td>
             </tr>
         {% endfor %}
     </tbody>

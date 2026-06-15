@@ -397,6 +397,35 @@ class BaseController extends AbstractController
         return new JsonResponse(['status' => 'success']);
     }
 
+    #[Route('/update-section-gsap-image-effect', name: 'app_update_section_gsap_image_effect', methods: ['POST'])]
+    public function updateSectionGsapImageEffect(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $section = $this->resolveFolioDynamiqueSectionFromJson($request, $entityManager);
+        if ($section instanceof JsonResponse) {
+            return $section;
+        }
+
+        try {
+            /** @var array{template_gsap_image_effect?: mixed} $data */
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        $effect = trim((string) ($data['template_gsap_image_effect'] ?? ''));
+        if ($effect === '') {
+            $section->setTemplateGsapImageEffect(null);
+        } elseif (!\App\Enum\GsapImageRevealEffect::isValid($effect)) {
+            return new JsonResponse(['status' => 'invalid template_gsap_image_effect'], 400);
+        } else {
+            $section->setTemplateGsapImageEffect($effect);
+        }
+
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
     #[Route('/update-section-locale', name: 'app_update_section_locale', methods: ['POST'])]
     public function updateSectionLocale(
         Request $request,
@@ -471,6 +500,23 @@ class BaseController extends AbstractController
         $main = $section->getTemplate();
         if ($main === null || trim((string) $main->getType()) !== 'liste') {
             return new JsonResponse(['status' => 'section template must be liste'], 400);
+        }
+
+        return $section;
+    }
+
+    /**
+     * @return Section|JsonResponse
+     */
+    private function resolveFolioDynamiqueSectionFromJson(Request $request, EntityManagerInterface $entityManager): Section|JsonResponse
+    {
+        $section = $this->resolveListeSectionFromJson($request, $entityManager);
+        if ($section instanceof JsonResponse) {
+            return $section;
+        }
+
+        if (!$section->isFolioDynamique()) {
+            return new JsonResponse(['status' => 'section template must be folio2'], 400);
         }
 
         return $section;

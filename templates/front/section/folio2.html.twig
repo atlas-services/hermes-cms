@@ -1,19 +1,19 @@
-{# Folio Dynamique — grille images avec apparition GSAP (horizontal-right par défaut). #}
+{# Folio Dynamique — grille images avec apparition GSAP configurable (section.templateGsapImageEffect). #}
 {% set folioWidth = (section.templateWidth ?? configs.folio_container_width|default(8))|col_lg %}
 {% set colClass = section.templateNbCol|nb_col %}
 {% set sortedPosts = posts|sort((a, b) => a.position <=> b.position) %}
+{% set rawGsap = section.templateGsapImageEffect %}
+{% set gsapEnabled = rawGsap != 'aucun' %}
+{% set gsapEffectValue = (rawGsap is not null and rawGsap != '' and rawGsap != 'aucun') ? rawGsap : 'horizontal-right' %}
 
 <section id="{{ section.id }}" class="pb-0 mx-auto px-0" style="background-color:{{ section.templateBgcolor ?? configs.content_bgcolor|default('#ffffff') }}">
     <div class="container-fluid col-12 col-lg-{{ folioWidth }} mx-auto px-0">
-        <div
-            class="gsap-image-reveal row g-3 g-md-4 px-2"
-            data-gsap-image-reveal-effect-value="horizontal-right"
-        >
+        <div class="row g-3 g-md-4 px-2{{ gsapEnabled ? ' gsap-image-reveal' : '' }}"{% if gsapEnabled %} data-gsap-image-reveal-effect-value="{{ gsapEffectValue }}"{% endif %}>
             {% for post in sortedPosts %}
                 {% if vich_uploader_asset(post, 'imageFile') is not null %}
                     {% set imageUrl = asset(vich_uploader_asset(post, 'imageFile')) %}
                     <div class="col-12 col-sm-{{ colClass }} col-md-{{ colClass }} col-lg-{{ colClass }}">
-                        <figure class="gsap-image-reveal__item ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
+                        <figure class="{{ gsapEnabled ? 'gsap-image-reveal__item ' : '' }}ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm mb-0">
                             {% if section.template2 and section.template2.code in ['modale1', 'modale3'] %}
                                 <a
                                     class="d-block h-100 portfolio-link"
