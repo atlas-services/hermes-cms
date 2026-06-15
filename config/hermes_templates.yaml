@@ -42,10 +42,9 @@ parameters:
       name: Folio Classique
     folio2:
       type: liste 
-      summary: Folio effet survol (+)
+      summary: Folio Dynamique
       code: folio2
-      name: Folio effet survol (+)
-      active: false
+      name: Folio Dynamique
     folio3:
       type: liste 
       summary: Folio gallery

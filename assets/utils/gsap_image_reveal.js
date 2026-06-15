@@ -1,6 +1,6 @@
 import { whenGsapReady } from '../gsap.js';
 
-const ROOT_SELECTOR = '.hermes-front-sections .post-content .gsap-image-reveal';
+const ROOT_SELECTOR = '.hermes-front-sections .gsap-image-reveal';
 const DEFAULT_EFFECT = 'horizontal-alt';
 
 function readNumber(dataset, key, fallback) {
