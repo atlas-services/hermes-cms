@@ -1,14 +1,14 @@
 {# Bouton ou lien « + » avec tooltip (actions admin). #}
-{% set btn_class = btn_class|default('btn btn-success btn-sm') %}
-{% set icon_height = icon_height|default('16px') %}
-{% set label = label|default('') %}
+{% set btn_class = btn_class is defined ? btn_class : 'btn btn-success btn-sm' %}
+{% set _icon_height = icon_height is defined ? icon_height : '16px' %}
+{% set label = label is defined ? label : '' %}
 
 {% if href is defined and href %}
     <a class="{{ btn_class }}" href="{{ href }}" data-bs-toggle="tooltip" data-bs-title="{{ label|e('html_attr') }}" aria-label="{{ label }}">
 {% else %}
     <button type="{{ type|default('submit') }}" class="{{ btn_class }}" data-bs-toggle="tooltip" data-bs-title="{{ label|e('html_attr') }}" aria-label="{{ label }}"{% if disabled|default(false) %} disabled{% endif %}{% if form is defined and form %} form="{{ form }}"{% endif %}{% if name is defined and name %} name="{{ name }}"{% endif %}>
 {% endif %}
-        {{ ux_icon('fa:plus', {height: icon_height}) }}
+        {{ ux_icon('fa:plus', {height: _icon_height}) }}
         <span class="visually-hidden">{{ label }}</span>
 {% if href is defined and href %}
     </a>

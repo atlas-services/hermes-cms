@@ -354,6 +354,7 @@ config:
   affiche_list_head: Configuration balises title et meta
   affiche_list: Configuration générale du site
   affiche_list_contact: Configuration du contact
+  affiche_list_booking: Configuration des réservations
   affiche_list_newsletter: Configuration de la newsletter
   affiche_list_livredor: Configuration du livre d'or
   affiche_list_menu: Configuration du menu

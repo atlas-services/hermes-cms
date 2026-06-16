@@ -30,11 +30,13 @@ final class Hermes227MediaMigratorTest extends KernelTestCase
         $p = new PDO('sqlite:' . $db);
         $p->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $p->exec('
+CREATE TABLE template (id INTEGER PRIMARY KEY, code TEXT);
 CREATE TABLE menu (id INTEGER PRIMARY KEY, code TEXT);
-CREATE TABLE section (id INTEGER PRIMARY KEY, menu_id INTEGER);
+CREATE TABLE section (id INTEGER PRIMARY KEY, menu_id INTEGER, template_id INTEGER, locale TEXT);
 CREATE TABLE post (id INTEGER PRIMARY KEY, section_id INTEGER, file_name TEXT);
+INSERT INTO template VALUES (1, "folio1");
 INSERT INTO menu VALUES (6, "mon-menu");
-INSERT INTO section VALUES (10, 6);
+INSERT INTO section VALUES (10, 6, 1, "fr");
 INSERT INTO post VALUES (1, 10, "photo.jpg");
 ');
 
@@ -68,11 +70,13 @@ INSERT INTO post VALUES (1, 10, "photo.jpg");
         $p = new PDO('sqlite:' . $db);
         $p->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $p->exec(<<<'SQL'
+CREATE TABLE template (id INTEGER PRIMARY KEY, code TEXT);
 CREATE TABLE menu (id INTEGER PRIMARY KEY, code TEXT);
-CREATE TABLE section (id INTEGER PRIMARY KEY, menu_id INTEGER);
+CREATE TABLE section (id INTEGER PRIMARY KEY, menu_id INTEGER, template_id INTEGER, locale TEXT);
 CREATE TABLE post (id INTEGER PRIMARY KEY, section_id INTEGER, file_name TEXT, content TEXT);
+INSERT INTO template VALUES (1, 'folio1');
 INSERT INTO menu VALUES (2, 'carte');
-INSERT INTO section VALUES (3, 2);
+INSERT INTO section VALUES (3, 2, 1, 'fr');
 INSERT INTO post VALUES (1, 3, 'ma photo.jpg', '<img src="/uploads/demo/content/galerie/slide un.jpg">');
 SQL);
 

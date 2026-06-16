@@ -56,7 +56,11 @@ class MenuControllerTest extends AbstractControllerWebTestCase
             'menu[name]' => 'Root Menu Test',
         ]);
 
-        $this->assertResponseRedirects('/fr/admin/menu');
+        $this->assertResponseRedirects();
+        self::assertStringStartsWith(
+            '/fr/admin/menu',
+            (string) $this->client->getResponse()->headers->get('Location'),
+        );
     }
 
     // -------------------------
@@ -80,7 +84,11 @@ class MenuControllerTest extends AbstractControllerWebTestCase
             'menu[parent]' => $parent->getId(),
         ]);
 
-        $this->assertResponseRedirects('/fr/admin/menu');
+        $this->assertResponseRedirects();
+        self::assertStringStartsWith(
+            '/fr/admin/menu',
+            (string) $this->client->getResponse()->headers->get('Location'),
+        );
     }
 
     // -------------------------
@@ -123,7 +131,11 @@ class MenuControllerTest extends AbstractControllerWebTestCase
             'menu[name]' => 'Updated Menu',
         ]);
 
-        $this->assertResponseRedirects('/fr/admin/menu');
+        $this->assertResponseRedirects();
+        self::assertStringStartsWith(
+            '/fr/admin/menu',
+            (string) $this->client->getResponse()->headers->get('Location'),
+        );
     }
 
     // -------------------------

@@ -22,6 +22,7 @@
         {% for section in sections %}
             {% set isListe = section.template and section.template.type|trim|lower == 'liste' %}
             {% set isFolioDynamique = isListe and section.template.code == 'folio2' %}
+            {% set isBooking = section.template and section.template.code == 'booking' %}
             <tr class="list-items align-middle" data-move-item-target="item" data-item-id="{{ section.id }}">
                 <td class="hermes-section-list__cell-compact">
                     <div class="hermes-section-list__stack">
@@ -239,6 +240,11 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete_liste_posts_' ~ section.id) }}">
                                 <button type="submit" class="btn btn-outline-danger btn-sm">{{ 'admin.section.clear_all_images'|trans }}</button>
                             </form>
+                        {% endif %}
+                        {% if isBooking and hermes_booking_active() %}
+                            <a class="btn btn-outline-primary btn-sm" href="{{ path('hermes_booking_admin_index', { bookingKey: hermes_booking_key(section) }) }}">
+                                {{ 'booking.admin.manage_section'|trans({}, 'booking') }}
+                            </a>
                         {% endif %}
                         {{ include('admin/_delete_icon_form.html.twig', {
                             action: path('section_delete', { id: section.id }),

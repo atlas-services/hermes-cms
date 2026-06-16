@@ -34,7 +34,7 @@ final class FrontFormExtension
     public function formulaireVars(?string $templateCode, array $configs): array
     {
         $kind = FormTemplateKind::tryFromTemplateCode($templateCode);
-        if ($kind === null) {
+        if ($kind === null || $kind === FormTemplateKind::Booking) {
             return [];
         }
 

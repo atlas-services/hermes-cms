@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Template;
+use App\Services\Booking\HermesBookingStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -28,8 +29,10 @@ class TemplateRepository extends ServiceEntityRepository
         'newsletter_template' => 'newsletter_template',
     ];
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly HermesBookingStatus $bookingStatus,
+    ) {
         parent::__construct($registry, Template::class);
     }
 
@@ -73,6 +76,10 @@ class TemplateRepository extends ServiceEntityRepository
     public function getQbInitTemplates(bool $activeForm = true): QueryBuilder
     {
         $templateBase = self::TEMPLATES_BASE;
+
+        if ($this->bookingStatus->isActive()) {
+            $templateBase = array_merge($templateBase, ['booking' => 'booking']);
+        }
 
         if ($activeForm === false) {
             unset(

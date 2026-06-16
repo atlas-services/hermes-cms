@@ -73,6 +73,10 @@ final class SiteFormSubmissionMailer
                 $configs['livredor_contact'] ?? null,
                 $this->adminEmail,
             ),
+            FormTemplateKind::Booking => $this->firstEmail(
+                $configs['contact'] ?? null,
+                $this->adminEmail,
+            ),
         };
     }
 

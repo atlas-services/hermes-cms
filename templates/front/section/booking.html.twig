@@ -1,0 +1,11 @@
+{% if hermes_booking_active() %}
+{% set booking = hermes_booking_context(section) %}
+{% if booking is not empty %}
+{% include '@HermesBooking/front/_formulaire_styles.html.twig' with { form_id: booking.form_id, presentation: booking.form_presentation } %}
+
+<div class="hermes-booking-section">
+    {% include 'components/Alert.html.twig' %}
+    {% include '@HermesBooking/front/booking_form.html.twig' with booking %}
+</div>
+{% endif %}
+{% endif %}

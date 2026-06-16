@@ -1,0 +1,50 @@
+# Défauts config admin « booking » — fusionnés dans le paramètre configs si HermesBookingBundle est installé.
+booking:
+  booking_presentation:
+    summary: Présentation du formulaire de réservation
+    value: ~
+    position: 1
+  booking_user:
+    summary: Texte d'information utilisateur (formulaire de réservation)
+    value: ~
+    position: 2
+  booking_bgcolor:
+    summary: Couleur de fond du formulaire de réservation
+    value: 'transparent'
+    position: 5
+  booking_color:
+    summary: Couleur des textes du formulaire de réservation
+    value: '#000000'
+    position: 4
+  booking_bgcolor_btn:
+    summary: Style du bouton de validation (classe Bootstrap, ex. btn-outline-primary)
+    value: 'btn-outline-primary'
+    position: 6
+  booking_width:
+    summary: Largeur du bloc réservation (max = 12)
+    value: 12
+    position: 3
+  booking_bgcolor_input:
+    summary: Couleur de fond des champs du formulaire de réservation
+    value: '#ffffff'
+    position: 8
+  booking_color_input:
+    summary: Couleur du texte des champs du formulaire de réservation
+    value: '#000000'
+    position: 7
+  booking_rounded_input:
+    summary: Arrondi des champs (max = 5)
+    value: 0
+    position: 9
+  booking_py_input:
+    summary: Padding vertical des champs (max = 5)
+    value: 2
+    position: 10
+  booking_my_input:
+    summary: Marge verticale des champs (max = 5)
+    value: 2
+    position: 11
+  booking_border_color_input:
+    summary: Couleur de bordure des champs du formulaire de réservation
+    value: '#dee2e6'
+    position: 12

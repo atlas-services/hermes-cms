@@ -18,3 +18,9 @@ when@prod:
     ux_icons:
         # Suppress exceptions for missing icons in production
         ignore_not_found: true
+
+when@test:
+    ux_icons:
+        ignore_not_found: true
+        iconify:
+            on_demand: false

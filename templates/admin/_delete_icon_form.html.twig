@@ -1,6 +1,6 @@
 {# Formulaire POST inline avec icône poubelle (liste admin). #}
-{% set btn_class = btn_class|default('btn btn-outline-danger btn-sm') %}
-{% set icon_height = icon_height|default('16px') %}
+{% set btn_class = btn_class is defined ? btn_class : 'btn btn-outline-danger btn-sm' %}
+{% set _icon_height = icon_height is defined ? icon_height : '16px' %}
 <form method="post"
       action="{{ action }}"
       class="d-inline{{ form_class|default('') }}"
@@ -13,7 +13,7 @@
         <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
     {% endfor %}
     <button type="submit" class="{{ btn_class }}" title="{{ 'form.label.delete'|trans }}">
-        {{ ux_icon('fa:trash', {height: icon_height}) }}
+        {{ ux_icon('fa:trash', {height: _icon_height}) }}
         <span class="visually-hidden">{{ 'form.label.delete'|trans }}</span>
     </button>
 </form>

@@ -50,6 +50,10 @@
                                 <p><a class="link-light text-decoration-none mx-3" href="{{ path('admin_footer_sections_index', {_locale: app.request.locale}) }}"> {{ 'admin.footer_sections.nav'|trans() }} </a></p>
                                 <hr class="dropdown-divider">
                                 <p><a class="link-light text-decoration-none mx-3" href="{{ path('config_index', {'type': 'contact'}) }}"> {{ 'config.affiche_list_contact'|trans()|raw }} </a></p>
+                                {% if hermes_booking_active() %}
+                                <hr class="dropdown-divider">
+                                <p><a class="link-light text-decoration-none mx-3" href="{{ path('config_index', {'type': 'booking'}) }}"> {{ 'config.affiche_list_booking'|trans()|raw }} </a></p>
+                                {% endif %}
                                 <hr class="dropdown-divider">
                                 <p><a class="link-light text-decoration-none mx-3" href="{{ path('config_index', {'type': 'newsletter'}) }}"> {{ 'config.affiche_list_newsletter'|trans()|raw }} </a></p>
                                 <hr class="dropdown-divider">
@@ -89,6 +93,12 @@
                                 <p><a class="link-light text-decoration-none mx-3" href="{{ path('admin_newsletters_index', {_locale: app.request.locale}) }}"> {{ 'section.newsletter'|trans()|raw }} </a></p>
                           </ul>
                         </li>
+
+                        {% if hermes_booking_active() %}
+                        <li class="nav-item mt-4">
+                            <a class="nav-link" href="{{ path('hermes_booking_admin_index') }}">{{ 'booking.admin.nav'|trans({}, 'booking') }}</a>
+                        </li>
+                        {% endif %}
 
                         <li class="nav-item mt-4 dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

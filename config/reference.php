@@ -1669,6 +1669,18 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     intercept_redirects?: bool|Param, // Default: false
  *     excluded_ajax_paths?: scalar|Param|null, // Default: "^/((index|app(_[\\w]+)?)\\.php/)?_wdt"
  * }
+ * @psalm-type HermesBookingConfig = array{
+ *     enabled?: bool|Param, // Default: true
+ *     timezone?: scalar|Param|null, // Default: "Europe/Paris"
+ *     admin_email?: scalar|Param|null, // Default: "%env(default::string:HERMES_BOOKING_ADMIN_EMAIL)%"
+ *     from_email?: scalar|Param|null, // Default: "%env(default::string:MAILER_FROM)%"
+ *     section_resolver?: array{
+ *         entity?: scalar|Param|null, // Default: null
+ *         template_code?: scalar|Param|null, // Default: "booking"
+ *         template_relation?: scalar|Param|null, // Default: "template"
+ *         menu_relation?: scalar|Param|null, // Default: "menu"
+ *     },
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1686,6 +1698,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     ux_icons?: UxIconsConfig,
  *     twig_component?: TwigComponentConfig,
  *     vich_uploader?: VichUploaderConfig,
+ *     hermes_booking?: HermesBookingConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1706,6 +1719,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         vich_uploader?: VichUploaderConfig,
  *         debug?: DebugConfig,
  *         web_profiler?: WebProfilerConfig,
+ *         hermes_booking?: HermesBookingConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1724,6 +1738,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         ux_icons?: UxIconsConfig,
  *         twig_component?: TwigComponentConfig,
  *         vich_uploader?: VichUploaderConfig,
+ *         hermes_booking?: HermesBookingConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1743,6 +1758,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig_component?: TwigComponentConfig,
  *         vich_uploader?: VichUploaderConfig,
  *         web_profiler?: WebProfilerConfig,
+ *         hermes_booking?: HermesBookingConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

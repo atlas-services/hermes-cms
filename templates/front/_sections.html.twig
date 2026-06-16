@@ -17,11 +17,16 @@
                     {% elseif mainType == 'libre' %}
                         {% include 'front/section/libre.html.twig' %}
                     {% elseif mainType == 'formulaire' and mainCode != '' %}
-                        {% include 'front/section/' ~ mainCode ~ '.html.twig' with {
+                        {% set formulaireContext = {
                             section: section,
                             menu: menu,
                             posts: posts,
-                        }|merge(hermes_formulaire_vars(mainCode, configs)) %}
+                            configs: configs,
+                        } %}
+                        {% if mainCode != 'booking' %}
+                            {% set formulaireContext = formulaireContext|merge(hermes_formulaire_vars(mainCode, configs)) %}
+                        {% endif %}
+                        {% include 'front/section/' ~ mainCode ~ '.html.twig' with formulaireContext %}
                     {% else %}
                         {% for post in posts %}
                             <article class="my-0">

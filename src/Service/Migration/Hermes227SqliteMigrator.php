@@ -622,13 +622,15 @@ final class Hermes227SqliteMigrator
             $newMenuId = null;
             if ($menuFkCol !== null) {
                 $rawMenu = $r[$menuFkCol] ?? null;
-                if ($rawMenu !== null && $rawMenu !== '') {
-                    $oldMenuId = (int) $rawMenu;
-                    $newMenuId = $menuIdMap[$oldMenuId] ?? null;
-                    if ($newMenuId === null) {
-                        ++$skipped;
-                        continue;
-                    }
+                if ($rawMenu === null || $rawMenu === '') {
+                    ++$skipped;
+                    continue;
+                }
+                $oldMenuId = (int) $rawMenu;
+                $newMenuId = $menuIdMap[$oldMenuId] ?? null;
+                if ($newMenuId === null) {
+                    ++$skipped;
+                    continue;
                 }
             }
 

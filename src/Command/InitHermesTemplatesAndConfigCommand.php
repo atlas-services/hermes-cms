@@ -90,6 +90,11 @@ class InitHermesTemplatesAndConfigCommand extends Command
         $nb = 0;
         $configs = $this->params->get('configs');
 
+        // Configs booking : fusionnées au compile si le bundle est installé (voir hermes_booking_configs.yaml).
+        if (!isset($configs['booking']) && ($bookingDefaults = \App\Services\Booking\HermesBookingConfigDefaults::load()) !== []) {
+            $configs = array_merge($configs, $bookingDefaults);
+        }
+
         if (!$configs) {
             throw new InvalidArgumentException('No config configured.');
         }

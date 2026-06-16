@@ -77,6 +77,7 @@
                 var t = resolveType();
                 var isListe = t === 'liste';
                 var isLibre = t === 'libre';
+                var isFormulaire = t === 'formulaire';
 
                 if (isListe) {
                     if (wrapListeImport) {
@@ -88,6 +89,14 @@
                     wrapContent.classList.add('d-none');
                 } else if (isLibre) {
                     wrapContent.classList.remove('d-none');
+                    if (wrapImage) {
+                        wrapImage.classList.add('d-none');
+                    }
+                    if (wrapListeImport) {
+                        wrapListeImport.classList.add('d-none');
+                    }
+                } else if (isFormulaire) {
+                    wrapContent.classList.add('d-none');
                     if (wrapImage) {
                         wrapImage.classList.add('d-none');
                     }

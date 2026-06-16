@@ -3,6 +3,8 @@
 namespace App\Tests\Base;
 
 use App\DataFixtures\UserFixtures;
+use App\Entity\Config;
+use App\Entity\Template;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -38,11 +40,50 @@ abstract class AbstractControllerWebTestCase extends WebTestCase
             self::getContainer()->get('security.user_password_hasher')
         ));
 
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
+        $executor = new ORMExecutor(
+            $this->em,
+            new ORMPurger($this->em, $this->fixturePurgerExcludedTables()),
+        );
 
         $executor->execute($loader->getFixtures());
         $this->em->clear();
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function fixturePurgerExcludedTables(): array
+    {
+        $platform = $this->em->getConnection()->getDatabasePlatform();
+        $quoteStrategy = $this->em->getConfiguration()->getQuoteStrategy();
+        $schemaManager = $this->em->getConnection()->createSchemaManager();
+
+        $excluded = [
+            $quoteStrategy->getTableName($this->em->getClassMetadata(Template::class), $platform),
+            $quoteStrategy->getTableName($this->em->getClassMetadata(Config::class), $platform),
+        ];
+
+        if (!class_exists(\AtlasServices\HermesBookingBundle\HermesBookingBundle::class)) {
+            return $excluded;
+        }
+
+        foreach ($this->em->getMetadataFactory()->getAllMetadata() as $metadata) {
+            if (!str_starts_with($metadata->getName(), 'AtlasServices\\HermesBookingBundle\\Entity\\')) {
+                continue;
+            }
+
+            $table = $metadata->getTableName();
+            if ($schemaManager->tablesExist([$table])) {
+                continue;
+            }
+
+            $quoted = $quoteStrategy->getTableName($metadata, $platform);
+            $excluded[] = $quoted;
+            $excluded[] = '"'.$table.'"';
+            $excluded[] = $table;
+        }
+
+        return array_values(array_unique($excluded));
     }
 
     protected function tearDown(): void
