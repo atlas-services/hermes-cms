@@ -36,9 +36,9 @@ case "${HERMES_ENV}" in
     dev|test) export APP_DEBUG=1 ;;
 esac
 
-# prod + --no-dev : pas de MakerBundle ; éviter un cache dev/test obsolète.
+# prod : supprimer les caches compilés (évite un container obsolète avant asset-map:compile).
 if [[ "${HERMES_ENV}" == "prod" ]]; then
-    rm -rf var/cache/dev var/cache/test 2>/dev/null || true
+    rm -rf var/cache/dev var/cache/test var/cache/prod 2>/dev/null || true
 fi
 
 _ensure_dir() {
@@ -63,6 +63,9 @@ else
     composer install --optimize-autoloader --no-scripts
 fi
 
+# Recompiler le container avant les commandes console (importmap / asset-map).
+console cache:clear
+
 composer run deploy-assets
 console assets:install public
 
@@ -70,7 +73,8 @@ composer run create-db-file
 composer run create-upload-dir
 
 console doctrine:schema:update --force
-console cache:clear
+console cache:clear --no-warmup
+console cache:warmup
 chmod -Rf 777 var/cache/ var/log/ var/sessions/ data/db/ public/bundles public/uploads
 
 console app:create-user
