@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88b7e209f12c7842552672d5fd1c17ff",
+    "content-hash": "b170087caa55ff68da1018f1f1c79856",
     "packages": [
         {
             "name": "atlas-services/hermes-booking-bundle",
@@ -12,17 +12,25 @@
             "dist": {
                 "type": "path",
                 "url": "../hermesBookingBundle",
-                "reference": "2c6318ebbd984b2f1573393661bdfc83a50a3621"
+                "reference": "d2e34a578258de7cc2a61d4705263e353f8407e2"
             },
             "require": {
+                "doctrine/orm": "^3.0",
                 "php": ">=8.4",
                 "symfony/asset-mapper": "^8.0",
                 "symfony/config": "^8.0",
                 "symfony/dependency-injection": "^8.0",
+                "symfony/form": "^8.0",
                 "symfony/framework-bundle": "^8.0",
                 "symfony/http-kernel": "^8.0",
+                "symfony/mailer": "^8.0",
+                "symfony/routing": "^8.0",
+                "symfony/security-bundle": "^8.0",
                 "symfony/stimulus-bundle": "^2.0",
-                "symfony/ux-twig-component": "^2.0"
+                "symfony/translation": "^8.0",
+                "symfony/twig-bundle": "^8.0",
+                "symfony/validator": "^8.0",
+                "twig/twig": "^3.0"
             },
             "type": "symfony-bundle",
             "extra": {
