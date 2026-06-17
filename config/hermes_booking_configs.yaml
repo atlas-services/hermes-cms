@@ -20,6 +20,14 @@ booking:
     summary: Style du bouton de validation (classe Bootstrap, ex. btn-outline-primary)
     value: 'btn-outline-primary'
     position: 6
+  booking_color_btn:
+    summary: Couleur du texte du bouton de réservation (optionnel, prioritaire sur la classe Bootstrap)
+    value: ~
+    position: 13
+  booking_button_bgcolor:
+    summary: Couleur de fond du bouton de réservation (optionnel, inversée au survol avec la couleur du texte)
+    value: ~
+    position: 14
   booking_width:
     summary: Largeur du bloc réservation (max = 12)
     value: 12

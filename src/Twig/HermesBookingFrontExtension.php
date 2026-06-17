@@ -60,6 +60,8 @@ final class HermesBookingFrontExtension
             'bgcolor' => $resolved['bgcolor'],
             'color' => $resolved['color'],
             'bgcolor_btn' => $resolved['bgcolor_btn'],
+            'color_btn' => $resolved['color_btn'],
+            'button_bgcolor' => $resolved['button_bgcolor'],
             'bgcolor_input' => $resolved['bgcolor_input'],
             'color_input' => $resolved['color_input'],
             'border_color_input' => $resolved['border_color_input'],

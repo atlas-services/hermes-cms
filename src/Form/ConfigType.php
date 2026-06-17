@@ -142,7 +142,7 @@ class ConfigType extends AbstractType
         'btn-outline-light' => 'btn-outline-light',
         'btn-outline-dark' => 'btn-outline-dark',
         'btn-outline-link' => 'btn-outline-link',
-
+        'btn-outline-white' => 'btn-outline-white',
     ];
 
 
@@ -392,6 +392,10 @@ class ConfigType extends AbstractType
                     break;        
                 // livredor_bgcolor_btn
                 case 'livredor_bgcolor_btn':
+                    $choice = true;
+                    $options = self::BTN_OUTLINE;
+                    break;
+                case 'booking_bgcolor_btn':
                     $choice = true;
                     $options = self::BTN_OUTLINE;
                     break;

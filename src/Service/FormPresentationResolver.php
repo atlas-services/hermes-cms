@@ -13,6 +13,8 @@ use App\Enum\FormTemplateKind;
  *   bgcolor: string,
  *   color: string,
  *   bgcolor_btn: string,
+ *   color_btn: ?string,
+ *   button_bgcolor: ?string,
  *   bgcolor_input: string,
  *   color_input: string,
  *   border_color_input: string,
@@ -46,6 +48,8 @@ final class FormPresentationResolver
             'bgcolor' => (string) ($configs[$prefix . '_bgcolor'] ?? $configs['contact_bgcolor'] ?? 'transparent'),
             'color' => (string) ($configs[$prefix . '_color'] ?? $configs['contact_color'] ?? '#000000'),
             'bgcolor_btn' => (string) ($configs[$prefix . '_bgcolor_btn'] ?? $configs['contact_bgcolor_btn'] ?? 'btn-outline-primary'),
+            'color_btn' => $this->nullableColor($configs[$prefix . '_color_btn'] ?? null),
+            'button_bgcolor' => $this->nullableColor($configs[$prefix . '_button_bgcolor'] ?? null),
             'bgcolor_input' => (string) ($configs[$prefix.'_bgcolor_input'] ?? $configs['contact_bgcolor_input'] ?? '#ffffff'),
             'color_input' => (string) ($configs[$prefix.'_color_input'] ?? $configs['contact_color_input'] ?? '#000000'),
             'border_color_input' => (string) ($configs[$prefix.'_border_color_input'] ?? $configs['contact_border_color_input'] ?? '#dee2e6'),
@@ -80,6 +84,13 @@ final class FormPresentationResolver
         $s = trim((string) $value);
 
         return $s === '' || $s === '~' ? null : $s;
+    }
+
+    private function nullableColor(mixed $value): ?string
+    {
+        $s = $this->nullableString($value);
+
+        return $s !== null && preg_match('/^#[0-9a-fA-F]{3,8}$/', $s) === 1 ? $s : null;
     }
 
     private function isConfigFlagEnabled(mixed $value): bool
