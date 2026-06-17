@@ -29,16 +29,47 @@ import {
     List,
     MediaEmbed,
     Paragraph,
+    Plugin,
     SimpleUploadAdapter,
     SourceEditing,
     Strikethrough,
-    Underline
+    Underline,
+    ButtonView
 } from 'ckeditor5';
 // Si vous devez importer des traductions, ici les traductions en français
 import coreTranslations from 'ckeditor5/translations/fr.js';
 import 'ckeditor5/dist/ckeditor5.min.css';
 
 export default class EnhancedEditor extends ClassicEditor {}
+
+class EditorBackgroundToggle extends Plugin {
+    init() {
+        const editor = this.editor;
+
+        editor.ui.componentFactory.add('editorBackgroundToggle', (locale) => {
+            const button = new ButtonView(locale);
+
+            button.set({
+                label: 'Fond éditeur',
+                tooltip: 'Basculer le fond de la zone d’édition',
+                withText: true,
+            });
+
+            button.on('execute', () => {
+                const editable = editor.ui.getEditableElement();
+
+                if (!editable) {
+                    return;
+                }
+
+                const isActive = editable.classList.toggle('ck-editor__editable--contrast-bg');
+                button.isOn = isActive;
+            });
+
+            return button;
+        });
+    }
+}
 
 EnhancedEditor.builtinPlugins = [
     Alignment,
@@ -69,6 +100,7 @@ EnhancedEditor.builtinPlugins = [
     List,
     MediaEmbed,
     Paragraph,
+    EditorBackgroundToggle,
     SimpleUploadAdapter,
     SourceEditing,
     Strikethrough,
@@ -79,6 +111,7 @@ EnhancedEditor.defaultConfig = {
     licenseKey: 'GPL',
     toolbar: [
         'sourceEditing',
+        'editorBackgroundToggle',
         "list",
         "paragraph",
         'fontSize',

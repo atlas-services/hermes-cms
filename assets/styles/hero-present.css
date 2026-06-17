@@ -325,3 +325,90 @@
 .hermes-pitch-track[hidden] {
     display: none !important;
 }
+
+/* CKEditor: les animations front masquent le contenu avant initialisation JS.
+   Dans l'éditeur, on force une version statique pour garder le texte éditable. */
+.ck-content .hermes-hero-present .gsap-letter-reveal__line,
+.ck-content .hermes-hero-present:not(.is-ready) .gsap-letter-reveal__line {
+    visibility: visible !important;
+    color: var(--gsap-letter-reveal-color, var(--hermes-hero-text, #f4f6f8)) !important;
+}
+
+.ck-content .hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__title,
+.ck-content .hermes-hero-present .gsap-letter-reveal__line.hermes-hero-present__subtitle {
+    color: var(--gsap-letter-reveal-color, var(--hermes-hero-text, #f4f6f8)) !important;
+}
+
+.ck-content .hermes-hero-present__body,
+.ck-content .hermes-hero-present__icon,
+.ck-content .hermes-hero-present__actions {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.ck-content .hermes-hero-present *,
+.ck-content .hermes-hero-present *::before,
+.ck-content .hermes-hero-present *::after {
+    visibility: visible !important;
+}
+
+.ck-content .hermes-hero-present .gsap-letter-reveal__char,
+.ck-content .hermes-hero-present .gsap-letter-reveal__word {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.ck-content .hermes-hero-present__kicker,
+.ck-content .hermes-hero-present__body,
+.ck-content .hermes-hero-present__list,
+.ck-content .hermes-hero-present__list li {
+    color: var(--hermes-hero-muted, #cbd5e1) !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.ck-content .hermes-hero-present__body strong,
+.ck-content .hermes-hero-present__list strong {
+    color: var(--hermes-hero-text, #f8fafc) !important;
+}
+
+.ck-content .hermes-hero-present__actions,
+.ck-content .hermes-hero-present__actions *,
+.ck-content .hermes-hero-present__btn {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.ck-content .hermes-hero-present a:not(.hermes-hero-present__btn) {
+    color: var(--hermes-hero-accent, #c026d3) !important;
+}
+
+.ck-content .splide-carousel--hero-present {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    margin-inline: 0 !important;
+    overflow: visible !important;
+}
+
+.ck-content .splide-carousel--hero-present .splide__track,
+.ck-content .splide-carousel--hero-present .splide__list,
+.ck-content .splide-carousel--hero-present .splide__slide {
+    height: auto !important;
+}
+
+.ck-content .splide-carousel--hero-present .splide__list {
+    display: block !important;
+}
+
+.ck-content .splide-carousel--hero-present .splide__slide {
+    display: block !important;
+    margin-bottom: 1rem;
+    border: 1px dashed color-mix(in srgb, var(--hermes-hero-accent, #6b9fd4) 45%, transparent);
+}
+
+.ck-editor__editable.ck-editor__editable--contrast-bg {
+    background-color: #111827 !important;
+    background-image: none !important;
+}
