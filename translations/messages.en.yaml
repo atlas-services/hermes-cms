@@ -51,6 +51,7 @@ form:
     invalid: The form has errors. Please correct the highlighted fields.
     sent: Your message has been sent. Thank you!
     send_failed: Sending failed. Please try again later or contact the site administrator.
+    too_many_requests: Too many requests were sent recently. Please try again in a few minutes.
   mail:
     page: Page
   contact:

@@ -17,6 +17,7 @@
         }) }}
         <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
         <input type="hidden" name="_page_label" value="{{ menu.name }}">
+        {% include 'front/section/_form_spam_fields.html.twig' with { kind: 'newsletter' } %}
 
         <div class="row justify-content-center g-3">
             <div class="col-12 col-md-4">
