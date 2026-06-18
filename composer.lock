@@ -4,15 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7d6d2ffea8f8d7b0010abc947a41bc0",
+    "content-hash": "f704c6030417bbdbd9e21b66ca331939",
     "packages": [
         {
             "name": "atlas-services/hermes-booking-bundle",
             "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "../hermesBookingBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/atlas-services/HermesBookingBundle.git",
                 "reference": "d2e34a578258de7cc2a61d4705263e353f8407e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/atlas-services/HermesBookingBundle/zipball/d2e34a578258de7cc2a61d4705263e353f8407e2",
+                "reference": "d2e34a578258de7cc2a61d4705263e353f8407e2",
+                "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.0",
@@ -32,6 +38,7 @@
                 "symfony/validator": "^8.0",
                 "twig/twig": "^3.0"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "symfony": {
@@ -47,10 +54,11 @@
                 "proprietary"
             ],
             "description": "Booking module for Symfony 8 / Hermes CMS",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/atlas-services/HermesBookingBundle/tree/main",
+                "issues": "https://github.com/atlas-services/HermesBookingBundle/issues"
+            },
+            "time": "2026-06-17T07:41:56+00:00"
         },
         {
             "name": "composer/semver",

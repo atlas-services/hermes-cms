@@ -64,13 +64,6 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "../hermesBookingBundle",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
             "type": "vcs",
             "url": "https://github.com/atlas-services/HermesBookingBundle"
         }
