@@ -1,0 +1,13 @@
+{% set spam = front_form_spam_fields(kind) %}
+<div aria-hidden="true" style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;">
+    <label>
+        Site web
+        <input type="text"
+               name="{{ spam.honeypot_name }}"
+               value=""
+               tabindex="-1"
+               autocomplete="off">
+    </label>
+</div>
+<input type="hidden" name="{{ spam.time_name }}" value="{{ spam.started_at }}">
+<input type="hidden" name="{{ spam.token_name }}" value="{{ spam.token }}">

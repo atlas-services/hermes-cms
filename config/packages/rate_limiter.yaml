@@ -1,0 +1,6 @@
+framework:
+    rate_limiter:
+        front_form:
+            policy: sliding_window
+            limit: '%env(int:HERMES_FORM_RATE_LIMIT)%'
+            interval: '%env(HERMES_FORM_RATE_INTERVAL)%'

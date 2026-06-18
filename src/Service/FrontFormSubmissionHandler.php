@@ -23,6 +23,7 @@ final class FrontFormSubmissionHandler
         private readonly SiteFormSubmissionMailer $mailer,
         private readonly NewsletterSubscriberRegistrar $newsletterSubscriberRegistrar,
         private readonly FrontFormDraftStorage $draftStorage,
+        private readonly FrontFormSpamProtection $spamProtection,
         private readonly LoggerInterface $logger,
         private readonly UrlGeneratorInterface $urlGenerator,
     ) {
@@ -44,6 +45,17 @@ final class FrontFormSubmissionHandler
         }
 
         $locale = $request->getLocale();
+        $spamReason = $this->spamProtection->validate($request, $kind);
+        if ($spamReason !== null) {
+            $this->addFlash(
+                $request,
+                $spamReason === FrontFormSpamProtection::REASON_RATE_LIMIT ? 'warning' : 'danger',
+                $spamReason === FrontFormSpamProtection::REASON_RATE_LIMIT ? 'form.flash.too_many_requests' : 'form.flash.invalid',
+            );
+
+            return new RedirectResponse($this->resolveRedirectTarget($request, $fallbackRoute, $locale));
+        }
+
         $form = $this->formFactory->create($formTypeClass, null, $formOptions);
         $form->handleRequest($request);
 

@@ -54,6 +54,7 @@ form:
     invalid: Le formulaire contient des erreurs. Veuillez corriger les champs indiqués.
     sent: Votre message a bien été envoyé. Merci !
     send_failed: L’envoi a échoué. Réessayez plus tard ou contactez l’administrateur du site.
+    too_many_requests: Trop de demandes ont été envoyées récemment. Merci de réessayer dans quelques minutes.
   mail:
     page: Page
   contact:
