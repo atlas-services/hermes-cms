@@ -42,6 +42,38 @@ final class FrontFormSpamProtectionTest extends TestCase
         self::assertSame(FrontFormSpamProtection::REASON_HONEYPOT, $protection->validate($request, FormTemplateKind::Contact));
     }
 
+    public function testAcceptsNestedSymfonyFormSubmission(): void
+    {
+        $protection = $this->createProtection(minSeconds: 0);
+        $fields = $protection->fields(FormTemplateKind::Contact);
+
+        $request = $this->request([
+            'contact_form' => [
+                $fields['honeypot_name'] => '',
+                $fields['time_name'] => $fields['started_at'],
+                $fields['token_name'] => $fields['token'],
+            ],
+        ]);
+
+        self::assertNull($protection->validate($request, FormTemplateKind::Contact));
+    }
+
+    public function testBlocksNestedSymfonyFormHoneypot(): void
+    {
+        $protection = $this->createProtection(minSeconds: 0);
+        $fields = $protection->fields(FormTemplateKind::Contact);
+
+        $request = $this->request([
+            'contact_form' => [
+                $fields['honeypot_name'] => 'spam',
+                $fields['time_name'] => $fields['started_at'],
+                $fields['token_name'] => $fields['token'],
+            ],
+        ]);
+
+        self::assertSame(FrontFormSpamProtection::REASON_HONEYPOT, $protection->validate($request, FormTemplateKind::Contact));
+    }
+
     public function testBlocksTooFastSubmission(): void
     {
         $protection = $this->createProtection(minSeconds: 3);
@@ -89,7 +121,7 @@ final class FrontFormSpamProtectionTest extends TestCase
     }
 
     /**
-     * @param array<string, string> $payload
+     * @param array<string, mixed> $payload
      */
     private function request(array $payload): Request
     {

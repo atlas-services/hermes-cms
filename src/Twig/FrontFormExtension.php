@@ -10,6 +10,7 @@ use App\Form\Front\LivredorFormType;
 use App\Form\Front\NewsletterFormType;
 use App\Service\FormPresentationResolver;
 use App\Service\FrontFormDraftStorage;
+use App\Service\FrontFormSpamProtection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormView;
 use Twig\Attribute\AsTwigFunction;
@@ -20,6 +21,7 @@ final class FrontFormExtension
         private readonly FormFactoryInterface $formFactory,
         private readonly FormPresentationResolver $presentationResolver,
         private readonly FrontFormDraftStorage $draftStorage,
+        private readonly FrontFormSpamProtection $spamProtection,
     ) {
     }
 
@@ -70,7 +72,7 @@ final class FrontFormExtension
     {
         $form = $this->formFactory->create($formTypeClass, null, [
             'input_class' => $inputClass,
-        ]);
+        ] + $this->spamProtection->formOptions($kind));
 
         $draft = $this->draftStorage->consume($kind);
         if ($draft !== null) {

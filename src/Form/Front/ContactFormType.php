@@ -7,6 +7,7 @@ namespace App\Form\Front;
 use App\Validator\Constraints\FrenchPhoneNumber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -76,6 +77,8 @@ final class ContactFormType extends AbstractType
                     new Assert\Length(min: 10, max: 5000, minMessage: 'form.contact.message_min', maxMessage: 'form.contact.message_max'),
                 ],
             ]);
+
+        $this->addSpamFields($builder, $options);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -84,6 +87,44 @@ final class ContactFormType extends AbstractType
             'translation_domain' => 'messages',
             'input_class' => 'form-control',
             'csrf_protection' => false,
+            'spam_honeypot_name' => null,
+            'spam_time_name' => null,
+            'spam_token_name' => null,
+            'spam_started_at' => null,
+            'spam_token' => null,
         ]);
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     */
+    private function addSpamFields(FormBuilderInterface $builder, array $options): void
+    {
+        if (!\is_string($options['spam_honeypot_name'])) {
+            return;
+        }
+
+        $builder
+            ->add($options['spam_honeypot_name'], TextType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+                'row_attr' => [
+                    'aria-hidden' => 'true',
+                    'style' => 'position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;',
+                ],
+                'attr' => [
+                    'tabindex' => '-1',
+                    'autocomplete' => 'off',
+                ],
+            ])
+            ->add((string) $options['spam_time_name'], HiddenType::class, [
+                'mapped' => false,
+                'data' => (string) $options['spam_started_at'],
+            ])
+            ->add((string) $options['spam_token_name'], HiddenType::class, [
+                'mapped' => false,
+                'data' => (string) $options['spam_token'],
+            ]);
     }
 }

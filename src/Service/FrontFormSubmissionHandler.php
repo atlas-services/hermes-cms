@@ -56,7 +56,10 @@ final class FrontFormSubmissionHandler
             return new RedirectResponse($this->resolveRedirectTarget($request, $fallbackRoute, $locale));
         }
 
-        $form = $this->formFactory->create($formTypeClass, null, $formOptions);
+        $form = $this->formFactory->create($formTypeClass, null, array_merge(
+            $formOptions,
+            $this->spamProtection->formOptions($kind),
+        ));
         $form->handleRequest($request);
 
         if (!$form->isSubmitted() || !$form->isValid()) {

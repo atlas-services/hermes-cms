@@ -57,6 +57,22 @@ final class FrontFormSpamProtection
         ];
     }
 
+    /**
+     * @return array{spam_honeypot_name: string, spam_time_name: string, spam_token_name: string, spam_started_at: string, spam_token: string}
+     */
+    public function formOptions(FormTemplateKind $kind): array
+    {
+        $fields = $this->fields($kind);
+
+        return [
+            'spam_honeypot_name' => $fields['honeypot_name'],
+            'spam_time_name' => $fields['time_name'],
+            'spam_token_name' => $fields['token_name'],
+            'spam_started_at' => $fields['started_at'],
+            'spam_token' => $fields['token'],
+        ];
+    }
+
     public function validate(Request $request, FormTemplateKind $kind): ?string
     {
         if (!$this->enabled) {
@@ -71,14 +87,14 @@ final class FrontFormSpamProtection
             return self::REASON_RATE_LIMIT;
         }
 
-        if (trim($request->request->getString($this->honeypotField)) !== '') {
+        if (trim($this->requestValue($request, $this->honeypotField)) !== '') {
             $this->logBlocked($request, $kind, self::REASON_HONEYPOT);
 
             return self::REASON_HONEYPOT;
         }
 
-        $startedAt = $request->request->getString(self::TIME_FIELD);
-        $token = $request->request->getString(self::TOKEN_FIELD);
+        $startedAt = $this->requestValue($request, self::TIME_FIELD);
+        $token = $this->requestValue($request, self::TOKEN_FIELD);
         if (!$this->isValidTimestamp($startedAt) || !hash_equals($this->sign($kind, $startedAt), $token)) {
             $this->logBlocked($request, $kind, self::REASON_TIMESTAMP);
 
@@ -120,6 +136,24 @@ final class FrontFormSpamProtection
     private function limiterKey(Request $request, FormTemplateKind $kind): string
     {
         return $kind->value.'|'.($request->getClientIp() ?? 'unknown');
+    }
+
+    private function requestValue(Request $request, string $field): string
+    {
+        $rootValue = $request->request->get($field);
+        if (\is_scalar($rootValue)) {
+            return (string) $rootValue;
+        }
+
+        foreach ($request->request->all() as $value) {
+            if (!\is_array($value) || !\array_key_exists($field, $value) || !\is_scalar($value[$field])) {
+                continue;
+            }
+
+            return (string) $value[$field];
+        }
+
+        return '';
     }
 
     /**
