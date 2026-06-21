@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[AsCommand(
     name: 'app:init-welcome-site',
-    description: 'Crée le menu ACCUEIL avec la page « site en construction » (GSAP) si aucun menu n’existe — nom du site depuis APP_NAME (.env).',
+    description: 'Crée le site d’accueil noir : ACCUEIL, CONTACT, footer et pages légales Atlas Services si aucun menu n’existe.',
 )]
 final class InitWelcomeSiteCommand extends Command
 {
@@ -52,11 +52,12 @@ final class InitWelcomeSiteCommand extends Command
         }
 
         $io->success(sprintf(
-            'Menu ACCUEIL créé (id %d) — page d’accueil « en construction » pour le site « %s ».',
+            'Site d’accueil créé (menu ACCUEIL id %d) — accueil, contact, footer et pages légales pour « %s ».',
             $result['menu_id'],
             trim($this->appName) !== '' ? $this->appName : 'monsite',
         ));
         $io->writeln(sprintf('  • URL front : /%s/%s', $locale, WelcomeSiteInitializer::MENU_SLUG));
+        $io->writeln(sprintf('  • URL contact : /%s/%s', $locale, WelcomeSiteInitializer::CONTACT_MENU_SLUG));
 
         return Command::SUCCESS;
     }

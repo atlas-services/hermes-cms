@@ -81,3 +81,56 @@
 .legal-document-footer {
     color: #6b7280;
 }
+
+.legal-document--dark-accordion {
+    --legal-bg-soft: #000000;
+    --bs-accordion-bg: #000000;
+    --bs-accordion-color: #ffffff;
+    --bs-accordion-btn-bg: #000000;
+    --bs-accordion-btn-color: #ffffff;
+    --bs-accordion-active-bg: #000000;
+    --bs-accordion-active-color: #ffffff;
+    --bs-table-bg: #000000;
+    --bs-table-color: #ffffff;
+    --bs-table-striped-bg: #111111;
+    --bs-table-striped-color: #ffffff;
+    background: #000000;
+}
+
+.legal-document--dark-accordion .legal-document-intro,
+.legal-document--dark-accordion .accordion-body,
+.legal-document--dark-accordion .legal-document-table,
+.legal-document--dark-accordion .legal-document-table th,
+.legal-document--dark-accordion .legal-document-table td {
+    color: #ffffff;
+}
+
+.legal-document--dark-accordion .accordion-item,
+.legal-document--dark-accordion .accordion-body,
+.legal-document--dark-accordion .legal-document-table,
+.legal-document--dark-accordion .legal-document-table tbody,
+.legal-document--dark-accordion .legal-document-table tr,
+.legal-document--dark-accordion .legal-document-table th,
+.legal-document--dark-accordion .legal-document-table td {
+    background-color: #000000;
+}
+
+.legal-document--dark-accordion .accordion-button,
+.legal-document--dark-accordion .accordion-button:not(.collapsed) {
+    color: #ffffff;
+    background-color: #000000;
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.legal-document--dark-accordion .accordion-button:focus {
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.16);
+}
+
+.legal-document--dark-accordion .accordion-button::after {
+    filter: invert(1) grayscale(1);
+}
+
+.legal-document--dark-accordion a {
+    color: #ffffff;
+}

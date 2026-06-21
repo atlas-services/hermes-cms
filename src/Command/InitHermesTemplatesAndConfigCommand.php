@@ -77,6 +77,7 @@ class InitHermesTemplatesAndConfigCommand extends Command
             }
 
             $db_template->setActive($active);
+            $db_template->setType($template['type']);
             $db_template->setName($template['name']);
             $db_template->setSummary($template['summary']);
         }

@@ -11,7 +11,7 @@ parameters:
       code: newsletter_template
       name: Template Newsletter
     footer:
-      type: libre
+      type: footer
       summary: Template footer
       code: footer_template
       name: Template Footer

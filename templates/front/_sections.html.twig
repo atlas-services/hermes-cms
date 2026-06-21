@@ -14,7 +14,7 @@
                 <div class="section-content mx-auto">
                     {% if mainType == 'liste' and mainCode != '' %}
                         {% include 'front/section/' ~ mainCode ~ '.html.twig' %}
-                    {% elseif mainType == 'libre' %}
+                    {% elseif mainType in ['libre', 'footer'] %}
                         {% include 'front/section/libre.html.twig' %}
                     {% elseif mainType == 'formulaire' and mainCode != '' %}
                         {% set formulaireContext = {
