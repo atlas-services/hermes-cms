@@ -116,6 +116,13 @@
     {% if image_files is empty %}
         <p class="text-muted">{{ 'admin.post_bulk.no_images_here'|trans }}</p>
     {% else %}
+        <form method="post" action="{{ path('post_bulk_import_media_images', { _locale: app.request.locale, id: section.id }) }}" class="border rounded p-3 bg-light mb-3" onsubmit="return confirm({{ 'admin.post_bulk.confirm_import'|trans({'%count%': image_files|length})|json_encode|raw }});">
+            <input type="hidden" name="_token" value="{{ csrf_token('post_bulk_import_images_' ~ section.id) }}">
+            <input type="hidden" name="media_path" value="{{ current_path }}">
+            <button type="submit" class="btn btn-primary">{{ 'admin.post_bulk.import_button'|trans }}</button>
+            <span class="text-muted small ms-2">{{ image_files|length }} image(s)</span>
+        </form>
+
         <ul class="list-group mb-3">
             {% for rel in image_files %}
                 <li class="list-group-item d-flex align-items-center gap-2">

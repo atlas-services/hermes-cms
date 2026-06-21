@@ -13,6 +13,7 @@
     isFooterSection: isFooterSection|default(false),
     post_template_field_toggle: post_template_field_toggle|default(false),
     liste_import_section: liste_import_section|default(null),
+    render_save_import_buttons: false,
     toolbar_class: 'mb-4',
 }) }}
 
@@ -46,11 +47,13 @@
     {{ include('admin/post/_form_liste_import.html.twig', {
         post: post|default(null),
         liste_import_section: liste_import_section,
+        form: form,
     }) }}
 {% elseif post_template_field_toggle|default(false) %}
     {{ include('admin/post/_form_liste_import.html.twig', {
         post: post|default(null),
         liste_import_section: null,
+        form: form,
         extra_class: ' d-none',
     }) }}
 {% elseif form.imageFile is defined %}
@@ -78,6 +81,7 @@
             isFooterSection: isFooterSection|default(false),
             post_template_field_toggle: post_template_field_toggle|default(false),
             liste_import_section: liste_import_section|default(null),
+            render_save_import_buttons: false,
             toolbar_class: 'mt-3 mb-3',
         }) }}
 
@@ -129,6 +133,7 @@
         isFooterSection: isFooterSection|default(false),
         post_template_field_toggle: post_template_field_toggle|default(false),
         liste_import_section: liste_import_section|default(null),
+        render_save_import_buttons: false,
         toolbar_class: 'mt-4 mb-3',
     }) }}
 {% endif %}

@@ -6,6 +6,7 @@ use App\DataFixtures\PostFixtures;
 use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
+use App\Entity\Template;
 use App\Service\PostService;
 use App\Tests\Base\BaseKernelTestCase;
 
@@ -57,6 +58,22 @@ class PostServiceTest extends BaseKernelTestCase
         $this->assertNotNull($template2);
         $code = $template2->getCode();
         $this->assertTrue(\in_array($code, ['modale1', 'modale2'], true));
+    }
+
+    public function testCreateListeSectionFromMenuDoesNotCreatePlaceholderPost(): void
+    {
+        $menu = $this->em->getRepository(Menu::class)->findOneBy(['name' => 'Leaf Menu']);
+        $this->assertNotNull($menu);
+
+        $template = $this->em->getRepository(Template::class)->findOneBy(['code' => 'folio1']);
+        $this->assertNotNull($template);
+
+        $section = $this->postService->createSectionFromMenu($menu, $template);
+
+        $this->assertSame($menu, $section->getMenu());
+        $this->assertSame($template, $section->getTemplate());
+        $this->assertSame('liste', $section->getTemplate()?->getType());
+        $this->assertCount(0, $section->getPosts());
     }
 
     public function testUpdatePostLeavesSectionTemplateUnchanged(): void

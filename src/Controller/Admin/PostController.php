@@ -69,26 +69,26 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $template = $form->has('template') ? $form->get('template')->getData() : null;
+            $isListeTemplate = $template instanceof Template
+                && strtolower(trim((string) $template->getType())) === PostType::TEMPLATE_TYPE_LISTE;
+            $saveAndImportButton = $form->get('saveAndImportImages');
+            $saveAndImportClicked = $saveAndImportButton instanceof SubmitButton
+                && $saveAndImportButton->isClicked();
 
             try {
+                if ($isListeTemplate && $saveAndImportClicked) {
+                    $section = $this->postService->createSectionFromMenu($menu, $template);
+                    $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));
+                    $this->addFlash('info', $this->translator->trans('admin.post_bulk.after_create_redirect_hint'));
+
+                    return $this->redirectToRoute('post_bulk_import_media_images', [
+                        '_locale' => $request->getLocale(),
+                        'id' => $section->getId(),
+                    ]);
+                }
+
                 $this->postService->createFromMenu($post, $menu, $template);
                 $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));
-
-                $redirectBulk = $template instanceof Template
-                    && strtolower(trim((string) $template->getType())) === PostType::TEMPLATE_TYPE_LISTE
-                    && ($form->get('saveAndImportImages') instanceof SubmitButton)
-                    && $form->get('saveAndImportImages')->isClicked();
-                if ($redirectBulk) {
-                    $section = $post->getSection();
-                    if ($section !== null) {
-                        $this->addFlash('info', $this->translator->trans('admin.post_bulk.after_create_redirect_hint'));
-
-                        return $this->redirectToRoute('post_bulk_import_media_images', [
-                            '_locale' => $request->getLocale(),
-                            'id' => $section->getId(),
-                        ]);
-                    }
-                }
 
                 return $this->redirectToRoute('post_edit', [
                     'id' => $post->getId(),
@@ -145,14 +145,15 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->postService->create($post, $section);
-                $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));
-
-                $redirectBulk = $sectionTpl instanceof Template
+                $saveAndImportButton = $form->has('saveAndImportImages') ? $form->get('saveAndImportImages') : null;
+                $isListeSection = $sectionTpl instanceof Template
                     && strtolower(trim((string) $sectionTpl->getType())) === PostType::TEMPLATE_TYPE_LISTE
-                    && ($form->get('saveAndImportImages') instanceof SubmitButton)
-                    && $form->get('saveAndImportImages')->isClicked();
-                if ($redirectBulk) {
+                    && $saveAndImportButton instanceof SubmitButton;
+                $saveAndImportClicked = $isListeSection
+                    ? $saveAndImportButton instanceof SubmitButton && $saveAndImportButton->isClicked()
+                    : false;
+
+                if ($saveAndImportClicked) {
                     $this->addFlash('info', $this->translator->trans('admin.post_bulk.after_create_redirect_hint'));
 
                     return $this->redirectToRoute('post_bulk_import_media_images', [
@@ -160,6 +161,9 @@ class PostController extends AbstractController
                         'id' => $section->getId(),
                     ]);
                 }
+
+                $this->postService->create($post, $section);
+                $this->addFlash('success', $this->translator->trans('form.label.post_saved', [], 'messages'));
 
                 return $this->redirectToRoute('post_edit', [
                     'id' => $post->getId(),

@@ -8,13 +8,24 @@
     {% endif %}
 
     {% if liste_import_section %}
+        <p class="text-muted small mb-2">{{ 'admin.post_bulk.form_import_hint'|trans }}</p>
         {{ include('admin/_btn_add_icon.html.twig', {
             href: path('post_bulk_import_media_images', { _locale: app.request.locale, id: liste_import_section.id }),
             label: 'admin.post_bulk.add_images'|trans,
             btn_class: 'btn btn-outline-primary',
         }) }}
-        <p class="text-muted small mt-2 mb-0">{{ 'admin.post_bulk.form_import_hint'|trans }}</p>
     {% else %}
-        <p class="text-muted small mb-0">{{ 'admin.post_bulk.save_then_import_hint'|trans }}</p>
+        <p class="text-muted small mb-2">{{ 'admin.post_bulk.save_then_import_hint'|trans }}</p>
+        {% if form is defined and form.saveAndImportImages is defined %}
+            {% set add_images_label = form.saveAndImportImages.vars.label|trans(form.saveAndImportImages.vars.label_translation_parameters, form.saveAndImportImages.vars.translation_domain) %}
+            <span class="js-post-wrap-save-import">
+                {{ include('admin/_btn_add_icon.html.twig', {
+                    label: add_images_label,
+                    btn_class: 'btn btn-outline-primary',
+                    form: 'admin-post-form',
+                    name: 'post[saveAndImportImages]',
+                }) }}
+            </span>
+        {% endif %}
     {% endif %}
 </div>

@@ -49,6 +49,13 @@ class PostService
 
     public function createFromMenu(Post $post, Menu $menu, ?Template $template): Post
     {
+        $section = $this->createSectionFromMenu($menu, $template);
+
+        return $this->create($post, $section);
+    }
+
+    public function createSectionFromMenu(Menu $menu, ?Template $template): Section
+    {
         if (!$menu->isLeaf()) {
             throw new \DomainException('Impossible d’ajouter un post : le menu possède des sous-menus.');
         }
@@ -83,8 +90,9 @@ class PostService
 
         $menu->addSection($section);
         $this->em->persist($section);
+        $this->em->flush();
 
-        return $this->create($post, $section);
+        return $section;
     }
 
     // -------------------------

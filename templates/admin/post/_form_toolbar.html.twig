@@ -4,7 +4,7 @@
     <button type="submit" form="admin-post-form" name="post[save]" class="btn btn-success">
         {{ save_label }}
     </button>
-    {% if form.saveAndImportImages is defined %}
+    {% if render_save_import_buttons|default(true) and form.saveAndImportImages is defined %}
         <span class="js-post-wrap-save-import{{ post_template_field_toggle|default(false) ? ' d-none' : '' }}">
             {% set add_images_label = form.saveAndImportImages.vars.label|trans(form.saveAndImportImages.vars.label_translation_parameters, form.saveAndImportImages.vars.translation_domain) %}
             {{ include('admin/_btn_add_icon.html.twig', {
