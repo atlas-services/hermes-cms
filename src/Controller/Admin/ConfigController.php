@@ -53,6 +53,10 @@ class ConfigController extends AbstractController
         }
 
         $config->setActive(!$config->isActive());
+        if ($config->getCode() === 'topbar_dismiss_once') {
+            $config->setValue($config->isActive() ? '1' : '0');
+        }
+
         $doctrine->getManager()->flush();
 
         return $this->json([

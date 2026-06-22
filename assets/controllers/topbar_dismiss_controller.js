@@ -18,11 +18,17 @@ export default class extends Controller {
         }
 
         this.syncSectionVisibility();
+        this.onDismissClick = this.onDismissClick.bind(this);
         this.onAlertClose = this.onAlertClose.bind(this);
+        this.element.addEventListener('click', this.onDismissClick, true);
         this.element.addEventListener('close.bs.alert', this.onAlertClose);
     }
 
     disconnect() {
+        if (this.onDismissClick) {
+            this.element.removeEventListener('click', this.onDismissClick, true);
+        }
+
         if (this.onAlertClose) {
             this.element.removeEventListener('close.bs.alert', this.onAlertClose);
         }
@@ -41,13 +47,28 @@ export default class extends Controller {
         });
     }
 
+    onDismissClick(event) {
+        const dismissButton = event.target.closest('[data-hermes-topbar-dismiss], [data-bs-dismiss="alert"], .btn-close');
+        if (!dismissButton || !this.element.contains(dismissButton)) {
+            return;
+        }
+
+        const section = dismissButton.closest('[data-hermes-topbar-section-id]');
+        if (!section) {
+            return;
+        }
+
+        this.storeSectionDismissal(section);
+        section.classList.add('d-none');
+    }
+
     onAlertClose(event) {
         const section = event.target.closest('[data-hermes-topbar-section-id]');
         if (!section) {
             return;
         }
 
-        localStorage.setItem(this.storageKey(section), '1');
+        this.storeSectionDismissal(section);
         section.classList.add('d-none');
     }
 
@@ -68,6 +89,10 @@ export default class extends Controller {
 
     storageKey(section) {
         return `${this.storagePrefixValue}${section.dataset.hermesTopbarSectionId}`;
+    }
+
+    storeSectionDismissal(section) {
+        localStorage.setItem(this.storageKey(section), '1');
     }
 
     storageAvailable() {
