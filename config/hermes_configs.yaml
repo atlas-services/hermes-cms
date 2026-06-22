@@ -479,3 +479,8 @@ parameters:
         summary: texte du footer about
         value: ~
         position: 2
+    topbar:
+      topbar_dismiss_once:
+        summary: Masquer un bloc au-dessus navbar après fermeture
+        value: false
+        position: 1

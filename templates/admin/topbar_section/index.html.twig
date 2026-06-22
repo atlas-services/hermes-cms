@@ -14,6 +14,9 @@
             <p class="text-muted mb-0">{{ 'admin.topbar_sections.help'|trans }}</p>
         </div>
         <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" href="{{ path('config_index', { type: 'topbar', _locale: app.request.locale }) }}">
+                {{ 'config.affiche_list_topbar'|trans }}
+            </a>
             <form method="post" action="{{ path('admin_topbar_sections_new', { _locale: app.request.locale }) }}">
                 <input type="hidden" name="locale" value="{{ menu_locale }}">
                 {{ include('admin/_btn_add_icon.html.twig', {

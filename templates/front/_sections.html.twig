@@ -6,7 +6,12 @@
     {% set effW = section.templateWidth|default(10)|col_lg %}
     {% set mainType = section.template ? section.template.type|trim|lower : '' %}
     {% set mainCode = section.template ? section.template.code : '' %}
-    <div class="row justify-content-center mx-0 gy-0">
+    {% set shouldDeferTopbarDisplay = topbarDismissOnce|default(false) and section.topbarSection %}
+    <div class="row justify-content-center mx-0 gy-0{{ shouldDeferTopbarDisplay ? ' d-none' : '' }}"
+         {% if topbarDismissOnce|default(false) and section.topbarSection %}
+             data-hermes-topbar-section-id="{{ section.id }}"
+             data-hermes-topbar-pending-display="true"
+         {% endif %}>
         <div class="col-12 col-lg-{{ effW }} mx-auto px-0">
             {% set sectionBg = section.isTransparent ? 'transparent' : section.templateBgcolor %}
             {% set isListeSectionTemplate = mainType == 'liste' and mainCode != '' %}

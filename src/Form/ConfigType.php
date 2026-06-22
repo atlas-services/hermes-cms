@@ -260,6 +260,7 @@ class ConfigType extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $choice = false;
+            $options = [];
             $data = $event->getData();
             $form = $event->getForm();
             $code = $data->getCode();
@@ -359,6 +360,7 @@ class ConfigType extends AbstractType
                 case 'affiche_search':
                 // affiche_footer
                 case 'footer_affiche':
+                case 'topbar_dismiss_once':
                 case 'newsletter_active':
                 case 'livredor_active':
                     $choice = true;
@@ -502,6 +504,7 @@ class ConfigType extends AbstractType
                 'générale' => 'site',
                 'contenu' => 'content',
                 'footer' => 'footer',
+                'haut avant menu' => 'topbar',
                 'contact' => 'contact',
                 'newsletter' => 'newsletter',
                 'livredor' => 'livredor',

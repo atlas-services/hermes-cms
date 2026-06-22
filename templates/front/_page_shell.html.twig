@@ -7,13 +7,20 @@
    Futur : configs.nav_base_fixed_top (hermes_configs.yaml, groupe nav) #}
 {% set nav_base_fixed_top = true %}
 {% set navBaseSticky = navBarType == 'base' and nav_base_fixed_top %}
+{% set topbarDismissOnceConfig = configs.topbar_dismiss_once|default(false) %}
+{% set topbarDismissOnce = topbarDismissOnceConfig is same as(true) or topbarDismissOnceConfig in [1, '1', 'true', 'on'] %}
 <div class="d-flex flex-column min-vh-100{{ navBaseSticky ? ' hermes-layout-nav-base-fixed' : '' }}">
     {% if sectionsForTopbar|default([])|length > 0 %}
-        <div class="hermes-topbar-sections w-100{% if navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}">
+        <div class="hermes-topbar-sections w-100{% if navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}"
+             {% if topbarDismissOnce %}
+                 data-controller="topbar-dismiss"
+                 data-topbar-dismiss-enabled-value="true"
+             {% endif %}>
             {% include 'front/_sections.html.twig' with {
                 sectionsForFront: sectionsForTopbar,
                 menu: null,
                 configs: configs,
+                topbarDismissOnce: topbarDismissOnce,
             } %}
         </div>
     {% endif %}
