@@ -115,7 +115,7 @@ final class FrontMenuService
         $locale ??= $menu->getLocale() ?? 'fr';
         $blocks = [];
         foreach ($menu->getSections() as $section) {
-            if ($section->isFooterSection()) {
+            if ($section->isGlobalSection()) {
                 continue;
             }
             if (!$section->isActive()) {
@@ -144,8 +144,28 @@ final class FrontMenuService
      */
     public function getVisibleFooterSections(string $locale = 'fr'): array
     {
+        return $this->buildVisibleGlobalSections($this->sectionRepository->findFooterSectionsForLocale($locale), $locale);
+    }
+
+    /**
+     * Sections topbar globales (au-dessus de la navbar), même format que {@see getVisibleFrontSections()}.
+     *
+     * @return list<array{section: Section, posts: list<\App\Entity\Post>}>
+     */
+    public function getVisibleTopbarSections(string $locale = 'fr'): array
+    {
+        return $this->buildVisibleGlobalSections($this->sectionRepository->findTopbarSectionsForLocale($locale), $locale);
+    }
+
+    /**
+     * @param list<Section> $sections
+     *
+     * @return list<array{section: Section, posts: list<\App\Entity\Post>}>
+     */
+    private function buildVisibleGlobalSections(array $sections, string $locale): array
+    {
         $blocks = [];
-        foreach ($this->sectionRepository->findFooterSectionsForLocale($locale) as $section) {
+        foreach ($sections as $section) {
             if (($section->getLocale() ?? 'fr') !== $locale) {
                 continue;
             }

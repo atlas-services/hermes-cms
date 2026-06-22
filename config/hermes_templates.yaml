@@ -15,6 +15,11 @@ parameters:
       summary: Template footer
       code: footer_template
       name: Template Footer
+    topbar:
+      type: topbar
+      summary: Template haut de page avant navbar
+      code: topbar_template
+      name: Template Topbar
     contact:
       type: formulaire
       summary: Formulaire Contact

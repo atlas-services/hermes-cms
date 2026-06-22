@@ -120,8 +120,9 @@ class PostController extends AbstractController
 
         $menu = $section->getMenu();
         $isFooter = $section->isFooterSection();
+        $isTopbar = $section->isTopbarSection();
 
-        if (!$isFooter && !$menu) {
+        if (!$section->isGlobalSection() && !$menu) {
             throw $this->createNotFoundException('Menu introuvable pour cette section');
         }
 
@@ -132,7 +133,7 @@ class PostController extends AbstractController
         $formOptions = [
             'menu' => $menu,
             'selected_section' => $section,
-            'template_type' => $isFooter ? PostType::TEMPLATE_TYPE_LIBRE : $sectionTpl?->getType(),
+            'template_type' => $section->isGlobalSection() ? PostType::TEMPLATE_TYPE_LIBRE : $sectionTpl?->getType(),
         ];
         if ($sectionTpl instanceof Template
             && strtolower(trim((string) $sectionTpl->getType())) === PostType::TEMPLATE_TYPE_LISTE) {
@@ -181,6 +182,7 @@ class PostController extends AbstractController
             'menu' => $menu,
             'section' => $section,
             'isFooterSection' => $isFooter,
+            'isTopbarSection' => $isTopbar,
             'liste_import_section' => $isListeSection ? $section : null,
         ]);
     }
@@ -437,6 +439,12 @@ class PostController extends AbstractController
         if ($section->isFooterSection()) {
             return [
                 'route' => 'admin_footer_sections_index',
+                'params' => ['_locale' => $locale],
+            ];
+        }
+        if ($section->isTopbarSection()) {
+            return [
+                'route' => 'admin_topbar_sections_index',
                 'params' => ['_locale' => $locale],
             ];
         }

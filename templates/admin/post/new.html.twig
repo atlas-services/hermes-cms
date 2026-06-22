@@ -6,10 +6,19 @@
     {% set section = section|default(null) %}
     {% set menu = menu|default(null) %}
     {% set isFooterSection = isFooterSection|default(false) %}
+    {% set isTopbarSection = isTopbarSection|default(false) %}
 
     <h1>{{ 'form.label.create'|trans() }}</h1>
 
-    {% if isFooterSection or (section and section.footerSection) %}
+    {% if isTopbarSection or (section and section.topbarSection) %}
+        <div class="alert alert-info">
+            {{ 'admin.topbar_sections.post_create_context'|trans }}
+            {% if section %}
+                <br>
+                {{ 'form.label.section_position'|trans({'%position%': section.position}) }}
+            {% endif %}
+        </div>
+    {% elseif isFooterSection or (section and section.footerSection) %}
         <div class="alert alert-info">
             {{ 'admin.footer_sections.post_create_context'|trans }}
             {% if section %}
@@ -36,6 +45,7 @@
         menu: menu|default(null),
         section: section|default(null),
         isFooterSection: isFooterSection,
+        isTopbarSection: isTopbarSection,
         post_template_field_toggle: post_template_field_toggle|default(false),
         post_template_types: post_template_types|default({}),
         liste_import_section: liste_import_section|default(null),

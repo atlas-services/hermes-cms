@@ -101,6 +101,16 @@ class Section implements PositionableInterface
         return 'footer_template' === strtolower(trim((string) ($this->template?->getCode() ?? '')));
     }
 
+    public function isTopbarSection(): bool
+    {
+        return 'topbar_template' === strtolower(trim((string) ($this->template?->getCode() ?? '')));
+    }
+
+    public function isGlobalSection(): bool
+    {
+        return $this->isFooterSection() || $this->isTopbarSection();
+    }
+
     public function getLocale(): ?string
     {
         return $this->locale;
@@ -128,10 +138,16 @@ class Section implements PositionableInterface
 
     public function ensureFooterReferenceName(): self
     {
+        return $this->ensureGlobalReferenceName('footer');
+    }
+
+    public function ensureGlobalReferenceName(string $prefix): self
+    {
         if ($this->referenceName !== null && $this->referenceName !== '') {
             return $this;
         }
-        $this->referenceName = 'footer-' . ($this->getId() ?? uniqid());
+        $normalizedPrefix = strtolower(trim($prefix)) ?: 'section';
+        $this->referenceName = $normalizedPrefix . '-' . ($this->getId() ?? uniqid());
 
         return $this;
     }
@@ -148,14 +164,14 @@ class Section implements PositionableInterface
     #[Assert\Callback]
     public function validateMenuRelation(ExecutionContextInterface $context): void
     {
-        if ($this->isFooterSection()) {
+        if ($this->isGlobalSection()) {
             if ($this->menu !== null) {
-                $context->buildViolation('Une section footer ne doit pas être rattachée à une page menu.')
+                $context->buildViolation('Une section globale ne doit pas être rattachée à une page menu.')
                     ->atPath('menu')
                     ->addViolation();
             }
             if ($this->locale === null || trim($this->locale) === '') {
-                $context->buildViolation('Une section footer doit avoir une langue.')
+                $context->buildViolation('Une section globale doit avoir une langue.')
                     ->atPath('locale')
                     ->addViolation();
             }

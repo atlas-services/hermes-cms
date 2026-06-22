@@ -37,7 +37,7 @@ final class ContentTransferController extends AbstractController
     #[Route('/section/{id}/transfer', name: 'section', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function transferSection(Request $request, Section $section): Response
     {
-        if ($section->isFooterSection()) {
+        if ($section->isGlobalSection()) {
             throw $this->createNotFoundException();
         }
 
@@ -48,7 +48,7 @@ final class ContentTransferController extends AbstractController
     public function transferPost(Request $request, Post $post): Response
     {
         $section = $post->getSection();
-        if ($section === null || $section->isFooterSection()) {
+        if ($section === null || $section->isGlobalSection()) {
             throw $this->createNotFoundException();
         }
 

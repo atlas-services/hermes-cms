@@ -52,7 +52,7 @@ final class ContentTransferTargetProvider
 
                 $sections = [];
                 foreach ($menu->getSections() as $section) {
-                    if ($section->isFooterSection()) {
+                    if ($section->isGlobalSection()) {
                         continue;
                     }
                     $sid = $section->getId();
@@ -97,7 +97,7 @@ final class ContentTransferTargetProvider
     public function findTargetSection(int $sectionId, Menu $targetMenu): ?Section
     {
         foreach ($targetMenu->getSections() as $section) {
-            if ($section->getId() === $sectionId && !$section->isFooterSection()) {
+            if ($section->getId() === $sectionId && !$section->isGlobalSection()) {
                 return $section;
             }
         }

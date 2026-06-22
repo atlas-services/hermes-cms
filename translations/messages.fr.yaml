@@ -196,6 +196,12 @@ admin:
     help: "Blocs CKEditor affichés sur toutes les pages du site, dans le pied de page. Non rattachés à une page menu."
     add_section: Nouvelle section footer
     post_create_context: Ajout d’un post dans le pied de page (section footer globale).
+  topbar_sections:
+    title: Sections au-dessus de la navbar
+    nav: Contenu au-dessus navbar (sections)
+    help: "Blocs CKEditor affichés sur toutes les pages du site, au-dessus de la navbar. Ils défilent avec la page ; la navbar reste ensuite fixée en haut."
+    add_section: Nouvelle section au-dessus navbar
+    post_create_context: Ajout d’un post dans le bloc global au-dessus de la navbar.
   locale_copy:
     help: 'Copie les menus, sections et posts depuis la langue « %source% » vers la langue choisie.'
     back_to_list: Retour aux sections footer

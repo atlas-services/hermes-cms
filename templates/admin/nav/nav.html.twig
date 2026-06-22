@@ -48,6 +48,7 @@
                                 <hr class="dropdown-divider">
                                 <p><a class="link-light text-decoration-none mx-3" href="{{ path('config_index', {'type': 'footer'}) }}"> {{ 'config.affiche_list_footer'|trans()|raw }} </a></p>
                                 <p><a class="link-light text-decoration-none mx-3" href="{{ path('admin_footer_sections_index', {_locale: app.request.locale}) }}"> {{ 'admin.footer_sections.nav'|trans() }} </a></p>
+                                <p><a class="link-light text-decoration-none mx-3" href="{{ path('admin_topbar_sections_index', {_locale: app.request.locale}) }}"> {{ 'admin.topbar_sections.nav'|trans() }} </a></p>
                                 <hr class="dropdown-divider">
                                 <p><a class="link-light text-decoration-none mx-3" href="{{ path('config_index', {'type': 'contact'}) }}"> {{ 'config.affiche_list_contact'|trans()|raw }} </a></p>
                                 {% if hermes_booking_active() %}

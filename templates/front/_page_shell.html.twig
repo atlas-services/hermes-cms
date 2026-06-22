@@ -8,6 +8,16 @@
 {% set nav_base_fixed_top = true %}
 {% set navBaseSticky = navBarType == 'base' and nav_base_fixed_top %}
 <div class="d-flex flex-column min-vh-100{{ navBaseSticky ? ' hermes-layout-nav-base-fixed' : '' }}">
+    {% if sectionsForTopbar|default([])|length > 0 %}
+        <div class="hermes-topbar-sections w-100{% if navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}">
+            {% include 'front/_sections.html.twig' with {
+                sectionsForFront: sectionsForTopbar,
+                menu: null,
+                configs: configs,
+            } %}
+        </div>
+    {% endif %}
+
     <header class="mb-0 w-100{{ navBaseSticky ? ' sticky-top hermes-nav-base-header' : '' }}"
             {% if navBaseSticky %}style="background-color: {{ configs.nav_bgcolor|default('#ffffff') }}; z-index: 1030;"{% endif %}>
         {% set navbarTemplate = 'front/navbar/' ~ navBarType ~ '.html.twig' %}

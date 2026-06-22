@@ -62,8 +62,8 @@ class PostService
 
         $template = $template ?? ($menu->getSections()->isEmpty() ? null : $menu->getSections()->first()->getTemplate());
 
-        if ($template !== null && FooterSectionService::TEMPLATE_CODE === strtolower(trim((string) $template->getCode()))) {
-            throw new \DomainException('Le gabarit footer se gère depuis « Sections du pied de page », pas depuis une page menu.');
+        if ($template !== null && \in_array(strtolower(trim((string) $template->getCode())), [FooterSectionService::TEMPLATE_CODE, TopbarSectionService::TEMPLATE_CODE], true)) {
+            throw new \DomainException('Les gabarits globaux se gèrent depuis leur écran dédié, pas depuis une page menu.');
         }
 
         if (!$template) {
@@ -227,9 +227,9 @@ class PostService
             throw new \DomainException('La section doit avoir un template.');
         }
 
-        if ($section->isFooterSection()) {
+        if ($section->isGlobalSection()) {
             if ($section->getMenu() !== null) {
-                throw new \DomainException('Une section footer ne doit pas être rattachée à une page menu.');
+                throw new \DomainException('Une section globale ne doit pas être rattachée à une page menu.');
             }
 
             return;

@@ -11,6 +11,7 @@ use App\Entity\Section;
 use App\Entity\Template;
 use App\Service\FooterSectionService;
 use App\Service\FrontMenuService;
+use App\Service\TopbarSectionService;
 use App\Tests\Base\BaseKernelTestCase;
 
 final class FrontMenuFooterSectionsTest extends BaseKernelTestCase
@@ -20,7 +21,7 @@ final class FrontMenuFooterSectionsTest extends BaseKernelTestCase
         return [new PostFixtures()];
     }
 
-    public function testFooterSectionsAreExcludedFromPageAndLoadedGlobally(): void
+    public function testGlobalSectionsAreExcludedFromPageAndLoadedGlobally(): void
     {
         $em = $this->em;
         /** @var FrontMenuService $frontMenu */
@@ -28,6 +29,8 @@ final class FrontMenuFooterSectionsTest extends BaseKernelTestCase
 
         $footerTpl = $em->getRepository(Template::class)->findOneBy(['code' => FooterSectionService::TEMPLATE_CODE]);
         $this->assertInstanceOf(Template::class, $footerTpl);
+        $topbarTpl = $em->getRepository(Template::class)->findOneBy(['code' => TopbarSectionService::TEMPLATE_CODE]);
+        $this->assertInstanceOf(Template::class, $topbarTpl);
 
         $menu = $em->getRepository(Menu::class)->findOneBy(['name' => 'Posts Menu']);
         $this->assertInstanceOf(Menu::class, $menu);
@@ -49,11 +52,30 @@ final class FrontMenuFooterSectionsTest extends BaseKernelTestCase
         $footerPost->setPosition(1);
         $footerSection->addPost($footerPost);
         $em->persist($footerPost);
+
+        $topbarSection = new Section();
+        $topbarSection->setMenu(null);
+        $topbarSection->setLocale('fr');
+        $topbarSection->setReferenceName('topbar-test');
+        $topbarSection->setTemplate($topbarTpl);
+        $topbarSection->setPosition(1);
+        $topbarSection->setActive(true);
+        $em->persist($topbarSection);
+
+        $topbarPost = new Post();
+        $topbarPost->setName('Topbar post');
+        $topbarPost->setLocale('fr');
+        $topbarPost->setActive(true);
+        $topbarPost->setContent('<p>Topbar</p>');
+        $topbarPost->setPosition(1);
+        $topbarSection->addPost($topbarPost);
+        $em->persist($topbarPost);
+
         $em->flush();
 
         $bodyBlocks = $frontMenu->getVisibleFrontSections($menu);
         foreach ($bodyBlocks as $block) {
-            $this->assertFalse($block['section']->isFooterSection());
+            $this->assertFalse($block['section']->isGlobalSection());
         }
 
         $footerBlocks = $frontMenu->getVisibleFooterSections('fr');
@@ -61,5 +83,11 @@ final class FrontMenuFooterSectionsTest extends BaseKernelTestCase
         $this->assertTrue($footerBlocks[0]['section']->isFooterSection());
 
         $this->assertSame([], $frontMenu->getVisibleFooterSections('en'));
+
+        $topbarBlocks = $frontMenu->getVisibleTopbarSections('fr');
+        $this->assertNotEmpty($topbarBlocks);
+        $this->assertTrue($topbarBlocks[0]['section']->isTopbarSection());
+
+        $this->assertSame([], $frontMenu->getVisibleTopbarSections('en'));
     }
 }

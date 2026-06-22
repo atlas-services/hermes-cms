@@ -25,6 +25,7 @@ final class ConfigExtension extends AbstractExtension implements GlobalsInterfac
 
         return [
             'configs' => $this->configGlobalsProvider->getConfigs(),
+            'sectionsForTopbar' => $this->frontMenuService->getVisibleTopbarSections($locale),
             'sectionsForFooter' => $this->frontMenuService->getVisibleFooterSections($locale),
         ];
     }

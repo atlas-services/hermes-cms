@@ -193,6 +193,13 @@ admin:
     add_section: New footer section
     post_create_context: Adding a post to the site footer (global footer section).
     back_to_list: Back to footer sections
+  topbar_sections:
+    title: Sections above navbar
+    nav: Above navbar content (sections)
+    help: "CKEditor blocks shown on every page above the navbar. They scroll away with the page; the navbar then stays fixed at the top."
+    add_section: New above-navbar section
+    post_create_context: Adding a post to the global block above the navbar.
+    back_to_list: Back to above-navbar sections
   content_transfer:
     title: Copy / move
     operation: Action

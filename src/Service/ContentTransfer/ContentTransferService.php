@@ -11,6 +11,7 @@ use App\Entity\Template;
 use App\Repository\PostRepository;
 use App\Service\FooterSectionService;
 use App\Service\PostService;
+use App\Service\TopbarSectionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
@@ -233,8 +234,8 @@ final class ContentTransferService
 
     private function assertSectionCanLeave(Section $section): void
     {
-        if ($section->isFooterSection()) {
-            throw new \DomainException('Les sections footer ne peuvent pas être copiées ou déplacées depuis cet écran.');
+        if ($section->isGlobalSection()) {
+            throw new \DomainException('Les sections globales ne peuvent pas être copiées ou déplacées depuis cet écran.');
         }
     }
 
@@ -247,8 +248,8 @@ final class ContentTransferService
 
     private function assertNotFooterTemplate(?Template $template): void
     {
-        if ($template !== null && FooterSectionService::TEMPLATE_CODE === strtolower(trim((string) $template->getCode()))) {
-            throw new \DomainException('Le gabarit footer se gère depuis l’admin des sections footer.');
+        if ($template !== null && \in_array(strtolower(trim((string) $template->getCode())), [FooterSectionService::TEMPLATE_CODE, TopbarSectionService::TEMPLATE_CODE], true)) {
+            throw new \DomainException('Les gabarits globaux se gèrent depuis leur admin dédié.');
         }
     }
 }
