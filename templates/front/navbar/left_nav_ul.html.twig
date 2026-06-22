@@ -37,7 +37,7 @@
     <ul class="navbar-nav justify-content-start ps-3 {{ listVisibilityClass|default('d-block') }}"
         style="height: auto; max-height: {{ maxHeight|default('500px') }}; overflow-x: hidden; min-height: {{ configs.nav_height|default('auto') }}; background-color: {{ configs.nav_bgcolor|default('#ffffff') }};">
         <hr class="w-100 border-light opacity-50 {{ mobileOnly ? 'd-lg-none' : 'd-none' }}">
-        {{ nav.renderMenuLeft(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+        {{ nav.renderMenuLeft(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navSubMenuMt, navMenuTextSize, navSubMenuTextSize) }}
         <hr class="w-100 border-light opacity-50 {{ mobileOnly ? 'd-lg-none' : 'd-none' }}">
     </ul>
 </div>

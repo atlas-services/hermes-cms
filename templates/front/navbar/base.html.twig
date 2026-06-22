@@ -14,6 +14,8 @@
 {% set navLinkRounded = navLinkRounded < 0 ? 0 : (navLinkRounded > 5 ? 5 : navLinkRounded) %}
 {% set navSubMenuMx = (configs.nav_sub_menu_mx|default(0) + 0)|round(0, 'floor') %}
 {% set navSubMenuMx = navSubMenuMx < 0 ? 0 : (navSubMenuMx > 5 ? 5 : navSubMenuMx) %}
+{% set navSubMenuMt = (configs.nav_sub_menu_mt|default(navSubMenuMx) + 0)|round(0, 'floor') %}
+{% set navSubMenuMt = navSubMenuMt < 0 ? 0 : (navSubMenuMt > 5 ? 5 : navSubMenuMt) %}
 {% set navMenuTextSize = configs.nav_menu_text_size|default('h6') %}
 {% set navSubMenuTextSize = configs.nav_sub_menu_text_size|default('h6') %}
 {% set navHeight = configs.nav_height|default('90px') %}
@@ -97,7 +99,7 @@
                                         min-height: {{ navHeight }};
                                         background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
                                     ">
-                                    {{ nav.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, true) }}
+                                    {{ nav.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navSubMenuMt, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, true) }}
                                 </ul>
                                 {% if navLocaleSwitcherPosition == 'inline' %}
                                     {% include 'front/navbar/_locale_switcher.html.twig' with {

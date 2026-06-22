@@ -10,6 +10,8 @@
 {% set navLinkRounded = navLinkRounded < 0 ? 0 : (navLinkRounded > 5 ? 5 : navLinkRounded) %}
 {% set navSubMenuMx = (configs.nav_sub_menu_mx|default(0) + 0)|round(0, 'floor') %}
 {% set navSubMenuMx = navSubMenuMx < 0 ? 0 : (navSubMenuMx > 5 ? 5 : navSubMenuMx) %}
+{% set navSubMenuMt = (configs.nav_sub_menu_mt|default(navSubMenuMx) + 0)|round(0, 'floor') %}
+{% set navSubMenuMt = navSubMenuMt < 0 ? 0 : (navSubMenuMt > 5 ? 5 : navSubMenuMt) %}
 {% set navMenuTextSize = configs.nav_menu_text_size|default('h6') %}
 {% set navSubMenuTextSize = configs.nav_sub_menu_text_size|default('h6') %}
 {% set logoConfig = configs.logo|default(null) %}

@@ -16,7 +16,7 @@
         aria-hidden="true">
 {% endmacro %}
 
-{% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, hrMainNavOnly) %}
+{% macro renderMenu(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navSubMenuMt, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, hrMainNavOnly) %}
     {% set activeTrailIds = currentMenu ? [currentMenu.id] : [] %}
     {% if currentMenu %}
         {% for p in currentMenu.parents %}
@@ -56,10 +56,10 @@
                                 {{ node.menu.name }}
                             </button>
                         {% endif %}
-                        <ul class="dropdown-menu mx-{{ navSubMenuMx }} {{ navSubMenuTextSize }}"
+                        <ul class="dropdown-menu mx-{{ navSubMenuMx }} mt-{{ navSubMenuMt }} {{ navSubMenuTextSize }}"
                             aria-labelledby="navbarDropdown{{ node.menu.id }}"
                             style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
-                            {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, false) }}
+                            {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navSubMenuMt, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, false) }}
                         </ul>
                         {{ _self.menuSeparatorHr(hrAos, navAosEffect, navAosDuration, navEspacement, linkBg, linkColor) }}
                     </div>
@@ -88,10 +88,10 @@
                             {{ node.menu.name }}
                         </button>
                     {% endif %}
-                    <ul class="dropdown-menu {{ navSubMenuTextSize }}"
+                    <ul class="dropdown-menu pt-0 mt-{{ navSubMenuMt }} {{ navSubMenuTextSize }}"
                         aria-labelledby="navbarDropdown{{ node.menu.id }}"
                         style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }};">
-                        {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, false) }}
+                        {{ _self.renderMenu(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navSubMenuMt, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, false) }}
                     </ul>
                 </li>
             {% endif %}
@@ -122,7 +122,7 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro renderMenuLeft(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) %}
+{% macro renderMenuLeft(nodes, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navSubMenuMt, navMenuTextSize, navSubMenuTextSize) %}
     {% set activeTrailIds = [] %}
     {% if currentMenu %}
         {% set activeTrailIds = [currentMenu.id] %}
@@ -164,9 +164,9 @@
                     </button>
                 </div>
                 <ul id="{{ submenuId }}"
-                    class="collapse list-unstyled hermes-nav-left-submenu mx-lg-{{ navSubMenuMx }} {{ navSubMenuTextSize }} {{ isActive ? 'show' : '' }}"
+                    class="collapse list-unstyled hermes-nav-left-submenu mx-lg-{{ navSubMenuMx }} mt-lg-{{ navSubMenuMt }} {{ navSubMenuTextSize }} {{ isActive ? 'show' : '' }}"
                     style="background-color: {{ configs.nav_li_bgcolor|default('#ffffff') }}; color: {{ configs.nav_color_active|default(configs.nav_link_color|default('#000000')) }};">
-                    {{ _self.renderMenuLeft(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navMenuTextSize, navSubMenuTextSize) }}
+                    {{ _self.renderMenuLeft(node.children, currentMenu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navSubMenuMt, navMenuTextSize, navSubMenuTextSize) }}
                 </ul>
             </li>
         {% elseif node.type == 'page' %}

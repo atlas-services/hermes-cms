@@ -354,13 +354,17 @@ parameters:
         value: h5
         position: 20
       nav_sub_menu_mx:
-        summary: "Marge entre Menu et sous menu (valeurs possibles : 0 - 1 - 2 - 3 - 4 - 5)"
+        summary: "Marge horizontale entre Menu et sous menu (valeurs possibles : 0 - 1 - 2 - 3 - 4 - 5)"
         value: 3
-        position: 21       
+        position: 21
+      nav_sub_menu_mt:
+        summary: "Marge verticale entre Menu et sous menu (valeurs possibles : 0 - 1 - 2 - 3 - 4 - 5)"
+        value: 3
+        position: 22
       nav_sub_menu_text_size:
         summary: "Taille texte du sous menu"
         value: h6
-        position: 22
+        position: 23
       nav_data_aos_active:
         summary: "Activation Effet data aos"
         value: false
