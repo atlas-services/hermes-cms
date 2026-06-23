@@ -115,6 +115,13 @@ class ConfigType extends AbstractType
         'front' => 'front',
     ];
 
+    const ROBOTS = [
+        'index, follow' => 'index, follow',
+        'index, nofollow' => 'index, nofollow',
+        'noindex, follow' => 'noindex, follow',
+        'noindex, nofollow' => 'noindex, nofollow',
+    ];
+
     const FONT_FAMILY = [
         'Alfa Slab One' => 'Alfa Slab One',
         '\'Bai Jamjuree\', sans-serif' => '\'Bai Jamjuree\', sans-serif',
@@ -275,6 +282,10 @@ class ConfigType extends AbstractType
                     $choice = true;
                     $options = self::TEMPLATE_BASE;
                     break;
+                case 'robots':
+                    $choice = true;
+                    $options = self::ROBOTS;
+                    break;
                 // nav_bar
                 case 'nav_bar':
                     $choice = true;
@@ -286,26 +297,23 @@ class ConfigType extends AbstractType
                     break;
                 // nav_bar
                 case 'nav_espacement':
-                    $choice = true;
-                    $options = self::MARGES;
-                    break;
                 // nav_sub_menu_mt
+                case 'nav_sub_menu_mx':
                 case 'nav_sub_menu_mt':
-                    $choice = true;
-                    $options = self::MARGES;
-                    break;  
                  // nav_link_py
                 case 'nav_link_py':
-                    $choice = true;
-                    $options = self::MARGES;
-                    break;  
                  // nav_link_px
                  case 'nav_link_px':
-                    $choice = true;
-                    $options = self::MARGES;
-                    break;  
                 // nav_link_rounded
                 case 'nav_link_rounded':
+                case 'contact_rounded_input':
+                case 'contact_py_input':
+                case 'contact_my_input':
+                case 'booking_rounded_input':
+                case 'booking_py_input':
+                case 'booking_my_input':
+                case 'folio1_padding_x':
+                case 'folio1_padding_y':
                     $choice = true;
                     $options = self::MARGES;
                     break;  
@@ -358,6 +366,7 @@ class ConfigType extends AbstractType
                 case 'affiche_logo_top':
                 // affiche_search
                 case 'affiche_search':
+                case 'contact_affiche':
                 // affiche_footer
                 case 'footer_affiche':
                 case 'topbar_dismiss_once':
