@@ -91,12 +91,24 @@
                                         background-color: {{ configs.nav_bgcolor|default('#ffffff') }};
                                     ">
                                     {{ nav.renderMenu(menuTree, menu, configs, navEspacement, navLinkPx, navLinkPy, navLinkRounded, navSubMenuMx, navSubMenuMt, navMenuTextSize, navSubMenuTextSize, navAosActive, navAosEffect, navAosDuration, true) }}
+                                    {% set searchConfig = configs.affiche_search|default(false) %}
+                                    {% set searchEnabled = searchConfig is same as(true) or searchConfig in [1, '1', 'true', 'on'] %}
+                                    {% if searchEnabled %}
+                                        <li class="nav-item mx-{{ navEspacement }} {{ navMenuTextSize }} d-flex flex-column align-items-stretch">
+                                            <div class="d-flex flex-column align-items-stretch w-100 rounded-{{ navLinkRounded }}">
+                                                <div class="nav-link px-{{ navLinkPx }} py-{{ navLinkPy }} rounded-{{ navLinkRounded }}">
+                                                    {% include 'front/navbar/_search_bar.html.twig' with {
+                                                        configs: configs,
+                                                        input_id: 'hermes-navbar-search-base',
+                                                    } %}
+                                                </div>
+                                                <hr class="border-0 p-0 w-100 mx-0 d-none d-sm-block opacity-0"
+                                                    style="height: 1px; min-height: 1px;"
+                                                    aria-hidden="true">
+                                            </div>
+                                        </li>
+                                    {% endif %}
                                 </ul>
-                                {% include 'front/navbar/_search_bar.html.twig' with {
-                                    configs: configs,
-                                    input_id: 'hermes-navbar-search-base',
-                                    class: 'ms-lg-3',
-                                } %}
                                 {% if navLocaleSwitcherPosition == 'inline' %}
                                     {% include 'front/navbar/_locale_switcher.html.twig' with {
                                         placement: 'inline',

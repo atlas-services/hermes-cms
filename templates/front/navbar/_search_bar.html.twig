@@ -1,7 +1,7 @@
 {% set searchConfig = configs.affiche_search|default(false) %}
 {% set searchEnabled = searchConfig is same as(true) or searchConfig in [1, '1', 'true', 'on'] %}
 {% if searchEnabled %}
-    <form class="d-flex align-items-center gap-2 my-2 my-lg-0 {{ class|default('') }}"
+    <form class="d-flex align-items-center gap-2 m-0 {{ class|default('') }}"
           action="{{ path('search_content', { _locale: app.request.locale|default('fr') }) }}"
           method="get"
           role="search">
