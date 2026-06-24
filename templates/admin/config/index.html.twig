@@ -25,9 +25,13 @@
         <th>{{ 'global.actions'|trans() }}</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody
+            data-controller="move-item"
+            data-type="config"
+            data-locale="{{ app.request.locale }}"
+        >
         {% for config in configs  %}
-                <tr class="align-middle">
+                <tr class="list-items align-middle" data-move-item-target="item" data-item-id="{{ config.id }}">
                     <td>
                         <form method="post" action="{{ path('config_toggle_active', {'id': config.id, _locale: app.request.locale}) }}" class="d-inline toggle-active-form" data-config-id="{{ config.id }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('toggle-active' ~ config.id) }}">
@@ -48,7 +52,18 @@
                         {% endif %}
                         {{ config.value }}{{ 'width' in config.code  ? '/12' : '' }}
                     </td>
-                    <td>{{ config.position }}</td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <button type="button"
+                                    class="btn btn-outline-success btn-sm"
+                                    data-action="click->move-item#moveUp"
+                                    aria-label="{{ 'form.label.move_up'|trans|default('Monter') }}">↑</button>
+                            <button type="button"
+                                    class="btn btn-outline-success btn-sm"
+                                    data-action="click->move-item#moveDown"
+                                    aria-label="{{ 'form.label.move_down'|trans|default('Descendre') }}">↓</button>
+                        </div>
+                    </td>
                     <td>
                         {% if vich_uploader_asset(config, 'imageFile') is not null %}
                             <img style="max-height: 100px;" src="{{ asset(vich_uploader_asset(config, 'imageFile')) }}" /></td>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Interface\PositionableInterface;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\CodeTrait;
 use App\Entity\Traits\ConfigTypeTrait;
@@ -21,7 +22,7 @@ use Vich\UploaderBundle\Mapping\Attribute as Vich;
 #[Vich\Uploadable]
 #[ORM\Table(name: 'config')]
 #[ORM\Entity(repositoryClass: ConfigRepository::class)]
-class Config
+class Config implements PositionableInterface
 {
     use IdTrait;
     use CodeTrait;

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Interface\ActivableInterface;
 use App\Entity\Interface\PositionableInterface;
+use App\Entity\Config;
 use App\Entity\Menu;
 use App\Entity\Post;
 use App\Entity\Section;
@@ -32,6 +33,7 @@ class BaseController extends AbstractController
         );
 
         $entityClass = match ($data['type']) {
+            'config' => Config::class,
             'menu' => Menu::class,
             'post' => Post::class,
             'section' => Section::class,
