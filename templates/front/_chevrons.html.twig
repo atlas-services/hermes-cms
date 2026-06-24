@@ -8,39 +8,12 @@
 {% set chevronColor = configs.chevron_color|default('#000000') %}
 {% set chevronBg = configs.chevron_bgcolor|default('#ffffff') %}
 {% set chevronOpacity = configs.chevron_opacity|default(0.5) %}
-{% set chevronAccueilColor = configs.chevron_accueil_color|default('#000000') %}
-{% set chevronAccueilBg = configs.chevron_accueil_bgcolor|default('#ffffff') %}
-{% set chevronAccueilOpacity = configs.chevron_accueil_opacity|default(0.4) %}
 {% set chevronSlotStyle = hermes_chevron_slot_style(configs) %}
-
-{% set accueilCfg = configs.accueil|default(null) %}
-{% set accueilWidth = accueilCfg and accueilCfg.value is not null ? (accueilCfg.value + 0) : 0 %}
-{% set isHome = app.request.attributes.get('_route') == 'front_home' %}
-{% set showAccueilChevron = isHome and accueilCfg and accueilCfg.fileName and accueilWidth >= 80 %}
 
 <div
     class="hermes-page-chevrons"
     data-controller="page-chevron"
-    data-page-chevron-scroll-threshold-value="8"
 >
-    {% if showAccueilChevron %}
-        <div
-            id="chevron_accueil_down_div"
-            class="hermes-chevron hermes-chevron--accueil"
-            style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: {{ chevronAccueilBg }}; opacity: {{ chevronAccueilOpacity }};"
-            data-page-chevron-target="accueilDown"
-        >
-            <button
-                type="button"
-                class="hermes-chevron__link border-0 bg-transparent p-0"
-                data-action="click->page-chevron#navigate"
-                aria-label="{{ 'front.chevron.scroll_down'|trans }}"
-            >
-                <i class="fa-solid fa-angles-down hermes-chevron__icon hermes-chevron__icon--accueil" style="color: {{ chevronAccueilColor }};"></i>
-            </button>
-        </div>
-    {% endif %}
-
     <div
         id="chevron_nav_slot"
         class="hermes-chevron hermes-chevron--slot"

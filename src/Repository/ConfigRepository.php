@@ -60,7 +60,7 @@ class ConfigRepository extends ServiceEntityRepository
         foreach ($configs as $conf) {
             $configSimple[$conf->getCode()] = $conf->getValue();
 
-            if (in_array($conf->getCode(), ['bg_image', 'favicon', 'accueil', 'logo'], true)) {
+            if (in_array($conf->getCode(), ['favicon', 'logo'], true)) {
                 $configSimple[$conf->getCode()] = $conf;
             }
         }

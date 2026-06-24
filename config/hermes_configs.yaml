@@ -23,43 +23,24 @@ parameters:
         value: index, follow
         position: 4 
     site:
-      template:
-        summary: Choix du template général d'affichage
-        value: front
-        position: 7
       favicon:
         summary: favicon
         value: ~
         image: ~
         position: 5
-      bg_image:
-        summary: Image de fond par défaut
-        value: ~
-        image: ~
-        position: 8
       logo:
         summary: Image du logo (Value fixe la marge verticale)
         value: ~
         image: ~
         position: 2
       affiche_logo_top:
-        summary: Position Top du logo
+        summary: Afficher le logo au-dessus du menu
         value: false
         position: 4
       affiche_search:
         summary: Affichage de la barre de recherche
         value: false
         position: 6
-      accueil:
-        summary: image d'accueil du site
-        value: ~
-        image: ~
-        position: 1
-      affiche_img_hermes:
-        summary: image d'Hermes - si pas de logo
-        value: true
-        image: ~
-        position: 3
       bgcolor:
         summary: Couleur de fond par défaut
         value: '#ffffff'
@@ -100,18 +81,6 @@ parameters:
         summary: Opacité de fond du chevron
         value: 0.5
         position: 17
-      chevron_accueil_color:
-        summary: Couleur du chevron de l'accueil
-        value: '#000000'
-        position: 15
-      chevron_accueil_bgcolor:
-        summary: Couleur de fond du chevron de l'accueil
-        value: '#ffffff'
-        position: 16
-      chevron_accueil_opacity:
-        summary: Opacité de fond du chevron de l'accueil
-        value: 0.4
-        position: 18
     network:
       linkedin:
         summary: configuration linkedin

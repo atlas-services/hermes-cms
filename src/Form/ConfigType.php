@@ -46,19 +46,6 @@ class ConfigType extends AbstractType
         '12/12' => '12',
     ];
 
-    const COLS_ACCUEIL =[
-        '10' => '10',
-        '20' => '20',
-        '30' => '30',
-        '40' => '40',
-        '50' => '50',
-        '60' => '60',
-        '70' => '70',
-        '80' => '80',
-        '90' => '90',
-        '100' => '100',
-    ];
-
     /** Pourcentages chevron : 1–5 % et 95–100 % (pas de 1). */
     public const CHEVRON_PERCENT = [
         '1 %' => '1',
@@ -109,10 +96,6 @@ class ConfigType extends AbstractType
         'display-4' => 'display-4' ,
         'display-5' => 'display-5' ,
         'display-6' => 'display-6' ,
-    ];
-
-    const TEMPLATE_BASE =[
-        'front' => 'front',
     ];
 
     const ROBOTS = [
@@ -272,16 +255,6 @@ class ConfigType extends AbstractType
             $form = $event->getForm();
             $code = $data->getCode();
             switch ($code) {
-                // accueil
-                case 'accueil':
-                    $choice = true;
-                    $options = self::COLS_ACCUEIL;
-                    break;
-                // accueil
-                case 'template':
-                    $choice = true;
-                    $options = self::TEMPLATE_BASE;
-                    break;
                 case 'robots':
                     $choice = true;
                     $options = self::ROBOTS;
@@ -344,11 +317,6 @@ class ConfigType extends AbstractType
                     ];
                     break;
                 // chevron opacity
-                case 'chevron_accueil_opacity':
-                    $choice = true;
-                    $options = self::DECIMAL;
-                    break;    
-                // chevron opacity
                 case 'chevron_opacity':
                     $choice = true;
                     $options = self::DECIMAL;
@@ -360,8 +328,6 @@ class ConfigType extends AbstractType
                     break;
                 // affiche_admin_post
                 case 'affiche_admin_post':
-                // affiche_img_hermes
-                case 'affiche_img_hermes':
                 // affiche_logo_top
                 case 'affiche_logo_top':
                 // affiche_search

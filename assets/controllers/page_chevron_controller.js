@@ -4,43 +4,16 @@ import { Controller } from '@hotwired/stimulus';
  * Chevron page : clic = scroll selon l’icône visible, puis bascule immédiate.
  */
 export default class extends Controller {
-    static targets = ['navLink', 'iconDown', 'iconUp', 'accueilDown'];
-
-    static values = {
-        scrollThreshold: { type: Number, default: 8 },
-    };
+    static targets = ['navLink', 'iconDown', 'iconUp'];
 
     connect() {
-        this.onScroll = this.onScroll.bind(this);
-
         this.pointsDown = true;
         this.renderNavIcon();
-
-        window.addEventListener('scroll', this.onScroll, { passive: true });
-    }
-
-    disconnect() {
-        window.removeEventListener('scroll', this.onScroll);
-    }
-
-    onScroll() {
-        if (this.hasAccueilDownTarget && !this.accueilDownTarget.hidden) {
-            const atTop = this.getScrollTop() < this.scrollThresholdValue;
-            this.accueilDownTarget.hidden = !atTop;
-        }
     }
 
     navigate(event) {
         event.preventDefault();
         event.stopPropagation();
-
-        if (this.hasAccueilDownTarget && event.currentTarget.closest('#chevron_accueil_down_div')) {
-            this.scrollToTop();
-            this.accueilDownTarget.hidden = true;
-            this.pointsDown = true;
-            this.renderNavIcon();
-            return;
-        }
 
         const scrollDown = this.pointsDown;
 
@@ -119,14 +92,4 @@ export default class extends Controller {
         return Math.max(0, scrollHeight - window.innerHeight);
     }
 
-    getScrollTop() {
-        const doc = document.documentElement;
-        const body = document.body;
-
-        return Math.max(
-            window.scrollY || 0,
-            doc.scrollTop || 0,
-            body.scrollTop || 0,
-        );
-    }
 }

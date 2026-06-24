@@ -16,6 +16,18 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 #[AsCommand(name: 'app:init-hermes')]
 class InitHermesTemplatesAndConfigCommand extends Command
 {
+    private const OBSOLETE_CONFIGS = [
+        'site' => [
+            'accueil',
+            'affiche_img_hermes',
+            'bg_image',
+            'chevron_accueil_bgcolor',
+            'chevron_accueil_color',
+            'chevron_accueil_opacity',
+            'template',
+        ],
+    ];
+
     public function __construct(
         private EntityManagerInterface $entityManager,
         private ParameterBagInterface $params,
@@ -36,6 +48,9 @@ class InitHermesTemplatesAndConfigCommand extends Command
 
         $nb = $this->initTemplates();
         $output->writeln(sprintf(" %s Templates created successfully ", $nb));
+
+        $removed = $this->removeObsoleteConfigs();
+        $output->writeln(sprintf(" %s obsolete Configs removed ", $removed));
 
         $nb = $this->initConfig();
         $output->writeln(sprintf(" %s Configs created successfully ", $nb));
@@ -119,12 +134,36 @@ class InitHermesTemplatesAndConfigCommand extends Command
 
                     $this->entityManager->persist($newConfig);
                     $nb++;
+                    continue;
                 }
+
+                $db_config->setSummary($conf['summary']);
+                $db_config->setPosition($conf['position'] ?? 99);
             }
 
         }
 
         $this->entityManager->flush();
+        return $nb;
+    }
+
+    public function removeObsoleteConfigs(): int
+    {
+        $nb = 0;
+        $repository = $this->entityManager->getRepository(Config::class);
+
+        foreach (self::OBSOLETE_CONFIGS as $type => $codes) {
+            foreach ($codes as $code) {
+                $config = $repository->findOneBy(['type' => $type, 'code' => $code]);
+                if ($config instanceof Config) {
+                    $this->entityManager->remove($config);
+                    $nb++;
+                }
+            }
+        }
+
+        $this->entityManager->flush();
+
         return $nb;
     }
 
