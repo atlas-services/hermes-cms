@@ -21,7 +21,6 @@
 {% set navHeight = configs.nav_height|default('90px') %}
 {% set logoConfig = configs.logo|default(null) %}
 {% set logoUrl = logoConfig ? vich_uploader_asset(logoConfig, 'imageFile') : null %}
-{% set logoTop = configs.affiche_logo_top|default(false) %}
 {% set logoLeftOffset = (logoConfig and attribute(logoConfig, 'value') is not null) ? attribute(logoConfig, 'value') : '0px' %}
 {% set navAosCfg = configs.nav_data_aos_active|default(false) %}
 {% set navAosActive = navAosCfg is same as(true) or navAosCfg in [1, '1', 'true', 'on'] %}
@@ -68,17 +67,9 @@
                     {% endif %}
                 </div>
 
-                {% if logoUrl and logoTop %}
-                    <div class="w-100 text-start d-none d-lg-block mb-2">
-                        <img src="{{ asset(logoUrl) }}"
-                             alt="Logo"
-                             class="img-fluid"
-                             style="max-width: 100%; height: auto; margin-left: {{ logoLeftOffset }};">
-                    </div>
-                {% endif %}
                 <div class="collapse navbar-collapse" id="frontNavbarNav">
                     <div class="row gx-0 align-items-lg-center w-100 mx-0">
-                        {% if logoUrl and not logoTop %}
+                        {% if logoUrl %}
                             <div class="col-auto">
                                 <a class="navbar-brand d-none d-lg-block mb-lg-0 me-{{ navEspacement }}" href="{{ path('front_root') }}">
                                     <img src="{{ asset(logoUrl) }}"

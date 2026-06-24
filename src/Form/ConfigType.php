@@ -328,8 +328,6 @@ class ConfigType extends AbstractType
                     break;
                 // affiche_admin_post
                 case 'affiche_admin_post':
-                // affiche_logo_top
-                case 'affiche_logo_top':
                 // affiche_search
                 case 'affiche_search':
                 case 'contact_affiche':

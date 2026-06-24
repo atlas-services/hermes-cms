@@ -20,6 +20,7 @@ class InitHermesTemplatesAndConfigCommand extends Command
         'site' => [
             'accueil',
             'affiche_img_hermes',
+            'affiche_logo_top',
             'bg_image',
             'chevron_accueil_bgcolor',
             'chevron_accueil_color',

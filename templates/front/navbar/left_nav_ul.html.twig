@@ -25,7 +25,7 @@
         </div>
     {% endif %}
 
-    {% if logoUrl is defined and logoUrl and not (logoTop|default(false)) %}
+    {% if logoUrl is defined and logoUrl %}
         <a class="d-lg-none d-block mb-3 text-decoration-none" href="{{ path('front_root') }}">
             <img src="{{ asset(logoUrl) }}"
                  alt="Logo"

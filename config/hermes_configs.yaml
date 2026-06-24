@@ -33,10 +33,6 @@ parameters:
         value: ~
         image: ~
         position: 2
-      affiche_logo_top:
-        summary: Afficher le logo au-dessus du menu
-        value: false
-        position: 4
       affiche_search:
         summary: Affichage de la barre de recherche
         value: false

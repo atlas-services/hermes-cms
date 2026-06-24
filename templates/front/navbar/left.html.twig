@@ -16,7 +16,6 @@
 {% set navSubMenuTextSize = configs.nav_sub_menu_text_size|default('h6') %}
 {% set logoConfig = configs.logo|default(null) %}
 {% set logoUrl = logoConfig ? vich_uploader_asset(logoConfig, 'imageFile') : null %}
-{% set logoTop = configs.affiche_logo_top|default(false) %}
 {% set logoLeftOffset = (logoConfig and attribute(logoConfig, 'value') is not null) ? attribute(logoConfig, 'value') : '0px' %}
 {% set navOffcanvasPosition = configs.nav_offcanvas_position|default('start') %}
 {% set navOffcanvasPct = (configs.nav_offcanvas_pct|default(15) + 0)|round(0, 'floor') %}
@@ -28,13 +27,13 @@
 {% endif %}
 {% set togglerEdgeClass = navTogglerSide == 'left' ? 'start-0' : 'end-0' %}
 {% set offcanvasEdgeClass = navOffcanvasPosition == 'end' ? 'end-0' : (navOffcanvasPosition == 'top' ? 'top-0' : (navOffcanvasPosition == 'bottom' ? 'bottom-0' : 'start-0')) %}
-{% set mtBtn = logoUrl and not logoTop ? 'mt-5 mt-lg-0' : 'mt-5 pt-lg-4' %}
+{% set mtBtn = logoUrl ? 'mt-5 mt-lg-0' : 'mt-5 pt-lg-4' %}
 
 <nav id="mainNavLeft"
      class="navbar fixed-top col-12"
      style="background-color: transparent; font-family: {{ configs.nav_font_family|default('inherit') }};">
     <div class="float-start">
-        {% if logoUrl and not logoTop %}
+        {% if logoUrl %}
             <a class="d-none d-lg-block col-{{ navOffset }} align-middle text-decoration-none" href="{{ path('front_root') }}">
                 <img src="{{ asset(logoUrl) }}"
                      alt="Logo"
