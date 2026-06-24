@@ -105,6 +105,16 @@ front:
     scroll_down: Scroll down the page
     scroll_bottom: Go to bottom of page
     scroll_top: Back to top of page
+  search:
+    title: Search
+    label: Search the site
+    placeholder: Search...
+    submit: Search
+    min_length: Enter at least 2 characters.
+    count: '%count% result(s) for "%query%"'
+    in_page: 'Result in page: %page%'
+    no_results: No results found.
+    too_short: Please enter at least 2 characters.
   locale_switcher:
     label: Choose language
   sitemap:

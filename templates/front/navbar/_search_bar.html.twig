@@ -1,0 +1,25 @@
+{% set searchConfig = configs.affiche_search|default(false) %}
+{% set searchEnabled = searchConfig is same as(true) or searchConfig in [1, '1', 'true', 'on'] %}
+{% if searchEnabled %}
+    <form class="d-flex align-items-center gap-2 my-2 my-lg-0 {{ class|default('') }}"
+          action="{{ path('search_content', { _locale: app.request.locale|default('fr') }) }}"
+          method="get"
+          role="search">
+        <label class="visually-hidden" for="{{ input_id|default('hermes-navbar-search') }}">
+            {{ 'front.search.label'|trans }}
+        </label>
+        <div class="input-group input-group-sm">
+            <span class="input-group-text border-0"
+                  style="background-color: {{ configs.nav_bgcolor|default('#ffffff') }}; color: {{ configs.nav_link_color|default('#000000') }};">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+            <input id="{{ input_id|default('hermes-navbar-search') }}"
+                   class="form-control border-0"
+                   type="search"
+                   name="q"
+                   value="{{ app.request.query.get('q')|default('')|e('html_attr') }}"
+                   placeholder="{{ 'front.search.placeholder'|trans }}"
+                   minlength="2">
+        </div>
+    </form>
+{% endif %}

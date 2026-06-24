@@ -162,6 +162,40 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return Post[]
+     */
+    public function findVisibleBySearchTerm(string $term, string $locale, int $limit = 50): array
+    {
+        $normalizedTerm = mb_strtolower(trim($term));
+        if ($normalizedTerm === '') {
+            return [];
+        }
+
+        $now = new \DateTimeImmutable();
+
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.section', 's')
+            ->innerJoin('s.menu', 'm')
+            ->andWhere('p.active = true')
+            ->andWhere('s.active = true')
+            ->andWhere('m.active = true')
+            ->andWhere('m.locale = :locale OR (m.locale IS NULL AND :locale = :defaultLocale)')
+            ->andWhere('LOWER(COALESCE(p.name, \'\')) LIKE :term OR LOWER(COALESCE(p.content, \'\')) LIKE :term')
+            ->andWhere('p.startPublishedAt IS NULL OR p.startPublishedAt <= :now')
+            ->andWhere('p.endPublishedAt IS NULL OR p.endPublishedAt >= :now')
+            ->setParameter('locale', $locale)
+            ->setParameter('defaultLocale', 'fr')
+            ->setParameter('term', '%' . addcslashes($normalizedTerm, '%_') . '%')
+            ->setParameter('now', $now)
+            ->orderBy('m.position', 'ASC')
+            ->addOrderBy('s.position', 'ASC')
+            ->addOrderBy('p.position', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @return list<string>
      */
     public function findDistinctLocales(): array

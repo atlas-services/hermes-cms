@@ -34,6 +34,12 @@
         </a>
     {% endif %}
 
+    {% include 'front/navbar/_search_bar.html.twig' with {
+        configs: configs,
+        input_id: mobileOnly ? 'hermes-navbar-search-left-mobile' : 'hermes-navbar-search-left-desktop',
+        class: 'px-3 mb-3',
+    } %}
+
     <ul class="navbar-nav justify-content-start ps-3 {{ listVisibilityClass|default('d-block') }}"
         style="height: auto; max-height: {{ maxHeight|default('500px') }}; overflow-x: hidden; min-height: {{ configs.nav_height|default('auto') }}; background-color: {{ configs.nav_bgcolor|default('#ffffff') }};">
         <hr class="w-100 border-light opacity-50 {{ mobileOnly ? 'd-lg-none' : 'd-none' }}">

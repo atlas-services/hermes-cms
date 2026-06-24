@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Menu;
+use App\Entity\Post;
 use App\Enum\FormTemplateKind;
 use App\Form\Front\ContactFormType;
+use App\Repository\PostRepository;
 use App\Service\FrontFormSubmissionHandler;
 use App\Service\FrontMenuService;
 use App\Service\MenuTreeBuilder;
@@ -86,7 +88,32 @@ final class FrontController extends AbstractController
         ]);
     }
 
-    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => '[a-z]{2,3}', 'slugs' => '(?!(contact|form|login|logout|admin|forgotten_password|re-init-password|reset_password|sitemap\\.xml)(/|$)).+'], defaults: ['_locale' => 'fr'])]
+    #[Route('/{_locale}/search', name: 'search_content', requirements: ['_locale' => '[a-z]{2,3}'], defaults: ['_locale' => 'fr'], methods: ['GET'])]
+    public function search(
+        Request $request,
+        PostRepository $postRepository,
+        FrontMenuService $frontMenuService,
+        MenuTreeBuilder $menuTreeBuilder,
+    ): Response {
+        $locale = $request->getLocale();
+        $query = trim((string) $request->query->get('q', ''));
+        $posts = mb_strlen($query) >= 2
+            ? $postRepository->findVisibleBySearchTerm($query, $locale)
+            : [];
+        $currentMenu = $frontMenuService->findFirstAccessiblePage($locale);
+
+        return $this->render('front/search.html.twig', [
+            'menu' => $currentMenu,
+            'menuTree' => $menuTreeBuilder->buildTree(true, $locale),
+            'query' => $query,
+            'results' => array_map(
+                fn (Post $post): array => $this->buildSearchResult($post, $query, $locale),
+                $posts,
+            ),
+        ]);
+    }
+
+    #[Route('/{_locale}/{slugs}', name: 'front_menu', requirements: ['_locale' => '[a-z]{2,3}', 'slugs' => '(?!(contact|search|form|login|logout|admin|forgotten_password|re-init-password|reset_password|sitemap\\.xml)(/|$)).+'], defaults: ['_locale' => 'fr'])]
     public function menu(string $slugs, Request $request, FrontMenuService $frontMenuService, MenuTreeBuilder $menuTreeBuilder): Response
     {
         $slugParts = array_filter(explode('/', $slugs));
@@ -109,6 +136,51 @@ final class FrontController extends AbstractController
             'menu' => $menu,
             'sectionsForFront' => $sectionsForFront,
             'menuTree' => $menuTree,
+        ]);
+    }
+
+    /**
+     * @return array{title: string, excerpt: string, url: string, page: string}
+     */
+    private function buildSearchResult(Post $post, string $query, string $locale): array
+    {
+        $section = $post->getSection();
+        $menu = $section?->getMenu();
+        $pageTitle = $menu?->getName() ?? '';
+        $postTitle = trim((string) $post->getName());
+
+        return [
+            'title' => $postTitle !== '' ? $postTitle : $pageTitle,
+            'excerpt' => $this->buildSearchExcerpt((string) $post->getContent(), $query),
+            'url' => $menu instanceof Menu ? $this->generateMenuUrl($menu, $locale) : $this->generateUrl('front_home', ['_locale' => $locale]),
+            'page' => $pageTitle,
+        ];
+    }
+
+    private function buildSearchExcerpt(string $content, string $query): string
+    {
+        $text = trim((string) preg_replace('/\s+/', ' ', html_entity_decode(strip_tags($content), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        if ($text === '') {
+            return '';
+        }
+
+        $position = $query !== '' ? mb_stripos($text, $query) : false;
+        $start = $position === false ? 0 : max(0, $position - 90);
+        $excerpt = mb_substr($text, $start, 220);
+
+        return ($start > 0 ? '...' : '') . $excerpt . (mb_strlen($text) > $start + 220 ? '...' : '');
+    }
+
+    private function generateMenuUrl(Menu $menu, string $locale): string
+    {
+        $parts = array_map(
+            static fn (Menu $item): string => (string) $item->getSlug(),
+            [...$menu->getParents(), $menu],
+        );
+
+        return $this->generateUrl('front_menu', [
+            '_locale' => $menu->getLocale() ?? $locale,
+            'slugs' => implode('/', array_values(array_filter($parts))),
         ]);
     }
 }
