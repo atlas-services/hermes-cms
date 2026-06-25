@@ -31,6 +31,7 @@
             data-locale="{{ app.request.locale }}"
         >
         {% for config in configs  %}
+            {% set isColorConfig = 'color' in config.code or config.code in ['booking_reservation_form'] %}
                 <tr class="list-items align-middle" data-move-item-target="item" data-item-id="{{ config.id }}">
                     <td>
                         <form method="post" action="{{ path('config_toggle_active', {'id': config.id, _locale: app.request.locale}) }}" class="d-inline toggle-active-form" data-config-id="{{ config.id }}">
@@ -47,7 +48,7 @@
                         {% endif %}
                     <td>{{ config.summary }}</td>
                     <td>
-                        {% if 'color' in config.code  %}
+                        {% if isColorConfig %}
                             <span class="mt-0 mr-1" style="width:20px;height:10px;border:1px solid ;background-color:{{ config.value }}" >&nbsp; &nbsp; &nbsp; </span>
                         {% endif %}
                         {{ config.value }}{{ 'width' in config.code  ? '/12' : '' }}

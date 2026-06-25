@@ -62,6 +62,7 @@ final class HermesBookingFrontExtension
             'bgcolor_btn' => $resolved['bgcolor_btn'],
             'color_btn' => $resolved['color_btn'],
             'button_bgcolor' => $resolved['button_bgcolor'],
+            'reservation_form_bgcolor' => $resolved['reservation_form_bgcolor'],
             'bgcolor_input' => $resolved['bgcolor_input'],
             'color_input' => $resolved['color_input'],
             'border_color_input' => $resolved['border_color_input'],
@@ -70,16 +71,14 @@ final class HermesBookingFrontExtension
             'my_input' => $resolved['my_input'],
         ];
 
-        $presentationText = $this->nullableString($configs['booking_presentation'] ?? $resolved['presentation'] ?? null);
-        $userText = $this->nullableString($configs['booking_user'] ?? null);
         $locale = $this->requestStack->getCurrentRequest()?->getLocale() ?? 'fr';
 
         $vars = $this->bookingFormVarsProvider->provide(
             $mapped['booking_key'],
             $locale,
             $presentation,
-            $presentationText,
-            $userText,
+            null,
+            null,
         );
 
         if ($vars === []) {
@@ -89,6 +88,7 @@ final class HermesBookingFrontExtension
         $vars['booking_label'] = $mapped['booking_label'];
         $vars['section_id'] = $mapped['section_id'];
         $vars['form_id'] = 'booking-'.$mapped['booking_key'];
+        $vars['configs'] = $configs;
 
         return $vars;
     }

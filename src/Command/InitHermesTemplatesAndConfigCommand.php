@@ -17,6 +17,11 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class InitHermesTemplatesAndConfigCommand extends Command
 {
     private const OBSOLETE_CONFIGS = [
+        'booking' => [
+            'booking_bgcolor_btn',
+            'booking_presentation',
+            'booking_user',
+        ],
         'site' => [
             'accueil',
             'affiche_img_hermes',

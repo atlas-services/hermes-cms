@@ -370,10 +370,6 @@ class ConfigType extends AbstractType
                     $choice = true;
                     $options = self::BTN_OUTLINE;
                     break;
-                case 'booking_bgcolor_btn':
-                    $choice = true;
-                    $options = self::BTN_OUTLINE;
-                    break;
                 case 'nav_offcanvas_position':
                     $choice = true;
                     $options = self::NAV_OFFCANVAS_POSITION;
@@ -413,7 +409,7 @@ class ConfigType extends AbstractType
                 ]);
             }
             if(!$choice) {
-                if ('color' == $code || strpos($code, 'color')) {
+                if ('color' == $code || strpos($code, 'color') || in_array($code, ['booking_reservation_form'], true)) {
                     $form->add('value', ColorType::class, [
                         'required' => false,
                     ]);

@@ -1,0 +1,123 @@
+{# Surcharge Hermes3 de @HermesBooking/front/booking_form.html.twig.
+   Conserve les hooks Stimulus du bundle booking (booking-form, picker, dateInput, timeInput). #}
+{% set form_id = form_id|default('booking-' ~ (booking_key|default('standalone'))) %}
+{% set pres = form_presentation %}
+{% set input_class = 'form-control hermes-form-field rounded-' ~ pres.rounded_input ~ ' py-' ~ pres.py_input ~ ' my-' ~ pres.my_input %}
+{% set submitColor = configs.booking_color_btn|default(pres.color_btn|default(null)) %}
+{% set submitBg = configs.booking_button_bgcolor|default(pres.button_bgcolor|default(null)) %}
+{% set submitOutlineColor = submitBg|default('#0d6efd') %}
+{% set submitHoverTextColor = submitColor|default(pres.bgcolor == 'transparent' ? '#ffffff' : pres.bgcolor) %}
+{% set submitStyle = 'color: ' ~ submitOutlineColor ~ ' !important; background-color: transparent !important; border-color: ' ~ submitOutlineColor ~ ' !important;' %}
+{% set reservationFormBg = configs.booking_reservation_form|default(pres.reservation_form_bgcolor|default('#ffffff')) %}
+
+<div id="formulaire"
+     class="hermes-form-{{ form_id }} py-5"
+     style="background-color: {{ pres.bgcolor }}; color: {{ pres.color }};">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
+                <div class="text-center mb-4">
+                    {% if booking_label|default('') %}
+                        <p class="text-uppercase small fw-semibold opacity-75 mb-2">{{ booking_label }}</p>
+                    {% endif %}
+                </div>
+
+                {{ form_start(booking_form, {
+                    action: booking_submit_url,
+                    method: 'POST',
+                    attr: {
+                        class: 'booking_reservation_form hermes-form-' ~ form_id,
+                        id: form_id,
+                        style: 'background-color: ' ~ reservationFormBg ~ ';',
+                        'data-controller': 'booking-form',
+                        'data-booking-form-slots-url-value': booking_slots_url,
+                        'data-booking-form-calendar-url-value': booking_calendar_url,
+                        'data-booking-form-no-slots-message-value': 'booking.form.no_slots'|trans({}, 'booking'),
+                        'data-booking-form-select-day-message-value': 'booking.form.select_day'|trans({}, 'booking'),
+                        'data-booking-form-select-slot-message-value': 'booking.form.select_slot'|trans({}, 'booking'),
+                        'data-booking-form-summary-template-value': 'booking.form.slot_summary'|trans({}, 'booking'),
+                    },
+                }) }}
+                    <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
+
+                    <div class="card border-0 shadow-sm overflow-hidden" style="background-color: {{ reservationFormBg }};">
+                        <div class="row g-0">
+                            <div class="col-12 col-lg-6">
+                                <div class="h-100 p-3 p-md-4 text-dark" style="background-color: transparent;">
+                                    <div class="hermes-booking-picker" data-booking-form-target="picker">
+                                        <div class="hermes-booking-picker__header">
+                                            <h3 class="hermes-booking-picker__title h5 mb-0" data-booking-form-target="monthLabel"></h3>
+                                            <div class="hermes-booking-picker__nav">
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-secondary"
+                                                        data-action="booking-form#previousMonth"
+                                                        aria-label="{{ 'booking.form.prev_month'|trans({}, 'booking') }}">&larr;</button>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-secondary"
+                                                        data-action="booking-form#nextMonth"
+                                                        aria-label="{{ 'booking.form.next_month'|trans({}, 'booking') }}">&rarr;</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="hermes-booking-picker__weekdays">
+                                            {% for weekday in ['booking.form.weekday_mon', 'booking.form.weekday_tue', 'booking.form.weekday_wed', 'booking.form.weekday_thu', 'booking.form.weekday_fri', 'booking.form.weekday_sat', 'booking.form.weekday_sun'] %}
+                                                <div class="hermes-booking-picker__weekday">{{ weekday|trans({}, 'booking') }}</div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="hermes-booking-picker__grid" data-booking-form-target="daysGrid"></div>
+
+                                        <div class="hermes-booking-picker__slots">
+                                            <div class="hermes-booking-picker__slots-title">{{ 'booking.form.available_slots'|trans({}, 'booking') }}</div>
+                                            <div class="hermes-booking-picker__slot-grid" data-booking-form-target="slotsGrid"></div>
+                                            <p class="hermes-booking-picker__hint text-muted mb-0" data-booking-form-target="hint"></p>
+                                            <p class="hermes-booking-picker__summary mb-0" data-booking-form-target="summary"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <div class="h-100 p-3 p-md-4 text-start" style="background-color: transparent;">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            {{ form_row(booking_form.customerName, { attr: { class: input_class } }) }}
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            {{ form_row(booking_form.email, { attr: { class: input_class } }) }}
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            {{ form_row(booking_form.phone, { attr: { class: input_class } }) }}
+                                        </div>
+                                        <div class="col-12">
+                                            {{ form_row(booking_form.message, { attr: { class: input_class } }) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="d-none">
+                                        {{ form_widget(booking_form.date, { attr: { 'data-booking-form-target': 'dateInput' } }) }}
+                                        {{ form_widget(booking_form.time, { attr: { 'data-booking-form-target': 'timeInput' } }) }}
+                                    </div>
+                                    {{ form_errors(booking_form.date) }}
+                                    {{ form_errors(booking_form.time) }}
+
+                                    <div class="d-grid mt-4">
+                                        <button type="submit"
+                                                class="btn btn-lg"
+                                                style="{{ submitStyle }}"
+                                                onmouseover="this.style.setProperty('color', '{{ submitHoverTextColor|e('js') }}', 'important'); this.style.setProperty('background-color', '{{ submitOutlineColor|e('js') }}', 'important'); this.style.setProperty('border-color', '{{ submitOutlineColor|e('js') }}', 'important');"
+                                                onmouseout="this.style.setProperty('color', '{{ submitOutlineColor|e('js') }}', 'important'); this.style.setProperty('background-color', 'transparent', 'important'); this.style.setProperty('border-color', '{{ submitOutlineColor|e('js') }}', 'important');">
+                                            {{ 'booking.form.submit'|trans({}, 'booking') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% do booking_form.date.setRendered(true) %}
+                    {% do booking_form.time.setRendered(true) %}
+                {{ form_end(booking_form, { render_rest: true }) }}
+            </div>
+        </div>
+    </div>
+</div>
