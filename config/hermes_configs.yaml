@@ -238,6 +238,10 @@ parameters:
         summary: "Largeur menu offcanvas (en %)"
         value: 15
         position: 3
+      nav_left_open_on_load:
+        summary: "Navbar left ouverte au chargement des pages"
+        value: true
+        position: 28
       nav_toggler_side:
         summary: "Position du bouton hamburger en mode responsive (gauche ou droite)"
         value: right

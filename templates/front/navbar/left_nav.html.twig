@@ -13,7 +13,7 @@
 </div>
 
 <div id="offcanvasDarkNavbar"
-     class="offcanvas offcanvas-{{ navOffcanvasPosition }} d-none d-lg-block show mt-0 pt-0 shadow-sm hermes-nav-left-offcanvas hermes-nav-left-offcanvas--desktop"
+     class="offcanvas offcanvas-{{ navOffcanvasPosition }} d-none d-lg-block {{ navLeftOpenOnLoad is defined and navLeftOpenOnLoad ? 'show' : '' }} mt-0 pt-0 shadow-sm hermes-nav-left-offcanvas hermes-nav-left-offcanvas--desktop"
      style="background-color: {{ configs.nav_bgcolor|default('#ffffff') }}; width: {{ navOffcanvasPct }}%; --hermes-nav-left-width: {{ navOffcanvasPct }}%;"
      data-bs-scroll="true"
      data-bs-backdrop="false"

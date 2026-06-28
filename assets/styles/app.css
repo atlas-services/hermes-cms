@@ -307,8 +307,31 @@ body {
     }
 }
 
-.hermes-nav-left-offcanvas--desktop {
+.hermes-nav-left-offcanvas--desktop.show {
     visibility: visible;
+}
+
+@media (min-width: 992px) {
+    .hermes-nav-left-offcanvas--desktop:not(.show) {
+        visibility: hidden !important;
+        pointer-events: none;
+    }
+
+    .hermes-nav-left-offcanvas--desktop.offcanvas-start:not(.show) {
+        transform: translateX(-100%) !important;
+    }
+
+    .hermes-nav-left-offcanvas--desktop.offcanvas-end:not(.show) {
+        transform: translateX(100%) !important;
+    }
+
+    .hermes-nav-left-offcanvas--desktop.offcanvas-top:not(.show) {
+        transform: translateY(-100%) !important;
+    }
+
+    .hermes-nav-left-offcanvas--desktop.offcanvas-bottom:not(.show) {
+        transform: translateY(100%) !important;
+    }
 }
 
 .hermes-nav-left-offcanvas .hermes-nav-left-btn-close {

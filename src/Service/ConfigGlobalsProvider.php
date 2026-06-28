@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\Config;
 use App\Repository\ConfigRepository;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -12,6 +13,11 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  */
 final class ConfigGlobalsProvider
 {
+    private const STATEFUL_BOOLEAN_CONFIGS = [
+        'nav_left_open_on_load',
+        'topbar_dismiss_once',
+    ];
+
     public function __construct(
         private readonly ConfigRepository $configRepository,
         /** @var array<string, array<string, array{summary?: string, value?: mixed, position?: int}>> */
@@ -25,7 +31,16 @@ final class ConfigGlobalsProvider
      */
     public function getConfigs(): array
     {
-        return array_merge($this->flattenDefaults(), $this->configRepository->getActiveConfig());
+        $configs = array_merge($this->flattenDefaults(), $this->configRepository->getActiveConfig());
+
+        foreach (self::STATEFUL_BOOLEAN_CONFIGS as $code) {
+            $config = $this->configRepository->findOneBy(['code' => $code]);
+            if ($config instanceof Config) {
+                $configs[$code] = $config->isActive() && $this->isTruthy($config->getValue());
+            }
+        }
+
+        return $configs;
     }
 
     /**
@@ -42,5 +57,18 @@ final class ConfigGlobalsProvider
         }
 
         return $flat;
+    }
+
+    private function isTruthy(mixed $value): bool
+    {
+        if ($value === true) {
+            return true;
+        }
+
+        if ($value === false || $value === null) {
+            return false;
+        }
+
+        return in_array(strtolower(trim((string) $value)), ['1', 'true', 'on', 'yes'], true);
     }
 }

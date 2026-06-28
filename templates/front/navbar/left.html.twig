@@ -25,6 +25,8 @@
 {% if navTogglerSide not in ['left', 'right'] %}
     {% set navTogglerSide = 'right' %}
 {% endif %}
+{% set navLeftOpenConfig = configs.nav_left_open_on_load is defined ? configs.nav_left_open_on_load : true %}
+{% set navLeftOpenOnLoad = navLeftOpenConfig is same as(true) or navLeftOpenConfig in [1, '1', 'true', 'on'] %}
 {% set togglerEdgeClass = navTogglerSide == 'left' ? 'start-0' : 'end-0' %}
 {% set offcanvasEdgeClass = navOffcanvasPosition == 'end' ? 'end-0' : (navOffcanvasPosition == 'top' ? 'top-0' : (navOffcanvasPosition == 'bottom' ? 'bottom-0' : 'start-0')) %}
 {% set mtBtn = logoUrl ? 'mt-5 mt-lg-0' : 'mt-5 pt-lg-4' %}
@@ -61,11 +63,12 @@
     <div class="d-none d-lg-block position-absolute {{ offcanvasEdgeClass }} {{ mtBtn }}">
         <button id="btnOffcanvasDarkNavbar"
                 type="button"
-                class="navbar-toggler collapsed float-end border-0 shadow-none"
+                class="navbar-toggler {{ navLeftOpenOnLoad ? '' : 'collapsed' }} float-end border-0 shadow-none"
                 style="background-color: {{ configs.nav_header_bgcolor|default('transparent') }}"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasDarkNavbar"
                 aria-controls="offcanvasDarkNavbar"
+                aria-expanded="{{ navLeftOpenOnLoad ? 'true' : 'false' }}"
                 aria-label="Toggle navigation">
             <span class="visually-hidden">Toggle navigation</span>
             <i class="fa fa-2x fa-bars" style="color: {{ navHeaderColor }}"></i>

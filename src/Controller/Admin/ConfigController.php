@@ -53,7 +53,7 @@ class ConfigController extends AbstractController
         }
 
         $config->setActive(!$config->isActive());
-        if ($config->getCode() === 'topbar_dismiss_once') {
+        if (in_array($config->getCode(), ['topbar_dismiss_once', 'nav_left_open_on_load'], true)) {
             $config->setValue($config->isActive() ? '1' : '0');
         }
 

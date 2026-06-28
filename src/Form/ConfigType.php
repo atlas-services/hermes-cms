@@ -254,6 +254,21 @@ class ConfigType extends AbstractType
             $data = $event->getData();
             $form = $event->getForm();
             $code = $data->getCode();
+            $booleanCodes = [
+                'affiche_admin_post',
+                'affiche_search',
+                'contact_affiche',
+                'footer_affiche',
+                'topbar_dismiss_once',
+                'nav_left_open_on_load',
+                'newsletter_active',
+                'livredor_active',
+            ];
+
+            if (in_array($code, $booleanCodes, true)) {
+                $data->setValue($this->isTruthy($data->getValue()) ? '1' : '0');
+            }
+
             switch ($code) {
                 case 'robots':
                     $choice = true;
@@ -334,12 +349,13 @@ class ConfigType extends AbstractType
                 // affiche_footer
                 case 'footer_affiche':
                 case 'topbar_dismiss_once':
+                case 'nav_left_open_on_load':
                 case 'newsletter_active':
                 case 'livredor_active':
                     $choice = true;
                     $options = [
-                        'activer'  => true,
-                        'desactiver' => false ,
+                        'actif'  => '1',
+                        'inactif' => '0',
                     ];
                     break;
                 // logo
@@ -448,6 +464,12 @@ class ConfigType extends AbstractType
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $data = $event->getData();
+            if (in_array($data->getCode(), ['nav_left_open_on_load', 'topbar_dismiss_once'], true)) {
+                $enabled = $this->isTruthy($data->getValue());
+                $data->setValue($enabled ? '1' : '0');
+                $data->setActive($enabled);
+            }
+
             if($data->transparent){
                 $data->setValue('transparent');
             }
@@ -493,5 +515,18 @@ class ConfigType extends AbstractType
             ],
             'disable_type' => false,
         ]);
+    }
+
+    private function isTruthy(mixed $value): bool
+    {
+        if ($value === true) {
+            return true;
+        }
+
+        if ($value === false || $value === null) {
+            return false;
+        }
+
+        return in_array(strtolower(trim((string) $value)), ['1', 'true', 'on', 'yes'], true);
     }
 }
