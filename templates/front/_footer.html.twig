@@ -1,7 +1,8 @@
 {# Footer front + modale plan du site (Hermes 2.2.7) #}
+{% set isLeftNavbar = isLeftNavbar|default(navBarType is defined and navBarType in ['left', 'menu_left']) %}
 {% if configs.footer_affiche|default(true) %}
     {% set footerW = configs.footer_container_width|default(12)|col_lg %}
-    <footer class="footer pt-3 col-lg-{{ footerW }} col-12 mx-auto px-0 mt-auto{% if navBarType is defined and navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}"
+    <footer class="footer pt-3 col-lg-{{ footerW }} col-12 mx-auto px-0 mt-auto{% if isLeftNavbar %} hermes-nav-menu-left-main{% endif %}"
             style="background-color: {{ configs.footer_bgcolor|default('transparent') }}; color: {{ configs.footer_color|default('#000000') }}">
         <div class="container-fluid">
             {% if sectionsForFooter|default([])|length > 0 %}
@@ -40,7 +41,7 @@
         </div>
     </footer>
 {% else %}
-    <footer class="mt-auto{% if navBarType is defined and navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}">
+    <footer class="mt-auto{% if isLeftNavbar %} hermes-nav-menu-left-main{% endif %}">
         <div class="container">
             <p class="mb-0">&copy; {{ 'now'|date('Y') }} {{ configs.title|default('') }}</p>
         </div>

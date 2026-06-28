@@ -3,6 +3,7 @@
 {% if navBarType == 'left' %}
     {% set navBarType = 'menu_left' %}
 {% endif %}
+{% set isLeftNavbar = navBarType in ['left', 'menu_left'] %}
 {# Menu base : true = reste en haut au scroll (sticky-top sur <header>) ; false = défile avec le contenu.
    Futur : configs.nav_base_fixed_top (hermes_configs.yaml, groupe nav) #}
 {% set nav_base_fixed_top = true %}
@@ -11,7 +12,7 @@
 {% set topbarDismissOnce = topbarDismissOnceConfig is same as(true) or topbarDismissOnceConfig in [1, '1', 'true', 'on'] %}
 <div class="d-flex flex-column min-vh-100{{ navBaseSticky ? ' hermes-layout-nav-base-fixed' : '' }}">
     {% if sectionsForTopbar|default([])|length > 0 %}
-        <div class="hermes-topbar-sections w-100{% if navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}"
+        <div class="hermes-topbar-sections w-100{% if isLeftNavbar %} hermes-nav-menu-left-main{% endif %}"
              {% if topbarDismissOnce %}
                  data-controller="topbar-dismiss"
                  data-topbar-dismiss-enabled-value="true"
@@ -51,7 +52,7 @@
 
     {% include 'front/_chevrons.html.twig' %}
 
-    <main class="flex-grow-1{% if navBarType == 'left' %} hermes-nav-menu-left-main{% endif %}">
+    <main class="flex-grow-1{% if isLeftNavbar %} hermes-nav-menu-left-main{% endif %}">
         <div class="container-fluid px-0">
             {# Hermes 2.2.7 js-front.js : couleur des liens .link dans contenu libre #}
             <input type="hidden" id="content_link_color" value="{{ configs.content_link_color|default('#000000')|e('html_attr') }}">
@@ -60,7 +61,7 @@
         </div>
     </main>
 
-    {% include 'front/_footer.html.twig' with { navBarType: navBarType } %}
+    {% include 'front/_footer.html.twig' with { navBarType: navBarType, isLeftNavbar: isLeftNavbar } %}
 
     <section id="section_bottom" class="hermes-section-bottom-anchor" aria-hidden="true"></section>
 </div>
