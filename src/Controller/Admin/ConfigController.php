@@ -2,6 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Config\ConfigDefinitionRegistry;
+use App\Config\ConfigValueNormalizer;
+use App\Config\ConfigValueType;
 use App\Entity\Config;
 use App\Form\ConfigType;
 use App\Repository\ConfigRepository;
@@ -18,6 +21,8 @@ class ConfigController extends AbstractController
 {
     public function __construct(
         private readonly ConfigGlobalsProvider $configGlobalsProvider,
+        private readonly ConfigDefinitionRegistry $configDefinitionRegistry,
+        private readonly ConfigValueNormalizer $configValueNormalizer,
     ) {
     }
 
@@ -53,8 +58,11 @@ class ConfigController extends AbstractController
         }
 
         $config->setActive(!$config->isActive());
-        if (in_array($config->getCode(), ['topbar_dismiss_once', 'nav_left_open_on_load'], true)) {
-            $config->setValue($config->isActive() ? '1' : '0');
+        if ($config->getCode() !== null) {
+            $definition = $this->configDefinitionRegistry->definitionFor($config->getCode());
+            if ($definition->type === ConfigValueType::Boolean && $definition->statefulBoolean) {
+                $config->setValue($this->configValueNormalizer->normalizeForStorage($definition, $config->isActive()));
+            }
         }
 
         $doctrine->getManager()->flush();

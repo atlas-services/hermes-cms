@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Config\ConfigDefinitionRegistry;
+use App\Config\ConfigValueNormalizer;
 use App\Entity\Config;
 use App\Repository\ConfigRepository;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -13,13 +15,10 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  */
 final class ConfigGlobalsProvider
 {
-    private const STATEFUL_BOOLEAN_CONFIGS = [
-        'nav_left_open_on_load',
-        'topbar_dismiss_once',
-    ];
-
     public function __construct(
         private readonly ConfigRepository $configRepository,
+        private readonly ConfigDefinitionRegistry $configDefinitionRegistry,
+        private readonly ConfigValueNormalizer $configValueNormalizer,
         /** @var array<string, array<string, array{summary?: string, value?: mixed, position?: int}>> */
         #[Autowire(param: 'configs')]
         private readonly array $configDefaults,
@@ -33,10 +32,10 @@ final class ConfigGlobalsProvider
     {
         $configs = array_merge($this->flattenDefaults(), $this->configRepository->getActiveConfig());
 
-        foreach (self::STATEFUL_BOOLEAN_CONFIGS as $code) {
+        foreach ($this->configDefinitionRegistry->statefulBooleanCodes() as $code) {
             $config = $this->configRepository->findOneBy(['code' => $code]);
             if ($config instanceof Config) {
-                $configs[$code] = $config->isActive() && $this->isTruthy($config->getValue());
+                $configs[$code] = $config->isActive() && $this->configValueNormalizer->toBool($config->getValue());
             }
         }
 
@@ -59,16 +58,4 @@ final class ConfigGlobalsProvider
         return $flat;
     }
 
-    private function isTruthy(mixed $value): bool
-    {
-        if ($value === true) {
-            return true;
-        }
-
-        if ($value === false || $value === null) {
-            return false;
-        }
-
-        return in_array(strtolower(trim((string) $value)), ['1', 'true', 'on', 'yes'], true);
-    }
 }

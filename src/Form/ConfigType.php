@@ -2,6 +2,10 @@
 
 namespace App\Form;
 
+use App\Config\ConfigDefinition;
+use App\Config\ConfigDefinitionRegistry;
+use App\Config\ConfigValueNormalizer;
+use App\Config\ConfigValueType;
 use App\Entity\Config;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -11,193 +15,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ConfigType extends AbstractType
 {
-    const COLS = [
-        '1/12' => '1',
-        '2/12' => '2',
-        '3/12' => '3',
-        '4/12' => '4',
-        '5/12' => '5',
-        '6/12' => '6',
-        '7/12' => '7',
-        '8/12' => '8',
-        '9/12' => '9',
-        '10/12' => '10',
-        '11/12' => '11',
-        '12/12' => '12',
-    ];
-
-    const COLS_OFFSET = [
-        '0/12' => '0',
-        '1/12' => '1',
-        '2/12' => '2',
-        '3/12' => '3',
-        '4/12' => '4',
-        '5/12' => '5',
-        '6/12' => '6',
-        '7/12' => '7',
-        '8/12' => '8',
-        '9/12' => '9',
-        '10/12' => '10',
-        '11/12' => '11',
-        '12/12' => '12',
-    ];
-
-    /** Pourcentages chevron : 1–5 % et 95–100 % (pas de 1). */
-    public const CHEVRON_PERCENT = [
-        '1 %' => '1',
-        '2 %' => '2',
-        '3 %' => '3',
-        '4 %' => '4',
-        '5 %' => '5',
-        '95 %' => '95',
-        '96 %' => '96',
-        '97 %' => '97',
-        '98 %' => '98',
-        '99 %' => '99',
-        '100 %' => '100',
-    ];
-
-    const DECIMAL = [
-        '0.1' => '0.1',
-        '0.2' => '0.2',
-        '0.3' => '0.3',
-        '0.4' => '0.4',
-        '0.5' => '0.5',
-        '0.6' => '0.6',
-        '0.7' => '0.7',
-        '0.8' => '0.8',
-        '0.9' => '0.9',
-        '1.0' => '1.0',
-    ];
-
-    const MARGES = [
-        0 => 0 ,
-        1 => 1 ,
-        2 => 2 ,
-        3 => 3 ,
-        4 => 4 ,
-        5 => 5 ,
-    ];
-
-    const TEXT_SIZE = [
-        'h1' => 'h1' ,
-        'h2' => 'h2' ,
-        'h3' => 'h3' ,
-        'h4' => 'h4' ,
-        'h5' => 'h5' ,
-        'h6' => 'h6' ,
-        'display-1' => 'display-1' ,
-        'display-2' => 'display-2' ,
-        'display-3' => 'display-3' ,
-        'display-4' => 'display-4' ,
-        'display-5' => 'display-5' ,
-        'display-6' => 'display-6' ,
-    ];
-
-    const ROBOTS = [
-        'index, follow' => 'index, follow',
-        'index, nofollow' => 'index, nofollow',
-        'noindex, follow' => 'noindex, follow',
-        'noindex, nofollow' => 'noindex, nofollow',
-    ];
-
-    const FONT_FAMILY = [
-        'Alfa Slab One' => 'Alfa Slab One',
-        '\'Bai Jamjuree\', sans-serif' => '\'Bai Jamjuree\', sans-serif',
-        '\'Bubblegum Sans\', cursive' => '\'Bubblegum Sans\', cursive',
-        ' Comic Sans MS, Comic Sans, cursive' => ' Comic Sans MS, Comic Sans, cursive',
-        'Cherry Bomb One' => 'Cherry Bomb One',
-        '\'Fredoka\', sans-serif' => '\'Fredoka\', sans-serif',
-        'Impact, fantasy' => 'Impact, fantasy',
-        '\'Mali\', cursive' => '\'Mali\', cursive',
-        '\'Oswald\',Helvetica,Arial,Lucida,sans-serif' => '\'Oswald\',Helvetica,Arial,Lucida,sans-serif',
-        '\'Palatino Linotype\', \'Book Antiqua\', Palatino, serif' => ' \'Palatino Linotype\', \'Book Antiqua\', Palatino, serif',
-        '\'Sofia\', sans-serif' => '\'Sofia\', sans-serif',
-        '\'Snowburst One\', sans-serif' => '\'Snowburst One\', sans-serif',
-        '\'The Antiqua B\', Georgia, Droid-serif, serif' => '\'The Antiqua B\', Georgia, Droid-serif, serif',
-        'Verdana' => 'Verdana',
-    ];
-
-    const BTN_OUTLINE = [
-        'btn-outline-primary' => 'btn-outline-primary',
-        'btn-outline-secondary' => 'btn-outline-secondary',
-        'btn-outline-success' => 'btn-outline-success',
-        'btn-outline-danger' => 'btn-outline-danger',
-        'btn-outline-warning' => 'btn-outline-warning',
-        'btn-outline-info' => 'btn-outline-info',
-        'btn-outline-light' => 'btn-outline-light',
-        'btn-outline-dark' => 'btn-outline-dark',
-        'btn-outline-link' => 'btn-outline-link',
-        'btn-outline-white' => 'btn-outline-white',
-    ];
-
-
-    const NAV_OFFCANVAS_POSITION =[
-        'start' => 'start',
-        'end' => 'end',
-        'top' => 'top',
-        'bottom' => 'bottom',
-    ];
-
-    const NAV_LOCALE_SWITCHER_POSITION = [
-        'Sous le menu' => 'below',
-        'À droite du menu' => 'inline',
-    ];
-
-    const NAV_TOGGLER_SIDE = [
-        'Gauche' => 'left',
-        'Droite' => 'right',
-    ];
-
-    const NAV_DATA_AOS_ACTION =[
-        true => true,
-        false => false,
-    ];
-
-    const NAV_DATA_AOS =[
-            'fade' => 'fade',
-            'fade-up' => 'fade-up',
-            'fade-down' => 'fade-down',
-            'fade-left' => 'fade-left',
-            'fade-right' => 'fade-right',
-            'fade-up-right' => 'fade-up-right',
-            'fade-up-left' => 'fade-up-left',
-            'fade-down-right' => 'fade-down-right',
-            'fade-down-left' => 'fade-down-left',
-            'zoom-in' => 'zoom-in',
-            'zoom-in-up' => 'zoom-in-up',
-            'zoom-in-down' => 'zoom-in-down',
-            'zoom-in-left' => 'zoom-in-left',
-            'zoom-in-right' => 'zoom-in-right',
-            'zoom-out' => 'zoom-out',
-            'zoom-out-up' => 'zoom-out-up',
-            'zoom-out-down' => 'zoom-out-down',
-            'zoom-out-left' => 'zoom-out-left',
-            'zoom-out-right' => 'zoom-out-right',
-            'flip-left' => 'flip-left',
-            'flip-right' => 'flip-right',
-            'flip-up' => 'flip-up',
-            'flip-down' => 'flip-down',
-            'slide-up' => 'slide-up',
-            'slide-down' => 'slide-down',
-            'slide-left' => 'slide-left',
-            'slide-right' => 'slide-right',
-            'fade-zoom-in' => 'fade-zoom-in',
-    ];
-
-    const NAV_DATA_AOS_DURATION =[
-        500 => 500,
-        1000 => 1000,
-        1500 => 1500,
-        2000 => 2000,
-        2500 => 2500,
-        3000 => 3000,
-        3500 => 3500,
-    ];
+    public function __construct(
+        private readonly ConfigDefinitionRegistry $configDefinitionRegistry,
+        private readonly ConfigValueNormalizer $configValueNormalizer,
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -249,232 +76,79 @@ class ConfigType extends AbstractType
         }
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $choice = false;
-            $options = [];
             $data = $event->getData();
-            $form = $event->getForm();
-            $code = $data->getCode();
-            $booleanCodes = [
-                'affiche_admin_post',
-                'affiche_search',
-                'contact_affiche',
-                'footer_affiche',
-                'topbar_dismiss_once',
-                'nav_left_open_on_load',
-                'newsletter_active',
-                'livredor_active',
-            ];
-
-            if (in_array($code, $booleanCodes, true)) {
-                $data->setValue($this->isTruthy($data->getValue()) ? '1' : '0');
+            if (!$data instanceof Config || $data->getCode() === null) {
+                return;
             }
 
-            switch ($code) {
-                case 'robots':
-                    $choice = true;
-                    $options = self::ROBOTS;
-                    break;
-                // nav_bar
-                case 'nav_bar':
-                    $choice = true;
-                    $options = [
-                        'base' => 'base',
-                        'left' => 'left',
-                        'full' => 'full',
-                    ];
-                    break;
-                // nav_bar
-                case 'nav_espacement':
-                // nav_sub_menu_mt
-                case 'nav_sub_menu_mx':
-                case 'nav_sub_menu_mt':
-                 // nav_link_py
-                case 'nav_link_py':
-                 // nav_link_px
-                 case 'nav_link_px':
-                // nav_link_rounded
-                case 'nav_link_rounded':
-                case 'contact_rounded_input':
-                case 'contact_py_input':
-                case 'contact_my_input':
-                case 'booking_rounded_input':
-                case 'booking_py_input':
-                case 'booking_my_input':
-                case 'folio1_padding_x':
-                case 'folio1_padding_y':
-                    $choice = true;
-                    $options = self::MARGES;
-                    break;  
-                // nav_bar
-                case 'nav_link_border_bottom':
-                    $choice = true;
-                    $options = [
-                        'Aucune séparation' => ' ',
-                        'border-bottom' => 'border-bottom',
-                    ];
-                    break;
-                // nav_menu_text_size
-                case 'nav_menu_text_size':
-                    $choice = true;
-                    $options = self::TEXT_SIZE;
-                    break;
-                // nav_sub_menu_text_size
-                case 'nav_sub_menu_text_size':
-                    $choice = true;
-                    $options = self::TEXT_SIZE;
-                    break;
-                // chevron
-                case 'chevron':
-                    $choice = true;
-                    $options = [
-                        'circle' => 'circle-',
-                        'base' => '',
-                    ];
-                    break;
-                // chevron opacity
-                case 'chevron_opacity':
-                    $choice = true;
-                    $options = self::DECIMAL;
-                    break;                      
-                case 'chevron_position':
-                case 'chevron_right':
-                    $choice = true;
-                    $options = self::CHEVRON_PERCENT;
-                    break;
-                // affiche_admin_post
-                case 'affiche_admin_post':
-                // affiche_search
-                case 'affiche_search':
-                case 'contact_affiche':
-                // affiche_footer
-                case 'footer_affiche':
-                case 'topbar_dismiss_once':
-                case 'nav_left_open_on_load':
-                case 'newsletter_active':
-                case 'livredor_active':
-                    $choice = true;
-                    $options = [
-                        'actif'  => '1',
-                        'inactif' => '0',
-                    ];
-                    break;
-                // logo
-                case 'logo':
-                case 'nav_height':
-                    $choice = true;
-                    foreach (range(0, 500, 10) as $number) {
-                        $options[ $number."px"] = $number."px";
-                    }
-                    break;
-                // nav_offset
-                case 'nav_offset':
-                    $choice = true;
-                    $options = self::COLS_OFFSET;
-                    break;
-                // contact_bgcolor_btn
-                case 'contact_bgcolor_btn':
-                    $choice = true;
-                    $options = self::BTN_OUTLINE;
-                    break;
-                // newsletter_bgcolor_btn
-                case 'newsletter_bgcolor_btn':
-                    $choice = true;
-                    $options = self::BTN_OUTLINE;
-                    break;        
-                // livredor_bgcolor_btn
-                case 'livredor_bgcolor_btn':
-                    $choice = true;
-                    $options = self::BTN_OUTLINE;
-                    break;
-                case 'nav_offcanvas_position':
-                    $choice = true;
-                    $options = self::NAV_OFFCANVAS_POSITION;
-                    break;
-                case 'nav_offcanvas_pct':
-                    $choice = true;
-                    $choice = true;
-                    foreach (range(0, 100, 1) as $number) {
-                        $options[ $number] = $number;
-                    }
-                    break;
-                case 'nav_data_aos_active':
-                    $choice = true;
-                    $options = self::NAV_DATA_AOS_ACTION;
-                    break;
-                case 'nav_data_aos':
-                    $choice = true;
-                    $options = self::NAV_DATA_AOS;
-                    break;
-                case 'nav_data_aos_duration':
-                    $choice = true;
-                    $options = self::NAV_DATA_AOS_DURATION;
-                    break;
-                case 'nav_locale_switcher_position':
-                    $choice = true;
-                    $options = self::NAV_LOCALE_SWITCHER_POSITION;
-                    break;
-                case 'nav_toggler_side':
-                    $choice = true;
-                    $options = self::NAV_TOGGLER_SIDE;
-                    break;
+            $definition = $this->configDefinitionRegistry->definitionFor($data->getCode());
+            if ($definition->type === ConfigValueType::Boolean) {
+                $data->setValue($this->configValueNormalizer->normalizeForStorage($definition, $data->getValue()));
             }
-            if ($choice) {
-                $form->add('value', ChoiceType::class, [
-                    'choices' => $options,
-                    'attr' => ['class' => 'custom-select custom-select-lg mb-3']
-                ]);
-            }
-            if(!$choice) {
-                if ('color' == $code || strpos($code, 'color') || in_array($code, ['booking_reservation_form'], true)) {
-                    $form->add('value', ColorType::class, [
-                        'required' => false,
-                    ]);
-                    $form->add('transparent', ChoiceType::class, [
-                        'choices' => [
-                            'translation.no' => false,
-                            'translation.yes' => true,
-                        ],
-                        'choice_translation_domain' => 'messages',
-                        'attr' => ['class' => 'form-select'],
-                    ]);
-                } else {
-                    if ('width' == $code || strpos($code, 'width')) {
-                        $form->add('value', ChoiceType::class, [
-                            'required' => false,
-                            'choices' =>   self::COLS,
-                            'attr' => ['class' => 'custom-select custom-select-lg mb-3']
-                        ]);
-                    }else{
-                        if('font_family' == $code || strpos($code, 'font_family')){
-                            $form->add('value', ChoiceType::class, [
-                                'required' => false,
-                                'choices' =>   self::FONT_FAMILY,
-                                'attr' => ['class' => 'custom-select custom-select-lg mb-3']
-                            ]);
-                        }
-                        else{
-                            $form->add('value', TextType::class, [
-                                'required' => false,
-                            ]);
-                        }
-                    }
-                }
-            }
+
+            $this->addValueField($event->getForm(), $definition);
         });
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $data = $event->getData();
-            if (in_array($data->getCode(), ['nav_left_open_on_load', 'topbar_dismiss_once'], true)) {
-                $enabled = $this->isTruthy($data->getValue());
-                $data->setValue($enabled ? '1' : '0');
-                $data->setActive($enabled);
+            if (!$data instanceof Config || $data->getCode() === null) {
+                return;
             }
 
-            if($data->transparent){
+            $definition = $this->configDefinitionRegistry->definitionFor($data->getCode());
+            if ($definition->type === ConfigValueType::Boolean) {
+                $enabled = $this->configValueNormalizer->toBool($data->getValue());
+                $data->setValue($this->configValueNormalizer->normalizeForStorage($definition, $data->getValue()));
+
+                if ($definition->statefulBoolean) {
+                    $data->setActive($enabled);
+                }
+            }
+
+            if ($data->transparent) {
                 $data->setValue('transparent');
             }
         });
 
+    }
+
+    private function addValueField(FormInterface $form, ConfigDefinition $definition): void
+    {
+        match ($definition->type) {
+            ConfigValueType::Choice, ConfigValueType::Boolean => $form->add('value', ChoiceType::class, [
+                'choices' => $definition->choices,
+                'attr' => ['class' => 'custom-select custom-select-lg mb-3'],
+            ]),
+            ConfigValueType::Color => $this->addColorFields($form),
+            ConfigValueType::Width => $form->add('value', ChoiceType::class, [
+                'required' => false,
+                'choices' => $this->configDefinitionRegistry->widthChoices(),
+                'attr' => ['class' => 'custom-select custom-select-lg mb-3'],
+            ]),
+            ConfigValueType::FontFamily => $form->add('value', ChoiceType::class, [
+                'required' => false,
+                'choices' => $this->configDefinitionRegistry->fontFamilyChoices(),
+                'attr' => ['class' => 'custom-select custom-select-lg mb-3'],
+            ]),
+            ConfigValueType::Text => $form->add('value', TextType::class, [
+                'required' => false,
+            ]),
+        };
+    }
+
+    private function addColorFields(FormInterface $form): void
+    {
+        $form->add('value', ColorType::class, [
+            'required' => false,
+        ]);
+        $form->add('transparent', ChoiceType::class, [
+            'choices' => [
+                'translation.no' => false,
+                'translation.yes' => true,
+            ],
+            'choice_translation_domain' => 'messages',
+            'attr' => ['class' => 'form-select'],
+        ]);
     }
 
 
@@ -517,16 +191,4 @@ class ConfigType extends AbstractType
         ]);
     }
 
-    private function isTruthy(mixed $value): bool
-    {
-        if ($value === true) {
-            return true;
-        }
-
-        if ($value === false || $value === null) {
-            return false;
-        }
-
-        return in_array(strtolower(trim((string) $value)), ['1', 'true', 'on', 'yes'], true);
-    }
 }
