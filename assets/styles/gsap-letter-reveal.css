@@ -2,8 +2,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: min(88vh, 720px);
-    padding: 2rem 1rem;
     overflow: hidden;
 }
 
