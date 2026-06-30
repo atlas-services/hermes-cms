@@ -103,22 +103,10 @@ parameters:
         value: ~
         position: 6
     contact:
-      contact_affiche:
-        summary: Affiche Email de contact (utilisé dans le formulaire de contact)
-        value: false
-        position: 2
       contact:
         summary: Email de contact (utilisé dans le formulaire de contact)
         value: hermes@hermes-cms.org
         position: 1
-      contact_user:
-        summary: contact (utilisé dans le formulaire de contact)
-        value: ~
-        position: 3
-      contact_presentation:
-        summary: présentation contact (utilisé dans le formulaire de contact)
-        value: ~
-        position: 4
       contact_bgcolor:
         summary: Couleur de fond de la page contact
         value: 'transparent'
@@ -135,6 +123,26 @@ parameters:
         summary: Largeur de la page contact (max = 12)
         value: 12
         position: 5
+      contact_width_firstname:
+        summary: Largeur Bootstrap du champ prénom (col-sm-*, 1 à 12)
+        value: 6
+        position: 17
+      contact_width_lastname:
+        summary: Largeur Bootstrap du champ nom (col-sm-*, 1 à 12)
+        value: 6
+        position: 18
+      contact_width_email:
+        summary: Largeur Bootstrap du champ e-mail (col-sm-*, 1 à 12)
+        value: 6
+        position: 19
+      contact_width_telephone:
+        summary: Largeur Bootstrap du champ téléphone (col-sm-*, 1 à 12)
+        value: 6
+        position: 20
+      contact_width_message:
+        summary: Largeur Bootstrap du champ message (col-sm-*, 1 à 12)
+        value: 12
+        position: 21
       contact_bgcolor_subject:
         summary: Couleur de fond sujet du formulaire
         value: '#000000'
@@ -155,6 +163,10 @@ parameters:
         summary: Arrondi des champs (max = 5)
         value: 0
         position: 13
+      contact_rounded_message:
+        summary: Arrondi du champ message (max = 5)
+        value: 4
+        position: 22
       contact_py_input:
         summary: Padding vertical des champs (max = 5)
         value: 2

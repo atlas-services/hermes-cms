@@ -159,7 +159,6 @@ final class ConfigDefinitionRegistry
     private const BOOLEAN_CODES = [
         'affiche_admin_post',
         'affiche_search',
-        'contact_affiche',
         'footer_affiche',
         'topbar_dismiss_once',
         'nav_left_open_on_load',
@@ -217,6 +216,7 @@ final class ConfigDefinitionRegistry
             'nav_link_px' => self::MARGINS,
             'nav_link_rounded' => self::MARGINS,
             'contact_rounded_input' => self::MARGINS,
+            'contact_rounded_message' => self::MARGINS,
             'contact_py_input' => self::MARGINS,
             'contact_my_input' => self::MARGINS,
             'booking_rounded_input' => self::MARGINS,

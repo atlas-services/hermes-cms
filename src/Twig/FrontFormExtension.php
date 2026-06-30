@@ -52,7 +52,6 @@ final class FrontFormExtension
             FormTemplateKind::Contact => [
                 'contact_form' => $this->buildFormView(ContactFormType::class, $kind, $inputClass),
                 'form_presentation' => $presentation,
-                'contact_email_display' => $this->presentationResolver->contactEmailDisplay($configs),
             ],
             FormTemplateKind::Newsletter => [
                 'newsletter_form' => $this->buildFormView(NewsletterFormType::class, $kind, $inputClass),

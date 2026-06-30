@@ -12,6 +12,7 @@ import { initPostContentGsapShapeBuild } from '../../../utils/gsap_shape_build.j
 import { initPostContentSplideCarousel } from '../../../utils/splide_carousel.js';
 import { initPostContentHeroPresentStatic, initPostContentSplideHeroPresent } from '../../../utils/splide_hero_present.js';
 import { initPostContentGsapCarte } from '../../../utils/gsap_carte.js';
+import { initPostContentGsapCountUp } from '../../../utils/gsap_count_up.js';
 import { initPostContentPitchPresent } from '../../../utils/pitch_present.js';
 
 function colorLink() {
@@ -172,6 +173,7 @@ export function initHermesJsFront() {
     initPostContentGsapLetterReveal();
     initPostContentGsapImageReveal();
     initPostContentGsapShapeBuild();
+    initPostContentGsapCountUp();
     initPostContentPitchPresent();
     initPostContentSplideHeroPresent();
     initPostContentHeroPresentStatic();
@@ -186,6 +188,7 @@ export function initHermesJsFront() {
         initPostContentGsapLetterReveal();
         initPostContentGsapImageReveal();
         initPostContentGsapShapeBuild();
+        initPostContentGsapCountUp();
         initPostContentSplideCarousel();
         initPostContentGsapCarte();
     });

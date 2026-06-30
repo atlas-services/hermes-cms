@@ -32,6 +32,11 @@ class InitHermesTemplatesAndConfigCommand extends Command
             'chevron_accueil_opacity',
             'template',
         ],
+        'contact' => [
+            'contact_affiche',
+            'contact_presentation',
+            'contact_user',
+        ],
     ];
 
     public function __construct(
