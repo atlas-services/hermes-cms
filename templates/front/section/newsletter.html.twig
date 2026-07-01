@@ -1,4 +1,3 @@
-{% if configs.newsletter_active|default(false) %}
 {% set form_id = 'newsletter-' ~ section.id %}
 {% set pres = form_presentation %}
 {% set input_class = 'form-control hermes-form-field rounded-' ~ pres.rounded_input ~ ' py-' ~ pres.py_input ~ ' my-' ~ pres.my_input %}
@@ -16,7 +15,7 @@
             attr: { class: 'hermes-form-' ~ form_id },
         }) }}
         <input type="hidden" name="_redirect" value="{{ app.request.uri }}">
-        <input type="hidden" name="_page_label" value="{{ menu.name }}">
+        <input type="hidden" name="_page_label" value="{{ menu.name|default('Newsletter') }}">
 
         <div class="row justify-content-center g-3">
             <div class="col-12 col-md-4">
@@ -37,4 +36,3 @@
         {{ form_end(newsletter_form) }}
     </div>
 </div>
-{% endif %}

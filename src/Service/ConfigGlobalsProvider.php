@@ -32,10 +32,18 @@ final class ConfigGlobalsProvider
     {
         $configs = array_merge($this->flattenDefaults(), $this->configRepository->getActiveConfig());
 
-        foreach ($this->configDefinitionRegistry->statefulBooleanCodes() as $code) {
-            $config = $this->configRepository->findOneBy(['code' => $code]);
-            if ($config instanceof Config) {
-                $configs[$code] = $config->isActive() && $this->configValueNormalizer->toBool($config->getValue());
+        foreach ($this->configDefinitionRegistry->booleanCodes() as $code) {
+            if (!\array_key_exists($code, $configs)) {
+                continue;
+            }
+
+            if (\in_array($code, $this->configDefinitionRegistry->statefulBooleanCodes(), true)) {
+                $config = $this->configRepository->findOneBy(['code' => $code]);
+                $configs[$code] = $config instanceof Config
+                    && $config->isActive()
+                    && $this->configValueNormalizer->toBool($config->getValue());
+            } else {
+                $configs[$code] = $this->configValueNormalizer->toBool($configs[$code]);
             }
         }
 

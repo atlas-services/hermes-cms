@@ -172,6 +172,12 @@ final class ConfigDefinitionRegistry
     ];
 
     /** @return list<string> */
+    public function booleanCodes(): array
+    {
+        return self::BOOLEAN_CODES;
+    }
+
+    /** @return list<string> */
     public function statefulBooleanCodes(): array
     {
         return self::STATEFUL_BOOLEAN_CODES;
