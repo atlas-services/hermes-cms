@@ -1,7 +1,7 @@
 {# Porté depuis atlas-services/hermes release/2.2.7 (templates/front/base/hermes/template/carousel2.html.twig) — chemins & configs Hermes3. #}
 <!-- Section carousel -->
 <section id="{{ section.id }}" class="pb-0  px-0">
-    <div class="container col-12 col-lg-{{ (section.templateWidth ?? configs.carousel_container_width|default(8))|col_lg  }}" style="background-color:{{ section.templateBgcolor ?? configs.content_bgcolor|default('#ffffff') }}" >
+    <div class="container col-12 col-lg-{{ (section.templateWidth ?? configs.carousel_container_width|default(8))|col_lg  }}" >
             <!--Carousel Wrapper-->
             <div id="carousel-fade" class="carousel slide carousel-fade" data-bs-ride="carousel">
                 <!--Indicators-->

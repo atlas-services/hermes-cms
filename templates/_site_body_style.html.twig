@@ -1,4 +1,2 @@
 {# Typographie globale (Hermes 2.2.7 : font_family + text_color + bgcolor sur body, sans classes .h-*). #}
-{% set contentBg = configs.content_bgcolor|default('transparent') %}
-{% set bodyBg = contentBg is not empty and contentBg != 'transparent' ? contentBg : configs.bgcolor|default('transparent') %}
- style="color: {{ configs.text_color|default('#666666') }}; font-family: {{ configs.font_family|default("'Bai Jamjuree', sans-serif") }}; background-color: {{ bodyBg }};"
+ style="color: {{ configs.text_color|default('#666666') }}; font-family: {{ configs.font_family|default("'Bai Jamjuree', sans-serif") }}; background-color: {{ hermes_site_bgcolor(configs) }};"

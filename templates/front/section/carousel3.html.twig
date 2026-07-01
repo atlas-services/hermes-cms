@@ -6,7 +6,7 @@
     {% set col_xx = (12 / nbCol)|round(0, 'ceil') %}
     {% set carouselPosts = posts|sort((a, b) => a.position <=> b.position)|filter(post => vich_uploader_asset(post, 'imageFile') is not null) %}
 
-    <div class="container col-12 col-lg-{{ (section.templateWidth ?? configs.carousel_multiple_container_width|default(10))|col_lg   }}" style="background-color:{{ section.templateBgcolor ?? configs.content_bgcolor|default('#ffffff') }}" >
+    <div class="container col-12 col-lg-{{ (section.templateWidth ?? configs.carousel_multiple_container_width|default(10))|col_lg   }}" >
         <!--Carousel Wrapper-->
         {% set carouselId = 'multi-item-example-' ~ section.id %}
         <div id="{{ carouselId }}" class="carousel slide carousel-multi-item">

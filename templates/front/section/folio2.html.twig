@@ -6,7 +6,7 @@
 {% set gsapEnabled = rawGsap != 'aucun' %}
 {% set gsapEffectValue = (rawGsap is not null and rawGsap != '' and rawGsap != 'aucun') ? rawGsap : 'horizontal-right' %}
 
-<section id="{{ section.id }}" class="pb-0 mx-auto px-0" style="background-color:{{ section.templateBgcolor ?? configs.content_bgcolor|default('#ffffff') }}">
+<section id="{{ section.id }}" class="pb-0 mx-auto px-0">
     <div class="container-fluid col-12 col-lg-{{ folioWidth }} mx-auto px-0">
         <div class="row g-3 g-md-4 px-2{{ gsapEnabled ? ' gsap-image-reveal' : '' }}"{% if gsapEnabled %} data-gsap-image-reveal-effect-value="{{ gsapEffectValue }}"{% endif %}>
             {% for post in sortedPosts %}

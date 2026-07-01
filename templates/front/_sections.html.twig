@@ -13,7 +13,7 @@
              data-hermes-topbar-pending-display="true"
          {% endif %}>
         <div class="col-12 col-lg-{{ effW }} mx-auto px-0">
-            {% set sectionBg = section.isTransparent ? 'transparent' : section.templateBgcolor %}
+            {% set sectionBg = hermes_section_bgcolor(section, configs) %}
             {% set isListeSectionTemplate = mainType == 'liste' and mainCode != '' %}
             <section class="mx-auto px-0 my-0{{ shouldDeferTopbarDisplay ? ' position-relative' : '' }}" style="background-color: {{ sectionBg }}"{% if not isListeSectionTemplate %} id="{{ section.id }}"{% endif %}>
                 {% if shouldDeferTopbarDisplay %}

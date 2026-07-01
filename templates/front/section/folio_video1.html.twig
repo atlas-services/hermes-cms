@@ -1,6 +1,6 @@
 {# Porté depuis atlas-services/hermes release/2.2.7 (templates/front/base/hermes/template/folio_video1.html.twig) — chemins & configs Hermes3. #}
 {# Port Hermes 2.2.7 folio_video1 — Hermes3 : pas de champs url/idUrl sur Post ; affichage image uniquement. #}
-<section id="{{ section.id }}" class="pb-0 mx-auto px-0" style="background-color:{{ section.templateBgcolor ?? configs.content_bgcolor|default('#ffffff') }}">
+<section id="{{ section.id }}" class="pb-0 mx-auto px-0">
     <div class="container-fluid col-12 col-lg-{{ (section.templateWidth ?? configs.folio_container_width|default(8))|col_lg }} mx-auto px-0">
         <div id="folio" class="row">
             {% for post in posts|sort((a, b) => a.position <=> b.position) %}

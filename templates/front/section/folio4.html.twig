@@ -3,7 +3,7 @@
 {% set colClass = section.templateNbCol|nb_col %}
 {% set sortedPosts = posts|sort((a, b) => a.position <=> b.position) %}
 
-<section id="{{ section.id }}" class="pb-0 mx-auto px-0" style="background-color:{{ section.templateBgcolor ?? configs.content_bgcolor|default('#ffffff') }}">
+<section id="{{ section.id }}" class="pb-0 mx-auto px-0">
     <div class="container-fluid col-12 col-lg-{{ folioWidth }} mx-auto px-0">
         <div class="row g-0 folio-serre" id="folio-{{ section.id }}">
             {% for post in sortedPosts %}
