@@ -205,9 +205,21 @@ parameters:
         value: 'btn-outline-white'
         position: 7
       newsletter_width:
-        summary: Largeur de la page newsletter (max = 12)
+        summary: Largeur Bootstrap des champs (col-sm-*, 1 à 12) si non surchargée par champ
         value: 12
         position: 4
+      newsletter_width_firstname:
+        summary: Largeur Bootstrap du champ prénom (col-sm-*, 1 à 12)
+        value: 12
+        position: 8
+      newsletter_width_lastname:
+        summary: Largeur Bootstrap du champ nom (col-sm-*, 1 à 12)
+        value: 12
+        position: 9
+      newsletter_width_email:
+        summary: Largeur Bootstrap du champ e-mail (col-sm-*, 1 à 12)
+        value: 12
+        position: 10
     livredor:
       livredor_active:
         summary: Activer le livre d'or dans les Formulaires

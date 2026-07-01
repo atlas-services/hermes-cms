@@ -45,4 +45,33 @@ final class FormPresentationResolverTest extends TestCase
         self::assertSame('1', $presentation['width_firstname']);
         self::assertSame('12', $presentation['width_message']);
     }
+
+    public function testResolvesNewsletterFieldColumnWidths(): void
+    {
+        $resolver = new FormPresentationResolver();
+
+        $presentation = $resolver->resolve(FormTemplateKind::Newsletter, [
+            'newsletter_width' => '12',
+            'newsletter_width_firstname' => '4',
+            'newsletter_width_lastname' => '4',
+            'newsletter_width_email' => '4',
+        ]);
+
+        self::assertSame('4', $presentation['width_firstname']);
+        self::assertSame('4', $presentation['width_lastname']);
+        self::assertSame('4', $presentation['width_email']);
+    }
+
+    public function testNewsletterFieldWidthsFallbackToNewsletterWidth(): void
+    {
+        $resolver = new FormPresentationResolver();
+
+        $presentation = $resolver->resolve(FormTemplateKind::Newsletter, [
+            'newsletter_width' => '6',
+        ]);
+
+        self::assertSame('6', $presentation['width_firstname']);
+        self::assertSame('6', $presentation['width_lastname']);
+        self::assertSame('6', $presentation['width_email']);
+    }
 }

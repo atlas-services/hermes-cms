@@ -77,6 +77,13 @@ final class FormPresentationResolver
             );
         }
 
+        if ($kind === FormTemplateKind::Newsletter) {
+            $defaultWidth = (int) $this->resolveBootstrapCol($configs, 'newsletter_width', 12);
+            $presentation['width_firstname'] = $this->resolveBootstrapCol($configs, 'newsletter_width_firstname', $defaultWidth);
+            $presentation['width_lastname'] = $this->resolveBootstrapCol($configs, 'newsletter_width_lastname', $defaultWidth);
+            $presentation['width_email'] = $this->resolveBootstrapCol($configs, 'newsletter_width_email', $defaultWidth);
+        }
+
         return $presentation;
     }
 

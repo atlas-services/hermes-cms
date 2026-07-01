@@ -18,13 +18,13 @@
         <input type="hidden" name="_page_label" value="{{ menu.name|default('Newsletter') }}">
 
         <div class="row justify-content-center g-3">
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-sm-{{ pres.width_firstname|default(12) }}">
                 {{ form_row(newsletter_form.firstname, { attr: { class: input_class } }) }}
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-sm-{{ pres.width_lastname|default(12) }}">
                 {{ form_row(newsletter_form.lastname, { attr: { class: input_class } }) }}
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-sm-{{ pres.width_email|default(12) }}">
                 {{ form_row(newsletter_form.email, { attr: { class: input_class } }) }}
             </div>
             <div class="col-12 text-center mt-3">
