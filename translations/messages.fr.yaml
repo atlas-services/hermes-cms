@@ -35,6 +35,8 @@ form:
     section_nb_col: 'Images par ligne'
     section_transparent: 'Fond transparent'
     section_bgcolor: 'Couleur de fond'
+    section_color: 'Couleur du texte'
+    section_colors: 'Couleurs'
     section_image_filter: 'Filtre image'
     section_liste_template: Gabarit liste
     section_gsap_image_effect: Effet GSAP images

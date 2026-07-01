@@ -79,4 +79,24 @@ final class BackgroundColorResolverTest extends TestCase
             ]),
         );
     }
+
+    public function testSectionTextColorPrefersSectionOverSite(): void
+    {
+        $section = (new Section())->setTemplateColor('#ff0000');
+
+        self::assertSame(
+            '#ff0000',
+            $this->resolver->resolveSectionTextColor($section, ['text_color' => '#ffffff']),
+        );
+    }
+
+    public function testSectionTextColorFallsBackToSiteTextColor(): void
+    {
+        $section = new Section();
+
+        self::assertSame(
+            '#abcdef',
+            $this->resolver->resolveSectionTextColor($section, ['text_color' => '#abcdef']),
+        );
+    }
 }

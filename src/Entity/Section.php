@@ -49,6 +49,9 @@ class Section implements PositionableInterface
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $template_bgcolor = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $template_color = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
     #[Assert\Range(min: 1, max: 12)]
     private ?int $template_nb_col = null;
@@ -289,6 +292,32 @@ class Section implements PositionableInterface
     public function getRawTemplateBgcolor(): ?string
     {
         return $this->template_bgcolor;
+    }
+
+    public function getTemplateColor(): ?string
+    {
+        if ($this->template_color === null || trim($this->template_color) === '') {
+            return null;
+        }
+
+        return trim($this->template_color);
+    }
+
+    public function setTemplateColor(?string $template_color): self
+    {
+        $normalized = $template_color !== null ? trim($template_color) : null;
+        if ($normalized === '' || strtolower($normalized) === 'transparent') {
+            $this->template_color = null;
+        } else {
+            $this->template_color = $normalized;
+        }
+
+        return $this;
+    }
+
+    public function getRawTemplateColor(): ?string
+    {
+        return $this->template_color;
     }
 
     public function getTemplateNbCol(): int

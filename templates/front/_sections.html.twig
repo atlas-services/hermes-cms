@@ -14,8 +14,9 @@
          {% endif %}>
         <div class="col-12 col-lg-{{ effW }} mx-auto px-0">
             {% set sectionBg = hermes_section_bgcolor(section, configs) %}
+            {% set sectionColor = hermes_section_text_color(section, configs) %}
             {% set isListeSectionTemplate = mainType == 'liste' and mainCode != '' %}
-            <section class="mx-auto px-0 my-0{{ shouldDeferTopbarDisplay ? ' position-relative' : '' }}" style="background-color: {{ sectionBg }}"{% if not isListeSectionTemplate %} id="{{ section.id }}"{% endif %}>
+            <section class="mx-auto px-0 my-0{{ shouldDeferTopbarDisplay ? ' position-relative' : '' }}" style="background-color: {{ sectionBg }}; color: {{ sectionColor }};"{% if not isListeSectionTemplate %} id="{{ section.id }}"{% endif %}>
                 {% if shouldDeferTopbarDisplay %}
                     <button type="button"
                             class="btn-close position-absolute top-0 end-0 m-2"

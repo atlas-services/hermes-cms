@@ -112,4 +112,17 @@ class SectionTest extends TestCase
         $this->assertSame(4, $section->getTemplateNbCol());
         $this->assertSame('bd_154', $section->getTemplateImageFilter());
     }
+
+    public function testTemplateColor(): void
+    {
+        $section = new Section();
+        $this->assertNull($section->getTemplateColor());
+
+        $section->setTemplateColor('#112233');
+        $this->assertSame('#112233', $section->getTemplateColor());
+        $this->assertSame('#112233', $section->getRawTemplateColor());
+
+        $section->setTemplateColor('');
+        $this->assertNull($section->getTemplateColor());
+    }
 }

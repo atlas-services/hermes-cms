@@ -32,4 +32,13 @@ final class BackgroundColorExtension
     {
         return $this->backgroundColorResolver->resolveSectionBackground($section, $configs);
     }
+
+    /**
+     * @param array<string, mixed> $configs
+     */
+    #[AsTwigFunction('hermes_section_text_color')]
+    public function sectionTextColor(Section $section, array $configs): string
+    {
+        return $this->backgroundColorResolver->resolveSectionTextColor($section, $configs);
+    }
 }

@@ -369,6 +369,28 @@ class BaseController extends AbstractController
         return new JsonResponse(['status' => 'success', 'transparent' => $section->isTransparent()]);
     }
 
+    #[Route('/update-section-template-color', name: 'app_update_section_template_color', methods: ['POST'])]
+    public function updateSectionTemplateColor(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $section = $this->resolveSectionFromJson($request, $entityManager);
+        if ($section instanceof JsonResponse) {
+            return $section;
+        }
+
+        try {
+            /** @var array{template_color?: mixed} $data */
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['status' => 'invalid json'], 400);
+        }
+
+        $color = trim((string) ($data['template_color'] ?? ''));
+        $section->setTemplateColor($color === '' ? null : $color);
+        $entityManager->flush();
+
+        return new JsonResponse(['status' => 'success']);
+    }
+
     #[Route('/update-section-template-image-filter', name: 'app_update_section_template_image_filter', methods: ['POST'])]
     public function updateSectionTemplateImageFilter(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {

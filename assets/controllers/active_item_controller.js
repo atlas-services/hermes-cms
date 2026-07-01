@@ -218,6 +218,12 @@ export default class extends Controller {
         event.currentTarget.disabled = false;
     }
 
+    async persistSectionTemplateColor(event) {
+        await this._postSectionField('update-section-template-color', event, {
+            template_color: event.currentTarget.value,
+        });
+    }
+
     async persistSectionTemplateImageFilter(event) {
         await this._postSectionField('update-section-template-image-filter', event, {
             template_image_filter: event.currentTarget.value,

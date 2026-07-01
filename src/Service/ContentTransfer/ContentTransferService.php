@@ -149,6 +149,7 @@ final class ContentTransferService
         $section->setActive($source->isActive());
         $section->setTransparent($source->isTransparent());
         $section->setTemplateBgcolor($source->getRawTemplateBgcolor());
+        $section->setTemplateColor($source->getRawTemplateColor());
         $section->setTemplateNbCol($source->getTemplateNbCol());
         $section->setTemplateImageFilter($source->getTemplateImageFilter());
 

@@ -8,7 +8,7 @@
             <th class="hermes-section-list__col-liste">{{ 'form.label.section_liste_template'|trans }}</th>
             <th>{{ 'form.label.section_modal'|trans }}</th>
             <th>{{ 'form.label.section_modal_width_1_to_12'|trans }}</th>
-            <th>{{ 'form.label.section_bgcolor'|trans }}</th>
+            <th>{{ 'form.label.section_colors'|trans }}</th>
             <th>{{ 'form.label.section_list_options'|trans }}</th>
             <th>{{ 'Posts' }}</th>
             <th class="hermes-section-list__col-actions">{{ 'form.label.actions'|trans() }}</th>
@@ -164,17 +164,29 @@
                             <label class="form-check-label small" for="section-transparent-{{ section.id }}">{{ 'form.label.section_transparent'|trans }}</label>
                         </div>
                         {% set sectionBgHex = section.rawTemplateBgcolor %}
-                        <div class="hermes-section-bgcolor-wrap">
-                            <input
-                                type="color"
-                                class="form-control form-control-color hermes-section-bgcolor-input js-section-bgcolor"
-                                value="{{ sectionBgHex is not null and sectionBgHex starts with '#' ? sectionBgHex : '#ffffff' }}"
-                                data-controller="active-item"
-                                data-action="change->active-item#persistSectionTemplateBgcolor"
-                                {{ section.isTransparent ? 'disabled' : '' }}
-                                title="{{ 'form.label.section_bgcolor'|trans }}"
-                                aria-label="{{ 'form.label.section_bgcolor'|trans }}"
-                            >
+                        {% set sectionTextHex = section.rawTemplateColor %}
+                        <div class="d-flex flex-wrap gap-1 align-items-center">
+                            <div class="hermes-section-bgcolor-wrap" title="{{ 'form.label.section_bgcolor'|trans }}">
+                                <input
+                                    type="color"
+                                    class="form-control form-control-color hermes-section-bgcolor-input js-section-bgcolor"
+                                    value="{{ sectionBgHex is not null and sectionBgHex starts with '#' ? sectionBgHex : '#ffffff' }}"
+                                    data-controller="active-item"
+                                    data-action="change->active-item#persistSectionTemplateBgcolor"
+                                    {{ section.isTransparent ? 'disabled' : '' }}
+                                    aria-label="{{ 'form.label.section_bgcolor'|trans }}"
+                                >
+                            </div>
+                            <div class="hermes-section-bgcolor-wrap" title="{{ 'form.label.section_color'|trans }}">
+                                <input
+                                    type="color"
+                                    class="form-control form-control-color hermes-section-bgcolor-input js-section-textcolor"
+                                    value="{{ sectionTextHex is not null and sectionTextHex starts with '#' ? sectionTextHex : '#666666' }}"
+                                    data-controller="active-item"
+                                    data-action="change->active-item#persistSectionTemplateColor"
+                                    aria-label="{{ 'form.label.section_color'|trans }}"
+                                >
+                            </div>
                         </div>
                     </div>
                 </td>

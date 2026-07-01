@@ -32,6 +32,8 @@ form:
     section_nb_col: 'Images per row'
     section_transparent: 'Transparent background'
     section_bgcolor: 'Background color'
+    section_color: 'Text color'
+    section_colors: 'Colors'
     section_image_filter: 'Image filter'
     section_liste_template: List layout
     section_gsap_image_effect: GSAP image effect

@@ -41,6 +41,26 @@ final class BackgroundColorResolver
     }
 
     /**
+     * Couleur de texte section : valeur section si définie, sinon text_color du site.
+     *
+     * @param array<string, mixed> $configs
+     */
+    public function resolveSectionTextColor(Section $section, array $configs): string
+    {
+        $sectionColor = $section->getTemplateColor();
+        if ($sectionColor !== null) {
+            return $sectionColor;
+        }
+
+        $siteColor = $configs['text_color'] ?? null;
+        if (\is_string($siteColor) && trim($siteColor) !== '' && strtolower(trim($siteColor)) !== 'transparent') {
+            return trim($siteColor);
+        }
+
+        return '#666666';
+    }
+
+    /**
      * @param list<mixed> $candidates
      */
     private function resolveFromCandidates(array $candidates): string
