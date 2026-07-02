@@ -55,6 +55,7 @@ final class FormPresentationResolver
             'color' => (string) ($configs[$prefix . '_color'] ?? $configs['contact_color'] ?? '#000000'),
             'bgcolor_btn' => (string) ($configs[$prefix . '_bgcolor_btn'] ?? $configs['contact_bgcolor_btn'] ?? 'btn-outline-primary'),
             'color_btn' => $this->nullableColor($configs[$prefix . '_color_btn'] ?? null),
+            'button_bgcolor' => $this->nullableColor($configs[$prefix . '_button_bgcolor'] ?? null),
             'reservation_form_bgcolor' => $this->nullableColor($configs[$prefix . '_reservation_form'] ?? null),
             'bgcolor_input' => (string) ($configs[$prefix.'_bgcolor_input'] ?? $configs['contact_bgcolor_input'] ?? '#ffffff'),
             'color_input' => (string) ($configs[$prefix.'_color_input'] ?? $configs['contact_color_input'] ?? '#000000'),

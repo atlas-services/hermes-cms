@@ -74,4 +74,16 @@ final class FormPresentationResolverTest extends TestCase
         self::assertSame('6', $presentation['width_lastname']);
         self::assertSame('6', $presentation['width_email']);
     }
+
+    public function testResolvesBookingButtonBgcolor(): void
+    {
+        $resolver = new FormPresentationResolver();
+
+        $presentation = $resolver->resolve(FormTemplateKind::Booking, [
+            'booking_button_bgcolor' => '#ff6600',
+        ]);
+
+        self::assertSame('#ff6600', $presentation['button_bgcolor']);
+        self::assertNull($resolver->resolve(FormTemplateKind::Booking, [])['button_bgcolor']);
+    }
 }
