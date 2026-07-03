@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/atlas-services/HermesBookingBundle.git",
-                "reference": "daabb68466cbab9c0801b73a88c71ba04e98eb42"
+                "reference": "495ffb169d97936cc0e36b3972e7c616bfde7b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atlas-services/HermesBookingBundle/zipball/daabb68466cbab9c0801b73a88c71ba04e98eb42",
-                "reference": "daabb68466cbab9c0801b73a88c71ba04e98eb42",
+                "url": "https://api.github.com/repos/atlas-services/HermesBookingBundle/zipball/495ffb169d97936cc0e36b3972e7c616bfde7b6b",
+                "reference": "495ffb169d97936cc0e36b3972e7c616bfde7b6b",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "source": "https://github.com/atlas-services/HermesBookingBundle/tree/develop",
                 "issues": "https://github.com/atlas-services/HermesBookingBundle/issues"
             },
-            "time": "2026-07-03T12:07:42+00:00"
+            "time": "2026-07-03T16:10:04+00:00"
         },
         {
             "name": "composer/semver",
