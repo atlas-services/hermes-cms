@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f704c6030417bbdbd9e21b66ca331939",
+    "content-hash": "67b7e3a9885c05c4ee70da18c8a57980",
     "packages": [
         {
             "name": "atlas-services/hermes-booking-bundle",
-            "version": "dev-main",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/atlas-services/HermesBookingBundle.git",
-                "reference": "d2e34a578258de7cc2a61d4705263e353f8407e2"
+                "reference": "7825c9220e71130503978fda7d80e1c7021bf36d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atlas-services/HermesBookingBundle/zipball/d2e34a578258de7cc2a61d4705263e353f8407e2",
-                "reference": "d2e34a578258de7cc2a61d4705263e353f8407e2",
+                "url": "https://api.github.com/repos/atlas-services/HermesBookingBundle/zipball/7825c9220e71130503978fda7d80e1c7021bf36d",
+                "reference": "7825c9220e71130503978fda7d80e1c7021bf36d",
                 "shasum": ""
             },
             "require": {
@@ -38,7 +38,6 @@
                 "symfony/validator": "^8.0",
                 "twig/twig": "^3.0"
             },
-            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "symfony": {
@@ -55,10 +54,10 @@
             ],
             "description": "Booking module for Symfony 8 / Hermes CMS",
             "support": {
-                "source": "https://github.com/atlas-services/HermesBookingBundle/tree/main",
+                "source": "https://github.com/atlas-services/HermesBookingBundle/tree/develop",
                 "issues": "https://github.com/atlas-services/HermesBookingBundle/issues"
             },
-            "time": "2026-06-17T07:41:56+00:00"
+            "time": "2026-07-03T09:48:37+00:00"
         },
         {
             "name": "composer/semver",
