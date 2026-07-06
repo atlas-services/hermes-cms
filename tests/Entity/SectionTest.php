@@ -124,5 +124,11 @@ class SectionTest extends TestCase
 
         $section->setTemplateColor('');
         $this->assertNull($section->getTemplateColor());
+
+        $section->setTemplateColor(null);
+        $this->assertNull($section->getTemplateColor());
+
+        $section->setTemplateColor('transparent');
+        $this->assertNull($section->getTemplateColor());
     }
 }

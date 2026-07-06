@@ -306,7 +306,7 @@ class Section implements PositionableInterface
     public function setTemplateColor(?string $template_color): self
     {
         $normalized = $template_color !== null ? trim($template_color) : null;
-        if ($normalized === '' || strtolower($normalized) === 'transparent') {
+        if ($normalized === null || $normalized === '' || strtolower($normalized) === 'transparent') {
             $this->template_color = null;
         } else {
             $this->template_color = $normalized;
