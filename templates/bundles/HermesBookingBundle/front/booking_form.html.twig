@@ -79,8 +79,11 @@
                             <div class="col-12 col-lg-6">
                                 <div class="h-100 p-3 p-md-4 text-start" style="background-color: transparent;">
                                     <div class="row g-3">
-                                        <div class="col-12">
-                                            {{ form_row(booking_form.customerName, { attr: { class: input_class } }) }}
+                                        <div class="col-12 col-md-6">
+                                            {{ form_row(booking_form.firstname, { attr: { class: input_class } }) }}
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            {{ form_row(booking_form.lastname, { attr: { class: input_class } }) }}
                                         </div>
                                         <div class="col-12 col-md-6">
                                             {{ form_row(booking_form.email, { attr: { class: input_class } }) }}
