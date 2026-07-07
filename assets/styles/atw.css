@@ -1,0 +1,68 @@
+/* ==========================
+   Les Ateliers du Web UI
+   ========================== */
+
+:root {
+    --atw-radius: 20px;
+    --atw-shadow: 0 12px 40px color-mix(in srgb, CanvasText 12%, transparent);
+}
+
+/* Carte verre — s’adapte au thème via currentColor (texte de la section) */
+.card.atw-glass,
+.atw-glass {
+    --bs-card-bg: transparent;
+    --bs-card-border-color: color-mix(in srgb, currentColor 16%, transparent);
+
+    background-color: color-mix(in srgb, currentColor 7%, transparent);
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    border-radius: var(--atw-radius);
+    box-shadow: var(--atw-shadow);
+}
+
+.card.atw-glass:hover,
+.atw-glass:hover {
+    background-color: color-mix(in srgb, currentColor 11%, transparent);
+}
+
+/* Carte totalement transparente */
+.card.atw-transparent,
+.atw-transparent {
+    --bs-card-bg: transparent;
+
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Liste */
+.atw-list .list-group-item {
+    background-color: transparent;
+    color: inherit;
+    border-color: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+/* Alertes (sans couleur Bootstrap fixe) */
+.atw-alert {
+    background-color: color-mix(in srgb, currentColor 7%, transparent);
+    border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    color: inherit;
+}
+
+/* Badge */
+.atw-badge {
+    padding: 0.7rem 1.2rem;
+    border-radius: 50rem;
+    background-color: color-mix(in srgb, currentColor 10%, transparent);
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Séparateur */
+.atw-divider {
+    border-color: color-mix(in srgb, currentColor 14%, transparent);
+    opacity: 1;
+}

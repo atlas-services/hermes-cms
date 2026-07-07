@@ -11,7 +11,6 @@ import './styles/site-fonts.js';
 import './styles/app.css';
 import './styles/showcase.css';
 import './styles/legal.css';
-import './styles/atw.css';
 import './styles/splide.css';
 import './styles/carte.css';
 import './styles/gsap-letter-reveal.css';
@@ -23,6 +22,7 @@ import './styles/hero-present.css';
 import './styles/buttons.css';
 import './styles/gsap-demo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/atw.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'aos/dist/aos.css';
 
