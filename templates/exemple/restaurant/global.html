@@ -1,0 +1,606 @@
+<!-- Restaurant — page complète (tous les blocs du thème, ordre atelier).
+     Coller en section libre CKEditor ou découper bloc par bloc.
+     Couleurs : config Hermes (sections / contenu). Carte restaurant : carte.css. -->
+
+<!-- ─── 01_hero.html ─── -->
+<!-- Restaurant — Hero salle + accroche (gsap-letter-reveal). Couleurs : config Hermes / carte.css si hermes-carte. -->
+<section class="py-5 py-lg-6 overflow-hidden">
+    <div class="container">
+        <div class="row g-4 align-items-end">
+            <div class="col-lg-5 order-lg-2">
+                <div class="ratio ratio-3x4 rounded-4 overflow-hidden border shadow-sm">
+                    <img
+                        class="object-fit-cover"
+                        src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&amp;fit=crop&amp;w=800&amp;h=1060&amp;q=80"
+                        alt="Salle de restaurant chaleureuse"
+                        width="800"
+                        height="1060"
+                        loading="eager"
+                    >
+                </div>
+            </div>
+            <div class="col-lg-7 order-lg-1">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.2em;">Bistrot · cuisine de saison</p>
+                <div class="gsap-letter-reveal mb-3">
+                    <p
+                        class="gsap-letter-reveal__line display-3 fw-bold mb-0 h-sofia"
+                        data-gsap-letter-reveal-text-value="À table !"
+                        aria-label="À table !"
+                    >À table !</p>
+                </div>
+                <p class="lead mb-4">Produits frais, carte courte renouvelée chaque semaine et une équipe passionnée au service de votre moment gourmand.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-lg border fw-semibold px-4" href="#carte">Voir la carte</a>
+                    <a class="btn btn-lg border px-4" href="/fr/contact">Réserver une table</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 01b_hero_split.html ─── -->
+<!-- Restaurant — Hero type carte Hermes (data-hermes-carte-hero + letter-reveal). Couleurs : carte.css. -->
+<section class="py-0">
+    <div class="hermes-carte">
+        <header data-hermes-carte-hero class="position-relative overflow-hidden">
+            <img
+                class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+                src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&amp;fit=crop&amp;w=1920&amp;h=640&amp;q=80"
+                alt="Ambiance du restaurant — salle et bar"
+                loading="eager"
+                width="1920"
+                height="640"
+            >
+            <div class="hermes-carte-hero-overlay position-absolute top-0 start-0 w-100 h-100" aria-hidden="true"></div>
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center px-3 z-1">
+                <p data-hermes-carte-hero-kicker class="text-uppercase small fw-semibold mb-2 mb-lg-3">Le Comptoir · Toulouse</p>
+                <div class="gsap-letter-reveal">
+                    <p
+                        class="gsap-letter-reveal__line hermes-carte-hero-title display-1 h-sofia mb-0"
+                        data-gsap-letter-reveal-text-value="Carte"
+                        aria-label="Carte"
+                    >Carte</p>
+                </div>
+            </div>
+        </header>
+    </div>
+</section>
+
+<!-- ─── 02_carte.html ─── -->
+<!-- Restaurant — Carte repas & boissons (hermes-carte + Splide). Inspiré carte_restaurant.html · couleurs : carte.css. -->
+<section class="py-0" id="carte">
+    <div class="hermes-carte">
+        <nav class="d-flex justify-content-center flex-wrap gap-2 mx-auto my-3 px-3" style="max-width: 64rem;" aria-label="Navigation carte">
+            <button type="button" class="hermes-carte-tab active" data-hermes-carte-tab="0" aria-selected="true">
+                <i class="fa-solid fa-utensils" aria-hidden="true"></i><span>Repas</span>
+            </button>
+            <button type="button" class="hermes-carte-tab" data-hermes-carte-tab="1" aria-selected="false">
+                <i class="fa-solid fa-wine-glass" aria-hidden="true"></i><span>Boissons</span>
+            </button>
+        </nav>
+
+        <div class="splide hermes-carte-pages w-100" aria-label="Carte repas et boissons">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <div data-hermes-carte-food>
+                            <section data-hermes-carte-section class="hermes-carte-section-light" aria-labelledby="resto-entrees">
+                                <header class="mb-4">
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                    <h2 id="resto-entrees" class="h3 mb-0 text-center">Entrées</h2>
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                </header>
+                                <ul class="list-unstyled mb-0">
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Velouté de potimarron, huile de noisette.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">9€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Œuf parfait, crème de champignons.</p>
+                                            <p class="small fst-italic mb-0 mt-1">Cèpes de saison, croûtons maison.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">11€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Tartare de saumon, avocat &amp; citron vert.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">13€</p>
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <section data-hermes-carte-section class="hermes-carte-section-dark" aria-labelledby="resto-plats">
+                                <header class="mb-4">
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                    <h2 id="resto-plats" class="h3 mb-0 text-center">Plats</h2>
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                </header>
+                                <ul class="list-unstyled mb-0">
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Suprême de volaille, jus au thym.</p>
+                                            <p class="small fst-italic mb-0 mt-1">Légumes rôtis, purée de céleri.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">22€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Filet de bœuf, sauce au poivre.</p>
+                                            <p class="small fst-italic mb-0 mt-1">Pommes sarladaises, salade verte.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">26€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Risotto aux cèpes &amp; parmesan.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">19€</p>
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <section data-hermes-carte-section class="hermes-carte-section-light" aria-labelledby="resto-desserts">
+                                <header class="mb-4">
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                    <h2 id="resto-desserts" class="h3 mb-0 text-center">Desserts</h2>
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                </header>
+                                <ul class="list-unstyled mb-0">
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Tarte citron meringuée.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">9€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Mi-cuit chocolat, glace vanille.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">10€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Fromages affinés (sélection du moment).</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">11€</p>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </li>
+
+                    <li class="splide__slide" data-hermes-carte-page="drinks">
+                        <div class="hermes-carte-drinks-page">
+                            <header data-hermes-carte-drinks-banner class="position-relative overflow-hidden">
+                                <img
+                                    class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+                                    src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&amp;fit=crop&amp;w=1600&amp;h=520&amp;q=80"
+                                    alt="Bar à vins et verres"
+                                    loading="lazy"
+                                    width="1600"
+                                    height="520"
+                                >
+                                <div class="hermes-carte-drinks-overlay position-absolute top-0 start-0 w-100 h-100" aria-hidden="true"></div>
+                                <div data-hermes-carte-drinks-banner-content class="position-relative d-flex flex-column justify-content-center align-items-center text-center px-3 py-5 z-1 h-100">
+                                    <p data-hermes-carte-drinks-banner-kicker class="text-uppercase small fw-semibold mb-2">Bar &amp; cave</p>
+                                    <h2 id="resto-boissons" class="h-sofia mb-0">Boissons</h2>
+                                    <p class="fst-italic mb-0 mt-2">Vins, cocktails &amp; spiritueux</p>
+                                </div>
+                            </header>
+                            <div class="p-4 p-lg-5">
+                                <div class="row g-3">
+                                    <div class="col-sm-6" data-hermes-carte-drink-card>
+                                        <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                            <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-wine-glass"></i></div>
+                                            <h3 class="h6 fw-bold text-uppercase mb-3">Vins au verre</h3>
+                                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                                <li class="d-flex justify-content-between gap-2"><span>Blanc Gaillac</span><span class="hermes-carte-price fw-bold text-nowrap">6€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Rouge Fronton</span><span class="hermes-carte-price fw-bold text-nowrap">6,50€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Rosé de Provence</span><span class="hermes-carte-price fw-bold text-nowrap">6€</span></li>
+                                            </ul>
+                                        </article>
+                                    </div>
+                                    <div class="col-sm-6" data-hermes-carte-drink-card>
+                                        <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                            <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-martini-glass"></i></div>
+                                            <h3 class="h6 fw-bold text-uppercase mb-3">Cocktails</h3>
+                                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                                <li class="d-flex justify-content-between gap-2"><span>Spritz maison</span><span class="hermes-carte-price fw-bold text-nowrap">9€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Old Fashioned</span><span class="hermes-carte-price fw-bold text-nowrap">11€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Margarita</span><span class="hermes-carte-price fw-bold text-nowrap">10€</span></li>
+                                            </ul>
+                                        </article>
+                                    </div>
+                                    <div class="col-sm-6" data-hermes-carte-drink-card>
+                                        <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                            <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                                            <h3 class="h6 fw-bold text-uppercase mb-3">Pression &amp; bouteilles</h3>
+                                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                                <li class="d-flex justify-content-between gap-2"><span>Blonde artisanale 25 cl</span><span class="hermes-carte-price fw-bold text-nowrap">5€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>IPA locale 33 cl</span><span class="hermes-carte-price fw-bold text-nowrap">6€</span></li>
+                                            </ul>
+                                        </article>
+                                    </div>
+                                    <div class="col-sm-6" data-hermes-carte-drink-card>
+                                        <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                            <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-mug-hot"></i></div>
+                                            <h3 class="h6 fw-bold text-uppercase mb-3">Sans alcool</h3>
+                                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                                <li class="d-flex justify-content-between gap-2"><span>Eau minérale / gazeuse</span><span class="hermes-carte-price fw-bold text-nowrap">4€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Jus pressé du jour</span><span class="hermes-carte-price fw-bold text-nowrap">5€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Café ou infusion</span><span class="hermes-carte-price fw-bold text-nowrap">3,50€</span></li>
+                                            </ul>
+                                        </article>
+                                    </div>
+                                </div>
+                                <p data-hermes-carte-drinks-note class="text-center small mt-4 mb-0">Notre sommelier vous conseille pour l’accord mets &amp; vins</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 03_plats_splide.html ─── -->
+<!-- Restaurant — Plats du moment (Splide cards). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+            <div>
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">En cuisine</p>
+                <h2 class="h1 fw-bold mb-0">Plats du moment</h2>
+            </div>
+            <p class="small mb-0 col-md-5">Carte évolutive selon le marché — demandez la suggestion du chef.</p>
+        </div>
+        <div
+            class="splide splide-carousel splide-carousel--cards"
+            aria-label="Plats du restaurant"
+            data-splide-carousel-effect-value="slide"
+            data-splide-carousel-per-page-value="3"
+            data-splide-carousel-per-page-mobile-value="1"
+            data-splide-carousel-breakpoint-value="992"
+            data-splide-carousel-gap-value="1rem"
+            data-splide-carousel-autoplay-value="true"
+            data-splide-carousel-interval-value="4500"
+        >
+            <div class="splide__track">
+                <ul class="splide__list list-unstyled mb-0">
+                    <li class="splide__slide h-auto">
+                        <article class="card border shadow-sm h-100 overflow-hidden">
+                            <img class="card-img-top" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&amp;fit=crop&amp;w=700&amp;h=420&amp;q=80" alt="Assiette gastronomique dressée" width="700" height="420" loading="lazy">
+                            <div class="card-body">
+                                <h3 class="h6 fw-bold mb-1">Poisson du jour</h3>
+                                <p class="small mb-0">Légumes de saison, beurre citronné.</p>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide h-auto">
+                        <article class="card border shadow-sm h-100 overflow-hidden">
+                            <img class="card-img-top" src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&amp;fit=crop&amp;w=700&amp;h=420&amp;q=80" alt="Salade fraîche et colorée" width="700" height="420" loading="lazy">
+                            <div class="card-body">
+                                <h3 class="h6 fw-bold mb-1">Salade du marché</h3>
+                                <p class="small mb-0">Herbes fraîches, vinaigrette maison.</p>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide h-auto">
+                        <article class="card border shadow-sm h-100 overflow-hidden">
+                            <img class="card-img-top" src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&amp;fit=crop&amp;w=700&amp;h=420&amp;q=80" alt="Burger et frites maison" width="700" height="420" loading="lazy">
+                            <div class="card-body">
+                                <h3 class="h6 fw-bold mb-1">Burger du bistrot</h3>
+                                <p class="small mb-0">Pain artisanal, cheddar affiné, frites maison.</p>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide h-auto">
+                        <article class="card border shadow-sm h-100 overflow-hidden">
+                            <img class="card-img-top" src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&amp;fit=crop&amp;w=700&amp;h=420&amp;q=80" alt="Brunch et œufs préparés" width="700" height="420" loading="lazy">
+                            <div class="card-body">
+                                <h3 class="h6 fw-bold mb-1">Brunch du dimanche</h3>
+                                <p class="small mb-0">Formule 10h–14h, réservation conseillée.</p>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 04_cuisine.html ─── -->
+<!-- Restaurant — Chef & produits (layout éditorial). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center">
+            <div class="col-lg-6">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Notre cuisine</p>
+                <h2 class="h1 fw-bold mb-4">Du producteur à l’assiette</h2>
+                <p class="mb-4">Le chef compose une carte courte à partir de produits locaux : marché du matin, boucher et fromager de quartier, poissons livrés selon la pêche.</p>
+                <div class="row g-3 mb-0">
+                    <div class="col-sm-6">
+                        <div class="border rounded-3 p-3 h-100">
+                            <p class="fw-bold mb-1"><i class="fa-solid fa-leaf me-2" aria-hidden="true"></i>Produits frais</p>
+                            <p class="small mb-0">Carte renouvelée chaque semaine.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="border rounded-3 p-3 h-100">
+                            <p class="fw-bold mb-1"><i class="fa-solid fa-wheat-awn me-2" aria-hidden="true"></i>Fait maison</p>
+                            <p class="small mb-0">Pains, desserts et sauces sur place.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-7">
+                        <img class="img-fluid rounded-3 shadow-sm border w-100" src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&amp;fit=crop&amp;w=800&amp;h=600&amp;q=80" alt="Chef en cuisine préparant un plat" width="800" height="600" loading="lazy">
+                    </div>
+                    <div class="col-5">
+                        <img class="img-fluid rounded-3 shadow-sm border w-100 mb-3" src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&amp;fit=crop&amp;w=500&amp;h=350&amp;q=80" alt="Produits frais du marché" width="500" height="350" loading="lazy">
+                        <img class="img-fluid rounded-3 shadow-sm border w-100" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&amp;fit=crop&amp;w=500&amp;h=350&amp;q=80" alt="Plat soigneusement dressé" width="500" height="350" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 05_chiffres_cles.html ─── -->
+<!-- Restaurant — Chiffres (gsap-count-up) en ligne horizontale. Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 text-center border rounded-4 shadow-sm py-4 py-lg-5 mx-0">
+            <div class="col-6 col-lg-3">
+                <p class="display-6 fw-bold mb-1"><span data-gsap-count-up="12" data-gsap-count-up-duration="1.3">12</span></p>
+                <p class="small text-uppercase mb-0">ans d’activité</p>
+            </div>
+            <div class="col-6 col-lg-3">
+                <p class="display-6 fw-bold mb-1"><span data-gsap-count-up="80" data-gsap-count-up-duration="1.5">80</span></p>
+                <p class="small text-uppercase mb-0">couverts en salle</p>
+            </div>
+            <div class="col-6 col-lg-3">
+                <p class="display-6 fw-bold mb-1"><span data-gsap-count-up="4" data-gsap-count-up-duration="1.2">4</span></p>
+                <p class="small text-uppercase mb-0">producteurs partenaires</p>
+            </div>
+            <div class="col-6 col-lg-3">
+                <p class="display-6 fw-bold mb-1"><span data-gsap-count-up="48" data-gsap-count-up-duration="1.4">48</span>h</p>
+                <p class="small text-uppercase mb-0">pour confirmer une résa</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 06_horaires_formules.html ─── -->
+<!-- Restaurant — Horaires & formules (grille horaire). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-10">
+        <div class="row g-4 g-lg-5">
+            <div class="col-lg-6">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Horaires</p>
+                <h2 class="h1 fw-bold mb-4">Quand nous trouver</h2>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 fw-semibold">Lun – Ven</dt>
+                    <dd class="col-sm-8">12h – 14h · 19h – 22h30</dd>
+                    <dt class="col-sm-4 fw-semibold">Samedi</dt>
+                    <dd class="col-sm-8">12h – 15h · 19h – 23h</dd>
+                    <dt class="col-sm-4 fw-semibold">Dimanche</dt>
+                    <dd class="col-sm-8">Brunch 10h – 14h (sur réservation)</dd>
+                    <dt class="col-sm-4 fw-semibold">Fermé</dt>
+                    <dd class="col-sm-8">Le mardi soir</dd>
+                </dl>
+            </div>
+            <div class="col-lg-6">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Formules</p>
+                <h2 class="h3 fw-bold mb-3">Midi &amp; soir</h2>
+                <ul class="list-group list-group-flush border rounded-3 shadow-sm">
+                    <li class="list-group-item d-flex justify-content-between align-items-start gap-3 p-4">
+                        <div>
+                            <p class="fw-bold mb-1">Menu du jour</p>
+                            <p class="small mb-0">Entrée + plat + dessert (hors boissons)</p>
+                        </div>
+                        <span class="fw-bold fs-5 flex-shrink-0">24€</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start gap-3 p-4">
+                        <div>
+                            <p class="fw-bold mb-1">Plat du jour</p>
+                            <p class="small mb-0">Suggestion du chef, servi avec salade ou accompagnement</p>
+                        </div>
+                        <span class="fw-bold fs-5 flex-shrink-0">16€</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start gap-3 p-4 border-bottom-0">
+                        <div>
+                            <p class="fw-bold mb-1">Menu enfant</p>
+                            <p class="small mb-0">Jusqu’à 12 ans</p>
+                        </div>
+                        <span class="fw-bold fs-5 flex-shrink-0">12€</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 07_avis_splide.html ─── -->
+<!-- Restaurant — Avis (Splide fade). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-8">
+        <p class="text-uppercase small fw-semibold text-center mb-2" style="letter-spacing: 0.14em;">Avis clients</p>
+        <h2 class="h1 fw-bold text-center mb-4">Ils sont revenus</h2>
+        <div
+            class="splide splide-carousel"
+            aria-label="Avis sur le restaurant"
+            data-splide-carousel-effect-value="fade"
+            data-splide-carousel-per-page-value="1"
+            data-splide-carousel-autoplay-value="true"
+            data-splide-carousel-interval-value="6500"
+        >
+            <div class="splide__track">
+                <ul class="splide__list list-unstyled mb-0">
+                    <li class="splide__slide">
+                        <blockquote class="text-center border rounded-4 p-4 p-lg-5 shadow-sm">
+                            <p class="mb-3" aria-label="5 étoiles sur 5">
+                                <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            </p>
+                            <p class="fs-5 fw-semibold mb-3">«&nbsp;Une cuisine généreuse, un service attentionné. Le menu du jour est toujours une bonne surprise.&nbsp;»</p>
+                            <footer class="small mb-0"><strong>Claire D.</strong> — Google</footer>
+                        </blockquote>
+                    </li>
+                    <li class="splide__slide">
+                        <blockquote class="text-center border rounded-4 p-4 p-lg-5 shadow-sm">
+                            <p class="fs-5 fw-semibold mb-3">«&nbsp;Brunch du dimanche excellent. Réservation indispensable !&nbsp;»</p>
+                            <footer class="small mb-0"><strong>Marc &amp; Léa</strong> — TheFork</footer>
+                        </blockquote>
+                    </li>
+                    <li class="splide__slide">
+                        <blockquote class="text-center border rounded-4 p-4 p-lg-5 shadow-sm">
+                            <p class="fs-5 fw-semibold mb-3">«&nbsp;Carte des vins bien choisie, accord parfait avec le poisson du jour.&nbsp;»</p>
+                            <footer class="small mb-0"><strong>Philippe R.</strong> — TripAdvisor</footer>
+                        </blockquote>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 08_acces.html ─── -->
+<!-- Restaurant — Accès & terrasse. Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center">
+            <div class="col-lg-5">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Nous trouver</p>
+                <h2 class="h1 fw-bold mb-3">En centre-ville</h2>
+                <address class="mb-4">
+                    <strong>Le Comptoir</strong><br>
+                    12 rue des Filatiers<br>
+                    31000 Toulouse
+                </address>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2"><i class="fa-solid fa-train-subway me-2" aria-hidden="true"></i>Métro Esquirol — 3 min à pied</li>
+                    <li class="mb-2"><i class="fa-solid fa-square-parking me-2" aria-hidden="true"></i>Parking Victor-Hugo à proximité</li>
+                    <li class="mb-0"><i class="fa-solid fa-umbrella-beach me-2" aria-hidden="true"></i>Terrasse ombragée dès les beaux jours</li>
+                </ul>
+                <a class="btn btn-lg border" href="tel:+33561123456">05 61 12 34 56</a>
+            </div>
+            <div class="col-lg-7">
+                <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm border mb-3">
+                    <iframe
+                        title="Plan — restaurant Le Comptoir Toulouse"
+                        src="https://maps.google.com/maps?q=Place+du+Capitole+Toulouse&amp;output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+                <img
+                    class="img-fluid rounded-3 border shadow-sm w-100"
+                    src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&amp;fit=crop&amp;w=1200&amp;h=400&amp;q=80"
+                    alt="Terrasse et façade du restaurant"
+                    width="1200"
+                    height="400"
+                    loading="lazy"
+                >
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 09_bandeau_reservation.html ─── -->
+<!-- Restaurant — Bandeau réservation. Couleurs : config Hermes. -->
+<section class="py-4">
+    <div class="container">
+        <div class="row g-3 align-items-center border rounded-4 shadow-sm p-4 p-lg-5">
+            <div class="col-lg-8 text-center text-lg-start">
+                <p class="fw-bold fs-5 mb-2">
+                    <i class="fa-solid fa-utensils me-2" aria-hidden="true"></i>Réservez votre table
+                </p>
+                <p class="mb-0">Groups de 8 personnes et plus : contactez-nous par téléphone · confirmation sous 48&nbsp;h</p>
+            </div>
+            <div class="col-lg-4 d-flex flex-wrap gap-2 justify-content-center justify-content-lg-end">
+                <a class="btn btn-lg border fw-semibold" href="/fr/contact">Réserver en ligne</a>
+                <a class="btn btn-lg border" href="tel:+33561123456">Appeler</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 10_faq.html ─── -->
+<!-- Restaurant — FAQ (details). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-9">
+        <div class="text-center mb-5">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Infos pratiques</p>
+            <h2 class="h1 fw-bold mb-0">Questions fréquentes</h2>
+        </div>
+        <div class="vstack gap-3">
+            <details class="border rounded-3 shadow-sm p-4" open>
+                <summary class="fw-bold">Faut-il réserver ?</summary>
+                <p class="small mb-0 mt-3">Le midi en semaine, place souvent disponible sans réservation. Le soir et le week-end, réservation fortement conseillée.</p>
+            </details>
+            <details class="border rounded-3 shadow-sm p-4">
+                <summary class="fw-bold">Proposez-vous des options végétariennes ?</summary>
+                <p class="small mb-0 mt-3">Oui, au moins une entrée et un plat végétariens chaque jour. Signalez allergies ou intolérances lors de la réservation.</p>
+            </details>
+            <details class="border rounded-3 shadow-sm p-4">
+                <summary class="fw-bold">Chiens acceptés ?</summary>
+                <p class="small mb-0 mt-3">Acceptés en terrasse uniquement. En salle, merci de nous contacter à l’avance.</p>
+            </details>
+            <details class="border rounded-3 shadow-sm p-4">
+                <summary class="fw-bold">Moyens de paiement ?</summary>
+                <p class="small mb-0 mt-3">Carte bancaire, espèces, titres restaurant (limite selon montant).</p>
+            </details>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 11_cta_reservation.html ─── -->
+<!-- Restaurant — CTA (gsap-text-reveal mots). Couleurs : config Hermes. -->
+<section class="py-5 py-lg-6">
+    <div class="container">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6 order-lg-2">
+                <img
+                    class="img-fluid rounded-4 border shadow-sm w-100"
+                    src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&amp;fit=crop&amp;w=900&amp;h=650&amp;q=80"
+                    alt="Table dressée pour un dîner au restaurant"
+                    width="900"
+                    height="650"
+                    loading="lazy"
+                >
+            </div>
+            <div class="col-lg-6 order-lg-1 text-center text-lg-start">
+                <div
+                    class="gsap-text-reveal mb-3"
+                    data-gsap-text-reveal-text-value="On vous attend à table"
+                    data-gsap-text-reveal-mode-value="words"
+                    data-gsap-text-reveal-words-y-value="-35"
+                    data-gsap-text-reveal-words-opacity-value="0"
+                    data-gsap-text-reveal-words-duration-value="0.6"
+                    data-gsap-text-reveal-words-stagger-value="0.1"
+                    data-gsap-text-reveal-words-ease-value="power3.out"
+                >
+                    <span class="visually-hidden gsap-text-reveal__label">On vous attend à table</span>
+                    <h2 class="gsap-text-reveal__body h1 fw-bold mb-0" aria-label="On vous attend à table">On vous attend à table</h2>
+                </div>
+                <p class="lead mb-4">Réservez en ligne ou appelez-nous — nous préparons votre accueil avec plaisir.</p>
+                <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
+                    <a class="btn btn-lg border fw-semibold px-4" href="/fr/contact">Réserver</a>
+                    <a class="btn btn-lg border px-4" href="#carte">Voir la carte</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

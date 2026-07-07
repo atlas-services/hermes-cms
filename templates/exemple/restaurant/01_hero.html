@@ -1,0 +1,34 @@
+<!-- Restaurant — Hero salle + accroche (gsap-letter-reveal). Couleurs : config Hermes / carte.css si hermes-carte. -->
+<section class="py-5 py-lg-6 overflow-hidden">
+    <div class="container">
+        <div class="row g-4 align-items-end">
+            <div class="col-lg-5 order-lg-2">
+                <div class="ratio ratio-3x4 rounded-4 overflow-hidden border shadow-sm">
+                    <img
+                        class="object-fit-cover"
+                        src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&amp;fit=crop&amp;w=800&amp;h=1060&amp;q=80"
+                        alt="Salle de restaurant chaleureuse"
+                        width="800"
+                        height="1060"
+                        loading="eager"
+                    >
+                </div>
+            </div>
+            <div class="col-lg-7 order-lg-1">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.2em;">Bistrot · cuisine de saison</p>
+                <div class="gsap-letter-reveal mb-3">
+                    <p
+                        class="gsap-letter-reveal__line display-3 fw-bold mb-0 h-sofia"
+                        data-gsap-letter-reveal-text-value="À table !"
+                        aria-label="À table !"
+                    >À table !</p>
+                </div>
+                <p class="lead mb-4">Produits frais, carte courte renouvelée chaque semaine et une équipe passionnée au service de votre moment gourmand.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-lg border fw-semibold px-4" href="#carte">Voir la carte</a>
+                    <a class="btn btn-lg border px-4" href="/fr/contact">Réserver une table</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

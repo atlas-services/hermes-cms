@@ -1,0 +1,527 @@
+<!-- Consultant — page complète (tous les blocs du thème, ordre atelier).
+     Coller en section libre CKEditor ou découper bloc par bloc.
+     Couleurs : config Hermes (sections / contenu). Carte restaurant : carte.css. -->
+
+<!-- ─── 01_hero.html ─── -->
+<!-- Consultant — Hero image bandeau + texte (gsap-text-reveal mots). Couleurs : config Hermes. -->
+<section class="py-0 overflow-hidden">
+    <div class="ratio ratio-16x9 border-bottom">
+        <img
+            class="object-fit-cover"
+            src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&amp;fit=crop&amp;w=1600&amp;h=700&amp;q=80"
+            alt="Réunion de conseil stratégique en entreprise"
+            width="1600"
+            height="700"
+            loading="eager"
+        >
+    </div>
+    <div class="container py-5 py-lg-6">
+        <div class="text-center col-lg-9 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.2em;">Conseil · stratégie · transformation</p>
+            <div
+                class="gsap-text-reveal mb-3"
+                data-gsap-text-reveal-text-value="Décider avec lucidité"
+                data-gsap-text-reveal-mode-value="words"
+                data-gsap-text-reveal-words-y-value="-45"
+                data-gsap-text-reveal-words-opacity-value="0"
+                data-gsap-text-reveal-words-duration-value="0.6"
+                data-gsap-text-reveal-words-stagger-value="0.1"
+                data-gsap-text-reveal-words-ease-value="power3.out"
+            >
+                <span class="visually-hidden gsap-text-reveal__label">Décider avec lucidité</span>
+                <h1 class="gsap-text-reveal__body display-4 fw-bold mb-0" aria-label="Décider avec lucidité">Décider avec lucidité</h1>
+            </div>
+            <p class="lead mb-4">Diagnostic, feuille de route et mise en œuvre — pour des résultats mesurables auprès des dirigeants et des équipes.</p>
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <a class="btn btn-lg border fw-semibold px-4" href="/fr/contact">Échange de 30 min</a>
+                <a class="btn btn-lg border px-4" href="/fr/contact">Voir les expertises</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 01b_hero_split.html ─── -->
+<!-- Consultant — Texte puis carrousel missions (Splide cards). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center text-center mb-4 mb-lg-5">
+            <div class="col-lg-8">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.18em;">Cabinet de conseil</p>
+                <div class="gsap-letter-reveal mb-3">
+                    <p
+                        class="gsap-letter-reveal__line h1 fw-bold mb-0"
+                        data-gsap-letter-reveal-text-value="Stratégie · Organisation · Croissance"
+                        aria-label="Stratégie, Organisation, Croissance"
+                    >Stratégie · Organisation · Croissance</p>
+                </div>
+                <p class="lead mb-0">Un regard externe, une méthode éprouvée et des livrables actionnables.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <div
+                    class="splide splide-carousel splide-carousel--cards w-100"
+                    aria-label="Types de missions conseil"
+                    data-splide-carousel-effect-value="slide"
+                    data-splide-carousel-type-value="slide"
+                    data-splide-carousel-per-page-value="2"
+                    data-splide-carousel-per-page-mobile-value="1"
+                    data-splide-carousel-breakpoint-value="992"
+                    data-splide-carousel-gap-value="1rem"
+                    data-splide-carousel-autoplay-value="true"
+                    data-splide-carousel-interval-value="5000"
+                >
+                    <div class="splide__track">
+                        <ul class="splide__list list-unstyled mb-0">
+                            <li class="splide__slide h-auto">
+                                <article class="card border shadow-sm h-100 overflow-hidden">
+                                    <img class="card-img-top" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&amp;fit=crop&amp;w=700&amp;h=420&amp;q=80" alt="Audit et analyse de documents stratégiques" width="700" height="420" loading="eager">
+                                    <div class="card-body">
+                                        <h2 class="h6 fw-bold mb-1">Audit &amp; diagnostic</h2>
+                                        <p class="small mb-0">Cartographie des enjeux, priorisation rapide.</p>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="splide__slide h-auto">
+                                <article class="card border shadow-sm h-100 overflow-hidden">
+                                    <img class="card-img-top" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=700&amp;h=420&amp;q=80" alt="Tableau de bord et indicateurs de performance" width="700" height="420" loading="lazy">
+                                    <div class="card-body">
+                                        <h2 class="h6 fw-bold mb-1">Stratégie &amp; pilotage</h2>
+                                        <p class="small mb-0">Feuille de route, KPIs, tableaux de bord.</p>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="splide__slide h-auto">
+                                <article class="card border shadow-sm h-100 overflow-hidden">
+                                    <img class="card-img-top" src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&amp;fit=crop&amp;w=700&amp;h=420&amp;q=80" alt="Équipe en atelier de transformation" width="700" height="420" loading="lazy">
+                                    <div class="card-body">
+                                        <h2 class="h6 fw-bold mb-1">Conduite du changement</h2>
+                                        <p class="small mb-0">Accompagnement des équipes et adoption.</p>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="splide__slide h-auto">
+                                <article class="card border shadow-sm h-100 overflow-hidden">
+                                    <img class="card-img-top" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&amp;fit=crop&amp;w=700&amp;h=420&amp;q=80" alt="Formation et montée en compétences" width="700" height="420" loading="lazy">
+                                    <div class="card-body">
+                                        <h2 class="h6 fw-bold mb-1">Formation &amp; transfert</h2>
+                                        <p class="small mb-0">Ateliers managers, outils et bonnes pratiques.</p>
+                                    </div>
+                                </article>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="text-center mt-4 mb-0">
+            <a class="btn btn-lg border fw-semibold" href="/fr/contact">Demander un diagnostic</a>
+        </p>
+    </div>
+</section>
+
+<!-- ─── 02_services.html ─── -->
+<!-- Consultant — Grille bento asymétrique. Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5 col-lg-8 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Expertises</p>
+            <h2 class="h1 fw-bold mb-0">Un conseil opérationnel</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <article class="card border shadow-sm h-100 overflow-hidden">
+                    <div class="row g-0 h-100">
+                        <div class="col-md-5">
+                            <img class="img-fluid w-100 h-100 object-fit-cover" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&amp;fit=crop&amp;w=600&amp;h=500&amp;q=80" alt="Stratégie et analyse" width="600" height="500" loading="lazy">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body p-4 h-100 d-flex flex-column justify-content-center">
+                                <p class="fs-2 mb-2" aria-hidden="true"><i class="fa-solid fa-lightbulb"></i></p>
+                                <h3 class="h5 fw-bold mb-2">Stratégie</h3>
+                                <p class="small mb-0">Positionnement, offre, marché et scénarios de croissance sur 12 à 36 mois.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-4 h-100">
+                    <div class="col-12">
+                        <article class="card border shadow-sm h-100">
+                            <div class="card-body p-4 d-flex gap-3 align-items-start">
+                                <p class="fs-2 mb-0 flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-sitemap"></i></p>
+                                <div>
+                                    <h3 class="h6 fw-bold mb-1">Organisation</h3>
+                                    <p class="small mb-0">Processus, rôles, délégation et efficacité opérationnelle.</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-sm-6">
+                        <article class="card border shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <p class="fs-2 mb-2" aria-hidden="true"><i class="fa-solid fa-chart-line"></i></p>
+                                <h3 class="h6 fw-bold mb-1">Performance</h3>
+                                <p class="small mb-0">Indicateurs et revues régulières.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-sm-6">
+                        <article class="card border shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <p class="fs-2 mb-2" aria-hidden="true"><i class="fa-solid fa-people-group"></i></p>
+                                <h3 class="h6 fw-bold mb-1">Management</h3>
+                                <p class="small mb-0">Culture, recrutement, montée en compétences.</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 03_realisations_splide.html ─── -->
+<!-- Consultant — Études de cas statiques (grille, pas focus Splide). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+            <div class="col-lg-6">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Références</p>
+                <h2 class="h1 fw-bold mb-0">Missions récentes</h2>
+            </div>
+            <p class="small mb-0 col-lg-5">Contextes types — anonymisés ou adaptables à votre secteur.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <article class="card border shadow-sm h-100 overflow-hidden">
+                    <img class="card-img-top" src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&amp;fit=crop&amp;w=700&amp;h=400&amp;q=80" alt="PME industrielle — réorganisation" width="700" height="400" loading="lazy">
+                    <div class="card-body">
+                        <h3 class="h6 fw-bold mb-1">PME industrielle</h3>
+                        <p class="small mb-0">Réorganisation des flux et pilotage de la production.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="card border shadow-sm h-100 overflow-hidden">
+                    <img class="card-img-top" src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&amp;fit=crop&amp;w=700&amp;h=400&amp;q=80" alt="Startup — feuille de route commerciale" width="700" height="400" loading="lazy">
+                    <div class="card-body">
+                        <h3 class="h6 fw-bold mb-1">Startup B2B</h3>
+                        <p class="small mb-0">Feuille de route commerciale avant levée de fonds.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="card border shadow-sm h-100 overflow-hidden">
+                    <img class="card-img-top" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&amp;fit=crop&amp;w=700&amp;h=400&amp;q=80" alt="Formation et conduite du changement" width="700" height="400" loading="lazy">
+                    <div class="card-body">
+                        <h3 class="h6 fw-bold mb-1">ETI services</h3>
+                        <p class="small mb-0">Conduite du changement post-fusion.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 04_engagements.html ─── -->
+<!-- Consultant — Grille 2×2 engagements + image latérale. Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 g-lg-5">
+            <div class="col-lg-6">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Notre valeur ajoutée</p>
+                <h2 class="h1 fw-bold mb-4">Du conseil qui se traduit en actions</h2>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="border rounded-3 p-3 h-100">
+                            <p class="fw-bold mb-1">Expérience terrain</p>
+                            <p class="small mb-0">Dirigeant, opérationnel et conseil au service de vos enjeux.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="border rounded-3 p-3 h-100">
+                            <p class="fw-bold mb-1">Méthode structurée</p>
+                            <p class="small mb-0">Diagnostic, recommandations, plan et suivi des indicateurs.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="border rounded-3 p-3 h-100">
+                            <p class="fw-bold mb-1">Confidentialité</p>
+                            <p class="small mb-0">Accord de non-divulgation sur demande.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="border rounded-3 p-3 h-100">
+                            <p class="fw-bold mb-1">Interlocuteur unique</p>
+                            <p class="small mb-0">Du cadrage à la restitution finale.</p>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn btn-lg border mt-4" href="/fr/contact">Parler de votre projet</a>
+            </div>
+            <div class="col-lg-6">
+                <img
+                    class="img-fluid rounded-3 shadow w-100 sticky-lg-top"
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&amp;fit=crop&amp;w=900&amp;h=750&amp;q=80"
+                    alt="Consultant animant un atelier avec une équipe"
+                    width="900"
+                    height="750"
+                    loading="lazy"
+                >
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 05_chiffres_cles.html ─── -->
+<!-- Consultant — Chiffres en tableau (gsap-count-up). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-10">
+        <p class="text-uppercase small fw-semibold text-center mb-2" style="letter-spacing: 0.14em;">En quelques chiffres</p>
+        <h2 class="h3 fw-bold text-center mb-4">Une expertise reconnue</h2>
+        <div class="table-responsive border rounded-3 shadow-sm">
+            <table class="table table-bordered mb-0 text-center align-middle">
+                <tbody>
+                    <tr>
+                        <th scope="row" class="fw-semibold p-4">Expérience</th>
+                        <td class="display-6 fw-bold p-4"><span data-gsap-count-up="18" data-gsap-count-up-duration="1.4">18</span> ans</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="fw-semibold p-4">Missions menées</th>
+                        <td class="display-6 fw-bold p-4"><span data-gsap-count-up="120" data-gsap-count-up-duration="1.8">120</span>+</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="fw-semibold p-4">Secteurs</th>
+                        <td class="display-6 fw-bold p-4"><span data-gsap-count-up="15" data-gsap-count-up-duration="1.5">15</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="fw-semibold p-4">Délai de proposition</th>
+                        <td class="display-6 fw-bold p-4"><span data-gsap-count-up="72" data-gsap-count-up-duration="1.2">72</span>h</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 06_etapes.html ─── -->
+<!-- Consultant — Méthode horizontale (stepper). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5 col-lg-8 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Notre méthode</p>
+            <h2 class="h1 fw-bold mb-0">Quatre phases, un objectif : résultats</h2>
+        </div>
+        <div class="row g-3 g-lg-4 text-center">
+            <div class="col-6 col-lg-3">
+                <div class="border rounded-3 p-3 p-lg-4 h-100">
+                    <p class="display-6 fw-bold mb-2">1</p>
+                    <h3 class="h6 fw-bold mb-2">Cadrage</h3>
+                    <p class="small mb-0">Périmètre, livrables, calendrier.</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="border rounded-3 p-3 p-lg-4 h-100">
+                    <p class="display-6 fw-bold mb-2">2</p>
+                    <h3 class="h6 fw-bold mb-2">Diagnostic</h3>
+                    <p class="small mb-0">Collecte, analyse, leviers prioritaires.</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="border rounded-3 p-3 p-lg-4 h-100">
+                    <p class="display-6 fw-bold mb-2">3</p>
+                    <h3 class="h6 fw-bold mb-2">Recommandations</h3>
+                    <p class="small mb-0">Restitution et feuille de route.</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="border rounded-3 p-3 p-lg-4 h-100">
+                    <p class="display-6 fw-bold mb-2">4</p>
+                    <h3 class="h6 fw-bold mb-2">Déploiement</h3>
+                    <p class="small mb-0">Mise en œuvre et ajustements.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 07_temoignages_splide.html ─── -->
+<!-- Consultant — Témoignages (Splide slide 1 visible). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center">
+            <div class="col-lg-5">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Témoignages</p>
+                <h2 class="h1 fw-bold mb-3">Ils nous ont confié leurs enjeux</h2>
+                <p class="mb-0">Dirigeants de TPE, PME et ETI — retours d’expérience sur des missions concrètes.</p>
+            </div>
+            <div class="col-lg-7">
+                <div
+                    class="splide splide-carousel"
+                    aria-label="Témoignages clients consultant"
+                    data-splide-carousel-effect-value="slide"
+                    data-splide-carousel-per-page-value="1"
+                    data-splide-carousel-autoplay-value="true"
+                    data-splide-carousel-interval-value="6500"
+                >
+                    <div class="splide__track">
+                        <ul class="splide__list list-unstyled mb-0">
+                            <li class="splide__slide h-auto">
+                                <article class="card border shadow-sm">
+                                    <div class="card-body p-4 p-lg-5">
+                                        <blockquote class="mb-3">
+                                            <p class="fs-5 mb-0">«&nbsp;En trois mois, nous avons structuré l’équipe et retrouvé de la visibilité sur la trésorerie.&nbsp;»</p>
+                                        </blockquote>
+                                        <footer class="small mb-0"><strong>Marie L.</strong> — Gérante, retail (12 salariés)</footer>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="splide__slide h-auto">
+                                <article class="card border shadow-sm">
+                                    <div class="card-body p-4 p-lg-5">
+                                        <blockquote class="mb-3">
+                                            <p class="fs-5 mb-0">«&nbsp;Un regard extérieur précieux avant notre levée de fonds. Livrables clairs et actionnables.&nbsp;»</p>
+                                        </blockquote>
+                                        <footer class="small mb-0"><strong>Thomas R.</strong> — Fondateur, SaaS B2B</footer>
+                                    </div>
+                                </article>
+                            </li>
+                            <li class="splide__slide h-auto">
+                                <article class="card border shadow-sm">
+                                    <div class="card-body p-4 p-lg-5">
+                                        <blockquote class="mb-3">
+                                            <p class="fs-5 mb-0">«&nbsp;Les ateliers mensuels nous ont aidés à déléguer sans perdre le cap stratégique.&nbsp;»</p>
+                                        </blockquote>
+                                        <footer class="small mb-0"><strong>Direction</strong> — PME industrielle</footer>
+                                    </div>
+                                </article>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 08_zone_intervention.html ─── -->
+<!-- Consultant — Secteurs + double visuel (pas de carte). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 g-lg-5">
+            <div class="col-lg-5">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Secteurs</p>
+                <h2 class="h1 fw-bold mb-3">France entière, sur site ou à distance</h2>
+                <p class="mb-4">Basé à Toulouse — interventions en présentiel ou visio selon la mission.</p>
+                <ul class="list-unstyled d-flex flex-wrap gap-2 mb-0">
+                    <li><span class="badge border px-3 py-2">Industrie</span></li>
+                    <li><span class="badge border px-3 py-2">Services B2B</span></li>
+                    <li><span class="badge border px-3 py-2">Commerce</span></li>
+                    <li><span class="badge border px-3 py-2">Santé</span></li>
+                    <li><span class="badge border px-3 py-2">Association</span></li>
+                    <li><span class="badge border px-3 py-2">Tech &amp; digital</span></li>
+                </ul>
+            </div>
+            <div class="col-lg-7">
+                <div class="row g-3">
+                    <div class="col-7">
+                        <img class="img-fluid rounded-3 shadow-sm border w-100" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=800&amp;h=600&amp;q=80" alt="Analyse de données et pilotage" width="800" height="600" loading="lazy">
+                    </div>
+                    <div class="col-5 d-flex flex-column gap-3">
+                        <img class="img-fluid rounded-3 shadow-sm border flex-grow-1 object-fit-cover" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&amp;fit=crop&amp;w=500&amp;h=280&amp;q=80" alt="Dirigeant en contexte professionnel" width="500" height="280" loading="lazy">
+                        <img class="img-fluid rounded-3 shadow-sm border flex-grow-1 object-fit-cover" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&amp;fit=crop&amp;w=500&amp;h=280&amp;q=80" alt="Réunion de travail en entreprise" width="500" height="280" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 09_bandeau_urgence.html ─── -->
+<!-- Consultant — Bandeau split texte / CTA. Couleurs : config Hermes. -->
+<section class="py-4">
+    <div class="container">
+        <div class="row g-3 align-items-center border rounded-4 shadow-sm p-4 p-lg-5">
+            <div class="col-lg-8">
+                <p class="fw-bold fs-5 mb-2">
+                    <i class="fa-solid fa-comments me-2" aria-hidden="true"></i>Échange découverte — 30 minutes
+                </p>
+                <p class="mb-0">Présentez votre contexte · premier avis et proposition de mission sous 72&nbsp;h</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a class="btn btn-lg border fw-semibold w-100 w-lg-auto" href="/fr/contact">Réserver un créneau</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 10_faq.html ─── -->
+<!-- Consultant — FAQ cartes empilées (pas accordion). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-9">
+        <div class="text-center mb-5">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Questions fréquentes</p>
+            <h2 class="h1 fw-bold mb-0">Vous vous demandez…</h2>
+        </div>
+        <div class="vstack gap-3">
+            <details class="border rounded-3 shadow-sm p-4" open>
+                <summary class="fw-bold cursor-pointer">Quelle taille d’entreprise accompagnez-vous ?</summary>
+                <p class="small mb-0 mt-3">Principalement TPE, PME et ETI (5 à 250 collaborateurs). Missions ciblant la direction, une filiale ou un département.</p>
+            </details>
+            <details class="border rounded-3 shadow-sm p-4">
+                <summary class="fw-bold">Comment se déroule une mission type ?</summary>
+                <p class="small mb-0 mt-3">Cadrage, diagnostic (2 à 4 semaines), restitution et plan d’action, puis accompagnement au déploiement.</p>
+            </details>
+            <details class="border rounded-3 shadow-sm p-4">
+                <summary class="fw-bold">Forfaits ou temps passé ?</summary>
+                <p class="small mb-0 mt-3">Forfait mission pour un livrable défini, ou régie pour un accompagnement récurrent (comité de pilotage mensuel).</p>
+            </details>
+            <details class="border rounded-3 shadow-sm p-4">
+                <summary class="fw-bold">Travail en co-traitance ?</summary>
+                <p class="small mb-0 mt-3">Oui, avec d’autres cabinets selon les compétences (juridique, RH, IT…). Je reste votre interlocuteur principal.</p>
+            </details>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 11_cta_devis.html ─── -->
+<!-- Consultant — CTA (gsap-text-reveal mots). Couleurs : config Hermes. -->
+<section class="py-5 py-lg-6">
+    <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center">
+            <div class="col-lg-6">
+                <div
+                    class="gsap-text-reveal mb-3"
+                    data-gsap-text-reveal-text-value="Clarifions votre prochain cap"
+                    data-gsap-text-reveal-mode-value="words"
+                    data-gsap-text-reveal-words-y-value="-40"
+                    data-gsap-text-reveal-words-opacity-value="0"
+                    data-gsap-text-reveal-words-duration-value="0.65"
+                    data-gsap-text-reveal-words-stagger-value="0.09"
+                    data-gsap-text-reveal-words-ease-value="power3.out"
+                >
+                    <span class="visually-hidden gsap-text-reveal__label">Clarifions votre prochain cap</span>
+                    <h2 class="gsap-text-reveal__body h1 fw-bold mb-0" aria-label="Clarifions votre prochain cap">Clarifions votre prochain cap</h2>
+                </div>
+                <p class="lead mb-4">Décrivez votre situation : nous organisons un échange et une proposition adaptée à vos enjeux.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-lg border fw-semibold px-4" href="/fr/contact">Demander un échange</a>
+                    <a class="btn btn-lg border px-4" href="/fr/contact">Brief par e-mail</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img
+                    class="img-fluid rounded-3 shadow border w-100"
+                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&amp;fit=crop&amp;w=900&amp;h=650&amp;q=80"
+                    alt="Consultant au travail sur une analyse stratégique"
+                    width="900"
+                    height="650"
+                    loading="lazy"
+                >
+            </div>
+        </div>
+    </div>
+</section>
+

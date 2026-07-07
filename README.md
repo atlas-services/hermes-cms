@@ -187,7 +187,7 @@ Le site show room est géré côté menus / pages Hermes (PORTFOLIOS, RESTAURATI
 | Association | `ateliers_du_web_*.html` | Showcase, témoignages |
 | Portfolio / démo | `hermes_cms_accueil.html`, `splide_carousel.html`, `gsap_*` | Hero, animations variées |
 
-Modèles HTML de contenu libre dans `templates/exemple/` ; styles découpés dans `assets/styles/` : `showcase.css`, `legal.css`, `carte.css`, `buttons.css`, `gsap-letter-reveal.css`, `gsap-shape-build.css`, `gsap-text-reveal.css`, `hero-split.css`, `hero-present.css`, `gsap-demo.css`, `splide.css` (imports dans `assets/app.js`). **Bootstrap 5 en priorité** pour la mise en page ; classes Hermes / GSAP uniquement quand le comportement ou le thème l’exige (animations, composants réutilisables).
+Modèles HTML de contenu libre dans `templates/exemple/` ; styles découpés dans `assets/styles/` : `showcase.css`, `legal.css`, `atw.css`, `carte.css`, `buttons.css`, `gsap-letter-reveal.css`, `gsap-shape-build.css`, `gsap-text-reveal.css`, `hero-split.css`, `hero-present.css`, `gsap-demo.css`, `splide.css` (imports dans `assets/app.js`). **Bootstrap 5 en priorité** pour la mise en page ; classes Hermes / GSAP uniquement quand le comportement ou le thème l’exige (animations, composants réutilisables).
 
 **GSAP dans un post (section libre)** : coller le HTML **et** le `<script>` final via **Source editing** dans CKEditor. Le script écoute `hermes:gsap-ready` (ou `window.gsap`) car le module `app.js` peut se charger après le HTML du post. Exemples complets : `templates/exemple/gsap_demo_accueil.html`, `gsap_demo_chiffres.html`.
 

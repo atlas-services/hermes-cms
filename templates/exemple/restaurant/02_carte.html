@@ -1,0 +1,179 @@
+<!-- Restaurant — Carte repas & boissons (hermes-carte + Splide). Inspiré carte_restaurant.html · couleurs : carte.css. -->
+<section class="py-0" id="carte">
+    <div class="hermes-carte">
+        <nav class="d-flex justify-content-center flex-wrap gap-2 mx-auto my-3 px-3" style="max-width: 64rem;" aria-label="Navigation carte">
+            <button type="button" class="hermes-carte-tab active" data-hermes-carte-tab="0" aria-selected="true">
+                <i class="fa-solid fa-utensils" aria-hidden="true"></i><span>Repas</span>
+            </button>
+            <button type="button" class="hermes-carte-tab" data-hermes-carte-tab="1" aria-selected="false">
+                <i class="fa-solid fa-wine-glass" aria-hidden="true"></i><span>Boissons</span>
+            </button>
+        </nav>
+
+        <div class="splide hermes-carte-pages w-100" aria-label="Carte repas et boissons">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <div data-hermes-carte-food>
+                            <section data-hermes-carte-section class="hermes-carte-section-light" aria-labelledby="resto-entrees">
+                                <header class="mb-4">
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                    <h2 id="resto-entrees" class="h3 mb-0 text-center">Entrées</h2>
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                </header>
+                                <ul class="list-unstyled mb-0">
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Velouté de potimarron, huile de noisette.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">9€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Œuf parfait, crème de champignons.</p>
+                                            <p class="small fst-italic mb-0 mt-1">Cèpes de saison, croûtons maison.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">11€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Tartare de saumon, avocat &amp; citron vert.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">13€</p>
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <section data-hermes-carte-section class="hermes-carte-section-dark" aria-labelledby="resto-plats">
+                                <header class="mb-4">
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                    <h2 id="resto-plats" class="h3 mb-0 text-center">Plats</h2>
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                </header>
+                                <ul class="list-unstyled mb-0">
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Suprême de volaille, jus au thym.</p>
+                                            <p class="small fst-italic mb-0 mt-1">Légumes rôtis, purée de céleri.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">22€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Filet de bœuf, sauce au poivre.</p>
+                                            <p class="small fst-italic mb-0 mt-1">Pommes sarladaises, salade verte.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">26€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Risotto aux cèpes &amp; parmesan.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">19€</p>
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <section data-hermes-carte-section class="hermes-carte-section-light" aria-labelledby="resto-desserts">
+                                <header class="mb-4">
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                    <h2 id="resto-desserts" class="h3 mb-0 text-center">Desserts</h2>
+                                    <span class="hermes-carte-head-line" aria-hidden="true"></span>
+                                </header>
+                                <ul class="list-unstyled mb-0">
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Tarte citron meringuée.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">9€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-bottom">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Mi-cuit chocolat, glace vanille.</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">10€</p>
+                                    </li>
+                                    <li data-hermes-carte-item class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-start gap-2 py-3 border-0 pb-0">
+                                        <div class="flex-grow-1 min-w-0">
+                                            <p class="fw-semibold mb-0">Fromages affinés (sélection du moment).</p>
+                                        </div>
+                                        <p class="hermes-carte-price fw-bold fs-5 mb-0 text-sm-end flex-shrink-0">11€</p>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </li>
+
+                    <li class="splide__slide" data-hermes-carte-page="drinks">
+                        <div class="hermes-carte-drinks-page">
+                            <header data-hermes-carte-drinks-banner class="position-relative overflow-hidden">
+                                <img
+                                    class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+                                    src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&amp;fit=crop&amp;w=1600&amp;h=520&amp;q=80"
+                                    alt="Bar à vins et verres"
+                                    loading="lazy"
+                                    width="1600"
+                                    height="520"
+                                >
+                                <div class="hermes-carte-drinks-overlay position-absolute top-0 start-0 w-100 h-100" aria-hidden="true"></div>
+                                <div data-hermes-carte-drinks-banner-content class="position-relative d-flex flex-column justify-content-center align-items-center text-center px-3 py-5 z-1 h-100">
+                                    <p data-hermes-carte-drinks-banner-kicker class="text-uppercase small fw-semibold mb-2">Bar &amp; cave</p>
+                                    <h2 id="resto-boissons" class="h-sofia mb-0">Boissons</h2>
+                                    <p class="fst-italic mb-0 mt-2">Vins, cocktails &amp; spiritueux</p>
+                                </div>
+                            </header>
+                            <div class="p-4 p-lg-5">
+                                <div class="row g-3">
+                                    <div class="col-sm-6" data-hermes-carte-drink-card>
+                                        <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                            <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-wine-glass"></i></div>
+                                            <h3 class="h6 fw-bold text-uppercase mb-3">Vins au verre</h3>
+                                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                                <li class="d-flex justify-content-between gap-2"><span>Blanc Gaillac</span><span class="hermes-carte-price fw-bold text-nowrap">6€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Rouge Fronton</span><span class="hermes-carte-price fw-bold text-nowrap">6,50€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Rosé de Provence</span><span class="hermes-carte-price fw-bold text-nowrap">6€</span></li>
+                                            </ul>
+                                        </article>
+                                    </div>
+                                    <div class="col-sm-6" data-hermes-carte-drink-card>
+                                        <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                            <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-martini-glass"></i></div>
+                                            <h3 class="h6 fw-bold text-uppercase mb-3">Cocktails</h3>
+                                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                                <li class="d-flex justify-content-between gap-2"><span>Spritz maison</span><span class="hermes-carte-price fw-bold text-nowrap">9€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Old Fashioned</span><span class="hermes-carte-price fw-bold text-nowrap">11€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Margarita</span><span class="hermes-carte-price fw-bold text-nowrap">10€</span></li>
+                                            </ul>
+                                        </article>
+                                    </div>
+                                    <div class="col-sm-6" data-hermes-carte-drink-card>
+                                        <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                            <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                                            <h3 class="h6 fw-bold text-uppercase mb-3">Pression &amp; bouteilles</h3>
+                                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                                <li class="d-flex justify-content-between gap-2"><span>Blonde artisanale 25 cl</span><span class="hermes-carte-price fw-bold text-nowrap">5€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>IPA locale 33 cl</span><span class="hermes-carte-price fw-bold text-nowrap">6€</span></li>
+                                            </ul>
+                                        </article>
+                                    </div>
+                                    <div class="col-sm-6" data-hermes-carte-drink-card>
+                                        <article class="hermes-carte-drink-card h-100 p-3 p-lg-4">
+                                            <div class="hermes-carte-drink-icon rounded-circle d-flex align-items-center justify-content-center mb-3" aria-hidden="true"><i class="fa-solid fa-mug-hot"></i></div>
+                                            <h3 class="h6 fw-bold text-uppercase mb-3">Sans alcool</h3>
+                                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small">
+                                                <li class="d-flex justify-content-between gap-2"><span>Eau minérale / gazeuse</span><span class="hermes-carte-price fw-bold text-nowrap">4€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Jus pressé du jour</span><span class="hermes-carte-price fw-bold text-nowrap">5€</span></li>
+                                                <li class="d-flex justify-content-between gap-2"><span>Café ou infusion</span><span class="hermes-carte-price fw-bold text-nowrap">3,50€</span></li>
+                                            </ul>
+                                        </article>
+                                    </div>
+                                </div>
+                                <p data-hermes-carte-drinks-note class="text-center small mt-4 mb-0">Notre sommelier vous conseille pour l’accord mets &amp; vins</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

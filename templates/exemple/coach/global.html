@@ -1,0 +1,499 @@
+<!-- Coach — page complète (tous les blocs du thème, ordre atelier).
+     Coller en section libre CKEditor ou découper bloc par bloc.
+     Couleurs : config Hermes (sections / contenu). Carte restaurant : carte.css. -->
+
+<!-- ─── 01_hero.html ─── -->
+<!-- Coach — Hero centré + image pleine largeur (gsap-letter-reveal). Couleurs : config Hermes. -->
+<section class="py-5 py-lg-6">
+    <div class="container">
+        <div class="text-center col-lg-9 mx-auto mb-4 mb-lg-5">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.2em;">Coaching · personnel &amp; professionnel</p>
+            <div class="gsap-letter-reveal mb-3">
+                <p
+                    class="gsap-letter-reveal__line display-4 fw-bold mb-0"
+                    data-gsap-letter-reveal-text-value="Révélez votre potentiel"
+                    aria-label="Révélez votre potentiel"
+                >Révélez votre potentiel</p>
+            </div>
+            <p class="lead mb-4">Un espace de parole confidentiel pour clarifier vos objectifs, lever les freins et avancer avec confiance.</p>
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <a class="btn btn-lg border fw-semibold px-4" href="/fr/contact">Premier échange offert</a>
+                <a class="btn btn-lg border px-4" href="/fr/contact">Découvrir l’approche</a>
+            </div>
+        </div>
+        <div class="col-xl-10 mx-auto">
+            <div class="border rounded-4 shadow-sm p-2 p-md-3">
+                <img
+                    class="img-fluid rounded-3 w-100"
+                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&amp;fit=crop&amp;w=1200&amp;h=640&amp;q=80"
+                    alt="Coach professionnelle en entretien bienveillant"
+                    width="1200"
+                    height="640"
+                    loading="eager"
+                >
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 01b_hero_split.html ─── -->
+<!-- Coach — Split inversé : visuel à gauche, texte à droite (Splide formats). Couleurs : config Hermes. -->
+<section class="py-0 overflow-hidden">
+    <div class="container-fluid px-0">
+        <div class="row g-0 align-items-stretch">
+            <div class="col-lg-6 order-lg-1 d-flex align-items-center p-4 p-lg-5">
+                <div class="w-100 mx-auto" style="max-width: 30rem;">
+                    <div
+                        class="splide splide-carousel splide-carousel--cards w-100"
+                        aria-label="Formats de coaching"
+                        data-splide-carousel-effect-value="slide"
+                        data-splide-carousel-per-page-value="1"
+                        data-splide-carousel-autoplay-value="true"
+                        data-splide-carousel-interval-value="5500"
+                        data-splide-carousel-speed-value="600"
+                        data-splide-carousel-pause-on-hover-value="true"
+                    >
+                        <div class="splide__track">
+                            <ul class="splide__list list-unstyled mb-0">
+                                <li class="splide__slide h-auto">
+                                    <article class="card border shadow-sm h-100 overflow-hidden">
+                                        <img
+                                            class="card-img-top"
+                                            src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&amp;fit=crop&amp;w=900&amp;h=520&amp;q=80"
+                                            alt="Séance de coaching individuel en face à face"
+                                            width="900"
+                                            height="520"
+                                            loading="eager"
+                                        >
+                                        <div class="card-body text-center">
+                                            <h2 class="h6 fw-bold mb-1">Individuel</h2>
+                                            <p class="small mb-0">Séances en présentiel ou visio, rythme personnalisé.</p>
+                                        </div>
+                                    </article>
+                                </li>
+                                <li class="splide__slide h-auto">
+                                    <article class="card border shadow-sm h-100 overflow-hidden">
+                                        <img
+                                            class="card-img-top"
+                                            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&amp;fit=crop&amp;w=900&amp;h=520&amp;q=80"
+                                            alt="Atelier de coaching d’équipe autour d’une table"
+                                            width="900"
+                                            height="520"
+                                            loading="lazy"
+                                        >
+                                        <div class="card-body text-center">
+                                            <h2 class="h6 fw-bold mb-1">Équipe</h2>
+                                            <p class="small mb-0">Cohésion, communication et intelligence collective.</p>
+                                        </div>
+                                    </article>
+                                </li>
+                                <li class="splide__slide h-auto">
+                                    <article class="card border shadow-sm h-100 overflow-hidden">
+                                        <img
+                                            class="card-img-top"
+                                            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&amp;fit=crop&amp;w=900&amp;h=520&amp;q=80"
+                                            alt="Accompagnement de dirigeant en contexte professionnel"
+                                            width="900"
+                                            height="520"
+                                            loading="lazy"
+                                        >
+                                        <div class="card-body text-center">
+                                            <h2 class="h6 fw-bold mb-1">Dirigeants</h2>
+                                            <p class="small mb-0">Leadership, prise de décision et posture managériale.</p>
+                                        </div>
+                                    </article>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 order-lg-2 d-flex align-items-center">
+                <div class="p-4 p-lg-5 w-100 text-center text-lg-start">
+                    <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.18em;">Coach certifié</p>
+                    <div class="gsap-letter-reveal mb-3">
+                        <p
+                            class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                            data-gsap-letter-reveal-text-value="Clarifier · Agir · Grandir"
+                            aria-label="Clarifier, Agir, Grandir"
+                        >Clarifier · Agir · Grandir</p>
+                    </div>
+                    <p class="lead mb-4">Chaque format part de vos enjeux réels — pas d’un programme figé.</p>
+                    <a class="btn btn-lg border fw-semibold" href="/fr/contact">Choisir mon accompagnement</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 02_services.html ─── -->
+<!-- Coach — Liste d’accompagnements (lignes, pas grille de cartes). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-10">
+        <div class="row g-4 g-lg-5 align-items-start">
+            <div class="col-lg-4">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Accompagnements</p>
+                <h2 class="h1 fw-bold mb-3">Sur quoi nous travaillons</h2>
+                <p class="mb-0">Des thématiques fréquentes — combinables selon votre parcours et votre rythme.</p>
+            </div>
+            <div class="col-lg-8">
+                <ul class="list-group list-group-flush border rounded-3 shadow-sm">
+                    <li class="list-group-item d-flex gap-3 align-items-start p-4">
+                        <span class="fs-4 flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-bullseye"></i></span>
+                        <div>
+                            <h3 class="h6 fw-bold mb-1">Objectifs &amp; vision</h3>
+                            <p class="small mb-0">Clarifier ce qui compte, prioriser et construire un plan réaliste.</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex gap-3 align-items-start p-4">
+                        <span class="fs-4 flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-seedling"></i></span>
+                        <div>
+                            <h3 class="h6 fw-bold mb-1">Confiance &amp; affirmation</h3>
+                            <p class="small mb-0">Dépasser le syndrome de l’imposteur, prendre votre place.</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex gap-3 align-items-start p-4">
+                        <span class="fs-4 flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-briefcase"></i></span>
+                        <div>
+                            <h3 class="h6 fw-bold mb-1">Transition professionnelle</h3>
+                            <p class="small mb-0">Reconversion, évolution de poste ou lancement d’activité.</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex gap-3 align-items-start p-4 border-bottom-0">
+                        <span class="fs-4 flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-scale-balanced"></i></span>
+                        <div>
+                            <h3 class="h6 fw-bold mb-1">Équilibre de vie</h3>
+                            <p class="small mb-0">Prioriser, poser des limites, retrouver de l’énergie durable.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 03_realisations_splide.html ─── -->
+<!-- Coach — Thématiques en cartes Splide (fade). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-4 col-lg-7 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">En pratique</p>
+            <h2 class="h1 fw-bold mb-0">Des situations que j’accompagne</h2>
+        </div>
+        <div
+            class="splide splide-carousel splide-carousel--cards col-lg-10 mx-auto"
+            aria-label="Thématiques de coaching"
+            data-splide-carousel-effect-value="fade"
+            data-splide-carousel-per-page-value="1"
+            data-splide-carousel-autoplay-value="true"
+            data-splide-carousel-interval-value="5000"
+            data-splide-carousel-speed-value="700"
+        >
+            <div class="splide__track">
+                <ul class="splide__list list-unstyled mb-0">
+                    <li class="splide__slide h-auto">
+                        <article class="card border shadow-sm overflow-hidden">
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-6">
+                                    <img class="img-fluid w-100 h-100 object-fit-cover" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&amp;fit=crop&amp;w=800&amp;h=560&amp;q=80" alt="Manager en réflexion sur son leadership" width="800" height="560" loading="lazy">
+                                </div>
+                                <div class="col-md-6 p-4 p-lg-5">
+                                    <h3 class="h4 fw-bold mb-2">Leadership &amp; management</h3>
+                                    <p class="mb-0">Piloter une équipe, déléguer, trancher — sans s’épuiser.</p>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide h-auto">
+                        <article class="card border shadow-sm overflow-hidden">
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-6 order-md-2">
+                                    <img class="img-fluid w-100 h-100 object-fit-cover" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&amp;fit=crop&amp;w=800&amp;h=560&amp;q=80" alt="Groupe en dynamique collective positive" width="800" height="560" loading="lazy">
+                                </div>
+                                <div class="col-md-6 p-4 p-lg-5 order-md-1">
+                                    <h3 class="h4 fw-bold mb-2">Prise de parole</h3>
+                                    <p class="mb-0">Réunions, pitchs, négociations : structurer son message et gagner en impact.</p>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide h-auto">
+                        <article class="card border shadow-sm overflow-hidden">
+                            <div class="row g-0 align-items-center">
+                                <div class="col-md-6">
+                                    <img class="img-fluid w-100 h-100 object-fit-cover" src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&amp;fit=crop&amp;w=800&amp;h=560&amp;q=80" alt="Échange professionnel en bureau lumineux" width="800" height="560" loading="lazy">
+                                </div>
+                                <div class="col-md-6 p-4 p-lg-5">
+                                    <h3 class="h4 fw-bold mb-2">Création d’activité</h3>
+                                    <p class="mb-0">Passer de l’idée au lancement : positionnement, offre, premiers clients.</p>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 04_engagements.html ─── -->
+<!-- Coach — Citation + portrait (mise en page éditoriale). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center">
+            <div class="col-lg-5 order-lg-2">
+                <figure class="mb-0">
+                    <img
+                        class="img-fluid rounded-3 shadow w-100"
+                        src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&amp;fit=crop&amp;w=900&amp;h=700&amp;q=80"
+                        alt="Coach en écoute active lors d’un entretien"
+                        width="900"
+                        height="700"
+                        loading="lazy"
+                    >
+                    <figcaption class="small mt-2 text-center">Séance en présentiel ou visio — cadre confidentiel.</figcaption>
+                </figure>
+            </div>
+            <div class="col-lg-7 order-lg-1">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Mon approche</p>
+                <blockquote class="border-start border-4 ps-4 mb-4">
+                    <p class="fs-4 fw-semibold mb-0">«&nbsp;Le coaching ne vous donne pas les réponses : il vous aide à les trouver, puis à les mettre en œuvre.&nbsp;»</p>
+                </blockquote>
+                <ul class="list-unstyled mb-4">
+                    <li class="d-flex gap-2 mb-2"><i class="fa-solid fa-check flex-shrink-0 mt-1" aria-hidden="true"></i><span>Écoute active, sans jugement ni conseil imposé</span></li>
+                    <li class="d-flex gap-2 mb-2"><i class="fa-solid fa-check flex-shrink-0 mt-1" aria-hidden="true"></i><span>Outils concrets et exercices entre les séances</span></li>
+                    <li class="d-flex gap-2 mb-0"><i class="fa-solid fa-check flex-shrink-0 mt-1" aria-hidden="true"></i><span>Charte déontologique et secret professionnel</span></li>
+                </ul>
+                <a class="btn btn-lg border" href="/fr/contact">En savoir plus</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 05_chiffres_cles.html ─── -->
+<!-- Coach — Chiffres dans un bandeau unique (gsap-count-up). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-10">
+        <div class="border rounded-4 shadow-sm p-4 p-lg-5">
+            <p class="text-uppercase small fw-semibold text-center mb-2" style="letter-spacing: 0.14em;">En quelques chiffres</p>
+            <h2 class="h3 fw-bold text-center mb-4 mb-lg-5">Une pratique éprouvée</h2>
+            <div class="row g-4 text-center">
+                <div class="col-6 col-lg-3">
+                    <p class="display-6 fw-bold mb-1"><span data-gsap-count-up="10" data-gsap-count-up-duration="1.4">10</span></p>
+                    <p class="small text-uppercase mb-0">ans d’expérience</p>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <p class="display-6 fw-bold mb-1"><span data-gsap-count-up="350" data-gsap-count-up-duration="1.8">350</span>+</p>
+                    <p class="small text-uppercase mb-0">personnes accompagnées</p>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <p class="display-6 fw-bold mb-1"><span data-gsap-count-up="95" data-gsap-count-up-duration="1.5">95</span>&nbsp;%</p>
+                    <p class="small text-uppercase mb-0">recommandent</p>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <p class="display-6 fw-bold mb-1"><span data-gsap-count-up="48" data-gsap-count-up-duration="1.2">48</span>h</p>
+                    <p class="small text-uppercase mb-0">pour un premier créneau</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 06_etapes.html ─── -->
+<!-- Coach — Parcours vertical (timeline). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-8">
+        <div class="text-center mb-5">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Votre parcours</p>
+            <h2 class="h1 fw-bold mb-0">Quatre étapes vers l’autonomie</h2>
+        </div>
+        <ol class="list-unstyled mb-0">
+            <li class="border-start border-3 ps-4 pb-5 ms-2">
+                <p class="badge border rounded-pill mb-2">1</p>
+                <h3 class="h5 fw-bold mb-2">Échange découverte</h3>
+                <p class="mb-0 small">30 minutes offertes pour faire connaissance et vérifier l’alignement.</p>
+            </li>
+            <li class="border-start border-3 ps-4 pb-5 ms-2">
+                <p class="badge border rounded-pill mb-2">2</p>
+                <h3 class="h5 fw-bold mb-2">Bilan &amp; objectifs</h3>
+                <p class="mb-0 small">Première séance approfondie : situation, attentes, indicateurs de réussite.</p>
+            </li>
+            <li class="border-start border-3 ps-4 pb-5 ms-2">
+                <p class="badge border rounded-pill mb-2">3</p>
+                <h3 class="h5 fw-bold mb-2">Séances de coaching</h3>
+                <p class="mb-0 small">Rythme hebdomadaire ou bimensuel, outils et mises en pratique entre les séances.</p>
+            </li>
+            <li class="border-start border-3 ps-4 ms-2">
+                <p class="badge border rounded-pill mb-2">4</p>
+                <h3 class="h5 fw-bold mb-2">Autonomie</h3>
+                <p class="mb-0 small">Bilan final, consolidation des acquis, séances de suivi si besoin.</p>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<!-- ─── 07_temoignages_splide.html ─── -->
+<!-- Coach — Témoignage pleine largeur (Splide fade). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-8">
+        <p class="text-uppercase small fw-semibold text-center mb-2" style="letter-spacing: 0.14em;">Témoignages</p>
+        <div
+            class="splide splide-carousel"
+            aria-label="Témoignages de coaching"
+            data-splide-carousel-effect-value="fade"
+            data-splide-carousel-per-page-value="1"
+            data-splide-carousel-autoplay-value="true"
+            data-splide-carousel-interval-value="7000"
+            data-splide-carousel-speed-value="800"
+        >
+            <div class="splide__track">
+                <ul class="splide__list list-unstyled mb-0">
+                    <li class="splide__slide">
+                        <blockquote class="text-center px-lg-5">
+                            <p class="fs-4 fw-semibold mb-4">«&nbsp;J’ai retrouvé confiance pour piloter mon équipe. Les séances m’ont donné des repères concrets.&nbsp;»</p>
+                            <footer class="small"><strong>Sophie M.</strong> — Manager, secteur santé</footer>
+                        </blockquote>
+                    </li>
+                    <li class="splide__slide">
+                        <blockquote class="text-center px-lg-5">
+                            <p class="fs-4 fw-semibold mb-4">«&nbsp;La reconversion paraissait impossible. En trois mois, j’avais un plan et les premières démarches lancées.&nbsp;»</p>
+                            <footer class="small"><strong>Julien P.</strong> — Entrepreneur</footer>
+                        </blockquote>
+                    </li>
+                    <li class="splide__slide">
+                        <blockquote class="text-center px-lg-5">
+                            <p class="fs-4 fw-semibold mb-4">«&nbsp;Exigeant et bienveillant. J’ai appris à dire non et à mieux m’organiser.&nbsp;»</p>
+                            <footer class="small"><strong>Camille R.</strong> — Consultante indépendante</footer>
+                        </blockquote>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 08_zone_intervention.html ─── -->
+<!-- Coach — Modalités en 3 colonnes illustrées. Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5 col-lg-8 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Modalités</p>
+            <h2 class="h1 fw-bold mb-0">Comment nous travaillons</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <article class="text-center h-100">
+                    <div class="ratio ratio-4x3 rounded-3 overflow-hidden border shadow-sm mb-3">
+                        <img class="object-fit-cover" src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&amp;fit=crop&amp;w=600&amp;h=450&amp;q=80" alt="Séance en présentiel" width="600" height="450" loading="lazy">
+                    </div>
+                    <h3 class="h6 fw-bold mb-1">Présentiel</h3>
+                    <p class="small mb-0">Cabinet ou lieu de votre choix — séances d’1&nbsp;h.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="text-center h-100">
+                    <div class="ratio ratio-4x3 rounded-3 overflow-hidden border shadow-sm mb-3">
+                        <img class="object-fit-cover" src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&amp;fit=crop&amp;w=600&amp;h=450&amp;q=80" alt="Séance en visioconférence" width="600" height="450" loading="lazy">
+                    </div>
+                    <h3 class="h6 fw-bold mb-1">Visioconférence</h3>
+                    <p class="small mb-0">Même qualité d’écoute, où que vous soyez.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="text-center h-100">
+                    <div class="ratio ratio-4x3 rounded-3 overflow-hidden border shadow-sm mb-3">
+                        <img class="object-fit-cover" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&amp;fit=crop&amp;w=600&amp;h=450&amp;q=80" alt="Atelier collectif" width="600" height="450" loading="lazy">
+                    </div>
+                    <h3 class="h6 fw-bold mb-1">Parcours 3–6 mois</h3>
+                    <p class="small mb-0">Individuel ou équipe — rythme adapté.</p>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 09_bandeau_urgence.html ─── -->
+<!-- Coach — Bandeau centré compact. Couleurs : config Hermes. -->
+<section class="py-4">
+    <div class="container col-lg-8">
+        <div class="border rounded-4 shadow-sm p-4 p-lg-5 text-center">
+            <p class="fs-2 mb-2" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></p>
+            <p class="fw-bold fs-5 mb-2">Premier échange offert — 30 minutes</p>
+            <p class="mb-4">Sans engagement · pour faire connaissance et répondre à vos questions</p>
+            <a class="btn btn-lg border fw-semibold px-4" href="/fr/contact">Réserver un créneau</a>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 10_faq.html ─── -->
+<!-- Coach — FAQ deux colonnes. Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-10">
+        <div class="text-center mb-5">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Questions fréquentes</p>
+            <h2 class="h1 fw-bold mb-0">Vous vous demandez…</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="accordion" id="coach-faq-left">
+                    <div class="accordion-item border shadow-sm mb-3">
+                        <h3 class="accordion-header" id="coach-faq-l1">
+                            <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#coach-faq-l1c" aria-expanded="true">Coaching ou thérapie ?</button>
+                        </h3>
+                        <div id="coach-faq-l1c" class="accordion-collapse collapse show" data-bs-parent="#coach-faq-left">
+                            <div class="accordion-body small">Le coaching part d’objectifs présents ou futurs. Il ne remplace pas un suivi médical ou psychologique si nécessaire.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border shadow-sm">
+                        <h3 class="accordion-header" id="coach-faq-l2">
+                            <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#coach-faq-l2c">Combien de séances ?</button>
+                        </h3>
+                        <div id="coach-faq-l2c" class="accordion-collapse collapse" data-bs-parent="#coach-faq-left">
+                            <div class="accordion-body small">En général 6 à 12 séances sur 3 à 6 mois. Nous définissons la durée au bilan initial.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="accordion" id="coach-faq-right">
+                    <div class="accordion-item border shadow-sm mb-3">
+                        <h3 class="accordion-header" id="coach-faq-r1">
+                            <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#coach-faq-r1c">Remboursement ?</button>
+                        </h3>
+                        <div id="coach-faq-r1c" class="accordion-collapse collapse" data-bs-parent="#coach-faq-right">
+                            <div class="accordion-body small">Le coaching n’est en principe pas pris en charge par la Sécurité sociale. Certaines mutuelles ou entreprises proposent un budget bien-être.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border shadow-sm">
+                        <h3 class="accordion-header" id="coach-faq-r2">
+                            <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#coach-faq-r2c">Annulation ?</button>
+                        </h3>
+                        <div id="coach-faq-r2c" class="accordion-collapse collapse" data-bs-parent="#coach-faq-right">
+                            <div class="accordion-body small">Report possible avec 48&nbsp;h de préavis. Au-delà, la séance peut être due selon les conditions convenues.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 11_cta_devis.html ─── -->
+<!-- Coach — CTA (gsap-letter-reveal). Couleurs : config Hermes. -->
+<section class="py-5 py-lg-6">
+    <div class="container text-center col-lg-8">
+        <div class="gsap-letter-reveal mb-3">
+            <p
+                class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                data-gsap-letter-reveal-text-value="Prêt à passer à l’action ?"
+                aria-label="Prêt à passer à l’action ?"
+            >Prêt à passer à l’action ?</p>
+        </div>
+        <p class="lead mb-4">Réservez un premier échange gratuit : nous verrons ensemble si mon accompagnement correspond à votre besoin.</p>
+        <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <a class="btn btn-lg border fw-semibold px-4" href="/fr/contact">Réserver mon échange</a>
+            <a class="btn btn-lg border px-4" href="/fr/contact">Poser une question</a>
+        </div>
+    </div>
+</section>
+

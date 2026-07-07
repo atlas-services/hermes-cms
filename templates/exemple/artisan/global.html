@@ -1,0 +1,571 @@
+<!-- Artisan — page complète (tous les blocs du thème, ordre atelier).
+     Coller en section libre CKEditor ou découper bloc par bloc.
+     Couleurs : config Hermes (sections / contenu). Carte restaurant : carte.css. -->
+
+<!-- ─── 01_hero.html ─── -->
+<!-- Artisan — Hero d’accueil (gsap-letter-reveal). Couleurs : config section / contenu Hermes. -->
+<section class="py-5 py-lg-6">
+    <div class="container">
+        <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.18em;">Artisan · dépannage · rénovation</p>
+                <div class="gsap-letter-reveal mb-3">
+                    <p
+                        class="gsap-letter-reveal__line display-4 fw-bold mb-0"
+                        data-gsap-letter-reveal-text-value="Votre artisan de confiance"
+                        aria-label="Votre artisan de confiance"
+                    >Votre artisan de confiance</p>
+                </div>
+                <p class="lead mb-4">Intervention rapide, travaux soignés et devis clair — pour particuliers et professionnels.</p>
+                <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
+                    <a class="btn btn-lg border fw-semibold px-4" href="tel:+33561020304">
+                        <i class="fa-solid fa-phone me-2" aria-hidden="true"></i>05 61 02 03 04
+                    </a>
+                    <a class="btn btn-lg border px-4" href="/fr/contact">Demander un devis</a>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <img
+                    class="img-fluid rounded-3 shadow-lg w-100"
+                    src="https://picsum.photos/seed/artisan-hero/900/700"
+                    alt="Artisan au travail sur un chantier"
+                    width="900"
+                    height="700"
+                    loading="eager"
+                >
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 01b_hero_split.html ─── -->
+<!-- Artisan — Hero alternatif split (gsap-letter-reveal + Splide chantiers). Couleurs : config Hermes. -->
+<section class="py-0 overflow-hidden">
+    <div class="container-fluid px-0">
+        <div class="row g-0 align-items-stretch">
+            <div class="col-lg-6 order-lg-1 d-flex align-items-center">
+                <div class="p-4 p-lg-5 w-100 text-center text-lg-start">
+                    <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.18em;">Artisan du bâtiment</p>
+                    <div class="gsap-letter-reveal mb-3">
+                        <p
+                            class="gsap-letter-reveal__line display-5 fw-bold mb-0"
+                            data-gsap-letter-reveal-text-value="Travaux &amp; rénovation"
+                            aria-label="Travaux et rénovation"
+                        >Travaux &amp; rénovation</p>
+                    </div>
+                    <p class="lead mb-4">Un interlocuteur unique pour vos projets — du petit dépannage au chantier complet.</p>
+                    <a class="btn btn-lg border fw-semibold" href="/fr/contact">Obtenir un devis</a>
+                </div>
+            </div>
+            <div class="col-lg-6 order-lg-2 d-flex align-items-center p-4 p-lg-5">
+                <div class="w-100 mx-auto overflow-hidden" style="max-width: 28rem;">
+                    <div
+                        class="splide splide-carousel w-100 border rounded-3 shadow-sm overflow-hidden"
+                        aria-label="Exemples de chantiers"
+                        data-splide-carousel-effect-value="fade"
+                        data-splide-carousel-per-page-value="1"
+                        data-splide-carousel-autoplay-value="true"
+                        data-splide-carousel-interval-value="5000"
+                        data-splide-carousel-speed-value="700"
+                        data-splide-carousel-pause-on-hover-value="true"
+                    >
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                <li class="splide__slide">
+                                    <article class="mb-0">
+                                        <img
+                                            class="img-fluid w-100 d-block"
+                                            src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&amp;fit=crop&amp;w=900&amp;h=560&amp;q=80"
+                                            alt="Plombier en intervention — petit dépannage sous évier"
+                                            width="900"
+                                            height="560"
+                                            loading="eager"
+                                        >
+                                        <div class="p-3 border border-top-0 text-center">
+                                            <h2 class="h6 fw-bold mb-1">Petit dépannage</h2>
+                                            <p class="small mb-0">Fuites, robinetterie, débouchage, remplacement de joints…</p>
+                                        </div>
+                                    </article>
+                                </li>
+                                <li class="splide__slide">
+                                    <article class="mb-0">
+                                        <img
+                                            class="img-fluid w-100 d-block"
+                                            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&amp;fit=crop&amp;w=900&amp;h=560&amp;q=80"
+                                            alt="Rénovation de salle de bain — carrelage et finitions en cours"
+                                            width="900"
+                                            height="560"
+                                            loading="eager"
+                                        >
+                                        <div class="p-3 border border-top-0 text-center">
+                                            <h2 class="h6 fw-bold mb-1">Chantier sur une pièce</h2>
+                                            <p class="small mb-0">Salle de bain, cuisine, sols et finitions dans un espace dédié.</p>
+                                        </div>
+                                    </article>
+                                </li>
+                                <li class="splide__slide">
+                                    <article class="mb-0">
+                                        <img
+                                            class="img-fluid w-100 d-block"
+                                            src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&amp;fit=crop&amp;w=900&amp;h=560&amp;q=80"
+                                            alt="Chantier de gros œuvre — structure et maçonnerie"
+                                            width="900"
+                                            height="560"
+                                            loading="eager"
+                                        >
+                                        <div class="p-3 border border-top-0 text-center">
+                                            <h2 class="h6 fw-bold mb-1">Gros œuvre</h2>
+                                            <p class="small mb-0">Ouverture de murs, extension, charpente, reprise de structure.</p>
+                                        </div>
+                                    </article>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 02_services.html ─── -->
+<!-- Artisan — Grille de services (Bootstrap pur). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5 col-lg-8 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Nos prestations</p>
+            <h2 class="h1 fw-bold mb-3">Un savoir-faire complet</h2>
+            <p class="mb-0">Du dépannage urgent à la rénovation sur mesure, nous intervenons avec du matériel professionnel et des garanties décennale et responsabilité civile.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <article class="card h-100 border shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <p class="fs-2 mb-3" aria-hidden="true"><i class="fa-solid fa-screwdriver-wrench"></i></p>
+                        <h3 class="h6 fw-bold text-uppercase mb-2">Dépannage</h3>
+                        <p class="card-text small mb-0">Intervention rapide, diagnostic précis, réparation durable.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <article class="card h-100 border shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <p class="fs-2 mb-3" aria-hidden="true"><i class="fa-solid fa-house-chimney"></i></p>
+                        <h3 class="h6 fw-bold text-uppercase mb-2">Rénovation</h3>
+                        <p class="card-text small mb-0">Mise aux normes, finitions soignées, respect de votre budget.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <article class="card h-100 border shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <p class="fs-2 mb-3" aria-hidden="true"><i class="fa-solid fa-ruler-combined"></i></p>
+                        <h3 class="h6 fw-bold text-uppercase mb-2">Sur mesure</h3>
+                        <p class="card-text small mb-0">Agencement, création et pose adaptés à vos contraintes.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <article class="card h-100 border shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <p class="fs-2 mb-3" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></p>
+                        <h3 class="h6 fw-bold text-uppercase mb-2">Entretien</h3>
+                        <p class="card-text small mb-0">Contrats annuels, prévention des pannes, suivi personnalisé.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 03_realisations_splide.html ─── -->
+<!-- Artisan — Galerie réalisations (Splide focus). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-4 col-lg-8 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Portfolio</p>
+            <h2 class="h1 fw-bold mb-3">Nos dernières réalisations</h2>
+            <p class="mb-0">Quelques chantiers récents — photos remplaçables dans l’admin Hermes.</p>
+        </div>
+        <div
+            class="splide splide-carousel splide-carousel--ratio rounded-3 shadow-sm overflow-hidden"
+            aria-label="Galerie des réalisations"
+            data-splide-carousel-effect-value="focus"
+            data-splide-carousel-per-page-value="3"
+            data-splide-carousel-per-page-mobile-value="1"
+            data-splide-carousel-breakpoint-value="992"
+            data-splide-carousel-gap-value="1rem"
+            data-splide-carousel-gap-mobile-value="0"
+            data-splide-carousel-autoplay-value="true"
+            data-splide-carousel-interval-value="4500"
+        >
+            <div class="splide__track">
+                <ul class="splide__list list-unstyled mb-0">
+                    <li class="splide__slide">
+                        <img class="img-fluid w-100" src="https://picsum.photos/seed/artisan-real-1/900/600" alt="Rénovation cuisine" width="900" height="600" loading="lazy">
+                    </li>
+                    <li class="splide__slide">
+                        <img class="img-fluid w-100" src="https://picsum.photos/seed/artisan-real-2/900/600" alt="Salle de bain moderne" width="900" height="600" loading="lazy">
+                    </li>
+                    <li class="splide__slide">
+                        <img class="img-fluid w-100" src="https://picsum.photos/seed/artisan-real-3/900/600" alt="Agencement sur mesure" width="900" height="600" loading="lazy">
+                    </li>
+                    <li class="splide__slide">
+                        <img class="img-fluid w-100" src="https://picsum.photos/seed/artisan-real-4/900/600" alt="Terrasse bois" width="900" height="600" loading="lazy">
+                    </li>
+                    <li class="splide__slide">
+                        <img class="img-fluid w-100" src="https://picsum.photos/seed/artisan-real-5/900/600" alt="Rénovation façade" width="900" height="600" loading="lazy">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 04_engagements.html ─── -->
+<!-- Artisan — Pourquoi nous choisir (Bootstrap pur). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-6">
+                <img
+                    class="img-fluid rounded-3 shadow w-100"
+                    src="https://picsum.photos/seed/artisan-engagement/900/650"
+                    alt="Artisan en discussion avec un client"
+                    width="900"
+                    height="650"
+                    loading="lazy"
+                >
+            </div>
+            <div class="col-lg-6">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Nos engagements</p>
+                <h2 class="h1 fw-bold mb-4">Un artisan local, transparent et réactif</h2>
+                <ul class="list-unstyled mb-4">
+                    <li class="d-flex gap-3 mb-3">
+                        <span class="fs-5 flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></span>
+                        <span><strong>Devis gratuit</strong> et détaillé avant toute intervention.</span>
+                    </li>
+                    <li class="d-flex gap-3 mb-3">
+                        <span class="fs-5 flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></span>
+                        <span><strong>Respect des délais</strong> annoncés et chantier laissé propre.</span>
+                    </li>
+                    <li class="d-flex gap-3 mb-3">
+                        <span class="fs-5 flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></span>
+                        <span><strong>Artisan qualifié</strong> — assurance décennale et RC Pro.</span>
+                    </li>
+                    <li class="d-flex gap-3 mb-0">
+                        <span class="fs-5 flex-shrink-0" aria-hidden="true"><i class="fa-solid fa-circle-check"></i></span>
+                        <span><strong>Matériaux de qualité</strong> et conseils personnalisés.</span>
+                    </li>
+                </ul>
+                <a class="btn btn-lg border" href="/fr/contact">Parler de mon projet</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 05_chiffres_cles.html ─── -->
+<!-- Artisan — Chiffres clés (data-gsap-count-up). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5 col-lg-8 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">En quelques chiffres</p>
+            <h2 class="h1 fw-bold mb-0">La confiance de nos clients</h2>
+        </div>
+        <div class="row g-4 text-center">
+            <div class="col-6 col-lg-3">
+                <p class="display-5 fw-bold mb-1">
+                    <span data-gsap-count-up="15" data-gsap-count-up-duration="1.4">15</span>
+                </p>
+                <p class="small text-uppercase mb-0">ans d’expérience</p>
+            </div>
+            <div class="col-6 col-lg-3">
+                <p class="display-5 fw-bold mb-1">
+                    <span data-gsap-count-up="1200" data-gsap-count-up-duration="1.8">1200</span>+
+                </p>
+                <p class="small text-uppercase mb-0">chantiers réalisés</p>
+            </div>
+            <div class="col-6 col-lg-3">
+                <p class="display-5 fw-bold mb-1">
+                    <span data-gsap-count-up="98" data-gsap-count-up-duration="1.5">98</span>&nbsp;%
+                </p>
+                <p class="small text-uppercase mb-0">clients satisfaits</p>
+            </div>
+            <div class="col-6 col-lg-3">
+                <p class="display-5 fw-bold mb-1">
+                    <span data-gsap-count-up="24" data-gsap-count-up-duration="1.2">24</span>h
+                </p>
+                <p class="small text-uppercase mb-0">délai de réponse</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 06_etapes.html ─── -->
+<!-- Artisan — Processus en 4 étapes (Bootstrap pur). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5 col-lg-8 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Comment ça se passe</p>
+            <h2 class="h1 fw-bold mb-3">Un parcours simple et rassurant</h2>
+            <p class="mb-0">De la prise de contact à la réception du chantier, vous savez toujours où vous en êtes.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <article class="card h-100 border shadow-sm">
+                    <div class="card-body p-4">
+                        <p class="badge border rounded-pill mb-3">1</p>
+                        <h3 class="h5 fw-bold mb-2">Contact</h3>
+                        <p class="card-text small mb-0">Appelez-nous ou décrivez votre besoin via le formulaire. Réponse sous 24&nbsp;h.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <article class="card h-100 border shadow-sm">
+                    <div class="card-body p-4">
+                        <p class="badge border rounded-pill mb-3">2</p>
+                        <h3 class="h5 fw-bold mb-2">Visite &amp; devis</h3>
+                        <p class="card-text small mb-0">Déplacement gratuit, diagnostic sur place, devis détaillé sans surprise.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <article class="card h-100 border shadow-sm">
+                    <div class="card-body p-4">
+                        <p class="badge border rounded-pill mb-3">3</p>
+                        <h3 class="h5 fw-bold mb-2">Intervention</h3>
+                        <p class="card-text small mb-0">Travaux planifiés, protection des lieux, communication régulière.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <article class="card h-100 border shadow-sm">
+                    <div class="card-body p-4">
+                        <p class="badge border rounded-pill mb-3">4</p>
+                        <h3 class="h5 fw-bold mb-2">Réception</h3>
+                        <p class="card-text small mb-0">Contrôle final avec vous, garanties remises, conseils d’entretien.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 07_temoignages_splide.html ─── -->
+<!-- Artisan — Témoignages (Splide slide). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-4 col-lg-8 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Avis clients</p>
+            <h2 class="h1 fw-bold mb-0">Ils nous ont fait confiance</h2>
+        </div>
+        <div
+            class="splide splide-carousel col-lg-10 mx-auto"
+            aria-label="Témoignages clients"
+            data-splide-carousel-effect-value="slide"
+            data-splide-carousel-per-page-value="2"
+            data-splide-carousel-per-page-mobile-value="1"
+            data-splide-carousel-breakpoint-value="992"
+            data-splide-carousel-gap-value="1.25rem"
+            data-splide-carousel-autoplay-value="true"
+            data-splide-carousel-interval-value="6000"
+        >
+            <div class="splide__track">
+                <ul class="splide__list list-unstyled mb-0">
+                    <li class="splide__slide h-auto">
+                        <article class="card h-100 border shadow-sm">
+                            <div class="card-body p-4">
+                                <p class="mb-3" aria-label="5 étoiles sur 5">
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                </p>
+                                <blockquote class="mb-3">
+                                    <p class="mb-0">«&nbsp;Intervention rapide pour une fuite. Devis respecté, chantier propre. Je recommande sans hésiter.&nbsp;»</p>
+                                </blockquote>
+                                <footer class="small mb-0"><strong>Marie L.</strong> — Toulouse</footer>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide h-auto">
+                        <article class="card h-100 border shadow-sm">
+                            <div class="card-body p-4">
+                                <p class="mb-3" aria-label="5 étoiles sur 5">
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                </p>
+                                <blockquote class="mb-3">
+                                    <p class="mb-0">«&nbsp;Rénovation complète de notre salle de bain. Conseils pertinents, finitions impeccables.&nbsp;»</p>
+                                </blockquote>
+                                <footer class="small mb-0"><strong>Philippe &amp; Anne D.</strong> — Colomiers</footer>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="splide__slide h-auto">
+                        <article class="card h-100 border shadow-sm">
+                            <div class="card-body p-4">
+                                <p class="mb-3" aria-label="5 étoiles sur 5">
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                </p>
+                                <blockquote class="mb-3">
+                                    <p class="mb-0">«&nbsp;Artisan sérieux, disponible et pédagogue. Parfait pour notre agencement sur mesure.&nbsp;»</p>
+                                </blockquote>
+                                <footer class="small mb-0"><strong>Cabinet Martin</strong> — Tournefeuille</footer>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 08_zone_intervention.html ─── -->
+<!-- Artisan — Zone d’intervention (Bootstrap pur). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center">
+            <div class="col-lg-5">
+                <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Secteur</p>
+                <h2 class="h1 fw-bold mb-3">Zone d’intervention</h2>
+                <p class="mb-4">Basés à Toulouse, nous intervenons dans toute l’agglomération et les communes limitrophes. Déplacement gratuit pour l’établissement du devis.</p>
+                <ul class="list-unstyled row row-cols-2 g-2 mb-0">
+                    <li class="col"><span class="badge border w-100 py-2">Toulouse</span></li>
+                    <li class="col"><span class="badge border w-100 py-2">Blagnac</span></li>
+                    <li class="col"><span class="badge border w-100 py-2">Colomiers</span></li>
+                    <li class="col"><span class="badge border w-100 py-2">Tournefeuille</span></li>
+                    <li class="col"><span class="badge border w-100 py-2">Balma</span></li>
+                    <li class="col"><span class="badge border w-100 py-2">Ramonville</span></li>
+                </ul>
+            </div>
+            <div class="col-lg-7">
+                <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm border">
+                    <iframe
+                        title="Carte — zone d’intervention Toulouse"
+                        src="https://maps.google.com/maps?q=Toulouse&amp;output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 09_bandeau_urgence.html ─── -->
+<!-- Artisan — Bandeau urgence / contact rapide (Bootstrap pur). Couleurs : config Hermes. -->
+<section class="py-4">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 text-center text-md-start">
+            <div>
+                <p class="fw-bold mb-1 fs-5">
+                    <i class="fa-solid fa-clock me-2" aria-hidden="true"></i>Urgence ou devis express
+                </p>
+                <p class="mb-0">Disponible du lundi au samedi · réponse rapide garantie</p>
+            </div>
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <a class="btn btn-lg border fw-semibold" href="tel:+33561020304">
+                    <i class="fa-solid fa-phone me-2" aria-hidden="true"></i>05 61 02 03 04
+                </a>
+                <a class="btn btn-lg border" href="/fr/contact">Formulaire</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 10_faq.html ─── -->
+<!-- Artisan — FAQ (Bootstrap accordion). Couleurs : config Hermes. -->
+<section class="py-5">
+    <div class="container col-lg-10">
+        <div class="text-center mb-5 col-lg-8 mx-auto">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: 0.14em;">Questions fréquentes</p>
+            <h2 class="h1 fw-bold mb-0">Vous vous demandez…</h2>
+        </div>
+        <div class="accordion" id="artisan-faq">
+            <div class="accordion-item border shadow-sm mb-3">
+                <h3 class="accordion-header" id="artisan-faq-heading-1">
+                    <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#artisan-faq-collapse-1" aria-expanded="true" aria-controls="artisan-faq-collapse-1">
+                        Le devis est-il gratuit ?
+                    </button>
+                </h3>
+                <div id="artisan-faq-collapse-1" class="accordion-collapse collapse show" aria-labelledby="artisan-faq-heading-1" data-bs-parent="#artisan-faq">
+                    <div class="accordion-body">
+                        Oui, le déplacement et le devis sont gratuits dans notre zone d’intervention. Vous recevez un document détaillé avant tout engagement.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item border shadow-sm mb-3">
+                <h3 class="accordion-header" id="artisan-faq-heading-2">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#artisan-faq-collapse-2" aria-expanded="false" aria-controls="artisan-faq-collapse-2">
+                        Intervenez-vous en urgence ?
+                    </button>
+                </h3>
+                <div id="artisan-faq-collapse-2" class="accordion-collapse collapse" aria-labelledby="artisan-faq-heading-2" data-bs-parent="#artisan-faq">
+                    <div class="accordion-body">
+                        Oui, pour les dépannages urgents nous nous efforçons d’intervenir le jour même ou sous 24&nbsp;h selon disponibilité.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item border shadow-sm mb-3">
+                <h3 class="accordion-header" id="artisan-faq-heading-3">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#artisan-faq-collapse-3" aria-expanded="false" aria-controls="artisan-faq-collapse-3">
+                        Quelles garanties proposez-vous ?
+                    </button>
+                </h3>
+                <div id="artisan-faq-collapse-3" class="accordion-collapse collapse" aria-labelledby="artisan-faq-heading-3" data-bs-parent="#artisan-faq">
+                    <div class="accordion-body">
+                        Nos travaux sont couverts par la garantie décennale le cas échéant, la garantie biennale et la responsabilité civile professionnelle.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item border shadow-sm mb-0">
+                <h3 class="accordion-header" id="artisan-faq-heading-4">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#artisan-faq-collapse-4" aria-expanded="false" aria-controls="artisan-faq-collapse-4">
+                        Acceptez-vous les paiements en plusieurs fois ?
+                    </button>
+                </h3>
+                <div id="artisan-faq-collapse-4" class="accordion-collapse collapse" aria-labelledby="artisan-faq-heading-4" data-bs-parent="#artisan-faq">
+                    <div class="accordion-body">
+                        Pour les chantiers importants, un échéancier peut être convenu à la signature du devis (acompte, situations, solde).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── 11_cta_devis.html ─── -->
+<!-- Artisan — CTA final devis (gsap-text-reveal mots). Couleurs : config Hermes. -->
+<section class="py-5 py-lg-6">
+    <div class="container text-center col-lg-9">
+        <div
+            class="gsap-text-reveal mb-3"
+            data-gsap-text-reveal-text-value="Prêt à lancer votre projet ?"
+            data-gsap-text-reveal-mode-value="words"
+            data-gsap-text-reveal-words-y-value="-40"
+            data-gsap-text-reveal-words-opacity-value="0"
+            data-gsap-text-reveal-words-duration-value="0.65"
+            data-gsap-text-reveal-words-stagger-value="0.08"
+            data-gsap-text-reveal-words-ease-value="power3.out"
+        >
+            <span class="visually-hidden gsap-text-reveal__label">Prêt à lancer votre projet ?</span>
+            <h2 class="gsap-text-reveal__body h1 fw-bold mb-0" aria-label="Prêt à lancer votre projet ?">Prêt à lancer votre projet ?</h2>
+        </div>
+        <p class="lead mb-4">Décrivez votre besoin : nous revenons vers vous avec un créneau de visite et un devis adapté.</p>
+        <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <a class="btn btn-lg border fw-semibold px-4" href="/fr/contact">Demander un devis gratuit</a>
+            <a class="btn btn-lg border px-4" href="tel:+33561020304">Nous appeler</a>
+        </div>
+    </div>
+</section>
+
