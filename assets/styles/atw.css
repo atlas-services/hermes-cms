@@ -11,8 +11,10 @@
 .card.atw-glass,
 .atw-glass {
     --bs-card-bg: transparent;
+    --bs-card-color: inherit;
     --bs-card-border-color: color-mix(in srgb, currentColor 16%, transparent);
 
+    color: inherit;
     background-color: color-mix(in srgb, currentColor 7%, transparent);
     backdrop-filter: blur(16px) saturate(1.15);
     -webkit-backdrop-filter: blur(16px) saturate(1.15);
@@ -38,7 +40,11 @@
 }
 
 /* Liste */
-.atw-list .list-group-item {
+.atw-list .list-group-item,
+.card.atw-glass .list-group-item {
+    --bs-list-group-color: inherit;
+    --bs-list-group-bg: transparent;
+
     background-color: transparent;
     color: inherit;
     border-color: color-mix(in srgb, currentColor 14%, transparent);
