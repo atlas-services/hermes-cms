@@ -134,6 +134,7 @@ formulaire:
 
 menu:
   created: Menu créé avec succès.
+  name_locale_exists: Ce menu existe déjà.
   reference_name_locale_exists: Cette clé de référence existe déjà pour cette langue.
   contact_section_created: Une section formulaire de contact a été ajoutée automatiquement.
   filter_locale: Langue des menus

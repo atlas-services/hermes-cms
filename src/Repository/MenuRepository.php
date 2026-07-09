@@ -67,6 +67,31 @@ class MenuRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findRootByLocaleAndName(string $locale, string $name, ?int $excludeId = null): ?Menu
+    {
+        $normalizedName = mb_strtolower(trim($name));
+
+        if ($normalizedName === '') {
+            return null;
+        }
+
+        $qb = $this->createQueryBuilder('m')
+            ->andWhere('m.parent IS NULL')
+            ->andWhere('LOWER(TRIM(m.name)) = :name')
+            ->andWhere('m.locale = :locale OR (m.locale IS NULL AND :locale = :default)')
+            ->setParameter('name', $normalizedName)
+            ->setParameter('locale', $locale)
+            ->setParameter('default', 'fr')
+            ->setMaxResults(1);
+
+        if ($excludeId !== null) {
+            $qb->andWhere('m.id != :excludeId')
+                ->setParameter('excludeId', $excludeId);
+        }
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     /**
      * Résout un menu par chemin de slugs (racine → feuille), avec locale NULL = fr par défaut.
      *

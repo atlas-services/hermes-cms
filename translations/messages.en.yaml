@@ -131,6 +131,7 @@ formulaire:
 
 menu:
   created: Menu created successfully.
+  name_locale_exists: This menu already exists.
   filter_locale: Menu language
   contact_section_created: A contact form section was added automatically.
   toggle_submenu: 'Show or hide submenu “%name%”'

@@ -63,6 +63,19 @@ class MenuControllerTest extends AbstractControllerWebTestCase
         );
     }
 
+    public function testCreateDuplicateRootMenuShowsValidationError(): void
+    {
+        $this->login();
+
+        $this->client->request('GET', '/fr/admin/menu/new');
+        $this->client->submitForm(self::CREATE, [
+            'menu[name]' => 'Root 1',
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('body', 'Ce menu existe déjà');
+    }
+
     // -------------------------
     // CREATE SUBMENU
     // -------------------------

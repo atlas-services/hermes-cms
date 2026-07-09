@@ -14,6 +14,7 @@ use App\Entity\Traits\ReferenceNameTrait;
 use App\Entity\Traits\SlugTrait;
 use App\Entity\Traits\UpdatedTrait;
 use App\Repository\MenuRepository;
+use App\Validator\Constraints\UniqueRootMenuName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +23,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: MenuRepository::class)]
 #[UniqueEntity(fields: ['locale', 'referenceName'], message: 'menu.reference_name_locale_exists', errorPath: 'name')]
+#[UniqueRootMenuName]
 class Menu implements PositionableInterface, ActivableInterface
 {
     use IdTrait;

@@ -78,6 +78,18 @@ class MenuRepositoryTest extends BaseKernelTestCase
         $this->assertEquals('Child 2', $children[1]->getName());
     }
 
+    public function testFindRootByLocaleAndNameMatchesRootOnly(): void
+    {
+        /** @var MenuRepository $repo */
+        $repo = static::getContainer()->get(MenuRepository::class);
+
+        $root = $repo->findRootByLocaleAndName('fr', 'Root 1');
+        $this->assertNotNull($root);
+        $this->assertNull($root->getParent());
+
+        $this->assertNull($repo->findRootByLocaleAndName('fr', 'Child 1'));
+    }
+
     public function testFindPagesReturnsMenusWithPosts(): void
     {
         /** @var MenuRepository $repo */
