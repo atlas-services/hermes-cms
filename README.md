@@ -82,7 +82,7 @@ Front forms (contact, newsletter, guestbook):
 - Newsletter subscriptions persisted as `User` with `ROLE_NEWSLETTER`
 - Admin: newsletter subscriber list + campaign send from `newsletter_template` sections
 
-Optional **booking** forms are provided by the separate `atlas-services/hermes-booking-bundle` when enabled; routes are guarded if the module is inactive.
+Optional **booking** forms are provided by the separate [`atlas-services/hermes-booking-bundle`](https://github.com/atlas-services/HermesBookingBundle) (**MIT**, tagged **^1.0**) when enabled; routes are guarded if the module is inactive.
 
 ---
 
@@ -442,7 +442,7 @@ Hermes implements those concerns for **showcase websites** with an explicit Symf
 - StofDoctrineExtensionsBundle
 - PHPUnit, PHPStan, PHP-CS-Fixer, PHPCS
 
-Optional: Hermes Booking Bundle, Docker Compose (PostgreSQL / Mailpit).
+Optional: Hermes Booking Bundle (`^1.0`, MIT), Docker Compose (PostgreSQL / Mailpit).
 
 ---
 
