@@ -1,326 +1,489 @@
-# Hermes - CMS
+# Hermes CMS
 
-## Introduction -FR
+Symfony-based CMS for structured showcase sites: hierarchical menus, typed sections, editorial operations, rich-text editing and Twig rendering — built for non-technical contributors without hiding the architecture from developers.
 
-Hermes (V3) est un CMS basé sur Symfony8, Bootstrap5 et les standards du Web.
-Il fournit une interface d'administration afin de créer des contenus riche pour votre site Web.
-Il fournit une interface d'administration pour configurer les couleurs, largeur...des différentes partie de votre site Web.
-Il fournit quelques templates de type folios, carousels, cards ainsi qu'une saisie « libre » avec **CKEditor 5** (Asset Mapper / importmap, sans FOSCKEditorBundle). **elFinder a été retiré** : la gestion des médias en administration (arborescence, dossiers, suppression) est gérée par Symfony ; **l’upload** repose sur **Uppy** déclaré dans l’importmap (`assets/admin_media_upload.js`, envoi XHR vers l’API Symfony).
+---
 
-## Introduction -EN
+## Why Hermes?
 
-Hermes (V3) is a CMS  based on Symfony8 and Bootstrap5 and the standards of Web.
-It provides an admin to create a complete web site.
-It provides configuration to select the color, background-color, width...for the different parts of your Web site (Menu, Content, Footer)
-It provides some templates like folios, carousels, cards or « free presentation » with **CKEditor 5** (Asset Mapper / importmap, not FOSCKEditorBundle). **elFinder has been removed**: media management in the admin (tree, folders, delete) is handled by Symfony; **uploads** use **Uppy** from the importmap (`assets/admin_media_upload.js`, XHR to the Symfony upload API).
+A CMS is not a CRUD of pages. Contributors need to **model different kinds of content**, organise them in an **editorial structure**, edit with tools adapted to each type, and keep **content separated from presentation**.
 
-## Documentation
+Hermes addresses that for **sites vitrines** (marketing / institutional websites):
 
-Création :
-symfony new hermes3
+- Pages are nodes in a **menu tree**, not flat records.
+- A page is composed of **sections**, each bound to a **template type** (free HTML, image galleries, forms, global footer/topbar…).
+- Sections hold **posts** (text, image, publication window) whose meaning depends on the section template.
+- Presentation (layout width, colours, columns, modal overlay) lives on the section; content lives on posts.
+- The front resolves the tree and template code to **Twig partials**, so the same content model can render many layouts.
+
+Hermes is a **concrete Symfony implementation** of these CMS concerns — not a marketing shell over a generic admin.
+
+> Hermes is **not** an Ibexa (or eZ Platform) product, fork, or wrapper. It does **not** use Ibexa. Some architectural *concerns* (structured content, content tree, content types, editorial UI) overlap with enterprise CMS/DXP platforms; the implementation is Hermes’ own.
+
+---
+
+## Fonctionnalités
+
+### Content management
+
+- Hierarchical **menus** (roots, navigation nodes, leaf pages) with position, slug, locale and stable `referenceName`
+- **Sections** attached to a page (or global footer/topbar), each with a primary **Template** and optional secondary modal template
+- **Posts** inside sections: name, HTML content, image, active flag, optional publication dates
+- Create posts from a menu (creates section + post) or into an existing section
+- Reorder menus / sections / posts; toggle active state (admin JSON endpoints)
+- **Copy / move** sections and posts between pages (`ContentTransferService`)
+- **Locale copy**: duplicate a content tree to another locale (`LocaleCopyService`)
+- Bulk import of list images from the media tree into a `liste` section
+- Clear all posts of a `liste` section while keeping the section shell
+- Migration tooling from Hermes 2.2.x SQLite + media layout
+
+### Editorial experience
+
+- Admin **pages list** with inline section presentation controls (width, transparent background, background/text colours, columns, image filter, GSAP effect for folio2, modal template)
+- **CKEditor 5** for free-form content (Stimulus + Asset Mapper)
+- Typed forms in admin driven by section template type (`liste` / `libre` / `formulaire`)
+- Global **footer** and **topbar** section screens
+- Site-wide **configuration** (colours, navbar, forms, fonts…) stored as typed `Config` entities
+- Content transfer UI (copy/move targets by locale/page)
+- Optional remote **libre** HTML catalog via Hermes API (encrypted login + JWT)
+
+### Content types (templates)
+
+Templates are defined in `config/hermes_templates.yaml` and persisted as `Template` entities (`code`, `type`, `name`, `summary`, `active`). Front rendering switches on `type` + `code`.
+
+| Type | Role (from code / YAML) |
+|------|-------------------------|
+| **`libre`** | Free HTML posts rendered via CKEditor content (`libre`, also `newsletter_template` for campaigns) |
+| **`liste`** | Image-driven layouts: folios, carousels, cards (`folio1`–`folio4`, `folio_video1`, `carousel1`, `carousel3`; several codes inactive by default) |
+| **`formulaire`** | Front forms: `contact`, `newsletter`, `livredor` (+ optional `booking` when the booking module is active) |
+| **`footer` / `topbar`** | Global sections, not attached to a page menu |
+| **`modale`** | Secondary presentation on liste sections (`modale1`, `modale2` as `section.template2`) |
+| **`livredor`** | Additional guestbook-related template code (`livredor1`) in YAML |
+
+Each type drives admin field visibility and the Twig include used on the front.
+
+### Media management
+
+- **Admin media tree** (browse, mkdir, rename, delete folder/file) under a configurable public path — Symfony controllers, not elFinder
+- **Uppy** dashboard upload (XHR) to the admin media API
+- **VichUploader** on posts (and config images): mapped upload fields, custom directory/file namers
+- CKEditor **Simple Upload** to `/api/file/upload` into the same media root
+- **LiipImagineBundle** is installed; no project-specific filter sets / Twig `imagine_filter` usage were found in templates
+
+### Forms
+
+Front forms (contact, newsletter, guestbook):
+
+- Symfony Form types + Twig section templates
+- Presentation resolved from configs (`FormPresentationResolver`: colours, widths, rounding…)
+- POST handlers with **honeypot**, signed timestamp window, minimum fill time, **IP rate limiting**
+- Invalid submissions kept in session draft for redisplay
+- Email delivery via Symfony Mailer (`SiteFormSubmissionMailer`)
+- Newsletter subscriptions persisted as `User` with `ROLE_NEWSLETTER`
+- Admin: newsletter subscriber list + campaign send from `newsletter_template` sections
+
+Optional **booking** forms are provided by the separate `atlas-services/hermes-booking-bundle` when enabled; routes are guarded if the module is inactive.
+
+---
+
+## Content model
+
+Hermes models editorial structure as:
+
+```text
+Menu (tree, max depth 5)
+ └── Section*          ← only on leaf menus (pages)
+      ├── Template     ← content type / layout
+      ├── Template2?   ← optional modale
+      └── Post*
+           ├── content (HTML text)
+           ├── image (Vich)
+           └── publication window
+```
+
+Global sections (footer / topbar) reuse the same `Section` / `Post` model with `menu = null` and a dedicated template code.
+
+```mermaid
+flowchart TD
+  M[Menu] -->|parent/children| M
+  M -->|OneToMany leaf only| S[Section]
+  S -->|ManyToOne| T[Template]
+  S -->|optional ManyToOne| T2[Template2 modale]
+  S -->|OneToMany| P[Post]
+  P -->|HTML + image| C[Rendered front]
+  T -->|type + code| R[Twig partial]
+  R --> C
+```
+
+**Design observations from the code:**
+
+- Hierarchy is on **Menu**, not on Post: posts are ordered items inside a typed section.
+- A menu with children cannot hold sections (`Menu::addSection` / `PostService` guard leaf menus).
+- `referenceName` links the same logical menu/footer across locales for the language switcher and locale copy.
+- Section presentation fields (`transparent`, `template_bgcolor`, `template_color`, widths, columns…) keep layout concerns off the post HTML when possible.
+
+---
+
+## Content tree & editorial organization
+
+### Tree navigation
+
+- Admin menu tree (`MenuController` + `MenuTreeBuilder`)
+- Front resolution by **slug path** (`MenuRepository::findOneBySlugPath`, depth capped by `Menu::MAX_DEPTH`)
+- Visible sections filtered by active flags, locale and template rules (`FrontMenuService`)
+
+### Editorial operations
+
+| Operation | Where |
+|-----------|--------|
+| Create page content | `PostService::createFromMenu` / `createForSection` |
+| Reorder | `BaseController::updatePositions` (`menu` \| `section` \| `post` \| `config`) |
+| Activate / deactivate | `BaseController` switch-active endpoints |
+| Move post (change section) | `PostService::move` (may remove empty source section) |
+| Copy / move section or post between pages | `ContentTransferService` |
+| Duplicate locale tree | `LocaleCopyService::copyLocale` |
+| Delete section / clear liste images | `PostController` + `PostService` |
+
+### Integrity concerns handled in code
+
+- Leaf-only content attachment
+- Position sequences per parent / section / footer / topbar
+- Unique post name per section; unique root menu name per locale (custom validator)
+- Cascading Doctrine removes on menu/section delete
+- Copy of posts can duplicate image files; locale copy clones text/metadata but **not** images
+- Locale copy refuses target locales that already contain menus/posts
+- Global sections are excluded from page content-transfer
+
+---
+
+## Rich text editing
+
+CKEditor 5 is integrated without FOSCKEditorBundle:
+
+1. **Asset Mapper / importmap** packages: `ckeditor5`, CSS, French translations (`assets/ckeditor5.js`)
+2. **Stimulus** controller `ckeditor5` mounts Classic Editor on textareas
+3. Symfony form type `CKEditor5Type` (extends `TextareaType`) attaches the controller
+4. Used on `PostType` when the section type is `libre` (and related flows)
+5. HTML is stored in `Post::$content` (`ContentTrait`, Doctrine `text`)
+6. Front renders with Twig `|raw` inside `.post-content`
+7. Image upload from the editor hits `/api/file/upload`
+8. `PostListener` normalises iframe `sandbox` attributes on post update when present
+
+Libre section examples (show-room HTML) live under `templates/exemple/` and are meant to be pasted into CKEditor (including Source editing when scripts are required for GSAP demos).
+
+---
+
+## Architecture
+
+```text
+src/
+├── Command/              # Console bootstrap & migration commands
+├── Config/               # Typed config definitions & normalisation
+├── Controller/
+│   ├── Admin/            # Back-office (menus, posts, media, config…)
+│   └── Api/              # File upload API for CKEditor
+├── DataFixtures/
+├── Entity/ + Traits/     # Menu, Section, Post, Template, Config, User
+├── Enum/                 # e.g. FormTemplateKind
+├── EventListener/        # Doctrine PostListener
+├── EventSubscriber/      # Booking route guard, front 404 redirect
+├── Form/ (+ Admin, Front)
+├── Repository/
+├── Service/              # Domain / application services
+│   ├── ContentTransfer/
+│   ├── Migration/
+│   └── Booking/
+├── Twig/                 # Extensions & Twig functions
+├── Upload/Namer/         # Vich namers
+└── Validator/Constraints/
+```
+
+**Layering (as practised in the codebase):**
+
+- **Controllers** handle HTTP, forms, redirects and JSON admin endpoints.
+- **Repositories** encapsulate Doctrine queries (slug paths, visible posts, footer/topbar, positions…).
+- **Services** own editorial rules (create/move/copy, form submission, media FS, config merge, locale copy, mail).
+- **Twig extensions** expose front helpers (forms, colours, booking context, sitemap…).
+- **Entities** model the content repository; traits share id/name/slug/position/active/locale/image behaviour.
+
+---
+
+## Symfony architecture
+
+Mechanisms actually used:
+
+| Area | Usage in Hermes |
+|------|-----------------|
+| **Symfony 8 / PHP 8.4+** | Framework constraint (`composer.json`) |
+| **Doctrine ORM + Migrations** | Content persistence |
+| **Forms + Validator** | Admin & front forms; custom constraints |
+| **Security** | Form login, CSRF, `ROLE_ADMIN` / `ROLE_SUPER_ADMIN`, entity user provider |
+| **Twig** | Front & admin templates |
+| **Asset Mapper + importmap** | Front/admin JS/CSS without mandatory Node build |
+| **Stimulus / UX** | CKEditor mount, admin interactions, autocomplete, icons, Twig components |
+| **Mailer** | Form submissions & newsletter campaigns |
+| **Console** | Init, user creation, Hermes 2.2 migration |
+| **Rate limiter** | Front form spam protection |
+| **Expression language** | Available; access control currently uses role checks on admin paths |
+| **StofDoctrineExtensions** | e.g. Gedmo slug on menus |
+| **VichUploader** | Entity uploads |
+| **HttpClient** | Hermes API client for remote templates / legal pages |
+
+Not observed as a first-class Hermes CMS feature: Messenger queues, API Platform content API, security Voters.
+
+---
+
+## Domain / business logic
+
+Logic is concentrated in services rather than controllers. Examples:
+
+- **`PostService`** — Creating a post from a menu implies creating a section with defaults (template, width, default modale); move/delete maintain empty-section cleanup; liste-only bulk clear.
+- **`FrontMenuService`** — What is “visible” on the front (active, locale, empty sections vs formulaire exception, global vs page sections).
+- **`ContentTransferService`** — Copy/move across pages with file duplication rules and rejection of global sections.
+- **`FrontFormSubmissionHandler`** — Orchestrates spam checks, validation, mail and newsletter registration without putting that flow in the controller.
+- **`ConfigGlobalsProvider` + `ConfigDefinitionRegistry`** — Typed configuration (booleans, colours, widths) merged from YAML defaults and DB.
+- **`BackgroundColorResolver`** — Presentation cascade section → content → site colours.
+- **`MenuManager` / `MenuContactProvisioner`** — Depth limits, unique references, auto contact section when naming a menu “contact”.
+
+---
+
+## Events & extensibility
+
+Hermes uses the Symfony/Doctrine event stack for **targeted** decoupling (not a full event-sourced CMS):
+
+- **`PostListener`** (Doctrine `postUpdate`) — content normalisation for embeds.
+- **`HermesBookingRouteGuardSubscriber`** — hides booking routes when the optional module is inactive.
+- **`FrontNotFoundRedirectSubscriber`** — front 404 → home (with exclusions for profiler/API/admin).
+
+Extensibility levers that exist without claiming a plugin marketplace:
+
+- New **templates** via YAML + Twig partial + optional admin behaviour
+- Typed **configs** via registry/normaliser
+- Optional **booking** bundle behind a feature flag
+- Stimulus controllers for admin/front behaviours
+- Compiler passes / DI under `src/DependencyInjection` when needed
+
+---
+
+## Persistence
+
+- Entities: `Menu`, `Section`, `Post`, `Template`, `Config`, `User`
+- Repositories with **domain-oriented** queries (slug paths, visible search, newsletter campaign sections, footer/topbar by locale)
+- Relations: self-referencing menu tree; section→menu (nullable); section→template(s); post→section; cascades and orphanRemoval where appropriate
+- Default local setup uses **SQLite** (`DATABASE_URL` → `data/db/${APP_DB}`); Docker Compose provides optional **PostgreSQL**
+- Schema changes via Doctrine Migrations (`migrations/`)
+
+---
+
+## Security
+
+Present in code:
+
+- Form login / logout with CSRF
+- Password hashing (`auto`)
+- Role hierarchy: `ROLE_SUPER_ADMIN` → `ROLE_ADMIN` → `ROLE_USER`
+- Admin routes under `/{locale}/admin` require **`ROLE_ADMIN`**
+- Newsletter-related roles on `User` (`ROLE_NEWSLETTER`, `ROLE_TEST_NEWSLETTER`) for subscribers/campaigns
+- Front form anti-abuse (honeypot, timing, rate limit)
+- Encrypted API credentials helper for remote Hermes API (`HermesEncryptionService`)
+
+Not present: content-level ACL voters, workflow “publish approval” states beyond post active + date window.
+
+---
+
+## Code quality & testing
+
+| Tool | Status |
+|------|--------|
+| PHPUnit | Yes (`phpunit.dist.xml`, ~45 `*Test.php` under `tests/`) |
+| PHPStan | Yes (`phpstan.dist.neon`, level 6) |
+| PHP-CS-Fixer | Yes (`.php-cs-fixer.dist.php`, `@Symfony`) |
+| PHPCS | Yes (`phpcs.xml.dist`, PSR-12) |
+| Fixtures | Doctrine Fixtures Bundle (dev) |
+| CI (`.github/workflows`) | **Not present** in this repository |
+
+Tests cover services heavily (forms, content transfer, migration helpers, config typing…), plus selected controllers, entities, repositories, Twig and validators.
+
+---
+
+## Developer experience
+
+### Requirements
+
+- PHP **8.4+**
+- Composer
+- Extensions typically needed: `ctype`, `iconv`, `curl`, `gd`, `dom`, `zip`, `mbstring`, `intl`, plus SQLite and/or PDO PostgreSQL depending on `DATABASE_URL`
+
+### Install (Linux / Symfony CLI)
+
+```bash
+git clone <this-repository-url> hermes3
 cd hermes3
 composer install
-composer require symfony/asset-mapper symfony/asset symfony/twig-packs
-composer require symfony/routing
-composer require symfony/orm-pack
-composer require --dev symfony/maker-bundle
-composer require liip/imagine-bundle
-composer require stof/doctrine-extensions-bundle
-composer require symfony/form
-composer require symfony/http-client
-composer require symfony/mailer
-composer require symfony/monolog-bundle
-composer require symfony/security-bundle
-composer require symfony/expression-language
-composer require symfony/stimulus-bundle
-composer require symfony/translation
-composer require symfony/ux-icons
-composer require symfony/ux-twig-component
-composer require symfony/validator
-composer require twig/inky-extra
-composer require twig/intl-extra
-composer require twig/string-extra
-composer require vich/uploader-bundle
-composer require symfony/ux-autocomplete
-composer require --dev phpstan/phpstan
-composer require --dev squizlabs/php_codesniffer
-composer require --dev friendsofphp/php-cs-fixer
-composer require --dev doctrine/doctrine-fixtures-bundle
-composer require --dev phpunit/phpunit
-composer require --dev symfony/browser-kit
-composer require --dev symfony/css-selector
-composer require --dev symfony/debug-bundle
-composer require --dev symfony/stopwatch
-composer require --dev symfony/web-profiler-bundle
-
-### Asset Mapper (importmap) — sans elFinder : Uppy pour l’upload, puis le reste du front
-
-**elFinder** n’est plus dans le projet. Les envois de fichiers (et dossiers) côté administration passent par **Uppy** (`importmap.php`, entrée `admin_media_upload`, script `assets/admin_media_upload.js`). Les autres dépendances front (Bootstrap, Font Awesome, AOS, **GSAP**, **CKEditor 5**, Tom Select, polices **@fontsource**, etc.) suivent le même mécanisme. La police du contenu (`font_family`) et celle du menu (`nav_font_family`) se règlent en admin ; le rendu passe par `configs` sur le `<body>` (sans classes utilitaires `.h-*` de l’ancienne version).
-
-Après un `git clone` ou si les paquets ne sont pas encore présents localement, télécharger les fichiers dans `assets/vendor/` (non versionné) :
-
-```
-php bin/console importmap:install
-```
-
-Pour recréer les entrées à la main (équivalent du dépôt), commandes utiles :
-
-**Uppy** (remplace l’upload elFinder ; code dans `assets/admin_media_upload.js`) — soit les modules importés dans le projet :
-
-```
-php bin/console importmap:require @uppy/core
-php bin/console importmap:require @uppy/dashboard
-php bin/console importmap:require @uppy/xhr-upload
-php bin/console importmap:require @uppy/core/dist/style.min.css
-php bin/console importmap:require @uppy/dashboard/dist/style.min.css
-```
-
-soit le méta-paquet `uppy`, qui tire une arborescence large de `@uppy/*` (état actuel du dépôt) :
-
-```
-php bin/console importmap:require uppy
-```
-
-**Bootstrap, Font Awesome, AOS** (`assets/app.js`) :
-
-```
-php bin/console importmap:require bootstrap
-php bin/console importmap:require bootstrap/dist/css/bootstrap.min.css
-php bin/console importmap:require @fortawesome/fontawesome-free/css/all.css
-php bin/console importmap:require aos
-php bin/console importmap:require aos/dist/aos.css
-```
-
-**GSAP** (animations, chargé via `assets/gsap.js` dans l’entrée `app` — front et admin) :
-
-```
-php bin/console importmap:require gsap
-php bin/console importmap:require @splidejs/splide
-php bin/console importmap:require @splidejs/splide/css
-```
-
-Disponible globalement (`window.gsap`) et importable dans un module (`import gsap from 'gsap'` ou `import { gsap } from './gsap.js'`).
-
-**CKEditor 5** (contenu libre, `assets/ckeditor5.js` + contrôleur Stimulus `ckeditor5`) :
-
-```
-php bin/console importmap:require ckeditor5
-php bin/console importmap:require ckeditor5/dist/ckeditor5.min.css
-php bin/console importmap:require ckeditor5/translations/fr.js
-```
-
-**Tom Select** (UX Autocomplete, `assets/controllers.json`) :
-
-```
-php bin/console importmap:require tom-select
-php bin/console importmap:require tom-select/dist/css/tom-select.bootstrap5.css
-```
-
-**Polices du site** (choix admin `font_family` / `nav_font_family` ; chargement via `@fontsource/*`, pas de classes `.h-*` comme en Hermes 2.2.7) — fichiers importés dans `assets/styles/site-fonts.js`, appliqués sur `<body>` via `templates/_site_body_style.html.twig` :
-
-```
-php bin/console importmap:require @fontsource/bai-jamjuree/400.css
-php bin/console importmap:require @fontsource/bai-jamjuree/700.css
-php bin/console importmap:require @fontsource/oswald/400.css
-php bin/console importmap:require @fontsource/oswald/700.css
-php bin/console importmap:require @fontsource/sofia/400.css
-php bin/console importmap:require @fontsource/snowburst-one/400.css
-php bin/console importmap:require @fontsource/alfa-slab-one/400.css
-```
-
-Les polices système (Verdana, Comic Sans, Palatino, Impact, etc.) ne nécessitent pas d’entrée importmap. Pour en ajouter une webfont, l’inscrire dans `src/Form/ConfigType::FONT_FAMILY`, l’importer dans `assets/styles/site-fonts.js`, puis `importmap:install`.
-
-## Prérequis techniques
-
-- PHP **8.4** minimum (voir `composer.json`).
-- **symfony/expression-language** : requis pour les expressions `allow_if` de `config/packages/security.yaml` (admin ouvert sans login en `APP_ENV=dev` ou `local`, `ROLE_ADMIN` en prod).
-
-## Sécurité admin (dev / prod) — FR
-
-Règle dans `config/packages/security.yaml` :
-
-```yaml
-access_control:
-    - { path: ^/(fr|en)/admin, roles: PUBLIC_ACCESS, allow_if: "is_granted('ROLE_ADMIN') or '%kernel.environment%' in ['dev', 'local']" }
-```
-
-En **production** (`APP_ENV=prod`), seuls les utilisateurs `ROLE_ADMIN` accèdent à `/fr/admin` et `/en/admin`. En **dev** ou **local**, l’admin est accessible sans être connecté.
-
-## Admin security (dev / prod) — EN
-
-See `config/packages/security.yaml` : admin requires `ROLE_ADMIN` in production; in `dev` or `local` environments the admin area is reachable without logging in (`symfony/expression-language` for `allow_if`).
-
-## Migration depuis Hermes 2.2.x (FR)
-
-Import d’une base SQLite 2.2.x ([release/2.2.7](https://github.com/atlas-services/hermes/tree/release/2.2.7)) vers Hermes 3. Le **nom de base** (stem du fichier `.sqlite` passé à la commande, ex. `envolarchi`) sert à la réécriture des URLs dans le HTML : `/{nom}/uploads/` → `/uploads/{nom}/` (source = stem de `dataFrom`, cible = stem de `dataTo`). Prévoir `data/config/<nom>.sqlite` (même `<nom>` que la base source) et l’ancien répertoire uploads (`entity/`, `content/`). `DATABASE_URL` en SQLite pendant `app:migrate`. Aligner **`APP_NAME`** (`.env`) sur le stem de la base cible si vous utilisez les chemins par défaut (`APP_DB`, `public/uploads/${APP_NAME}`).
-
-```bash
-php bin/console app:migrate \
-  /var/www/html/hermes/data/db/envolarchi.sqlite \
-  data/db/envolarchi.sqlite --force
-```
-
-Puis `DATABASE_URL` vers `data/db/envolarchi.sqlite`. Optionnel :
-
-```bash
+# Configure .env.local (APP_NAME, APP_DB, DATABASE_URL, mailer, APP_BASE_MEDIA_DATA, …)
+php bin/console doctrine:migrations:migrate
 php bin/console app:init-hermes
+php bin/console app:create-user
+# optional:
+php bin/console app:init-welcome-site
 php bin/console app:init-mentions-legales
 ```
 
-`app:init-mentions-legales` crée trois menus **inactifs** (non affichés dans la navbar) : `/fr/mentions-legales`, `/fr/confidentialite`, `/fr/cgu-cgv`, chacun avec une section **libre** et un post dont le HTML provient de l’[API Hermes](https://api.hermes-cms.org) (`API_HERMES_*` dans `.env`) : le **premier** modèle du catalogue dont le champ **`type`** vaut `mentions-legales`, `confidentialite` ou `cgu-cgv` (un modèle par page).
-
-### Show room [modeles.hermes-cms.org](http://modeles.hermes-cms.org)
-
-Le site show room est géré côté menus / pages Hermes (PORTFOLIOS, RESTAURATION, AVOCATS, …). Les modèles ci-dessous se copient en section **libre** (CKEditor).
-
-**Logos SVG** (upload classique, Configuration → site → `logo`) : `templates/exemple/logos/hermes-modeles-logo-pour-fond-clair.svg` (navbar claire) et `hermes-modeles-logo-pour-fond-sombre.svg` (navbar / hero sombre). Contours en `<path>` uniquement (pas de `<text>`) pour un affichage fiable dans `<img>` côté front.
-
-**Modèles par thématique** :
-
-| Thématique | Fichiers | Effets |
-|------------|----------|--------|
-| Restauration | `carte_restaurant*.html` | Letter-reveal, Splide onglets |
-| Avocat | `avocat_cabinet_classique.html`, `avocat_conseil_moderne.html` | Letter-reveal / text-reveal + Splide |
-| Musique | `musique_groupe_live.html`, `musique_ecole_cours.html` | Letter-reveal, text-reveal lignes, Splide, **YouTube / Vimeo** (`ratio ratio-16x9`) |
-| Artisan | `artisan_menuisier.html`, `artisan_plombier.html` | Hero-split + shape-build, Splide focus, text-reveal chars |
-| TPE | `tpe_expert_comptable.html`, `tpe_coach_consultant.html` | Showcase, chiffres GSAP, Splide fade |
-| Association | `ateliers_du_web_*.html` | Showcase, témoignages |
-| Portfolio / démo | `hermes_cms_accueil.html`, `splide_carousel.html`, `gsap_*` | Hero, animations variées |
-
-Modèles HTML de contenu libre dans `templates/exemple/` ; styles découpés dans `assets/styles/` : `showcase.css`, `legal.css`, `atw.css`, `carte.css`, `buttons.css`, `gsap-letter-reveal.css`, `gsap-shape-build.css`, `gsap-text-reveal.css`, `hero-split.css`, `hero-present.css`, `gsap-demo.css`, `splide.css` (imports dans `assets/app.js`). **Bootstrap 5 en priorité** pour la mise en page ; classes Hermes / GSAP uniquement quand le comportement ou le thème l’exige (animations, composants réutilisables).
-
-**GSAP dans un post (section libre)** : coller le HTML **et** le `<script>` final via **Source editing** dans CKEditor. Le script écoute `hermes:gsap-ready` (ou `window.gsap`) car le module `app.js` peut se charger après le HTML du post. Exemples complets : `templates/exemple/gsap_demo_accueil.html`, `gsap_demo_chiffres.html`.
-
-**Apparition texte (Animate Text, [démo GSAP](https://demos.gsap.com/demo/animate-text/) / [CodePen xxmaNYj](https://codepen.io/GreenSock/pen/xxmaNYj))** : `.gsap-text-reveal` sur **n’importe quelle balise** (`div`, `p`, `h2`…) + `.gsap-text-reveal__body` ; pas de classes d’affichage GSAP (Bootstrap / vos classes sur `__body`). Modes `chars`, `words`, `lines` via `data-gsap-text-reveal-*` (défauts si absents). Init `.post-content` via `js-front.js`. Exemple : `gsap_text_reveal_hermes.html`.
-
-**Lettres alternées (haut / bas)** : `.gsap-letter-reveal` + `.gsap-letter-reveal__line` (`data-gsap-letter-reveal-text-value`) ; découpage lettre par lettre au runtime (espaces conservés, ex. `ENVOL ARCHITECTURE`). **Important CKEditor** : le texte doit aussi être présent *dans* le `<p>` (pas seulement en `data-*`), sinon l’éditeur supprime les paragraphes vides et le post est enregistré sans contenu. Couleur via `--gsap-letter-reveal-color`. Init `js-front.js`. Exemple : `gsap_letter_reveal_envol.html`.
-
-**Formes (blocs + contour SVG)** : `.gsap-shape-build` + `.gsap-shape-build__block` / `__path`. Couleur via `--gsap-shape-build-color`. Init `js-front.js`. Exemple : `gsap_shape_build_envol.html`.
-
-**Immeuble (contours SVG légers)** : mêmes classes `__path` uniquement (pas de grille de blocs). Mode d’animation via `data-gsap-shape-build-mode` : `sync` (tout en même temps), `bottom-up` (bas → haut), `sequential` (ordre du HTML). Classes `gsap-shape-build--sync` / `--bottom-up` restent supportées. Durée : **4 s par défaut** (`--gsap-shape-build-duration`). Exemples : `gsap_building_5etages.html` (`bottom-up`), `gsap_building_quartier.html` (`sync`).
-
-**Paire forme + texte (responsive)** : wrapper `.gsap-hero-split` + `.gsap-hero-split--flush` (sans marge entre colonnes). Hauteur viewport : `.gsap-hero-split--vh` + `data-gsap-hero-split-h="50"` (50 = 50vh ; deux blocs à 50 couvrent la page). Alternative : `style="--gsap-hero-split-h: 50vh"` (toujours avec unité `vh` et point-virgules entre propriétés CSS). Exemples : `gsap_hero_split_envol.html` (maison), `gsap_hero_split_building.html` (immeuble bottom-up + lettres).
-
-**Carrousel Splide** (galeries) : `.splide-carousel` + structure Splide (`splide__track` / `splide__list` / `splide__slide`). Effets `slide`, `fade`, `focus` (multi-images centrées + scale), `peek` (aperçu latéral) via `data-splide-carousel-effect-value`. Desktop multi-images : `data-splide-carousel-per-page-value` ; mobile une image : `data-splide-carousel-per-page-mobile-value` + `data-splide-carousel-breakpoint-value` (défaut 992). Flèches, pastilles, drag/swipe, autoplay, easing. Couleur `--splide-carousel-accent`. Styles `splide.css`. Init `js-front.js`. Exemple : `splide_carousel.html`.
-
-**Présentation plein écran (Splide + GSAP)** : `.splide-carousel--hero-present` + `.hermes-hero-present` — diaporama **100vh**, fondu, autoplay (**2 s par défaut** via `data-splide-carousel-interval-value`), titres en **letter-reveal** à chaque slide, texte en fondu. Couleurs sobres : `--hermes-hero-accent`, `--hermes-hero-text`. Init `splide_hero_present.js` via `js-front.js`. Exemple page d’accueil : `hermes_cms_accueil.html`.
-
-Les dossiers `content/` et `entity/Config/` se recopient sous `public/uploads/<nom>/` — `app:migrate-media` avec la base migrée, l’ancienne racine uploads et la cible :
+`composer install` / `update` run Asset Mapper install & compile via Flex auto-scripts. Vendor front packages land in `assets/vendor/` via:
 
 ```bash
-php bin/console app:migrate-media data/db/envolarchi.sqlite \
-  /var/www/html/hermes/public/envolarchi/uploads \
-  public/uploads/envolarchi
-```
-
-(`--dry-run`, `--overwrite`.) Copie partielle possible : `rsync -a ancien/uploads/content/ public/uploads/content/` et idem pour `entity/Config/`.
-
-## Migration from Hermes 2.2.x (EN)
-
-Import a 2.2.x SQLite DB into Hermes 3. URL rewrite uses the **DB filename stem** from the command (`dataFrom` → `dataTo`), e.g. `/envolarchi/uploads/` → `/uploads/envolarchi/`. Also `data/config/<name>.sqlite` and the legacy uploads tree. Set **`APP_NAME`** in `.env` to match the target DB stem when using default paths.
-
-```bash
-php bin/console app:migrate /path/to/old/data/db/envolarchi.sqlite data/db/envolarchi.sqlite --force
-php bin/console app:migrate-media data/db/envolarchi.sqlite /path/to/old/public/envolarchi/uploads public/uploads/envolarchi
-```
-php bin/console app:migrate /var/www/html/hermes/data/db/atlas.sqlite data/db/atlas.sqlite --force
-php bin/console app:migrate-media data/db/atlas.sqlite /var/www/html/hermes/public/atlas/uploads public/uploads/atlas
----
-
-## Show Room et modeles - FR
-
-- Vous pouvez acceder au show-room de nos principaux templates : [modeles](http://modeles.atlas-services.fr)
-- Vous pouvez aussi voir quelques modèles de sites : 
-  - [modele1](http://modele1.atlas-services.fr)
-  - [modele2](http://modele2.atlas-services.fr)
-  - [modele3](http://modele3.atlas-services.fr)
-  - [modele4](http://modele4.atlas-services.fr)
-
-##  Show Room and modeles -EN
-
-- You can see a show-room of our templates : [modeles](http://modeles.atlas-services.fr)
-- You can see some modeles : 
-  - [modele1](http://modele1.atlas-services.fr)
-  - [modele2](http://modele2.atlas-services.fr)
-  - [modele3](http://modele3.atlas-services.fr)
-  - [modele4](http://modele4.atlas-services.fr)
-
-## License
-
-This CMS is released under the MIT license. See the included
-[LICENSE](LICENSE) file for more information.
-
-## Contribuer - FR
-
-Contributeurs bienvenus! Hermes est un logiciel libre. Si vous souhaitez contribuer, n'hésitez pas à proposer une PR! Vous pouvez lire le fichier [CONTRIBUTING](/CONTRIBUTING.md) qui vous indiquera quelques directions de contributions .
-
-## Contribute - EN
-
-We love contributors! Hermes is an free software. If you'd like to contribute, feel free to propose a PR! You
-can follow the [CONTRIBUTING](/CONTRIBUTING.md) file which will explain you some needs about contributing.
-
-# Install : Plateform Linux
-
-Get the Repository
-
-```
-cd /var/www/html
-git clone git@github.com:atlas-services/hermes.git
-or
-git clone https://github.com/atlas-services/hermes.git    
-
-cd hermes
-git checkout master
-
-git pull
-```
-
-Get php extensions and the vendors and post-install the project
-
-```
-sudo apt install phpversion-curl
-sudo apt install phpversion-gd
-sudo apt install phpversion-dom
-sudo apt install phpversion-zip
-sudo apt install phpversion-sqlite3
-sudo apt install phpversion-mbstring
-sudo apt install phpversion-intl
-
-where phpversion = php8.4
-
-composer install
-```
-
-Install assets (Importmap : Uppy à la place d’elFinder, Bootstrap, CKEditor 5, Tom Select, etc.)
-
-```
 php bin/console importmap:install
 ```
 
-Pour la liste complète des `importmap:require` (Uppy à la place d’elFinder, CKEditor 5, Tom Select, polices @fontsource, etc.), voir la section **Asset Mapper (importmap) — sans elFinder** plus haut.
+Start:
 
-For the full `importmap:require` list (Uppy instead of elFinder, CKEditor 5, Tom Select, @fontsource fonts, etc.), see the **Asset Mapper (importmap)** section above.
-
-Start Server on a terminal
-
-```
+```bash
 symfony server:start
-or
-cd ~/public_html
-php -S 127.0.0.1:8000
+# or: php -S 127.0.0.1:8000 -t public
 ```
 
-Admin interface
+Admin: `/{locale}/admin/` (e.g. `/fr/admin/`) after creating a `ROLE_ADMIN` user.
 
+Optional Docker services: `compose.yaml` / `compose.override.yaml` (PostgreSQL, Mailpit in override).
+
+### Useful commands
+
+| Command | Purpose |
+|---------|---------|
+| `app:init-hermes` | Sync templates & configs from YAML into DB |
+| `app:create-user` | Create an admin / user |
+| `app:init-welcome-site` | Bootstrap home when empty |
+| `app:init-mentions-legales` | Legal pages from Hermes API templates |
+| `app:migrate` | Import Hermes 2.2.x SQLite |
+| `app:migrate-media` | Import legacy media tree |
+
+### Migration from Hermes 2.2.x
+
+```bash
+php bin/console app:migrate /path/to/old.sqlite data/db/target.sqlite --force
+php bin/console app:migrate-media data/db/target.sqlite /path/to/old/uploads public/uploads/<name>
 ```
-http://127.0.0.1:8000/fr/admin/
-Admin User :
-Login : set up value in in .env (APP_HERMES_EMAIL_ADMIN="contact@hermes-cms.org")
-Password : mycmsishermes
-```
 
-# Install : Plateform != Linux
+Align `APP_NAME` / upload paths with the target stem when using defaults. See command help for `--dry-run` / `--overwrite`.
 
-Hermes est un CMS qui devrait fonctionner sur toutes les plateformes.
-Néanmois, il n'existe pas de documentation pour les autres plateformes que linux.
-Contributeurs bienvenus : [contact@hermes-cms.org](mailto:contact@hermes-cms.org)
+---
+
+## Screenshots / Demo
+
+This repository does **not** currently ship screenshot assets under `docs/` or `screenshots/`.
+
+Interfaces worth capturing for a portfolio:
+
+1. Menu tree / pages list with sections  
+2. Post edit with CKEditor 5  
+3. Liste section (folio/carousel) + optional modale  
+4. Content transfer (copy/move)  
+5. Media upload tree (Uppy)  
+6. Front form sections (contact / newsletter)  
+
+Public show-room references (external): [modeles.hermes-cms.org](http://modeles.hermes-cms.org) / related Atlas model sites — useful for presentation, not part of the git tree.
+
+HTML layout examples for libre sections: `templates/exemple/`.
+
+---
+
+## Technical design decisions
+
+Observations grounded in the current code (not historical claims):
+
+1. **Menu tree + typed sections** — Separates navigation/IA from layout variants without a deep nested “block tree” on every page.
+2. **Template `type` + `code`** — One axis for admin/form behaviour (`liste`/`libre`/`formulaire`), one axis for Twig include selection.
+3. **Presentation on Section** — Background, transparency, columns and filters can change without rewriting post HTML.
+4. **Services for editorial ops** — Controllers stay thin; move/copy/locale rules are testable in isolation.
+5. **Asset Mapper + Stimulus** — Keeps the CMS maintainable without forcing a Node/Webpack pipeline for core admin/front JS.
+6. **Uppy + Symfony FS API** — Replaces elFinder with an explicit media boundary owned by the application.
+7. **Typed config registry** — Avoids ad-hoc stringly-typed switches for every admin config field.
+
+---
+
+## CMS concepts and transferable skills
+
+Working on Hermes exercises practical CMS/DXP-adjacent skills:
+
+- Content modeling (menu / section / post / template)
+- Content types and layout variants
+- Hierarchical content tree and integrity rules
+- Editorial operations (reorder, activate, copy, move, locale duplication)
+- Rich-text editing integrated with Symfony Forms
+- Media library boundaries and entity uploads
+- Twig content rendering pipelines
+- Front forms with spam controls and mail delivery
+- Symfony service / repository / form layering
+- Automated tests and static analysis on domain code
+
+---
+
+## Relation to modern Symfony CMS / DXP architectures
+
+Several architectural concerns addressed by Hermes are also found in enterprise CMS/DXP platforms, such as **structured content**, **content trees**, **content types**, **editorial management** and **extensibility**.
+
+Hermes implements those concerns for **showcase websites** with an explicit Symfony domain model. It should be read as **hands-on experience with CMS problem spaces**, not as feature parity with any specific commercial product.
+
+---
+
+## Technology stack
+
+- PHP 8.4+
+- Symfony 8
+- Doctrine ORM & Migrations
+- Twig
+- Bootstrap 5
+- Symfony UX (Stimulus, Autocomplete, Icons, Twig Component)
+- Asset Mapper / importmap
+- CKEditor 5
+- Uppy (admin uploads)
+- VichUploaderBundle
+- LiipImagineBundle
+- StofDoctrineExtensionsBundle
+- PHPUnit, PHPStan, PHP-CS-Fixer, PHPCS
+
+Optional: Hermes Booking Bundle, Docker Compose (PostgreSQL / Mailpit).
+
+---
+
+## Roadmap
+
+No formal roadmap document or widespread `TODO` markers were found in `src/`. Natural evolution axes already suggested by the architecture:
+
+- Broader automated coverage / CI wiring
+- Stronger media processing (Imagine filter sets if needed)
+- Deeper multi-locale media handling (locale copy currently skips images)
+- Documentation screenshots for recruiters and contributors
+
+Treat these as **possible** directions, not committed deliverables.
+
+---
+
+## What this project demonstrates
+
+- Designing a structured content model (Menu → Section → Post → Template)
+- Building and maintaining a hierarchical editorial tree with constraints
+- Implementing editorial operations (create, reorder, activate, copy, move, locale copy)
+- Integrating CKEditor 5 with Symfony Forms, storage and Twig rendering
+- Separating presentation configuration from content payloads
+- Organising Symfony code into Controllers, Repositories, Services and Twig extensions
+- Building admin UX with Stimulus and Asset Mapper
+- Managing media through application-owned APIs (Uppy + Vich)
+- Implementing front forms with validation, anti-abuse and mail delivery
+- Applying PHPUnit tests and static analysis (PHPStan / CS tools) to CMS domain logic
+
+---
+
+## License
+
+Hermes CMS is released under the **MIT** license — the same license as [Symfony](https://github.com/symfony/symfony/blob/8.0/LICENSE). See [LICENSE](LICENSE).
+
+Copyright: **© 2021-present** Tayeb CHIKHI (Hermes from 2021, Hermes3 from 2026). The `-present` form stays valid without yearly updates.
+
+---
+
+## Show-room & contact
+
+- Template show-room: [modeles.hermes-cms.org](http://modeles.hermes-cms.org)
+- Example sites referenced historically under `*.atlas-services.fr`
+- Contact: [contact@hermes-cms.org](mailto:contact@hermes-cms.org)
