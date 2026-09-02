@@ -1005,4 +1005,20 @@ return [
         'version' => '5.2.8',
         'type' => 'css',
     ],
+    '@fontsource/cormorant-garamond/400.css' => [
+        'version' => '5.3.0',
+        'type' => 'css',
+    ],
+    '@fontsource/cormorant-garamond/500.css' => [
+        'version' => '5.3.0',
+        'type' => 'css',
+    ],
+    '@fontsource/cormorant-garamond/600.css' => [
+        'version' => '5.3.0',
+        'type' => 'css',
+    ],
+    '@fontsource/cormorant-garamond/700.css' => [
+        'version' => '5.3.0',
+        'type' => 'css',
+    ],
 ];

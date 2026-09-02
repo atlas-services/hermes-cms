@@ -1,0 +1,77 @@
+/* Grille flair — couleurs pilotées par le template (data-hermes-flair-* sur .hermes-flair-cards) */
+.hermes-flair-cards {
+    --card-border-width: 1px;
+    --card-radius: 1rem;
+}
+
+/* Boutons pill — effet flair GSAP */
+.hermes-front-sections .post-content a.button,
+.post-content a.button,
+a.button[data-hermes-button-flair],
+.post-content .button,
+.button {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: auto !important;
+    max-width: none !important;
+    padding: 0.65rem 1.35rem !important;
+    border: 0 !important;
+    border-radius: 9999px !important;
+    background-color: var(--button-bg) !important;
+    color: #fff !important;
+    font-weight: 600;
+    text-decoration: none !important;
+    overflow: hidden !important;
+    cursor: pointer;
+}
+
+.hermes-front-sections .post-content a.button:hover,
+.hermes-front-sections .post-content a.button:focus-visible,
+.post-content a.button:hover,
+.post-content a.button:focus-visible,
+a.button[data-hermes-button-flair]:hover,
+a.button[data-hermes-button-flair]:focus-visible {
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+.post-content a.button .button__label,
+.post-content a.button .button__label strong {
+    color: inherit;
+}
+
+.button__label {
+    position: relative;
+    z-index: 1;
+}
+
+.button__flair {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+}
+
+.button__flair::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 170%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--button-flair);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .button__flair {
+        display: none;
+    }
+}

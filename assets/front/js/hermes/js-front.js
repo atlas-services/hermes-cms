@@ -13,6 +13,7 @@ import { initPostContentSplideCarousel } from '../../../utils/splide_carousel.js
 import { initPostContentHeroPresentStatic, initPostContentSplideHeroPresent } from '../../../utils/splide_hero_present.js';
 import { initPostContentGsapCarte } from '../../../utils/gsap_carte.js';
 import { initPostContentGsapCountUp } from '../../../utils/gsap_count_up.js';
+import { initPostContentGsapButtonFlair, initPostContentGsapCardFlair } from '../../../utils/gsap_button_flair.js';
 import { initPostContentPitchPresent } from '../../../utils/pitch_present.js';
 
 function colorLink() {
@@ -166,6 +167,8 @@ function initModalImage() {
 }
 
 export function initHermesJsFront() {
+    initPostContentGsapButtonFlair();
+    initPostContentGsapCardFlair();
     initPostContentCarousels();
     initModalImage();
     initPostContentGsapTextReveal();
@@ -182,6 +185,8 @@ export function initHermesJsFront() {
 
     window.addEventListener('load', () => {
         colorLink();
+        initPostContentGsapButtonFlair();
+        initPostContentGsapCardFlair();
         initPostContentCarousels();
         initPostContentGsapTextReveal();
         initPostContentGsapHeroSplit();

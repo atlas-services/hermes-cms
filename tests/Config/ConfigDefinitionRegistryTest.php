@@ -37,6 +37,8 @@ final class ConfigDefinitionRegistryTest extends TestCase
         self::assertSame(ConfigValueType::Color, $registry->definitionFor('booking_reservation_form')->type);
         self::assertSame(ConfigValueType::Width, $registry->definitionFor('content_width')->type);
         self::assertSame(ConfigValueType::FontFamily, $registry->definitionFor('title_font_family')->type);
+        self::assertArrayHasKey('Cormorant Garamond', $registry->fontFamilyChoices());
+        self::assertSame('\'Cormorant Garamond\', Georgia, serif', $registry->fontFamilyChoices()['Cormorant Garamond']);
         self::assertSame(ConfigValueType::Text, $registry->definitionFor('app_name')->type);
     }
 }

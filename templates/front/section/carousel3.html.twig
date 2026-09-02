@@ -26,7 +26,7 @@
                                     {% set imageUrl = asset(vich_uploader_asset(post, 'imageFile')) %}
                                     {% set card_class = loop.first ? '' : 'clearfix d-none d-md-block' %}
                                     <div class="col-md-{{ col_xx }} mx-auto {{ card_class }}">
-                                        <div class="card mb-2">
+                                        <div class="card mb-2 hermes-card-flair shadow-none" data-hermes-card-flair>
                                             <img class="card-img-top" src="{{ imageUrl }}"
                                                  alt="{{ (post.fileName ?? post.name)|e('html_attr') }}">
                                             <div class="card-body">

@@ -40,8 +40,8 @@
 }
 
 .content-showcase--testimonials {
-    --showcase-title-gradient: linear-gradient(90deg, #074591 0%, #7c3aed 45%, #ff00ff 100%);
-    --showcase-title-gradient-icon: #074591;
+    --showcase-title-gradient: linear-gradient(90deg, #4a1822 0%, #7c3aed 45%, #ff00ff 100%);
+    --showcase-title-gradient-icon: #4a1822;
 }
 
 .content-showcase-hero {

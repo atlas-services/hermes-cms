@@ -1,6 +1,8 @@
 // assets/controllers/ckeditor5_controller.js
 import { Controller } from '@hotwired/stimulus';
 import EnhancedEditor from '../ckeditor5.js';
+import { initPostContentGsapButtonFlair, initPostContentGsapCardFlair } from '../utils/gsap_button_flair.js';
+import { initPostContentGsapTextReveal } from '../utils/gsap_text_reveal.js';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -12,6 +14,15 @@ export default class extends Controller {
         EnhancedEditor.create(this.element)
             .then((editor) => {
                 this.editor = editor;
+                const editable = editor.ui.getEditableElement();
+                const bootFlair = () => {
+                    const scope = editable ?? document;
+                    initPostContentGsapButtonFlair(scope);
+                    initPostContentGsapCardFlair(scope);
+                    initPostContentGsapTextReveal(scope);
+                };
+                bootFlair();
+                editor.model.document.on('change:data', bootFlair);
             })
             .catch((error) => console.error(error));
     }

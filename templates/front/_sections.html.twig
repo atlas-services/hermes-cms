@@ -1,5 +1,12 @@
 {# Boucle sections front (pages menu, contact, etc.) — pas de marge verticale entre blocs (gy-0, section.my-0). #}
-<div class="hermes-front-sections">
+{% set flairButtonBg = configs.contact_bgcolor_subject|default('#4a1822') %}
+<div class="hermes-front-sections"
+     data-hermes-flair-accent="{{ flairButtonBg }}"
+     data-hermes-flair-button-bg="{{ flairButtonBg }}"
+     data-hermes-flair-button-hover="#ff1234"
+     data-hermes-flair-card-bg="#ffffff"
+     data-hermes-flair-card-border="{{ flairButtonBg }}"
+     data-hermes-flair-card-hover="rgba(74, 24, 34, 0.2)">
 {% for block in sectionsForFront %}
     {% set section = block.section %}
     {% set posts = block.posts %}

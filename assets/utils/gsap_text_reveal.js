@@ -1,4 +1,4 @@
-import { whenGsapReady } from '../gsap.js';
+import gsap from 'gsap';
 
 const DEFAULTS = {
     chars: {
@@ -26,6 +26,12 @@ const DEFAULTS = {
         stagger: 0.25,
     },
 };
+
+const BLOCK_SELECTOR = '.hermes-front-sections .post-content .gsap-text-reveal, .post-content .gsap-text-reveal, .hermes-flair-cards .gsap-text-reveal, .gsap-text-reveal';
+
+function resolveGsap() {
+    return (typeof window !== 'undefined' && window.gsap) ? window.gsap : gsap;
+}
 
 function toDatasetKey(mode, prop) {
     const modePart = mode.charAt(0).toUpperCase() + mode.slice(1);
@@ -94,15 +100,94 @@ function readModeConfig(root, mode) {
     return config;
 }
 
+function normalizeText(value) {
+    return (value || '').replace(/\s+/g, ' ').trim();
+}
+
 function readText(element) {
     const dataset = element.dataset;
+    const fromDataset = normalizeText(dataset.gsapTextRevealTextValue);
+    if (fromDataset) {
+        return fromDataset;
+    }
 
-    return (
-        dataset.gsapTextRevealTextValue
-        || element.querySelector('.gsap-text-reveal__label')?.textContent?.trim()
-        || element.querySelector('.gsap-text-reveal__body')?.getAttribute('aria-label')
-        || ''
-    );
+    const fromLabel = normalizeText(element.querySelector('.gsap-text-reveal__label')?.textContent);
+    if (fromLabel) {
+        return fromLabel;
+    }
+
+    const body = element.querySelector('.gsap-text-reveal__body');
+    if (!body) {
+        return '';
+    }
+
+    return normalizeText(body.getAttribute('aria-label') || body.textContent);
+}
+
+function isMountedBody(body) {
+    return body.classList.contains('gsap-text-reveal__body--chars')
+        || body.classList.contains('gsap-text-reveal__body--words')
+        || body.classList.contains('gsap-text-reveal__body--lines');
+}
+
+function hasSplitMarkup(body) {
+    return Boolean(body.querySelector('.gsap-text-reveal__char, .gsap-text-reveal__word, .gsap-text-reveal__line'));
+}
+
+function markTextRevealReady(root) {
+    root.dataset.gsapTextRevealReady = '1';
+    delete root.dataset.gsapTextRevealPending;
+}
+
+function markTextRevealPending(root) {
+    root.dataset.gsapTextRevealPending = '1';
+}
+
+function resetTextRevealBody(body) {
+    const g = resolveGsap();
+    g.killTweensOf(body.querySelectorAll('.gsap-text-reveal__char, .gsap-text-reveal__word, .gsap-text-reveal__line'));
+    body.classList.remove('gsap-text-reveal__body--chars', 'gsap-text-reveal__body--words', 'gsap-text-reveal__body--lines');
+    body.style.removeProperty('visibility');
+    body.style.removeProperty('opacity');
+}
+
+function showPlainTextFallback(root) {
+    const body = root.querySelector('.gsap-text-reveal__body');
+    if (!body) {
+        markTextRevealReady(root);
+        return;
+    }
+
+    const text = readText(root);
+    resetTextRevealBody(body);
+
+    if (text) {
+        body.textContent = text;
+    }
+
+    markTextRevealReady(root);
+}
+
+function prepareTextRevealRoot(root) {
+    const body = root.querySelector('.gsap-text-reveal__body');
+
+    if (!body || isMountedBody(body) || hasSplitMarkup(body)) {
+        return;
+    }
+
+    const text = readText(root);
+    if (!text) {
+        return;
+    }
+
+    root.dataset.gsapTextRevealTextValue = text;
+    markTextRevealPending(root);
+
+    if (!body.getAttribute('aria-label')) {
+        body.setAttribute('aria-label', text);
+    }
+
+    body.replaceChildren(document.createTextNode('\u00a0'));
 }
 
 function readLines(element) {
@@ -139,6 +224,7 @@ function mountChars(body, text) {
             span.className = 'gsap-text-reveal__char';
             span.setAttribute('aria-hidden', 'true');
             span.textContent = char;
+            span.style.opacity = '0';
             wordWrap.appendChild(span);
             chars.push(span);
         }
@@ -150,6 +236,7 @@ function mountChars(body, text) {
             space.className = 'gsap-text-reveal__char is-space';
             space.setAttribute('aria-hidden', 'true');
             space.textContent = '\u00a0';
+            space.style.opacity = '0';
             body.appendChild(space);
             chars.push(space);
         }
@@ -167,6 +254,7 @@ function mountWords(body, text) {
         span.className = 'gsap-text-reveal__word';
         span.setAttribute('aria-hidden', 'true');
         span.textContent = word;
+        span.style.opacity = '0';
         body.appendChild(span);
         return span;
     });
@@ -181,30 +269,36 @@ function mountLines(body, lines) {
         lineEl.className = 'gsap-text-reveal__line';
         lineEl.setAttribute('aria-hidden', 'true');
         lineEl.textContent = line;
+        lineEl.style.opacity = '0';
         body.appendChild(lineEl);
         return lineEl;
     });
 }
 
-function playRevealEffect(gsap, root, mode, targets) {
+function playRevealEffect(g, root, mode, targets) {
     const config = readModeConfig(root, mode);
 
     if (mode === 'chars') {
-        const fromVars = {
+        return g.fromTo(targets, {
             x: config.x,
             opacity: config.opacity,
+        }, {
+            x: 0,
+            opacity: 1,
             duration: config.duration,
             ease: config.ease,
             stagger: config.stagger,
-        };
-
-        return gsap.from(targets, fromVars);
+        });
     }
 
     if (mode === 'words') {
         const fromVars = {
             y: config.y,
             opacity: config.opacity,
+        };
+        const toVars = {
+            y: 0,
+            opacity: 1,
             duration: config.duration,
             ease: config.ease,
             stagger: config.stagger,
@@ -212,33 +306,34 @@ function playRevealEffect(gsap, root, mode, targets) {
 
         if (config.x) {
             fromVars.x = config.x;
+            toVars.x = 0;
         }
 
         if (config.rotationMin === config.rotationMax) {
             fromVars.rotation = config.rotationMin;
+            toVars.rotation = 0;
         } else {
-            fromVars.rotation = () => gsap.utils.random(config.rotationMin, config.rotationMax);
+            fromVars.rotation = () => g.utils.random(config.rotationMin, config.rotationMax);
+            toVars.rotation = 0;
         }
 
-        return gsap.from(targets, fromVars);
+        return g.fromTo(targets, fromVars, toVars);
     }
 
-    return gsap.from(targets, {
+    return g.fromTo(targets, {
         rotationX: config.rotationX,
         transformOrigin: config.transformOrigin,
         opacity: config.opacity,
+    }, {
+        rotationX: 0,
+        opacity: 1,
         duration: config.duration,
         ease: config.ease,
         stagger: config.stagger,
     });
 }
 
-/**
- * Effets d’apparition texte type GSAP Demo Hub « Animate Text » / SplitText demo.
- * @see https://demos.gsap.com/demo/animate-text/
- * @see https://codepen.io/GreenSock/pen/xxmaNYj
- */
-export function playGsapTextReveal(gsap, root, mode) {
+export function playGsapTextReveal(g, root, mode) {
     const resolvedMode = DEFAULTS[mode] ? mode : 'chars';
     const body = root.querySelector('.gsap-text-reveal__body');
 
@@ -247,13 +342,12 @@ export function playGsapTextReveal(gsap, root, mode) {
     }
 
     const text = readText(root);
-    if (!text.trim() && resolvedMode !== 'lines') {
+    if (!text && resolvedMode !== 'lines') {
+        showPlainTextFallback(root);
         return null;
     }
 
-    gsap.killTweensOf(body.querySelectorAll('.gsap-text-reveal__char, .gsap-text-reveal__word, .gsap-text-reveal__line'));
-
-    body.classList.remove('gsap-text-reveal__body--chars', 'gsap-text-reveal__body--words', 'gsap-text-reveal__body--lines');
+    resetTextRevealBody(body);
     body.classList.add('gsap-text-reveal__body', `gsap-text-reveal__body--${resolvedMode}`);
 
     let targets = [];
@@ -264,25 +358,32 @@ export function playGsapTextReveal(gsap, root, mode) {
     } else {
         const lines = readLines(root);
         if (!lines.length) {
+            showPlainTextFallback(root);
             return null;
         }
         targets = mountLines(body, lines);
     }
 
     if (!targets.length) {
+        showPlainTextFallback(root);
         return null;
     }
 
     root.dataset.gsapTextRevealActiveMode = resolvedMode;
-    return playRevealEffect(gsap, root, resolvedMode, targets);
+    markTextRevealReady(root);
+
+    return playRevealEffect(g, root, resolvedMode, targets);
 }
 
-function bindRevealControls(gsap, root) {
+function bindRevealControls(g, root) {
     const buttons = root.querySelectorAll('[data-gsap-text-reveal-mode]');
     const defaultMode = root.dataset.gsapTextRevealModeValue || 'chars';
 
     const activate = (mode) => {
-        playGsapTextReveal(gsap, root, mode);
+        const tween = playGsapTextReveal(g, root, mode);
+        if (!tween) {
+            showPlainTextFallback(root);
+        }
         buttons.forEach((button) => {
             const isActive = button.dataset.gsapTextRevealMode === mode;
             button.classList.toggle('active', isActive);
@@ -301,15 +402,67 @@ function bindRevealControls(gsap, root) {
     activate(defaultMode);
 }
 
-export function initPostContentGsapTextReveal(root = document) {
-    whenGsapReady((gsap) => {
-        root.querySelectorAll('.hermes-front-sections .post-content .gsap-text-reveal').forEach((element) => {
-            if (element.dataset.gsapTextRevealMounted === '1') {
-                return;
-            }
+function mountTextRevealBlock(g, element) {
+    if (element.dataset.gsapTextRevealReady === '1') {
+        return;
+    }
 
-            element.dataset.gsapTextRevealMounted = '1';
-            bindRevealControls(gsap, element);
-        });
+    prepareTextRevealRoot(element);
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        showPlainTextFallback(element);
+        return;
+    }
+
+    try {
+        bindRevealControls(g, element);
+        element.dataset.gsapTextRevealMounted = '1';
+    } catch (error) {
+        console.error('[hermes] gsap-text-reveal init failed', error);
+        delete element.dataset.gsapTextRevealMounted;
+        showPlainTextFallback(element);
+    }
+}
+
+function resolveTextRevealBlocks(root = document) {
+    return root.querySelectorAll(BLOCK_SELECTOR);
+}
+
+function repairUnreadyTextReveals(root = document) {
+    root.querySelectorAll('.gsap-text-reveal:not([data-gsap-text-reveal-ready="1"])').forEach((element) => {
+        delete element.dataset.gsapTextRevealMounted;
+        showPlainTextFallback(element);
+    });
+}
+
+export function initPostContentGsapTextReveal(root = document) {
+    const g = resolveGsap();
+    const blocks = resolveTextRevealBlocks(root);
+
+    blocks.forEach((element) => {
+        prepareTextRevealRoot(element);
+    });
+
+    blocks.forEach((element) => {
+        mountTextRevealBlock(g, element);
+    });
+}
+
+function bootTextReveal() {
+    initPostContentGsapTextReveal();
+}
+
+if (typeof window !== 'undefined') {
+    window.hermesInitTextReveal = initPostContentGsapTextReveal;
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootTextReveal);
+    } else {
+        bootTextReveal();
+    }
+
+    window.addEventListener('load', () => {
+        initPostContentGsapTextReveal();
+        repairUnreadyTextReveals();
     });
 }

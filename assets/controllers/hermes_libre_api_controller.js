@@ -379,9 +379,16 @@ export default class extends Controller {
     }
 
     _wrapPreviewDocument(fragmentHtml) {
-        const base = '<base target="_blank" rel="noopener noreferrer">';
+        const importmapEl = document.querySelector('script[type="importmap"]');
+        const importmap = importmapEl ? importmapEl.textContent : '';
+        const stylesheetLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+            .filter((link) => /button-flair|card-flair|bootstrap/.test(link.href))
+            .map((link) => `<link rel="stylesheet" href="${link.href}">`)
+            .join('');
+        const polyfill = document.querySelector('script[src*="es-module-shims"]');
+        const polyfillTag = polyfill ? `<script async src="${polyfill.src}"></script>` : '';
 
-        return `<!DOCTYPE html><html><head><meta charset="utf-8">${base}<meta name="viewport" content="width=device-width, initial-scale=1"></head><body>${fragmentHtml}</body></html>`;
+        return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${stylesheetLinks}<script type="importmap">${importmap}</script>${polyfillTag}<script type="module">import 'app';</script></head><body><div class="post-content hermes-front-sections">${fragmentHtml}</div></body></html>`;
     }
 
     _escapeHtml(text) {

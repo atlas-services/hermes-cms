@@ -101,6 +101,7 @@ final class ConfigDefinitionRegistry
         '\'Bubblegum Sans\', cursive' => '\'Bubblegum Sans\', cursive',
         ' Comic Sans MS, Comic Sans, cursive' => ' Comic Sans MS, Comic Sans, cursive',
         'Cherry Bomb One' => 'Cherry Bomb One',
+        'Cormorant Garamond' => '\'Cormorant Garamond\', Georgia, serif',
         '\'Fredoka\', sans-serif' => '\'Fredoka\', sans-serif',
         'Impact, fantasy' => 'Impact, fantasy',
         '\'Mali\', cursive' => '\'Mali\', cursive',

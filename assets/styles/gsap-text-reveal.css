@@ -1,3 +1,28 @@
+/*
+ * Anti-flash : masquer le corps tant que GSAP n'a pas fini de monter le bloc.
+ * Ne s'applique qu'avec un parent .gsap-text-reveal (pas gsap-text-reveal__body seul).
+ */
+.gsap-text-reveal:not([data-gsap-text-reveal-ready="1"]) .gsap-text-reveal__body:not(.gsap-text-reveal__body--chars):not(.gsap-text-reveal__body--words):not(.gsap-text-reveal__body--lines) {
+    opacity: 0;
+}
+
+.gsap-text-reveal__body--chars,
+.gsap-text-reveal__body--words,
+.gsap-text-reveal__body--lines {
+    opacity: 1;
+}
+
+.ck-content .gsap-text-reveal__body,
+.ck-editor__editable .gsap-text-reveal__body {
+    opacity: 1 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gsap-text-reveal:not([data-gsap-text-reveal-ready="1"]) .gsap-text-reveal__body {
+        opacity: 1;
+    }
+}
+
 .gsap-text-reveal__body--lines {
     perspective: 500px;
 }

@@ -1,0 +1,77 @@
+<!-- Grille cards + boutons flair GSAP — coller en mode Source CKEditor -->
+<!--
+  COULEURS : modifier uniquement les data-hermes-flair-* sur le conteneur ci-dessous.
+  Le JS les lit au chargement et les applique à tous les boutons et cards.
+
+  data-hermes-flair-button-bg      fond bouton
+  data-hermes-flair-button-hover   hover bouton (cercle GSAP)
+  data-hermes-flair-card-bg        fond card
+  data-hermes-flair-card-border    bordure card
+  data-hermes-flair-card-hover     hover card (rgba : utiliser un point → 0.2)
+  data-hermes-flair-accent         titre GSAP (optionnel, défaut = card-border)
+
+  Exemple bleu test ci-dessous — remplacez les #… par vos valeurs.
+-->
+<div
+    class="hermes-flair-cards container py-4"
+    data-hermes-flair-accent="#4a1822"
+    data-hermes-flair-button-bg="#4a1822"
+    data-hermes-flair-button-hover="#ff1234"
+    data-hermes-flair-card-bg="#ffffff"
+    data-hermes-flair-card-border="#4a1822"
+    data-hermes-flair-card-hover="rgba(151,55,12,0.2)"
+>
+    <div class="row g-4 justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 hermes-card-flair shadow-none" data-hermes-card-flair>
+                <div class="card-body d-flex flex-column p-4">
+                    <h2 class="h5 card-title fw-semibold mb-2">Développeur Web</h2>
+                    <p class="card-text text-muted mb-3">Applications métier, sites sur mesure et intégrations techniques.</p>
+                    <ul class="list-unstyled small text-body-secondary mb-4">
+                        <li class="mb-2">PHP &amp; Symfony</li>
+                        <li class="mb-2">APIs &amp; bases de données</li>
+                        <li class="mb-2">DevOps &amp; déploiement</li>
+                        <li class="mb-2">Maintenance &amp; évolutions</li>
+                    </ul>
+                    <p class="mb-0 mt-auto">
+                        <a class="button" data-hermes-button-flair href="/fr/developpeur-web">En savoir plus</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 hermes-card-flair shadow-none" data-hermes-card-flair>
+                <div class="card-body d-flex flex-column p-4">
+                    <h2 class="h5 card-title fw-semibold mb-2">E-commerce</h2>
+                    <p class="card-text text-muted mb-3">Boutiques en ligne pensées pour vendre et fidéliser vos clients.</p>
+                    <ul class="list-unstyled small text-body-secondary mb-4">
+                        <li class="mb-2">Catalogue &amp; panier</li>
+                        <li class="mb-2">Tunnel de commande</li>
+                        <li class="mb-2">Paiement &amp; expédition</li>
+                        <li class="mb-2">Promotions &amp; gestion des stocks</li>
+                    </ul>
+                    <p class="mb-0 mt-auto">
+                        <a class="button" data-hermes-button-flair href="/fr/e-commerce">En savoir plus</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 hermes-card-flair shadow-none" data-hermes-card-flair>
+                <div class="card-body d-flex flex-column p-4">
+                    <h2 class="h5 card-title fw-semibold mb-2">Sites vitrines</h2>
+                    <p class="card-text text-muted mb-3">Présenter votre activité, votre contenu et votre image de marque.</p>
+                    <ul class="list-unstyled small text-body-secondary mb-4">
+                        <li class="mb-2">CMS &amp; gestion de contenu</li>
+                        <li class="mb-2">Design responsive</li>
+                        <li class="mb-2">Référencement technique</li>
+                        <li class="mb-2">Mise en ligne incluse</li>
+                    </ul>
+                    <p class="mb-0 mt-auto">
+                        <a class="button" data-hermes-button-flair href="/fr/sites-vitrines">En savoir plus</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

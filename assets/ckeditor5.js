@@ -38,6 +38,7 @@ import {
 } from 'ckeditor5';
 // Si vous devez importer des traductions, ici les traductions en français
 import coreTranslations from 'ckeditor5/translations/fr.js';
+import { CKEDITOR_FONT_FAMILY_OPTIONS } from './config/hermes-font-families.js';
 import 'ckeditor5/dist/ckeditor5.min.css';
 
 export default class EnhancedEditor extends ClassicEditor {}
@@ -175,6 +176,10 @@ EnhancedEditor.defaultConfig = {
 				},
 			],
 		},
+    fontFamily: {
+        options: CKEDITOR_FONT_FAMILY_OPTIONS,
+        supportAllValues: true,
+    },
     htmlSupport: {
       allow: [
           {
@@ -182,7 +187,20 @@ EnhancedEditor.defaultConfig = {
               attributes: true,
               classes: true,
               styles: true
-          }
+          },
+          {
+              name: 'div',
+              classes: ['hermes-flair-cards', 'hermes-card-flair', 'card'],
+              attributes: [
+                  'data-hermes-flair-accent',
+                  'data-hermes-flair-button-bg',
+                  'data-hermes-flair-button-hover',
+                  'data-hermes-flair-card-bg',
+                  'data-hermes-flair-card-border',
+                  'data-hermes-flair-card-hover',
+                  'data-hermes-card-flair',
+              ],
+          },
       ]
     },
     simpleUpload :{
