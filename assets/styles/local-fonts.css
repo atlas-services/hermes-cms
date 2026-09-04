@@ -1,0 +1,25 @@
+/* Polices locales DaFont — chargées via site-fonts.js pour l’admin / body / CKEditor */
+
+@font-face {
+    font-family: 'Del Rose';
+    src: url('../fonts/DelRose-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Housemail Script';
+    src: url('../fonts/Housemail-Script-Trial.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pricedown';
+    src: url('../fonts/Pricedown-Bl.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}

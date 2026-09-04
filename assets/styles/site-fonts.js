@@ -1,5 +1,5 @@
 /**
- * Polices proposées dans l’admin (ConfigType::FONT_FAMILY).
+ * Polices proposées dans l’admin (ConfigDefinitionRegistry::FONT_FAMILY).
  * Chargées une fois pour tout le site ; le rendu utilise configs.font_family sur <body>.
  */
 import '@fontsource/bai-jamjuree/400.css';
@@ -17,3 +17,4 @@ import '@fontsource/cormorant-garamond/600.css';
 import '@fontsource/cormorant-garamond/700.css';
 import '@fontsource/fredoka/400.css';
 import '@fontsource/mali/400.css';
+import './local-fonts.css';

@@ -39,6 +39,12 @@ final class ConfigDefinitionRegistryTest extends TestCase
         self::assertSame(ConfigValueType::FontFamily, $registry->definitionFor('title_font_family')->type);
         self::assertArrayHasKey('Cormorant Garamond', $registry->fontFamilyChoices());
         self::assertSame('\'Cormorant Garamond\', Georgia, serif', $registry->fontFamilyChoices()['Cormorant Garamond']);
+        self::assertArrayHasKey('Del Rose', $registry->fontFamilyChoices());
+        self::assertSame('\'Del Rose\', cursive', $registry->fontFamilyChoices()['Del Rose']);
+        self::assertArrayHasKey('Housemail Script', $registry->fontFamilyChoices());
+        self::assertArrayNotHasKey('Baksoap', $registry->fontFamilyChoices());
+        self::assertContains('\'Bubblegum Sans\', cursive', $registry->fontFamilyChoices());
+        self::assertArrayHasKey('Pricedown', $registry->fontFamilyChoices());
         self::assertSame(ConfigValueType::Text, $registry->definitionFor('app_name')->type);
     }
 }

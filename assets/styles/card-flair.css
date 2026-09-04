@@ -1,4 +1,25 @@
 /* Cards bordure fine — effet flair GSAP (variables héritées de .hermes-flair-cards) */
+
+.hermes-front-sections .card-title,
+.post-content .card-title,
+.hermes-flair-cards .card-title,
+.card .card-title,
+.content-showcase-card-title {
+    font-family: 'Bubblegum Sans', cursive;
+}
+
+/* Titres de page (hero display-*) — Bubblegum Sans, sans uppercase */
+.hermes-front-sections .post-content :is(h1, h2).display-1,
+.hermes-front-sections .post-content :is(h1, h2).display-2,
+.hermes-front-sections .post-content :is(h1, h2).display-3,
+.hermes-front-sections .post-content :is(h1, h2).display-4,
+.hermes-front-sections .post-content :is(h1, h2).display-5,
+.hermes-front-sections .post-content :is(h1, h2).display-6 {
+    font-family: 'Bubblegum Sans', cursive !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
 .hermes-front-sections .post-content .hermes-card-flair,
 .post-content .hermes-card-flair,
 [data-hermes-card-flair],
